@@ -1,98 +1,100 @@
-/* Custom handwritten, no framework trash */
+/* Hand‑written, no frameworks */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 :root {
-  --bg: #0d0d0d;
-  --fg: #ffffff;
-  --accent: #00ffff;
-  --hover: #ff00ff;
+  --bg-dark: #0a0a0a;
+  --fg-light: #eaeaea;
+  --accent-cyan: #00ffff;
+  --accent-magenta: #ff00ff;
+  --accent-green: #00ff88;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--bg);
   font-family: 'Inter', sans-serif;
-  color: var(--fg);
+  background-color: var(--bg-dark);
+  color: var(--fg-light);
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  overflow: hidden;
+  justify-content: center;
+  min-height: 100vh;
   position: relative;
+  overflow: hidden;
+  line-height: 1.4;
 }
 
-.bg-overlay {
+.background-overlay {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  background: url('assets/background.jpg') no-repeat center center/cover;
-  opacity: 0.05;
-  z-index: -1;
+  background: url('assets/background.jpg') center/cover no‑repeat;
+  opacity: 0.07;
+  z‑index: -2;
 }
 
 .card {
-  background: #111;
-  padding: 30px;
-  border-radius: 16px;
+  position: relative;
+  background-color: #111;
+  padding: 2rem;
+  max-width: 360px;
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
   text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 255, 255, 0.1);
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  margin-bottom: 15px;
-  border: 2px solid var(--accent);
+  border: 2px solid var(--accent-cyan);
+  margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: 22px;
-  margin-bottom: 5px;
+  font-size: 1.75rem;
   font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .bio {
-  color: #999;
-  font-size: 13px;
-  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1.5rem;
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .links a {
+  display: block;
+  padding: 0.75rem 1rem;
   text-decoration: none;
-  color: var(--fg);
-  background: #1a1a1a;
-  padding: 12px;
-  border-radius: 10px;
-  transition: 0.2s ease;
+  color: var(--fg-light);
+  background-color: #1e1e1e;
+  border-radius: 8px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  border: 1px solid transparent;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .links a:hover {
-  background: var(--hover);
-  color: black;
-  border-color: var(--accent);
+  background-color: var(--accent-magenta);
   transform: scale(1.03);
 }
 
 footer {
-  margin-top: 25px;
-  font-size: 11px;
+  font-size: 0.75rem;
   color: #555;
+  margin-top: 2rem;
+}
+
+/* Responsive tweak */
+@media (max-width: 400px) {
+  .card { padding: 1.5rem; }
+  .bio { font-size: 0.85rem; }
 }
