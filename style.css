@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+/* Custom handwritten, no framework trash */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+:root {
+  --bg: #0d0d0d;
+  --fg: #ffffff;
+  --accent: #00ffff;
+  --hover: #ff00ff;
+}
 
 * {
   margin: 0;
@@ -7,76 +15,84 @@
 }
 
 body {
-  background: #0d0d0d;
-  color: #fff;
-  font-family: 'Montserrat', sans-serif;
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--fg);
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-.container {
-  padding: 20px;
+.bg-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('assets/background.jpg') no-repeat center center/cover;
+  opacity: 0.05;
+  z-index: -1;
 }
 
 .card {
-  background: #1a1a1a;
-  border-radius: 18px;
+  background: #111;
   padding: 30px;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+  border-radius: 16px;
+  width: 90%;
   max-width: 400px;
-  width: 100%;
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
   text-align: center;
-  transition: 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
-}
-
-.logo {
+.avatar {
   width: 80px;
+  height: 80px;
   border-radius: 50%;
   margin-bottom: 15px;
+  border: 2px solid var(--accent);
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 5px;
+  font-weight: 700;
 }
 
 .bio {
-  font-size: 14px;
-  color: #aaa;
+  color: #999;
+  font-size: 13px;
   margin-bottom: 20px;
 }
 
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .links a {
-  display: block;
-  background: #262626;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 12px;
-  color: #fff;
   text-decoration: none;
-  font-weight: bold;
-  transition: background 0.2s, transform 0.2s;
+  color: var(--fg);
+  background: #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  transition: 0.2s ease;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
 }
 
 .links a:hover {
-  background: linear-gradient(90deg, #ff00ff, #00ffff);
-  transform: scale(1.02);
+  background: var(--hover);
+  color: black;
+  border-color: var(--accent);
+  transform: scale(1.03);
 }
 
-footer p {
-  font-size: 12px;
-  margin-top: 20px;
-  color: #666;
-}
-
-footer a {
-  color: #888;
-  text-decoration: none;
+footer {
+  margin-top: 25px;
+  font-size: 11px;
+  color: #555;
 }
