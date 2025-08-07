@@ -1,100 +1,164 @@
-/* Hand‑written, no frameworks */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
-:root {
-  --bg-dark: #0a0a0a;
-  --fg-light: #eaeaea;
-  --accent-cyan: #00ffff;
-  --accent-magenta: #ff00ff;
-  --accent-green: #00ff88;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
+  margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--fg-light);
+  background: #0b0b0f;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-  line-height: 1.4;
+  padding: 40px;
 }
 
-.background-overlay {
-  position: absolute;
-  top: 0; left: 0;
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1200px;
   width: 100%;
-  height: 100%;
-  background: url('assets/background.jpg') center/cover no‑repeat;
-  opacity: 0.07;
-  z‑index: -2;
+  flex-wrap: wrap;
 }
 
-.card {
-  position: relative;
-  background-color: #111;
-  padding: 2rem;
-  max-width: 360px;
-  width: 90%;
+.left, .right {
+  flex: 1 1 480px;
+}
+
+.branding {
+  font-size: 1.2rem;
+  color: #ff70d9;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+
+.highlight {
+  background: linear-gradient(90deg, #ff70d9, #ffb6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  text-decoration: none;
+  background: #1e1e26;
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  background: #2b2b34;
+}
+
+.btn.primary {
+  background: linear-gradient(90deg, #ff70d9, #ffb6ff);
+  color: #000;
+}
+
+.note {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 10px;
+}
+
+.profile-card {
+  background: #151519;
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid #ff70d9;
+  box-shadow: 0 0 20px rgba(255, 112, 217, 0.15);
   text-align: center;
-  border-radius: 12px;
-  box-shadow: 0 8px 28px rgba(0, 255, 255, 0.1);
 }
 
 .avatar {
   width: 90px;
-  height: 90px;
   border-radius: 50%;
-  border: 2px solid var(--accent-cyan);
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
-h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+.profile-card h2 {
+  margin: 10px 0 5px;
+  font-size: 1.4rem;
 }
 
-.bio {
-  font-size: 0.9rem;
-  color: #aaa;
-  margin-bottom: 1.5rem;
+.badges {
+  margin: 10px 0;
+  font-size: 1.2rem;
 }
 
-.links {
+.location {
+  color: #ccc;
+  margin-bottom: 5px;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.status {
+  background: #1e1e26;
+  padding: 15px;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.links a {
-  display: block;
-  padding: 0.75rem 1rem;
-  text-decoration: none;
-  color: var(--fg-light);
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+.status-avatar img {
+  width: 40px;
+  border-radius: 50%;
 }
 
-.links a:hover {
-  background-color: var(--accent-magenta);
-  transform: scale(1.03);
+.status-info {
+  text-align: left;
+  flex: 1;
+  margin-left: 15px;
+  font-size: 0.9rem;
 }
 
-footer {
+.status-icon {
+  font-size: 1.4rem;
+}
+
+.tag {
+  background: #ff70d9;
+  color: #000;
   font-size: 0.75rem;
-  color: #555;
-  margin-top: 2rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 5px;
 }
 
-/* Responsive tweak */
-@media (max-width: 400px) {
-  .card { padding: 1.5rem; }
-  .bio { font-size: 0.85rem; }
+.socials a {
+  font-size: 1.4rem;
+  margin: 0 10px;
+  color: #ff70d9;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.socials a:hover {
+  color: #fff;
 }
