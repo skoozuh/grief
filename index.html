@@ -1,311 +1,510 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol Inspired Profile - Modern Dark</title>
-<style>
-  /* ----------------- Reset ------------------ */
-  *, *::before, *::after {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #121212;
-    color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    overflow-x: hidden;
-  }
-  a, button {
-    font-family: inherit;
-  }
-  button {
-    cursor: pointer;
-  }
-  /* ------------ Container Card ------------ */
-  .card {
-    background: #1f1f1f;
-    border-radius: 16px;
-    padding: 3rem 3.5rem;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0 12px 36px rgba(0,0,0,0.8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    animation: floatY 5s ease-in-out infinite;
-  }
-  @keyframes floatY {
-    0%, 100% {transform: translateY(0);}
-    50% {transform: translateY(-8px);}
-  }
-  /* ------------ Profile Name ------------ */
-  .username {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #4d90fe;
-    letter-spacing: 0.05em;
-    user-select: none;
-    margin-bottom: 0.25rem;
-  }
-  /* ------------ Profile Bio ------------ */
-  .bio {
-    font-weight: 400;
-    font-size: 1.1rem;
-    line-height: 1.5;
-    max-width: 320px;
-    text-align: center;
-    color: #999;
-    margin-bottom: 1.8rem;
-  }
-  /* ------------ Button Group ------------ */
-  .btn-group {
-    width: 100%;
-    display: flex;
-    gap: 1.25rem;
-    margin-bottom: 2.5rem;
-  }
-  button.btn {
-    flex: 1;
-    background: transparent;
-    border: 2.5px solid #4d90fe;
-    border-radius: 9999px;
-    padding: 0.85rem 0;
-    color: #4d90fe;
-    font-weight: 700;
-    font-size: 1.1rem;
-    box-shadow: inset 0 0 10px #4d90fe33;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease,
-      box-shadow 0.3s ease,
-      transform 0.15s ease;
-    user-select: none;
-  }
-  button.btn:hover,
-  button.btn:focus-visible {
-    background-color: #4d90fe;
-    color: #121212;
-    box-shadow:
-      0 0 15px #4d90feaa,
-      inset 0 0 15px #4d90fecc;
-    outline: none;
-  }
-  button.btn:active {
-    transform: scale(0.94);
-  }
-  /* ------------ Badges ------------ */
-  .badges {
-    display: flex;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 3rem;
-  }
-  .badge {
-    background: #2c2c2c;
-    color: #4d90fe;
-    font-weight: 700;
-    font-size: 0.85rem;
-    padding: 0.4rem 1.1rem;
-    border-radius: 9999px;
-    box-shadow: inset 0 0 8px #4d90fe44;
-    position: relative;
-    user-select: none;
-    cursor: default;
-    transition: background-color 0.3s ease;
-  }
-  .badge:hover {
-    background-color: #4d90fe22;
-  }
-  /* Tooltip container */
-  .badge[data-tooltip]:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 130%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #4d90feee;
-    color: #121212;
-    padding: 0.35rem 0.75rem;
-    font-size: 0.75rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-    box-shadow: 0 0 10px #4d90feaa;
-  }
-  .badge[data-tooltip]::after {
-    opacity: 0;
-  }
-  /* ------------ Social Links ------------ */
-  .socials {
-    display: flex;
-    gap: 1.3rem;
-  }
-  .social-link {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #2c2c2c;
-    color: #4d90fe;
-    font-size: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
-    user-select: none;
-  }
-  .social-link:hover,
-  .social-link:focus-visible {
-    background-color: #4d90fe;
-    color: #121212;
-    outline: none;
-  }
-  /* ------------ Background Particles ------------ */
-  #particles-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: #121212;
-  }
-  /* ------------ Responsive ------------ */
-  @media (max-width: 450px) {
-    .card {
-      padding: 2rem 2rem;
-      max-width: 100vw;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>grief.bio — Your digital identity</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-very-dark: #060204;
+      --bg-dark: #0b0707;
+      --panel-dark: rgba(11,6,12,0.55);
+      --neon-pink: #f35aa9;
+      --neon-pink-2: #ff79c8;
+      --muted: #9aa0a6;
+      --glass-border: rgba(243,90,169,0.25);
+      --glass-border-strong: rgba(243,90,169,0.35);
+      --card-radius: 22px;
+      --container-width: 1180px;
     }
-    .username {
-      font-size: 2rem;
+
+    /* Reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Poppins", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 20% 80%, rgba(148,58,73,0.12), transparent 15%),
+                  radial-gradient(900px 500px at 85% 20%, rgba(16,9,22,0.5), transparent 20%),
+                  linear-gradient(180deg, #080406 0%, #0b0608 25%, #140a0f 100%);
+      color:#eaeef2;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:48px 24px;
     }
-    button.btn {
-      font-size: 1rem;
-      padding: 0.7rem 0;
+
+    /* Top nav */
+    .nav {
+      position:fixed;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(var(--container-width), calc(100% - 48px));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      z-index:40;
+      pointer-events:auto;
+    }
+
+    .nav .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      padding:10px 18px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 40px rgba(163,39,78,0.08), 0 1px 0 rgba(255,255,255,0.02) inset;
+    }
+
+    .brand .logo {
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.04), transparent 30%), linear-gradient(180deg,#3e0c27, #5a153a);
+      box-shadow: 0 6px 22px rgba(243,90,169,0.08);
+    }
+    .brand .logo svg{width:20px;height:20px;opacity:0.95;filter:drop-shadow(0 6px 18px rgba(243,90,169,0.12))}
+
+    .brand .title{
+      font-weight:700;
+      color:#fff;
+      letter-spacing:0.2px;
+      display:flex;
+      align-items:baseline;
+      gap:6px;
+    }
+    .brand .title .dot{ color:var(--neon-pink-2); font-weight:800; margin-left:2px }
+
+    .nav .links{
+      display:flex;
+      gap:26px;
+      align-items:center;
+      color:rgba(255,255,255,0.78);
+      font-weight:600;
+      font-size:14px;
+    }
+    .nav .links a{ color:inherit; text-decoration:none; opacity:0.9 }
+    .nav .actions{ display:flex; gap:12px; align-items:center }
+    .button {
+      padding:8px 14px;
+      border-radius:999px;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.04);
+      background:transparent;
+    }
+    .button.ghost{ color:rgba(255,255,255,0.85) }
+    .button.primary{
+      background: linear-gradient(180deg, rgba(243,90,169,0.12), rgba(243,90,169,0.06));
+      color: #ffdff1;
+      border:1px solid rgba(243,90,169,0.28);
+      box-shadow: 0 8px 32px rgba(243,90,169,0.08);
+    }
+
+    /* Main layout */
+    .wrap {
+      width:min(var(--container-width), calc(100% - 48px));
+      margin-top:84px;
+      display:grid;
+      grid-template-columns: 1fr 480px;
+      gap:36px;
+      align-items:center;
+      position:relative;
+    }
+
+    /* Left hero text */
+    .hero {
+      padding:40px 24px 88px 24px;
+      max-width:960px;
+    }
+    .hero h1{
+      margin:0 0 18px 0;
+      font-size:72px;
+      line-height:0.98;
+      letter-spacing:-1px;
+      font-weight:800;
+      color: #ffffff;
+      text-shadow: 0 18px 48px rgba(16,9,20,0.55);
+    }
+    .hero h1 .accent{
+      color:var(--neon-pink);
+      text-shadow: 0 6px 40px rgba(243,90,169,0.28);
+    }
+    .hero p.lead{
+      margin:12px 0 26px 0;
+      color:rgba(255,255,255,0.75);
+      font-size:16px;
+      max-width:640px;
+      line-height:1.7;
+      opacity:0.95;
+    }
+
+    .hero .cta-row{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      margin-top:8px;
+    }
+
+    .claim {
+      background: transparent;
+      border:1px solid rgba(243,90,169,0.18);
+      color: #ffdff1;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition: all .18s ease;
+      box-shadow: 0 10px 36px rgba(243,90,169,0.06);
+    }
+    .claim:hover{
+      transform:translateY(-2px);
+      box-shadow: 0 18px 56px rgba(243,90,169,0.14);
+    }
+
+    .explore {
+      padding:12px 18px;
+      border-radius:12px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.85);
+      font-weight:600;
+    }
+
+    .subnote {
+      margin-top:18px;
+      color: #9ea6ae;
+      font-size:13px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .subnote .dot{
+      width:8px;height:8px;border-radius:50%;background: #29d552;display:inline-block;margin-right:8px;
+      box-shadow:0 6px 18px rgba(41,213,82,0.08);
+    }
+
+    /* Right profile card */
+    .card-wrap{
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding-top:40px;
+    }
+
+    .profile-card{
+      width:100%;
+      max-width:460px;
+      padding:30px;
+      border-radius: var(--card-radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 2px solid var(--glass-border);
+      position:relative;
+      overflow:visible;
+      box-shadow: 0 20px 60px rgba(6,4,5,0.6);
+      backdrop-filter: blur(8px) saturate(1.05);
+    }
+
+    /* Pink outer stroke */
+    .profile-card::before{
+      content:"";
+      position:absolute;
+      inset:-6px;
+      border-radius: calc(var(--card-radius) + 6px);
+      pointer-events:none;
+      background:linear-gradient(90deg, rgba(243,90,169,0.06), rgba(255,121,200,0.03));
+      border:1px solid rgba(243,90,169,0.08);
+      box-shadow: 0 18px 48px rgba(243,90,169,0.06);
+      mix-blend-mode:screen;
+    }
+
+    .cover {
+      height:84px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(83,10,32,0.9), rgba(30,10,18,0.6));
+      margin:-10px -10px 18px -10px;
+      display:block;
+      border-bottom:1px solid rgba(255,255,255,0.02);
+    }
+
+    .avatar-row{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-top:-34px;
+      padding:0 10px;
+    }
+
+    .avatar {
+      width:88px;height:88px;border-radius:999px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.02), rgba(255,255,255,0.01)), linear-gradient(180deg,#7a1a54,#34061b);
+      display:flex;align-items:center;justify-content:center;
+      border:6px solid rgba(0,0,0,0.25);
+      box-shadow: 0 12px 36px rgba(243,90,169,0.12), 0 2px 6px rgba(0,0,0,0.5) inset;
+    }
+    .avatar img{width:56px;height:56px;filter:drop-shadow(0 8px 18px rgba(243,90,169,0.2))}
+
+    .handle {
+      font-weight:700;
+      color:#fff;
+      font-size:18px;
     }
     .badges {
-      gap: 0.6rem;
+      display:flex;
+      gap:8px;
+      margin-top:6px;
     }
-  }
-</style>
+    .badge{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:6px 8px;border-radius:999px;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,0.03);
+      display:inline-flex;gap:6px;align-items:center;color:#fff;opacity:0.95;
+    }
+
+    .bio-line {
+      margin-top:18px;
+      color:rgba(255,255,255,0.9);
+      font-weight:600;
+      font-size:15px;
+    }
+    .location { color:rgba(255,255,255,0.6); margin-top:6px; font-size:13px }
+
+    .status-card {
+      margin-top:18px;
+      padding:12px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+    }
+    .status-left{ display:flex; gap:12px; align-items:center }
+    .small-avatar { width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#4f1a39,#2b0a18); display:grid;place-items:center; color:#fff; font-weight:800 }
+
+    .links-row { display:flex;gap:14px;margin-top:20px; justify-content:center }
+
+    .social {
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      margin-top:18px;
+    }
+    .social a {
+      width:44px;height:44px;border-radius:10px;display:grid;place-items:center;border:1px solid rgba(255,255,255,0.02);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 34px rgba(243,90,169,0.03);
+    }
+
+    /* Scroll down indicator */
+    .scroll-down{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:18px;
+      color:rgba(255,255,255,0.25);
+      font-size:13px;
+      display:flex;
+      gap:6px;
+      flex-direction:column;
+      align-items:center;
+      pointer-events:none;
+    }
+
+    /* Responsive */
+    @media (max-width:1060px){
+      .wrap{ grid-template-columns:1fr 420px; gap:20px }
+      .hero h1{ font-size:56px }
+    }
+    @media (max-width:900px){
+      .wrap{ grid-template-columns:1fr; gap:28px; padding-bottom:40px }
+      .nav{ left:18px; transform:none; width:calc(100% - 36px) }
+      .profile-card{ max-width:none; width:100% }
+      .hero h1{ font-size:44px }
+    }
+
+    /* small utility */
+    .muted { color:var(--muted) }
+    .v-center { display:flex; align-items:center; gap:10px }
+    .kbd {
+      padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:700;font-size:13px;
+    }
+
+  </style>
 </head>
 <body>
-  <canvas id="particles-canvas" aria-hidden="true"></canvas>
-  <main class="card" role="main" aria-label="User profile card">
-    <h1 class="username" tabindex="0">skoo</h1>
-    <p class="bio" tabindex="0">Producer. Crafting beats and vibes since forever.</p>
 
-    <nav class="btn-group" role="navigation" aria-label="Profile actions">
-      <button class="btn" type="button" aria-pressed="false" id="btnFollow">Follow</button>
-      <button class="btn" type="button" aria-pressed="false" id="btnMessage">Message</button>
+  <!-- Top navigation -->
+  <header class="nav" role="banner">
+    <div class="brand" aria-hidden="false">
+      <div class="logo" aria-hidden="true">
+        <!-- placeholder ghost-like SVG -->
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2C9.686 2 7.5 3.03 6 4.6 5 5.6 4.6 6.5 4.6 7 4.6 8.9 6.3 13.2 4 14.8 3 15.5 2 16.2 2 18c0 1.9 1.6 3 3 3 1.1 0 1.8-0.4 3-0.4 1.3 0 1.9 0.4 3 0.4 1.4 0 3-1.1 3-3 0-1.8-1-2.5-2-3.2-2.3-1.6-0.6-6 0-7.8C18.5 3.1 15.8 2 12 2z" fill="#ff79c8"/>
+        </svg>
+      </div>
+      <div class="title">
+        <span style="color:rgba(255,255,255,0.9)">grief</span><span class="dot">.bio</span>
+      </div>
+    </div>
+
+    <nav class="links" role="navigation" aria-label="top links">
+      <a href="#">Discord</a>
+      <a href="#">Leaderboard</a>
+      <a href="#">Help Center</a>
+      <a href="#">Pricing</a>
+      <a href="#">Team</a>
     </nav>
 
-    <section class="badges" aria-label="User badges">
-      <div class="badge" tabindex="0" data-tooltip="Artist badge - awarded for creativity">Artist</div>
-      <div class="badge" tabindex="0" data-tooltip="Booster badge - supports the platform">Booster</div>
-      <div class="badge" tabindex="0" data-tooltip="Creative badge - innovative creator">Creative</div>
-      <div class="badge" tabindex="0" data-tooltip="Creator badge - content producer">Creator</div>
-      <div class="badge" tabindex="0" data-tooltip="Crown badge - VIP member">Crown</div>
+    <div class="actions">
+      <button class="button ghost">Login</button>
+      <button class="button primary">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- Page content -->
+  <main class="wrap" role="main">
+
+    <!-- Left hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">
+        Your Digital <span class="accent">Identity</span>,<br>
+        On Your Terms
+      </h1>
+
+      <p class="lead">
+        Create a stunning biolink page that represents your personal brand. Share all your content in one beautiful, customizable location.
+      </p>
+
+      <div class="cta-row">
+        <button class="claim">Claim Username</button>
+        <button class="explore">Explore Features ▾</button>
+      </div>
+
+      <div class="subnote">
+        <span class="dot" aria-hidden="true"></span>
+        <span>100% Free To Get Started &nbsp; • &nbsp; No Credit Card Required</span>
+      </div>
     </section>
 
-    <nav class="socials" aria-label="Social media links">
-      <a href="#" class="social-link" aria-label="Twitter" tabindex="0" role="link" title="Twitter" rel="noopener">🐦</a>
-      <a href="#" class="social-link" aria-label="YouTube" tabindex="0" role="link" title="YouTube" rel="noopener">▶️</a>
-      <a href="#" class="social-link" aria-label="Discord" tabindex="0" role="link" title="Discord" rel="noopener">💬</a>
-      <a href="#" class="social-link" aria-label="Instagram" tabindex="0" role="link" title="Instagram" rel="noopener">📸</a>
-    </nav>
+    <!-- Right profile preview -->
+    <aside class="card-wrap" aria-label="profile preview">
+      <div class="profile-card">
+        <div class="cover" role="img" aria-hidden="true"></div>
+
+        <div class="avatar-row">
+          <div class="avatar" aria-hidden="true">
+            <!-- placeholder avatar -->
+            <img src="/assets/ghost-avatar.png" alt="avatar" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text x=%225%22 y=%2218%22 font-size=%2216%22 fill=%22white%22>G</text></svg>'">
+          </div>
+
+          <div>
+            <div class="handle">grief</div>
+            <div class="badges" aria-hidden="true">
+              <div class="badge">✤</div>
+              <div class="badge">★</div>
+              <div class="badge">✓</div>
+              <div class="badge">💚</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bio-line">Web developer & designer based in Austria.</div>
+        <div class="location">📍 Vienna, Austria</div>
+
+        <div class="status-card" role="status" aria-live="polite">
+          <div class="status-left">
+            <div class="small-avatar" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C9.686 2 7.5 3.03 6 4.6 5 5.6 4.6 6.5 4.6 7 4.6 8.9 6.3 13.2 4 14.8 3 15.5 2 16.2 2 18c0 1.9 1.6 3 3 3 1.1 0 1.8-0.4 3-0.4 1.3 0 1.9 0.4 3 0.4 1.4 0 3-1.1 3-3 0-1.8-1-2.5-2-3.2-2.3-1.6-0.6-6 0-7.8C18.5 3.1 15.8 2 12 2z" fill="#ff79c8"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:700">grief.bio#1344 <span class="muted" style="font-weight:600">grief</span></div>
+              <div class="muted" style="font-size:13px;margin-top:4px">Playing Valorant • Competitive · Haven</div>
+            </div>
+          </div>
+          <div style="opacity:0.9">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="display:block;margin-left:auto"><rect width="24" height="24" rx="4" fill="#22121a"/><path d="M6 18l6-12 6 12H6z" fill="#ff3f6c"/></svg>
+          </div>
+        </div>
+
+        <div class="links-row" aria-hidden="true">
+          <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+            <div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.03);font-weight:700">Primary Link — Visit</div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:rgba(255,255,255,0.01);border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.02)">Link 2</div>
+              <div style="flex:1;background:rgba(255,255,255,0.01);border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.02)">Link 3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="social">
+          <a href="#" title="Github" aria-label="Github">
+            <!-- Github svg -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.9.58.1.8-.25.8-.56v-2.1c-3.2.7-3.88-1.5-3.88-1.5-.53-1.37-1.3-1.74-1.3-1.74-1.06-.73.08-.72.08-.72 1.18.08 1.8 1.2 1.8 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.76.4-1.27.72-1.56-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.28 1.2-3.09-.12-.29-.52-1.46.12-3.04 0 0 .97-.31 3.18 1.18.92-.26 1.9-.4 2.88-.4.98 0 1.96.14 2.88.4 2.2-1.49 3.18-1.18 3.18-1.18.64 1.58.24 2.75.12 3.04.75.81 1.2 1.83 1.2 3.09 0 4.44-2.7 5.4-5.27 5.68.42.36.8 1.08.8 2.18v3.24c0 .31.22.67.8.56C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z" fill="#fff"/></svg>
+          </a>
+
+          <a href="#" title="Discord" aria-label="Discord">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.07.07 0 00-.077.037c-.21.375-.444.864-.608 1.249-1.84-.276-3.68-.276-5.486 0-.164-.4-.4-.874-.61-1.249a.07.07 0 00-.077-.037A19.736 19.736 0 003.68 4.37a.052.052 0 00-.02.017C.533 9.045-.32 13.49.066 17.857a.084.084 0 00.031.056c2.052 1.51 4.045 2.466 5.992 3.066a.078.078 0 00.084-.027c.46-.63.87-1.295 1.22-1.99a.075.075 0 00-.041-.1c-.652-.248-1.27-.558-1.845-.92a.077.077 0 01-.008-.127c.124-.094.248-.19.366-.291a.076.076 0 01.077-.012c3.88 1.76 8.08 1.76 11.935 0a.076.076 0 01.078.012c.12.102.243.197.366.29a.077.077 0 01-.006.127c-.576.363-1.194.673-1.846.92a.076.076 0 00-.041.1c.36.695.77 1.36 1.22 1.99a.078.078 0 00.084.027c1.95-.6 3.943-1.556 5.995-3.066a.077.077 0 00.03-.056c.5-8.612-3.707-12.99-6.39-15.471a.05.05 0 00-.02-.017zM8.02 15.331c-1.183 0-2.153-1.085-2.153-2.419 0-1.333.951-2.418 2.153-2.418 1.215 0 2.177 1.095 2.153 2.418 0 1.334-.951 2.419-2.153 2.419zm7.958 0c-1.183 0-2.153-1.085-2.153-2.419 0-1.333.951-2.418 2.153-2.418 1.215 0 2.177 1.095 2.153 2.418 0 1.334-.938 2.419-2.153 2.419z" fill="#fff"/></svg>
+          </a>
+
+          <a href="#" title="X" aria-label="X/Twitter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 5.5c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.4-1.7-.6.4-1.4.7-2.1.9C16.8 4.5 15.9 4 15 4c-1 0-1.9.5-2.5 1.2C11.1 5.1 10.1 4.8 9 4.8 7 4.8 5.4 6.4 5.4 8.4c0 .4 0 .8.1 1.1-3.2-.1-6-1.7-7.9-4.1-.3.6-.5 1.2-.5 1.9 0 1.4.7 2.7 1.8 3.4-.6 0-1.2-.2-1.7-.5v.1c0 1.8 1.3 3.3 3.1 3.6-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.7 2.2 3.2 2.3-1.1.9-2.5 1.5-4.1 1.5-.3 0-.6 0-.9-.1 1.5 1 3.3 1.6 5.2 1.6 6.2 0 9.6-5.2 9.6-9.7 0-.2 0-.4 0-.6.7-.5 1.2-1.2 1.6-2z" fill="#fff"/></svg>
+          </a>
+
+          <a href="#" title="Instagram" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" fill="#fff" opacity="0.06"/><path d="M12 7.5c-2.5 0-4.5 2-4.5 4.5S9.5 16.5 12 16.5 16.5 14.5 16.5 12 14.5 7.5 12 7.5zm6.2-1.1a1.06 1.06 0 11-2.12 0 1.06 1.06 0 012.12 0z" fill="#fff"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Scroll down indicator -->
+    <div class="scroll-down" aria-hidden="true">
+      <span>Scroll Down</span>
+      <svg width="20" height="10" viewBox="0 0 20 10" fill="none"><path d="M1 1l8 7 8-7" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
   </main>
 
-<script>
-  // Simple background particles animation (like subtle stars)
-
-  const canvas = document.getElementById('particles-canvas');
-  const ctx = canvas.getContext('2d');
-
-  let particles = [];
-  const PARTICLE_COUNT = 80;
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * 1.5 + 0.3;
-      this.speedX = (Math.random() - 0.5) * 0.15;
-      this.speedY = (Math.random() - 0.5) * 0.15;
-      this.opacity = Math.random() * 0.3 + 0.1;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-
-      if (this.x > canvas.width) this.x = 0;
-      else if (this.x < 0) this.x = canvas.width;
-      if (this.y > canvas.height) this.y = 0;
-      else if (this.y < 0) this.y = canvas.height;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(77, 144, 254, ${this.opacity})`;
-      ctx.shadowColor = `rgba(77, 144, 254, ${this.opacity * 0.8})`;
-      ctx.shadowBlur = 6;
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-    }
-  }
-
-  function initParticles() {
-    particles = [];
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(new Particle());
-    }
-  }
-  initParticles();
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.update();
-      p.draw();
+  <script>
+    // Small interactive bits - no external libs
+    document.querySelectorAll('.claim, .explore, .button').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        // tiny pulse
+        btn.animate([{transform:'translateY(0)'},{transform:'translateY(-4px)'},{transform:'translateY(0)'}], {duration:260, easing:'cubic-bezier(.2,.9,.3,1)'});
+      });
     });
-    requestAnimationFrame(animate);
-  }
-  animate();
 
-  // Button toggles for Follow and Message - just visual feedback
-  const btnFollow = document.getElementById('btnFollow');
-  const btnMessage = document.getElementById('btnMessage');
+    // Ensure nav stays visible on small scroll with subtle blur
+    const nav = document.querySelector('.nav');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > 40){
+        nav.style.backdropFilter = 'blur(8px)';
+        nav.style.boxShadow = '0 12px 40px rgba(6,4,5,0.65)';
+      } else {
+        nav.style.backdropFilter = '';
+        nav.style.boxShadow = '';
+      }
+      lastScroll = y;
+    });
+  </script>
 
-  btnFollow.addEventListener('click', () => {
-    if (btnFollow.getAttribute('aria-pressed') === 'true') {
-      btnFollow.setAttribute('aria-pressed', 'false');
-      btnFollow.textContent = 'Follow';
-    } else {
-      btnFollow.setAttribute('aria-pressed', 'true');
-      btnFollow.textContent = 'Following';
-    }
-  });
-
-  btnMessage.addEventListener('click', () => {
-    alert('Messaging feature coming soon!');
-  });
-</script>
 </body>
 </html>
