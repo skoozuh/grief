@@ -1,289 +1,283 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.bio — Your Digital Identity</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --bg: #0a0a0c;
-    --text: #e2e2e8;
-    --muted: #8a8c9b;
-    --accent1: #00e0ff;
-    --accent2: #c75eff;
-    --accent3: #7eff8a;
-    --radius: 16px;
-  }
-  * {
-    box-sizing: border-box;
-  }
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #08080a 0%, #121217 100%);
-    color: var(--text);
-    overflow-x: hidden;
-  }
-  main {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 60px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  header {
-    text-align: center;
-    margin-bottom: 60px;
-    user-select: none;
-  }
-  header h1 {
-    font-weight: 900;
-    font-size: 4.5rem;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 1.3px;
-    margin: 0;
-  }
-  header p {
-    font-weight: 500;
-    font-size: 1.25rem;
-    margin-top: 10px;
-    color: var(--muted);
-  }
-  section.auth {
-    width: 100%;
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    margin-bottom: 60px;
-  }
-  .auth-box {
-    background: #121217;
-    border-radius: var(--radius);
-    padding: 36px 40px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    width: 100%;
-    max-width: 400px;
-    transition: box-shadow 0.3s ease;
-  }
-  .auth-box:hover {
-    box-shadow: 0 0 45px var(--accent1);
-  }
-  .auth-box h2 {
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: var(--accent2);
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    padding: 14px 18px;
-    font-size: 1rem;
-    border-radius: 14px;
-    border: none;
-    background: #1c1c24;
-    color: var(--text);
-    outline: none;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-    transition: box-shadow 0.25s ease;
-  }
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    box-shadow: 0 0 20px var(--accent1);
-  }
-  button[type="submit"] {
-    padding: 16px 20px;
-    border-radius: 16px;
-    border: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #0a0a0c;
-    cursor: pointer;
-    user-select: none;
-    transition: filter 0.25s ease, transform 0.25s ease;
-  }
-  button[type="submit"]:hover {
-    filter: brightness(1.2);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 40px rgba(0, 224, 255, 0.35);
-  }
-  section.claim {
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
-    margin-bottom: 60px;
-  }
-  section.claim h2 {
-    font-weight: 700;
-    font-size: 1.8rem;
-    margin-bottom: 18px;
-    color: var(--accent3);
-  }
-  .claim-form {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .claim-form input[type="text"] {
-    flex: 1;
-    padding: 16px 20px;
-    font-size: 1.15rem;
-    border-radius: 20px;
-    border: none;
-    background: #1c1c24;
-    color: var(--text);
-    outline: none;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
-    transition: box-shadow 0.25s ease;
-  }
-  .claim-form input[type="text"]:focus {
-    box-shadow: 0 0 25px var(--accent3);
-  }
-  .claim-form button {
-    padding: 16px 26px;
-    border-radius: 20px;
-    border: none;
-    font-weight: 700;
-    font-size: 1.15rem;
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    color: #0a0a0c;
-    cursor: pointer;
-    user-select: none;
-    transition: filter 0.25s ease, transform 0.25s ease;
-  }
-  .claim-form button:hover {
-    filter: brightness(1.2);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 40px rgba(126, 255, 138, 0.35);
-  }
-  #claimStatus {
-    margin-top: 14px;
-    min-height: 24px;
-    font-weight: 600;
-    font-size: 1rem;
-    user-select: none;
-  }
-  section.features {
-    max-width: 900px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-    gap: 30px;
-    margin-bottom: 60px;
-  }
-  .feature-card {
-    background: #121217;
-    border-radius: var(--radius);
-    padding: 26px 22px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
-    transition: box-shadow 0.3s ease;
-  }
-  .feature-card:hover {
-    box-shadow: 0 0 35px var(--accent2);
-  }
-  .feature-card h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    color: var(--accent1);
-    font-weight: 700;
-  }
-  .feature-card p,
-  .feature-card ul {
-    color: var(--muted);
-    font-size: 0.95rem;
-    margin: 0;
-  }
-  .feature-card ul {
-    padding-left: 18px;
-    margin-top: 6px;
-  }
-  footer {
-    text-align: center;
-    padding: 24px 20px;
-    color: var(--muted);
-    font-size: 0.9rem;
-    user-select: none;
-  }
-
-  /* Floating shapes - subtle */
-  .float-shape {
-    position: fixed;
-    filter: blur(28px);
-    opacity: 0.12;
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .s1 {
-    width: 380px;
-    height: 380px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    left: -100px;
-    top: -140px;
-    border-radius: 40%;
-    animation: floatmove1 15s ease-in-out infinite;
-  }
-  .s2 {
-    width: 320px;
-    height: 320px;
-    background: linear-gradient(135deg, var(--accent3), var(--accent2));
-    right: -100px;
-    bottom: -90px;
-    border-radius: 45%;
-    animation: floatmove2 12s ease-in-out infinite;
-  }
-  @keyframes floatmove1 {
-    0%,100% { transform: translate(0,0); }
-    50% { transform: translate(18px, 20px); }
-  }
-  @keyframes floatmove2 {
-    0%,100% { transform: translate(0,0); }
-    50% { transform: translate(-20px, -15px); }
-  }
-
-  @media (max-width: 900px) {
-    section.auth {
-      flex-direction: column;
-      gap: 28px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>grief.bio — Your Digital Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0a0a0c 0%, #1a1a24 100%);
+      --text: #e2e2e8;
+      --muted: #7a7c8b;
+      --accent1: #00c8ff;
+      --accent2: #a153ff;
+      --accent3: #5ed06d;
+      --radius: 14px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
     }
     main {
-      padding: 40px 15px 80px;
+      min-height: 100vh;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 20px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+      user-select: none;
+    }
+    header {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+      width: 100%;
+      max-width: 1200px;
     }
     header h1 {
-      font-size: 3.4rem;
+      margin: 0;
+      font-weight: 800;
+      font-size: 3rem;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1.1px;
+      pointer-events: none;
+      user-select: none;
     }
-  }
-  @media (max-width: 400px) {
-    header h1 {
-      font-size: 2.8rem;
+    header p {
+      margin: 4px 0 0;
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--muted);
+      pointer-events: none;
     }
-  }
-</style>
+    section.auth {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 20px;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      max-width: 1200px;
+      z-index: 15;
+    }
+    .auth-box {
+      background: #121217;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+      width: 320px;
+      max-width: 45vw;
+      transition: box-shadow 0.3s ease;
+    }
+    .auth-box:hover {
+      box-shadow: 0 0 25px var(--accent1);
+    }
+    .auth-box h2 {
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 16px;
+      color: var(--accent2);
+      user-select: text;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: #1c1c24;
+      color: var(--text);
+      outline: none;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+      transition: box-shadow 0.25s ease;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      box-shadow: 0 0 15px var(--accent1);
+    }
+    button[type="submit"] {
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #0a0a0c;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.25s ease, transform 0.25s ease;
+    }
+    button[type="submit"]:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 200, 255, 0.3);
+    }
+    section.claim {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      padding-top: 160px;
+      user-select: none;
+    }
+    section.claim h2 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 22px;
+      color: var(--accent3);
+    }
+    .claim-form {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .claim-form input[type="text"] {
+      flex: 1;
+      padding: 14px 18px;
+      font-size: 1.1rem;
+      border-radius: 18px;
+      border: none;
+      background: #1c1c24;
+      color: var(--text);
+      outline: none;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+      transition: box-shadow 0.25s ease;
+    }
+    .claim-form input[type="text"]:focus {
+      box-shadow: 0 0 22px var(--accent3);
+    }
+    .claim-form button {
+      padding: 14px 22px;
+      border-radius: 18px;
+      border: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, var(--accent3), var(--accent2));
+      color: #0a0a0c;
+      cursor: pointer;
+      user-select: none;
+      transition: filter 0.25s ease, transform 0.25s ease;
+    }
+    .claim-form button:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(94, 208, 109, 0.35);
+    }
+    #claimStatus {
+      margin-top: 14px;
+      min-height: 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      user-select: none;
+      color: var(--muted);
+    }
+    section.features {
+      max-width: 900px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 28px;
+      margin: 40px auto 0;
+      padding: 0 20px;
+      user-select: none;
+    }
+    .feature-card {
+      background: #121217;
+      border-radius: var(--radius);
+      padding: 26px 24px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.4);
+      transition: box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+      box-shadow: 0 0 28px var(--accent2);
+    }
+    .feature-card h3 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: var(--accent1);
+      font-weight: 700;
+      user-select: text;
+    }
+    .feature-card p,
+    .feature-card ul {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      user-select: none;
+      margin-top: 80px;
+    }
+    @media (max-width: 880px) {
+      section.auth {
+        flex-direction: column;
+        position: static;
+        padding: 0 20px;
+        max-width: 400px;
+        margin: 0 auto 40px;
+        gap: 24px;
+      }
+      .auth-box {
+        max-width: 100%;
+        width: 100%;
+      }
+      main {
+        padding-top: 100px;
+      }
+      section.claim {
+        padding-top: 0;
+      }
+    }
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2.4rem;
+      }
+      section.claim h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="float-shape s1" aria-hidden="true"></div>
-  <div class="float-shape s2" aria-hidden="true"></div>
+  <header>
+    <h1>grief.bio</h1>
+    <p>Your digital identity, reimagined.</p>
+  </header>
 
   <main>
-    <header>
-      <h1>grief.bio</h1>
-      <p>Your digital identity, reimagined.</p>
-    </header>
-
     <section class="auth" aria-label="Sign up and log in">
       <div class="auth-box" aria-labelledby="signup-title" role="region">
         <h2 id="signup-title">Sign Up</h2>
