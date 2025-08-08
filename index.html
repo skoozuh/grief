@@ -1,97 +1,201 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Welcome — Claim Your Name</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#050507;
-      --card:#0b0b0d;
-      --muted:#9aa0a6;
-      --accent1: #ff6ec7; /* pink */
-      --accent2: #00e0ff; /* cyan */
-      --accent3: #ffd93d; /* yellow */
-      --glass: rgba(255,255,255,0.03);
-      --radius:18px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>grief.bio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #0b0b0b;
+        color: #fff;
+        overflow-x: hidden;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;font-family:Inter,Poppins,sans-serif;background:var(--bg);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-      h1,h2,h3{margin:0}
-      a{color:var(--accent2);text-decoration:none}
+    header {
+        text-align: center;
+        padding: 60px 20px 30px;
     }
-    header{text-align:center;margin-bottom:40px}
-    header h1{font-size:2.4rem;background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .intro{max-width:600px;text-align:center;color:var(--muted);font-size:1rem;margin-bottom:40px}
-    .auth-card{
-      background:var(--glass);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);padding:30px;width:100%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    header h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, cyan, magenta, purple);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 1px;
     }
-    .tabs{display:flex;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05)}
-    .tab{flex:1;text-align:center;padding:10px;cursor:pointer;font-weight:600;color:var(--muted);transition:.2s}
-    .tab.active{color:#fff;border-bottom:2px solid var(--accent2)}
-    form{display:flex;flex-direction:column;gap:15px}
-    input{
-      padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#fff;font-size:1rem
+    header p {
+        color: #bbb;
+        font-size: 1.1rem;
     }
-    button{
-      padding:12px;border-radius:8px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#000;font-weight:700;border:none;cursor:pointer;transition:.2s
+    .cta-buttons {
+        margin-top: 20px;
     }
-    button:hover{filter:brightness(1.05);transform:translateY(-2px)}
-    .details{max-width:800px;margin-top:50px;text-align:center;color:var(--muted)}
-    .claim{
-      margin-top:30px;padding:20px;background:var(--glass);border:1px solid rgba(255,255,255,0.05);border-radius:var(--radius);
+    .btn {
+        display: inline-block;
+        margin: 10px;
+        padding: 12px 24px;
+        border-radius: 30px;
+        border: 2px solid cyan;
+        color: cyan;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
     }
-    .claim input{width:70%}
-    .claim button{width:28%}
-  </style>
+    .btn.primary {
+        background: cyan;
+        color: #000;
+    }
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px currentColor;
+    }
+    section {
+        max-width: 900px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+    .card {
+        background: #121212;
+        border-radius: 15px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 0 20px rgba(0,255,255,0.05);
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 25px rgba(0,255,255,0.15);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    input {
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    input[type="text"] {
+        background: #1a1a1a;
+        color: #fff;
+        border: 1px solid #333;
+    }
+    input[type="submit"] {
+        background: cyan;
+        color: #000;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    input[type="submit"]:hover {
+        box-shadow: 0 0 15px cyan;
+    }
+    footer {
+        text-align: center;
+        padding: 30px 20px;
+        font-size: 0.9rem;
+        color: #666;
+        border-top: 1px solid #222;
+    }
+    @media (max-width: 600px) {
+        header h1 { font-size: 2.2rem; }
+        .btn { padding: 10px 18px; }
+    }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Claim Your Name</h1>
-    <p class="intro">Join our modern, sleek biolink platform inspired by the best — guns.lol and haunt.gg — but uniquely crafted for you. Create a personalized page, share your links, and make it yours.</p>
-  </header>
 
-  <div class="auth-card">
-    <div class="tabs">
-      <div class="tab active" id="signupTab" onclick="showForm('signup')">Sign Up</div>
-      <div class="tab" id="loginTab" onclick="showForm('login')">Log In</div>
+<header>
+    <h1>grief.bio</h1>
+    <p>Your digital identity, reimagined.</p>
+    <div class="cta-buttons">
+        <a href="#signup" class="btn primary">Sign Up</a>
+        <a href="#login" class="btn">Log In</a>
     </div>
-    <form id="signupForm">
-      <input type="text" placeholder="Username" required>
-      <input type="email" placeholder="Email" required>
-      <input type="password" placeholder="Password" required>
-      <button type="submit">Create Account</button>
-    </form>
-    <form id="loginForm" style="display:none">
-      <input type="text" placeholder="Username or Email" required>
-      <input type="password" placeholder="Password" required>
-      <button type="submit">Log In</button>
-    </form>
-  </div>
+</header>
 
-  <div class="details">
-    <h2>Why Join Us?</h2>
-    <p>Create a beautiful, customizable biolink page. Add your socials, music, shop links, and more — all in one place.</p>
-
-    <div class="claim">
-      <h3>Check your custom username</h3>
-      <div style="display:flex;gap:2%">
-        <input type="text" placeholder="Enter desired username">
-        <button>Check</button>
-      </div>
+<section id="claim">
+    <div class="card">
+        <h2>Claim Your Username</h2>
+        <form id="usernameForm">
+            <input type="text" id="username" placeholder="Enter your desired username..." required>
+            <input type="submit" value="Check Availability">
+        </form>
+        <p id="usernameResult"></p>
     </div>
-  </div>
+</section>
 
-  <script>
-    function showForm(type){
-      document.getElementById('signupForm').style.display = type==='signup' ? 'flex':'none';
-      document.getElementById('loginForm').style.display = type==='login' ? 'flex':'none';
-      document.getElementById('signupTab').classList.toggle('active', type==='signup');
-      document.getElementById('loginTab').classList.toggle('active', type==='login');
+<section id="about">
+    <div class="card">
+        <h2>What is grief.bio?</h2>
+        <p>grief.bio is your all-in-one biolink platform with custom vanity URLs, interactive profiles, badges, and media embeds — designed to look like it was crafted just for you.</p>
+    </div>
+    <div class="card">
+        <h2>Why Choose Us?</h2>
+        <p>Handcrafted design, premium animations, and features inspired by the clean style of guns.lol and haunt.gg — but 100% unique.</p>
+    </div>
+    <div class="card">
+        <h2>Features</h2>
+        <ul>
+            <li>Custom Vanity URLs</li>
+            <li>Profile Badges with Tooltips</li>
+            <li>Media & Music Embeds</li>
+            <li>Fully Responsive Design</li>
+        </ul>
+    </div>
+</section>
+
+<section id="signup">
+    <div class="card">
+        <h2>Sign Up</h2>
+        <form>
+            <input type="text" placeholder="Username" required>
+            <input type="text" placeholder="Email" required>
+            <input type="submit" value="Create Account">
+        </form>
+    </div>
+</section>
+
+<section id="login">
+    <div class="card">
+        <h2>Log In</h2>
+        <form>
+            <input type="text" placeholder="Username or Email" required>
+            <input type="submit" value="Log In">
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 grief.bio — All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('usernameForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let username = document.getElementById('username').value.trim();
+    let result = document.getElementById('usernameResult');
+    if(username.length < 3) {
+        result.textContent = "❌ Username must be at least 3 characters.";
+        result.style.color = "red";
+    } else {
+        // Simulate available/unavailable
+        if(Math.random() > 0.5) {
+            result.textContent = `✅ ${username} is available!`;
+            result.style.color = "lime";
+        } else {
+            result.textContent = `❌ ${username} is already taken.`;
+            result.style.color = "red";
+        }
     }
-  </script>
+});
+</script>
+
 </body>
 </html>
