@@ -12,7 +12,7 @@
     --text-primary: #e0e0e0;
     --text-muted: #9a9a9a;
     --accent: #4ade80; /* nice green */
-    --radius: 16px;
+    --radius: 12px;
     --transition: 0.3s ease;
     --shadow: rgba(0,0,0,0.7);
   }
@@ -21,7 +21,7 @@
     box-sizing: border-box;
   }
   body {
-    margin: 0; padding: 0;
+    margin: 0; padding: 24px 16px;
     font-family: "Poppins", sans-serif;
     background: var(--bg);
     color: var(--text-primary);
@@ -29,7 +29,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 32px 16px;
   }
 
   .container {
@@ -38,140 +37,175 @@
     background: var(--panel);
     border-radius: var(--radius);
     box-shadow: 0 10px 25px var(--shadow);
-    padding: 40px 32px 48px;
+    padding: 24px 32px;
     text-align: center;
+  }
+
+  /* Header flex row */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    justify-content: center;
   }
 
   /* Avatar */
   .avatar {
-    width: 120px; height: 120px;
-    margin: 0 auto 24px;
+    width: 88px; height: 88px;
     border-radius: 50%;
     background: linear-gradient(135deg, #3b82f6, #06b6d4);
     color: var(--bg);
     font-weight: 700;
-    font-size: 64px;
+    font-size: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
     user-select: none;
     box-shadow: 0 6px 18px rgba(0,0,0,0.6);
     transition: transform var(--transition);
-    cursor: default;
+    flex-shrink: 0;
   }
   .avatar:hover {
     transform: scale(1.1);
   }
 
-  /* Name & Bio */
+  .user-info {
+    text-align: left;
+    flex: 1;
+  }
   .name {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin: 0 0 6px;
     letter-spacing: 0.04em;
   }
   .bio {
     font-weight: 300;
     color: var(--text-muted);
-    margin-bottom: 32px;
-    font-size: 16px;
+    margin: 0;
+    font-size: 14.5px;
   }
 
-  /* Links */
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 36px;
-  }
-  .link {
-    background: #262626;
-    padding: 14px 20px;
-    border-radius: var(--radius);
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-    transition: background var(--transition), transform var(--transition);
-  }
-  .link:hover {
-    background: var(--accent);
-    color: #121212;
-    transform: translateY(-4px);
-  }
-  .link-icon {
-    font-size: 20px;
-    user-select: none;
-  }
-
-  /* Badges */
+  /* Badges inline */
   .badges {
+    margin-top: 12px;
     display: flex;
-    justify-content: center;
-    gap: 14px;
-    margin-bottom: 36px;
+    gap: 10px;
   }
   .badge {
     background: var(--accent);
     color: #121212;
-    padding: 6px 12px;
+    padding: 4px 10px;
     border-radius: 9999px;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 11px;
     user-select: none;
     box-shadow: 0 4px 12px rgba(74, 222, 128, 0.5);
   }
 
-  /* Featured embed */
+  /* Links horizontal scroll */
+  .links {
+    margin-top: 24px;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+  }
+  .links::-webkit-scrollbar {
+    height: 6px;
+  }
+  .links::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 3px;
+  }
+  .links::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .link {
+    min-width: 110px;
+    background: #262626;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+    transition: background var(--transition), transform var(--transition);
+    white-space: nowrap;
+  }
+  .link:hover {
+    background: var(--accent);
+    color: #121212;
+    transform: translateY(-3px);
+  }
+  .link-icon {
+    font-size: 18px;
+    user-select: none;
+  }
+
+  /* Featured embed smaller and wide */
   .featured {
+    margin-top: 28px;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: 0 12px 28px rgba(0,0,0,0.8);
-    margin-bottom: 32px;
   }
   .featured iframe {
     width: 100%;
-    height: 215px;
+    height: 160px;
     border: none;
+    display: block;
   }
 
   /* Footer */
   .footer {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
+    margin-top: 32px;
   }
 
-  /* Responsive */
+  /* Responsive tweaks */
   @media (max-width: 520px) {
-    .container {
-      padding: 32px 24px 40px;
+    body {
+      padding: 24px 12px;
     }
-    .avatar {
-      width: 96px; height: 96px;
-      font-size: 48px;
-      margin-bottom: 20px;
+    .container {
+      padding: 20px 20px;
+    }
+    .header {
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+      text-align: center;
+    }
+    .user-info {
+      text-align: center;
     }
     .name {
-      font-size: 26px;
+      font-size: 24px;
     }
     .bio {
-      font-size: 14px;
-      margin-bottom: 24px;
+      font-size: 13px;
     }
     .links {
       gap: 12px;
-      margin-bottom: 24px;
+      padding-bottom: 8px;
     }
     .link {
-      font-size: 14px;
-      padding: 12px 18px;
+      font-size: 13px;
+      min-width: 90px;
+      padding: 10px 14px;
     }
     .featured iframe {
-      height: 180px;
+      height: 140px;
     }
   }
 </style>
@@ -179,15 +213,18 @@
 <body>
 
 <div class="container" role="main" aria-label="skoo's personal biolink page">
-  <div class="avatar" aria-label="User avatar with initials">S</div>
-  <div class="name">skoo</div>
-  <div class="bio">producer</div>
-
-  <div class="badges" aria-label="User badges">
-    <div class="badge">Producer</div>
-    <div class="badge">Creator</div>
-    <div class="badge">Premium</div>
-  </div>
+  <header class="header">
+    <div class="avatar" aria-label="User avatar with initials">S</div>
+    <div class="user-info">
+      <h1 class="name">skoo</h1>
+      <p class="bio">producer</p>
+      <div class="badges" aria-label="User badges">
+        <div class="badge">Producer</div>
+        <div class="badge">Creator</div>
+        <div class="badge">Premium</div>
+      </div>
+    </div>
+  </header>
 
   <nav class="links" aria-label="Social and profile links">
     <a href="https://youtube.com/@skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
