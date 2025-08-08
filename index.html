@@ -1,958 +1,506 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your digital identity</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-<style>
-  /* Root colors & vars */
-  :root {
-    --bg: #070507;
-    --panel: #0f0c10;
-    --muted: #9b8fa0;
-    --accent1: #ff5fb7; /* magenta */
-    --accent2: #7c5cff; /* purple */
-    --accent3: #00f0ff; /* cyan */
-    --radius: 16px;
-    --trans: 280ms ease;
-    --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    --scrollbar-bg: #1a1720;
-    --scrollbar-thumb: #7c5cff88;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>grief.lol — Your Digital Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* CSS Variables */
+    :root {
+      --bg: #070507;
+      --panel-bg: #121016;
+      --text-primary: #eaeaea;
+      --text-muted: #9b8fa0;
+      --accent1: #7c5cff;
+      --accent2: #4a36d8;
+      --accent3: #00f0ff;
+      --radius: 16px;
+      --transition: 300ms ease;
+      --shadow-light: rgba(124, 92, 255, 0.2);
+      --shadow-dark: rgba(0, 0, 0, 0.8);
+      --border-light: rgba(255, 255, 255, 0.07);
+      --scrollbar-bg: #1b1822;
+      --scrollbar-thumb: var(--accent1);
+    }
 
-  /* Reset & basics */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    background: radial-gradient(1200px 700px at 10% 80%, rgba(124,92,255,0.08), transparent 10%),
-                radial-gradient(900px 500px at 90% 20%, rgba(255,95,183,0.06), transparent 8%),
-                var(--bg);
-    color: #eee;
-    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-  }
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-y: scroll;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
 
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--scrollbar-bg);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 10px;
-    border: 3px solid var(--scrollbar-bg);
-  }
-  /* Firefox scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+    /* Scrollbar - Custom */
+    ::-webkit-scrollbar {
+      width: 10px;
+      background: var(--scrollbar-bg);
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-bg);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 10px;
+      transition: background var(--transition);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent2);
+    }
 
-  /* Container */
-  .container {
-    max-width: 1200px;
-    margin: 100px auto 60px;
-    padding: 0 24px;
-  }
-
-  /* Header */
-  header {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 48px);
-    max-width: 1200px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius: 40px;
-    border: 1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
-    backdrop-filter: blur(8px) saturate(120%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 28px;
-    z-index: 30;
-  }
-  header .logo {
-    font-weight: 700;
-    font-size: 22px;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    letter-spacing: -0.02em;
-    font-family: 'Poppins', sans-serif;
-  }
-  header nav {
-    display: flex;
-    gap: 28px;
-  }
-  header nav button {
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-weight: 600;
-    font-size: 15px;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 14px;
-    transition: background-color var(--trans), color var(--trans);
-  }
-  header nav button:hover,
-  header nav button.active {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-  }
-  header nav button:focus-visible {
-    outline: 2px solid var(--accent3);
-    outline-offset: 3px;
-  }
-  header .cta {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    border: none;
-    border-radius: 9999px;
-    padding: 12px 24px;
-    color: #111;
-    font-weight: 700;
-    cursor: pointer;
-    user-select: none;
-    font-size: 15px;
-    box-shadow: 0 12px 30px rgba(124,92,255,0.16);
-    transition: transform var(--trans);
-  }
-  header .cta:hover {
-    transform: translateY(-3px) scale(1.04);
-  }
-  header .cta:focus-visible {
-    outline: 2px solid var(--accent3);
-    outline-offset: 4px;
-  }
-
-  /* Main Content Grid */
-  main {
-    display: flex;
-    gap: 48px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* Hero Section */
-  .hero {
-    flex: 1 1 580px;
-    max-width: 620px;
-    padding-top: 20px;
-  }
-  .hero h1 {
-    font-size: 48px;
-    line-height: 1.05;
-    margin: 0 0 18px 0;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-  .hero h1 .accent {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 6px 18px rgba(255,95,183,0.12));
-  }
-  .hero p.lead {
-    font-size: 17px;
-    max-width: 540px;
-    margin: 0 0 28px;
-    color: var(--muted);
-  }
-  .hero .actions {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .hero .actions button {
-    border-radius: 9999px;
-    font-weight: 600;
-    font-size: 15px;
-    padding: 14px 30px;
-    border: 1px solid rgba(255,255,255,0.06);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
-    transition: all 220ms ease;
-  }
-  .hero .actions button.primary {
-    border: none;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    box-shadow: 0 18px 40px rgba(124,92,255,0.28);
-  }
-  .hero .actions button.primary:hover {
-    filter: brightness(1.1);
-    transform: translateY(-4px);
-  }
-  .hero .actions button:hover {
-    filter: brightness(1.06);
-    transform: translateY(-3px);
-  }
-
-  /* Profile Preview Card */
-  .profile-card {
-    flex: 1 1 420px;
-    max-width: 440px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.22));
-    border-radius: var(--radius);
-    box-shadow: var(--card-shadow);
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    user-select: none;
-    position: relative;
-  }
-  .profile-card::before {
-    content: "";
-    position: absolute;
-    top: 14px; left: 14px; right: 14px;
-    height: 110px;
-    border-radius: calc(var(--radius) - 6px);
-    background: linear-gradient(180deg, rgba(124,92,255,0.12), rgba(255,95,183,0.06));
-    filter: blur(22px);
-    opacity: 0.9;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .profile-top {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    z-index: 2;
-  }
-  .avatar {
-    flex-shrink: 0;
-    width: 88px;
-    height: 88px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    box-shadow: 0 8px 28px rgba(124,92,255,0.16), inset 0 -5px 14px rgba(0,0,0,0.27);
-    display: grid;
-    place-items: center;
-    color: #111;
-    font-weight: 700;
-    font-size: 34px;
-    user-select: none;
-  }
-  .avatar svg {
-    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
-    width: 56px;
-    height: 56px;
-  }
-  .avatar:hover {
-    transform: translateY(-6px) rotate(-2deg) scale(1.02);
-    box-shadow: 0 18px 40px rgba(124,92,255,0.28);
-    transition: transform 280ms ease, box-shadow 280ms ease;
-  }
-  .profile-meta {
-    flex: 1;
-  }
-  .username {
-    font-size: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .username .underline {
-    display: inline-block;
-    height: 5px;
-    width: 38px;
-    border-radius: 8px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-    filter: blur(6px);
-    opacity: 0.9;
-    transform: translateY(6px);
-    transition: transform 220ms ease;
-  }
-  .profile-card:hover .underline {
-    transform: translateY(0);
-  }
-  .user-bio {
-    font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-  .badges {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    user-select: none;
-  }
-  .badge {
-    font-weight: 600;
-    font-size: 12px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
-    border-radius: 10px;
-    padding: 6px 10px;
-    border: 1px solid rgba(255,255,255,0.03);
-    cursor: default;
-    transition: transform 180ms ease;
-  }
-  .badge:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(124,92,255,0.06);
-  }
-
-  /* Links list horizontal style */
-  .links {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: row;
-    gap: 14px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-  }
-  .links::-webkit-scrollbar {
-    height: 8px;
-  }
-  .links::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 10px;
-  }
-  .link {
-    flex: 0 0 auto;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-    border-radius: 14px;
-    padding: 12px 18px;
-    min-width: 220px;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    border: 1px solid rgba(255,255,255,0.025);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
-    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
-  }
-  .link:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-  }
-  .link:active {
-    transform: translateY(-2px);
-  }
-  .link .label {
-    font-weight: 600;
-    font-size: 15px;
-  }
-  .link .sub {
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .link .icon {
-    font-size: 22px;
-  }
-
-  /* Tabs content wrapper */
-  .tab-content {
-    display: none;
-    max-width: 1000px;
-    margin: 60px auto 80px;
-    padding: 0 28px;
-  }
-  .tab-content.active {
-    display: block;
-  }
-
-  /* Features Section */
-  #features .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
-  }
-  #features .feature {
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 24px 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-    text-align: center;
-    user-select: none;
-    color: #ddd;
-    font-weight: 600;
-    font-size: 16px;
-    transition: background-color 280ms ease;
-  }
-  #features .feature:hover {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    box-shadow: 0 8px 22px rgba(124,92,255,0.3);
-    cursor: default;
-  }
-
-  /* Pricing Section */
-  #pricing {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 12px;
-  }
-  #pricing table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 12px;
-    color: #eee;
-  }
-  #pricing th, #pricing td {
-    padding: 16px 12px;
-    text-align: center;
-    font-weight: 600;
-  }
-  #pricing th {
-    color: var(--muted);
-    font-size: 14px;
-  }
-  #pricing tr {
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
-  #pricing tr:hover {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-  }
-
-  /* Help Section */
-  #help .faq {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  .faq-item {
-    background: var(--panel);
-    border-radius: var(--radius);
-    margin-bottom: 14px;
-    padding: 18px 20px;
-    cursor: pointer;
-    user-select: none;
-    color: #ddd;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-    transition: background-color 280ms ease;
-  }
-  .faq-item:hover {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-  }
-  .faq-item.active {
-    background: linear-gradient(90deg, var(--accent2), var(--accent3));
-    color: #111;
-  }
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 350ms ease;
-    padding-left: 20px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .faq-item.active .faq-answer {
-    max-height: 300px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-
-  /* Signup Section */
-  #signup {
-    max-width: 520px;
-    margin: 0 auto;
-    background: var(--panel);
-    padding: 32px 28px;
-    border-radius: var(--radius);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-  }
-  #signup h2 {
-    margin-top: 0;
-    font-weight: 700;
-    font-size: 26px;
-    margin-bottom: 18px;
-    color: white;
-  }
-  #signup form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  #signup input, #signup select {
-    padding: 14px 16px;
-    border-radius: 10px;
-    border: none;
-    background: #14101a;
-    color: #eee;
-    font-size: 15px;
-    font-weight: 500;
-    transition: background-color 220ms ease;
-  }
-  #signup input:focus,
-  #signup select:focus {
-    background: #1f1930;
-    outline: none;
-    box-shadow: 0 0 0 2px var(--accent3);
-  }
-  #signup button {
-    padding: 16px;
-    border-radius: 9999px;
-    border: none;
-    font-weight: 700;
-    font-size: 16px;
-    color: #111;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    cursor: pointer;
-    box-shadow: 0 16px 48px rgba(124,92,255,0.32);
-    transition: filter 220ms ease;
-  }
-  #signup button:hover {
-    filter: brightness(1.1);
-  }
-
-  /* Admin Panel */
-  #admin {
-    max-width: 960px;
-    margin: 0 auto;
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 28px 32px;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.6);
-    color: #eee;
-  }
-  #admin h2 {
-    font-weight: 700;
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  #admin .section {
-    margin-bottom: 28px;
-  }
-  #admin table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  #admin th, #admin td {
-    padding: 14px 16px;
-    text-align: left;
-    border-bottom: 1px solid #222;
-  }
-  #admin th {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    font-weight: 700;
-  }
-  #admin tbody tr:hover {
-    background: #24174b;
-  }
-  #admin button {
-    background: var(--accent1);
-    border: none;
-    color: #111;
-    font-weight: 700;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 200ms ease;
-  }
-  #admin button:hover {
-    background: var(--accent2);
-  }
-
-  /* Profile Editor */
-  #profile-editor {
-    max-width: 600px;
-    margin: 0 auto;
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 28px 28px;
-    box-shadow: 0 10px 38px rgba(0,0,0,0.5);
-  }
-  #profile-editor h2 {
-    font-weight: 700;
-    font-size: 26px;
-    margin-bottom: 22px;
-    color: #eee;
-  }
-  #profile-editor form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  #profile-editor label {
-    font-weight: 600;
-    font-size: 15px;
-    color: #ccc;
-  }
-  #profile-editor input[type="text"],
-  #profile-editor textarea {
-    background: #1a1428;
-    border-radius: 10px;
-    border: none;
-    padding: 14px 18px;
-    color: #eee;
-    font-size: 15px;
-    resize: vertical;
-  }
-  #profile-editor textarea {
-    min-height: 90px;
-  }
-  #profile-editor button {
-    padding: 14px 24px;
-    border-radius: 9999px;
-    border: none;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    font-weight: 700;
-    font-size: 16px;
-    cursor: pointer;
-    transition: filter 220ms ease;
-  }
-  #profile-editor button:hover {
-    filter: brightness(1.1);
-  }
-
-  /* Media Queries */
-  @media (max-width: 1024px) {
-    main {
-      flex-direction: column;
+    /* Utility classes */
+    .flex {
+      display: flex;
       align-items: center;
     }
-    .hero, .profile-card {
-      max-width: 90vw;
+    .flex-center {
+      justify-content: center;
+      align-items: center;
     }
-  }
-  @media (max-width: 480px) {
-    header nav {
+    .flex-between {
+      justify-content: space-between;
+    }
+    .gap-sm {
+      gap: 8px;
+    }
+    .gap-md {
+      gap: 16px;
+    }
+    .gap-lg {
+      gap: 24px;
+    }
+    .text-muted {
+      color: var(--text-muted);
+    }
+    .text-accent {
+      color: var(--accent1);
+    }
+    .rounded {
+      border-radius: var(--radius);
+    }
+    .btn {
+      background: var(--accent1);
+      color: #111;
+      border: none;
+      padding: 12px 24px;
+      font-weight: 600;
+      border-radius: var(--radius);
+      cursor: pointer;
+      box-shadow: 0 6px 20px var(--shadow-light);
+      transition: background var(--transition), transform var(--transition);
+      user-select: none;
+    }
+    .btn:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px var(--shadow-light);
+    }
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px var(--shadow-light);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent1);
+      color: var(--accent1);
+    }
+    .btn-outline:hover {
+      background: var(--accent1);
+      color: #111;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 100px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1200px;
+      background: var(--panel-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px var(--shadow-dark);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 9999;
+      user-select: none;
+    }
+    .header-logo {
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      color: var(--accent1);
+      transition: color var(--transition);
+      user-select: none;
+    }
+    .header-logo:hover {
+      color: var(--accent2);
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      transition: background var(--transition), color var(--transition);
+      user-select: none;
+    }
+    nav a:hover, nav a.active {
+      background: var(--accent1);
+      color: #111;
+    }
+
+    /* Main Tabs Container */
+    #tabs {
+      position: relative;
+      min-height: 700px;
+      margin-top: 80px;
+      background: var(--panel-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px var(--shadow-dark);
+      padding: 40px 48px;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Hide inactive tabs */
+    .tab-content {
       display: none;
     }
-    header .cta {
-      padding: 10px 16px;
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Home Tab */
+    #home h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    #home h1 .accent {
+      color: var(--accent1);
+    }
+    #home p.lead {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 32px;
+      line-height: 1.4;
+    }
+    #home .actions {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    #home .btn-lg {
+      padding: 16px 36px;
+      font-size: 18px;
+    }
+
+    /* Horizontal Biolink preview card */
+    #bio-preview {
+      margin-top: 60px;
+      background: #1c1830;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+      max-width: 700px;
+      overflow: hidden;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.4s ease;
+    }
+
+    /* Preview Header */
+    #bio-preview-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #29243f;
+    }
+    #bio-preview-header h2 {
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--accent1);
+      user-select: none;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    #bio-preview-header .status {
       font-size: 14px;
+      color: var(--text-muted);
     }
-    .hero h1 {
-      font-size: 32px;
+
+    /* Link list horizontal */
+    #bio-preview-links {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      padding: 20px 28px;
+      scroll-behavior: smooth;
     }
-  }
-</style>
+    #bio-preview-links::-webkit-scrollbar {
+      height: 8px;
+    }
+    #bio-preview-links::-webkit-scrollbar-thumb {
+      background: var(--accent1);
+      border-radius: 4px;
+    }
+    .preview-link {
+      background: var(--panel-bg);
+      border-radius: 12px;
+      min-width: 180px;
+      padding: 16px 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    .preview-link:hover {
+      background: var(--accent2);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px var(--shadow-light);
+    }
+    .preview-link-label {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .preview-link-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      #tabs {
+        padding: 32px 24px;
+      }
+      #home h1 {
+        font-size: 36px;
+      }
+      #home p.lead {
+        font-size: 16px;
+      }
+      #bio-preview {
+        max-width: 100%;
+        flex-direction: column;
+      }
+      #bio-preview-links {
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      .preview-link {
+        min-width: auto;
+        width: 100%;
+      }
+      nav {
+        gap: 16px;
+      }
+    }
+    @media (max-width: 520px) {
+      header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      nav a {
+        font-size: 14px;
+        padding: 8px 10px;
+      }
+      #home h1 {
+        font-size: 28px;
+      }
+      #home p.lead {
+        font-size: 14px;
+      }
+      #bio-preview-links {
+        flex-direction: column;
+      }
+      .preview-link {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="header-logo" id="nav-home" tabindex="0" role="button" aria-label="Go to home tab">grief.lol</div>
+    <nav role="navigation" aria-label="Primary navigation">
+      <a href="#" class="nav-link active" data-tab="home" tabindex="0">Home</a>
+      <a href="#" class="nav-link" data-tab="features" tabindex="0">Features</a>
+      <a href="#" class="nav-link" data-tab="pricing" tabindex="0">Pricing</a>
+      <a href="#" class="nav-link" data-tab="help" tabindex="0">Help</a>
+      <a href="#" class="nav-link" data-tab="signup" tabindex="0">Sign Up</a>
+      <a href="#" class="nav-link" data-tab="admin" tabindex="0">Admin Panel</a>
+      <a href="#" class="nav-link" data-tab="profile" tabindex="0">Profile</a>
+    </nav>
+  </header>
 
-<header>
-  <div class="logo" id="logoBtn">grief.lol</div>
-  <nav>
-    <button data-tab="home" class="active">Home</button>
-    <button data-tab="features">Features</button>
-    <button data-tab="pricing">Pricing</button>
-    <button data-tab="help">Help</button>
-    <button data-tab="signup">Sign Up</button>
-    <button data-tab="admin">Admin</button>
-    <button data-tab="profile">Profile</button>
-  </nav>
-  <button class="cta" id="joinWaitlistBtn">Join Waitlist</button>
-</header>
+  <main class="container" role="main">
+    <!-- Tabs content -->
+    <section id="tabs">
 
-<main class="container">
-  <!-- Hero -->
-  <section class="hero tab-content active" id="home">
-    <h1>Build your <span class="accent">digital identity</span> with grief.lol</h1>
-    <p class="lead">A sleek, minimal, and modern biolink platform. Connect your socials, showcase your best links, and shine online.</p>
-    <div class="actions">
-      <button class="primary" id="signupBtn">Create Your Link</button>
-      <button id="learnMoreBtn">Learn More</button>
-    </div>
-  </section>
-
-  <!-- Profile Preview -->
-  <aside class="profile-card tab-content active" id="profilePreview">
-    <div class="profile-top">
-      <div class="avatar" title="grief.lol Logo">
-        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8M12 8v8"/></svg>
-      </div>
-      <div class="profile-meta">
-        <div class="username">username <span class="underline"></span></div>
-        <div class="user-bio">Your personal biolink page with all your socials, projects, and info in one clean spot.</div>
-        <div class="badges">
-          <div class="badge">Creator</div>
-          <div class="badge">Premium</div>
-          <div class="badge">Early Access</div>
+      <!-- Home Tab -->
+      <article id="home" class="tab-content active" role="tabpanel" aria-labelledby="nav-home" tabindex="0">
+        <h1>Welcome to <span class="accent">grief.lol</span></h1>
+        <p class="lead">Your digital identity, centralized and customizable. Keep your socials, music, and highlights in one beautiful place.</p>
+        <div class="actions">
+          <button class="btn btn-lg" data-action="claim">Claim Your Username</button>
+          <button class="btn btn-outline" data-action="learn-more">Learn More</button>
         </div>
-      </div>
-    </div>
-    <div class="links" aria-label="Profile Links">
-      <div class="link" tabindex="0" role="link">
-        <div class="label">Twitter</div>
-        <div class="sub">@yourhandle</div>
-      </div>
-      <div class="link" tabindex="0" role="link">
-        <div class="label">YouTube</div>
-        <div class="sub">Subscribe Now</div>
-      </div>
-      <div class="link" tabindex="0" role="link">
-        <div class="label">Portfolio</div>
-        <div class="sub">My work & projects</div>
-      </div>
-      <div class="link" tabindex="0" role="link">
-        <div class="label">Discord</div>
-        <div class="sub">Join my server</div>
-      </div>
-    </div>
-  </aside>
 
-  <!-- Features Tab -->
-  <section id="features" class="tab-content">
-    <h2>Features</h2>
-    <div class="feature-grid">
-      <div class="feature">Custom Vanity URLs</div>
-      <div class="feature">Drag & Drop Link Ordering</div>
-      <div class="feature">Detailed Analytics Dashboard</div>
-      <div class="feature">Fully Responsive & Mobile Friendly</div>
-      <div class="feature">Easy Social Media Integration</div>
-      <div class="feature">Advanced Profile Customization</div>
-      <div class="feature">Secure Account Management</div>
-      <div class="feature">Admin Control Panel</div>
-    </div>
-  </section>
+        <!-- Biolink preview horizontal -->
+        <div id="bio-preview" aria-label="Example biolink preview card">
+          <div id="bio-preview-header">
+            <h2>Your BioLink Preview</h2>
+            <div class="status">Active • Last updated 1 day ago</div>
+          </div>
+          <div id="bio-preview-links" tabindex="0" aria-live="polite">
+            <div class="preview-link" tabindex="0" role="link" aria-label="Link to your Twitter profile">
+              <div class="preview-link-label">Twitter</div>
+              <div class="preview-link-sub">@grief</div>
+            </div>
+            <div class="preview-link" tabindex="0" role="link" aria-label="Link to your Spotify now playing">
+              <div class="preview-link-label">Now Playing — Dear Mama</div>
+              <div class="preview-link-sub">Nino Paid · Spotify</div>
+            </div>
+            <div class="preview-link" tabindex="0" role="link" aria-label="Contact or collaboration link">
+              <div class="preview-link-label">Contact / Collab</div>
+              <div class="preview-link-sub">Say hi — let’s make something</div>
+            </div>
+            <div class="preview-link" tabindex="0" role="link" aria-label="Your personal grief.lol profile link">
+              <div class="preview-link-label">grief.lol/username</div>
+              <div class="preview-link-sub">Tap to copy your profile link</div>
+            </div>
+          </div>
+        </div>
+      </article>
 
-  <!-- Pricing Tab -->
-  <section id="pricing" class="tab-content">
-    <h2>Pricing</h2>
-    <table>
-      <thead>
-        <tr><th>Plan</th><th>Monthly</th><th>Yearly</th><th>Features</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Free</td><td>$0</td><td>—</td><td>Basic Links & Socials</td></tr>
-        <tr><td>Premium</td><td>$6.99</td><td>$69.99</td><td>Custom URLs, Analytics, Priority Support</td></tr>
-        <tr><td>Business</td><td>$19.99</td><td>$199.99</td><td>Multi-User, Team Management, Advanced Controls</td></tr>
-      </tbody>
-    </table>
-  </section>
+      <!-- More tabs to come in next chunk -->
 
-  <!-- Help Tab -->
-  <section id="help" class="tab-content">
-    <h2>Help & FAQ</h2>
-    <div class="faq">
-      <div class="faq-item" tabindex="0">
-        <div class="faq-question">How do I create my biolink page?</div>
-        <div class="faq-answer">Simply click “Sign Up” and fill in your details. Customize your page anytime from your profile.</div>
-      </div>
-      <div class="faq-item" tabindex="0">
-        <div class="faq-question">Can I use my own custom domain?</div>
-        <div class="faq-answer">Yes! Custom domains are available with Premium and Business plans.</div>
-      </div>
-      <div class="faq-item" tabindex="0">
-        <div class="faq-question">Is grief.lol mobile friendly?</div>
-        <div class="faq-answer">Absolutely. The platform is designed to look great on phones, tablets, and desktops.</div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Signup Tab -->
-  <section id="signup" class="tab-content">
-    <h2>Create Your grief.lol Profile</h2>
-    <form id="signupForm" novalidate>
-      <input type="text" name="username" placeholder="Choose your username" required minlength="3" maxlength="24" />
-      <input type="email" name="email" placeholder="Your email address" required />
-      <input type="password" name="password" placeholder="Create a password" required minlength="6" />
-      <select name="plan" required>
-        <option value="">Select Plan</option>
-        <option value="free">Free</option>
-        <option value="premium">Premium - $6.99/mo</option>
-        <option value="business">Business - $19.99/mo</option>
-      </select>
-      <button type="submit">Sign Up</button>
-    </form>
-  </section>
+  <script>
+    // Tab switching logic
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    const tabs = document.querySelectorAll('.tab-content');
 
-  <!-- Admin Tab -->
-  <section id="admin" class="tab-content" aria-label="Admin Control Panel">
-    <h2>Admin Panel</h2>
-    <div class="section">
-      <h3>Manage Users</h3>
-      <table>
-        <thead>
-          <tr><th>User</th><th>Status</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="adminUsersList">
-          <tr>
-            <td>user123</td>
-            <td>Active</td>
-            <td>
-              <button data-action="ban" data-user="user123">Ban</button>
-              <button data-action="edit" data-user="user123">Edit Assets</button>
-            </td>
-          </tr>
-          <tr>
-            <td>troubleMaker</td>
-            <td>Banned</td>
-            <td>
-              <button data-action="unban" data-user="troubleMaker">Unban</button>
-              <button data-action="edit" data-user="troubleMaker">Edit Assets</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="section">
-      <h3>Site Settings (Mockup)</h3>
-      <form id="siteSettingsForm">
-        <label>
-          Site Title:
-          <input type="text" name="siteTitle" value="grief.lol" />
-        </label>
-        <label>
-          Enable Maintenance Mode:
-          <select name="maintenanceMode">
-            <option value="off" selected>Off</option>
-            <option value="on">On</option>
-          </select>
-        </label>
-        <button type="submit">Save Settings</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Profile Editor Tab -->
-  <section id="profile" class="tab-content">
-    <h2>Edit Your Profile</h2>
-    <form id="profileForm" novalidate>
-      <label for="profileUsername">Username</label>
-      <input id="profileUsername" name="username" type="text" placeholder="Your username" minlength="3" maxlength="24" required />
-      <label for="profileBio">Bio</label>
-      <textarea id="profileBio" name="bio" placeholder="Short bio or description" maxlength="250"></textarea>
-      <label for="profileLinks">Links (comma separated URLs)</label>
-      <input id="profileLinks" name="links" type="text" placeholder="https://twitter.com/yourhandle, https://youtube.com/channel/..." />
-      <button type="submit">Save Profile</button>
-    </form>
-  </section>
-</main>
-
-<!-- Modal placeholder -->
-<div id="modal" role="dialog" aria-modal="true" aria-hidden="true" hidden>
-  <div id="modalContent" role="document" tabindex="0"></div>
-  <button id="modalCloseBtn" aria-label="Close modal">&times;</button>
-</div>
-
-<script>
-  // Tab switching logic
-  const tabs = document.querySelectorAll('header nav button');
-  const contents = document.querySelectorAll('.tab-content');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      const target = tab.getAttribute('data-tab');
-      contents.forEach(content => {
-        if (content.id === target) {
-          content.classList.add('active');
+    function setActiveTab(tabName) {
+      tabs.forEach(t => {
+        if (t.id === tabName) {
+          t.classList.add('active');
+          t.setAttribute('aria-hidden', 'false');
+          t.setAttribute('tabindex', '0');
         } else {
-          content.classList.remove('active');
+          t.classList.remove('active');
+          t.setAttribute('aria-hidden', 'true');
+          t.setAttribute('tabindex', '-1');
+        }
+      });
+
+      navLinks.forEach(link => {
+        if (link.dataset.tab === tabName) {
+          link.classList.add('active');
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const tab = e.target.dataset.tab;
+        setActiveTab(tab);
+      });
+      link.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setActiveTab(e.target.dataset.tab);
+          e.target.focus();
         }
       });
     });
-  });
 
-  // Click grief.lol logo to go home tab
-  document.getElementById('logoBtn').addEventListener('click', () => {
-    document.querySelector('header nav button.active').classList.remove('active');
-    const homeTab = document.querySelector('header nav button[data-tab="home"]');
-    homeTab.classList.add('active');
-    contents.forEach(content => {
-      content.id === 'home' ? content.classList.add('active') : content.classList.remove('active');
+    // Header logo click: go home tab
+    document.querySelector('.header-logo').addEventListener('click', () => {
+      setActiveTab('home');
     });
-  });
 
-  // Signup button in hero switches to signup tab
-  document.getElementById('signupBtn').addEventListener('click', () => {
-    document.querySelector('header nav button.active').classList.remove('active');
-    const signupTab = document.querySelector('header nav button[data-tab="signup"]');
-    signupTab.classList.add('active');
-    contents.forEach(content => {
-      content.id === 'signup' ? content.classList.add('active') : content.classList.remove('active');
-    });
-  });
-
-  // Learn more button toggles features tab
-  document.getElementById('learnMoreBtn').addEventListener('click', () => {
-    document.querySelector('header nav button.active').classList.remove('active');
-    const featuresTab = document.querySelector('header nav button[data-tab="features"]');
-    featuresTab.classList.add('active');
-    contents.forEach(content => {
-      content.id === 'features' ? content.classList.add('active') : content.classList.remove('active');
-    });
-  });
-
-  // Join Waitlist button also triggers signup tab
-  document.getElementById('joinWaitlistBtn').addEventListener('click', () => {
-    document.querySelector('header nav button.active').classList.remove('active');
-    const signupTab = document.querySelector('header nav button[data-tab="signup"]');
-    signupTab.classList.add('active');
-    contents.forEach(content => {
-      content.id === 'signup' ? content.classList.add('active') : content.classList.remove('active');
-    });
-  });
-
-  // FAQ accordion toggle
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.addEventListener('click', () => {
-      item.classList.toggle('active');
-    });
-    item.addEventListener('keydown', e => {
-      if (e.key === "Enter" || e.key === " ") {
+    // Accessibility: Allow header logo keyboard navigation
+    document.querySelector('.header-logo').addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        item.classList.toggle('active');
+        setActiveTab('home');
       }
     });
-  });
 
-  // Form validation example for signup
-  document.getElementById('signupForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) {
-      alert('Please fill all required fields correctly.');
-      return;
-    }
-    alert('Signup form submitted! (Mock)');
-    form.reset();
-  });
+    // Copy profile link from preview card
+    const bioPreview = document.getElementById('bio-preview-links');
+    bioPreview.addEventListener('click', e => {
+      const target = e.target.closest('.preview-link');
+      if (!target) return;
+      const label = target.querySelector('.preview-link-label').textContent.trim();
+      if(label === 'grief.lol/username'){
+        navigator.clipboard.writeText('https://grief.lol/username').then(() => {
+          alert('Profile link copied to clipboard!');
+        });
+      }
+    });
 
-  // Profile form validation
-  document.getElementById('profileForm').addEventListener('submit', e => {
-    e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) {
-      alert('Please fill all required fields correctly.');
-      return;
-    }
-    alert('Profile saved! (Mock)');
-  });
+    // Handle Claim button (mock)
+    document.querySelector('[data-action="claim"]').addEventListener('click', () => {
+      setActiveTab('signup');
+    });
 
-  // Site settings form (admin)
-  document.getElementById('siteSettingsForm').addEventListener('submit', e => {
-    e.preventDefault();
-    alert('Site settings saved! (Mock)');
-  });
+    // Handle Learn More button (mock)
+    document.querySelector('[data-action="learn-more"]').addEventListener('click', () => {
+      setActiveTab('features');
+    });
 
-  // Admin user actions mock
-  document.getElementById('adminUsersList').addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
-      const action = e.target.dataset.action;
-      const user = e.target.dataset.user;
-      alert(`Action "${action}" on user "${user}" triggered (Mock).`);
-    }
-  });
-</script>
+  </script>
+
 </body>
 </html>
