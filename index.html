@@ -4,15 +4,15 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>grief.lol — links</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#070507;
     --panel:#0f0c10;
     --muted:#9b8fa0;
-    --accent1:#ff5fb7;
-    --accent2:#7c5cff;
-    --accent3:#00f0ff;
+    --accent1:#ff5fb7; /* magenta */
+    --accent2:#7c5cff; /* purple */
+    --accent3:#00f0ff; /* cyan */
     --glass: rgba(255,255,255,0.03);
     --glass-2: rgba(255,255,255,0.02);
     --radius:20px;
@@ -21,7 +21,7 @@
   }
 
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html,body{height:100%;}
   body{
     margin:0;
     font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -73,17 +73,10 @@
     backdrop-filter: blur(8px) saturate(120%);
   }
   .brand{
-    display:flex; align-items:center; gap:12px;
-  }
-  .brand a {
-    font-weight:600;
-    font-size:16px;
-    color: inherit;
-    text-decoration: none;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    cursor:pointer;
+    display:flex; align-items:center; gap:12px; font-weight:600; font-size:16px; cursor:pointer;
+    user-select:none;
+    color:#fff;
+    text-decoration:none;
   }
   .logo-mark{
     width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
@@ -92,9 +85,17 @@
     color:#111; font-weight:700;
   }
   nav{display:flex; gap:18px; align-items:center;}
-  nav a{color:var(--muted); text-decoration:none; font-weight:500; font-size:14px}
-  nav a:hover {
+  nav a{
+    color:var(--muted);
+    text-decoration:none;
+    font-weight:500;
+    font-size:14px;
+    transition: color var(--trans);
+  }
+  nav a:hover,
+  nav a:focus {
     color: var(--accent1);
+    outline:none;
   }
   .cta{
     padding:8px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.06);
@@ -103,7 +104,12 @@
     font-weight:600; color:#fff; cursor:pointer;
     transition: all var(--trans) ease;
   }
-  .cta:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 30px rgba(124,92,255,0.16); }
+  .cta:hover,
+  .cta:focus{ 
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 12px 30px rgba(124,92,255,0.16);
+    outline:none;
+  }
 
   /* page container */
   .wrap{ position:relative; z-index:5; max-width:1200px; margin:110px auto 80px; padding: 0 28px; display:flex; gap:40px; align-items:flex-start;}
@@ -116,8 +122,18 @@
     font-size:48px; line-height:1.02; margin:0 0 18px 0; letter-spacing:-0.02em;
     font-weight:700;
   }
-  h1 .accent{ color:transparent; background:linear-gradient(90deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; background-clip:text; filter:drop-shadow(0 6px 18px rgba(255,95,183,0.12));}
-  p.lead{ color:var(--muted); margin:0 0 28px; font-size:16px; max-width:560px }
+  h1 .accent{ 
+    color:transparent; 
+    background:linear-gradient(90deg,var(--accent1),var(--accent2)); 
+    -webkit-background-clip:text; background-clip:text; 
+    filter:drop-shadow(0 6px 18px rgba(255,95,183,0.12));
+  }
+  p.lead{ 
+    color:var(--muted); 
+    margin:0 0 28px; 
+    font-size:16px; 
+    max-width:560px;
+  }
 
   .big-actions{ display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
   .pill{
@@ -131,7 +147,12 @@
     border:1px solid rgba(255,95,183,0.25);
     background: linear-gradient(90deg, rgba(255,95,183,0.06), rgba(124,92,255,0.04));
   }
-  .pill:hover{ transform:translateY(-6px); filter:brightness(1.06); }
+  .pill:hover,
+  .pill:focus{
+    transform:translateY(-6px); 
+    filter:brightness(1.06); 
+    outline:none;
+  }
 
   .muted-line{ display:flex; gap:14px; color:var(--muted); font-size:13px; align-items:center;}
   .status-dot{ width:10px; height:10px; border-radius:999px; background:#20d860; box-shadow:0 0 6px rgba(32,216,96,0.12)}
@@ -180,11 +201,16 @@
     text-decoration:none;
     color:#eee;
   }
-  .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2))}
+  .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2)) }
   .link .label{ flex:1; font-weight:600 }
   .link .sub{ color:var(--muted); font-size:13px }
 
-  .link:hover{ transform:translateY(-8px); box-shadow: 0 22px 40px rgba(0,0,0,0.6); }
+  .link:hover,
+  .link:focus{
+    transform:translateY(-8px);
+    box-shadow: 0 22px 40px rgba(0,0,0,0.6);
+    outline:none;
+  }
   .link:active{ transform:translateY(-2px); }
 
   /* footer small */
@@ -223,20 +249,18 @@
   <div class="bg-animated" aria-hidden="true"></div>
 
   <header role="banner" class="parallax-slow">
-    <div class="brand" aria-hidden="true">
-      <a href="index.html" aria-label="Go to homepage">
-        <div class="logo-mark" aria-hidden="true">g</div>
-        grief.lol
-      </a>
-    </div>
-    <nav role="navigation" aria-label="Primary">
-      <a href="features.html">Features</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="help.html">Help</a>
+    <a href="index.html" class="brand" aria-label="Go to homepage grief.lol">
+      <div class="logo-mark" aria-hidden="true">g</div>
+      grief.lol
+    </a>
+    <nav>
+      <a href="features.html" tabindex="0">Features</a>
+      <a href="pricing.html" tabindex="0">Pricing</a>
+      <a href="help.html" tabindex="0">Help</a>
+      <a href="signup.html" tabindex="0" class="cta" style="padding:6px 14px; font-weight:600;">Sign Up</a>
+      <a href="learn.html" tabindex="0" class="pill glow" style="padding:6px 14px; font-weight:600;">Learn More</a>
+      <a href="admin.html" tabindex="0" style="margin-left:16px; font-weight:600; font-size:14px; color: var(--accent1);">Admin Panel</a>
     </nav>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
-      <button class="cta" onclick="document.location='#claim'">Claim</button>
-    </div>
   </header>
 
   <main>
@@ -246,88 +270,83 @@
         <p class="lead">A handcrafted, premium biolink page for creators & builders. Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
 
         <div class="big-actions">
-          <button class="pill glow" onclick="document.location='#claim'">Claim Username</button>
-          <button class="pill" onclick="document.getElementById('links').scrollIntoView({behavior:'smooth'})">Explore Features ▾</button>
+          <a href="signup.html" class="pill glow" role="button" tabindex="0">Claim Username</a>
+          <a href="#links" class="pill" role="button" tabindex="0">Explore Features ▾</a>
         </div>
 
         <div class="muted-line"><span class="status-dot"></span><div>100% free to get started • no credit card required</div></div>
       </div>
 
       <div class="card-wrap">
-        <div class="card" id="profileCard">
+        <div class="card" id="profileCard" tabindex="0" aria-label="Profile card showing grief user info">
           <div class="card-top">
+            <!-- Avatar: replace inner SVG with <img src="your-avatar.png" /> if desired -->
             <div class="avatar" id="avatar" title="grief" aria-hidden="true">
+              <!-- simple ghost-ish glyph -->
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,0.3))">
                 <path d="M12 2C9.8 2 8 3.8 8 6v2H6.5C5.7 8 5 8.7 5 9.5v6C5 17.9 6.1 19 7.5 19c.9 0 1.6-.5 2-1.2.4.7 1.1 1.2 2 1.2s1.6-.5 2-1.2c.4.7 1.1 1.2 2 1.2 1.4 0 2.5-1.1 2.5-2.5v-6c0-.8-.7-1.5-1.5-1.5H16V6c0-2.2-1.8-4-4-4z" fill="#111"/>
                 <circle cx="9.3" cy="11.2" r="0.9" fill="#fff"/>
                 <circle cx="14.7" cy="11.2" r="0.9" fill="#fff"/>
               </svg>
             </div>
-
             <div class="meta">
-              <div class="username">
-                grief
-                <span class="glow-underline" aria-hidden="true"></span>
-              </div>
-              <div class="user-bio">Your premium biolink identity</div>
+              <div class="username">grief.lol <span class="glow-underline"></span></div>
+              <div class="user-bio">Your premium biolink solution — simple, sleek, secure.</div>
               <div class="badges">
                 <div class="badge" title="Verified User">Verified</div>
                 <div class="badge" title="Creator Badge">Creator</div>
-                <div class="badge" title="Supporter Badge">Supporter</div>
+                <div class="badge" title="Admin Badge">Admin</div>
               </div>
             </div>
           </div>
 
-          <div class="links" id="links">
-            <a href="https://twitter.com/grieflol" target="_blank" rel="noopener" class="link" aria-label="Twitter link">
-              <div class="ico" aria-hidden="true">T</div>
-              <div class="label">Twitter</div>
-              <div class="sub">@grieflol</div>
+          <div class="links" id="links" role="list" aria-label="Feature links">
+            <a href="features.html" class="link" role="listitem" tabindex="0">
+              <div class="ico" aria-hidden="true">F</div>
+              <div class="label">Features</div>
+              <div class="sub">Discover everything grief.lol offers</div>
             </a>
-            <a href="https://youtube.com/grief" target="_blank" rel="noopener" class="link" aria-label="YouTube link">
-              <div class="ico" aria-hidden="true">Y</div>
-              <div class="label">YouTube</div>
-              <div class="sub">grief channel</div>
+            <a href="pricing.html" class="link" role="listitem" tabindex="0">
+              <div class="ico" aria-hidden="true">P</div>
+              <div class="label">Pricing</div>
+              <div class="sub">Simple plans, no surprises</div>
             </a>
-            <a href="https://spotify.com/grief" target="_blank" rel="noopener" class="link" aria-label="Spotify link">
+            <a href="help.html" class="link" role="listitem" tabindex="0">
+              <div class="ico" aria-hidden="true">?</div>
+              <div class="label">Help</div>
+              <div class="sub">Got questions? We got answers</div>
+            </a>
+            <a href="signup.html" class="link" role="listitem" tabindex="0">
               <div class="ico" aria-hidden="true">S</div>
-              <div class="label">Spotify</div>
-              <div class="sub">music & podcasts</div>
+              <div class="label">Sign Up</div>
+              <div class="sub">Start your journey now</div>
             </a>
-            <a href="https://discord.gg/grief" target="_blank" rel="noopener" class="link" aria-label="Discord invite">
-              <div class="ico" aria-hidden="true">D</div>
-              <div class="label">Discord</div>
-              <div class="sub">join the community</div>
+            <a href="learn.html" class="link" role="listitem" tabindex="0">
+              <div class="ico" aria-hidden="true">L</div>
+              <div class="label">Learn More</div>
+              <div class="sub">More about grief.lol</div>
             </a>
+            <a href="admin.html" class="link" role="listitem" tabindex="0" style="color: var(--accent1); font-weight:700;">
+              <div class="ico" aria-hidden="true">A</div>
+              <div class="label">Admin Panel</div>
+              <div class="sub">Manage users & assets</div>
+            </a>
+          </div>
+
+          <div class="small" style="margin-top:32px;">
+            &copy; 2025 grief.lol — handcrafted with care.
           </div>
         </div>
       </div>
     </section>
-
-    <section id="claim" style="max-width:700px; margin:60px auto 120px; padding:0 28px;">
-      <h2 style="font-weight:700; font-size:28px; margin-bottom:18px;">Claim your username</h2>
-      <p style="color:var(--muted); margin-bottom:20px;">Enter your desired username below to reserve your personalized grief.lol biolink page.</p>
-      <form id="claimForm" style="display:flex; gap:12px;">
-        <input type="text" placeholder="Enter username" aria-label="Username input" required style="flex:1; padding:12px 14px; border-radius:14px; border:none; font-size:16px;"/>
-        <button type="submit" class="pill glow" style="padding:12px 20px; font-weight:700; cursor:pointer;">Claim</button>
-      </form>
-      <p id="claimMsg" style="color:#ff5fb7; margin-top:14px; font-weight:600;"></p>
-    </section>
   </main>
 
-  <script>
-    // Form submission handler (placeholder)
-    document.getElementById('claimForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const input = this.querySelector('input[type="text"]');
-      const msg = document.getElementById('claimMsg');
-      if(input.value.trim() === '') {
-        msg.textContent = 'Please enter a username.';
-        return;
-      }
-      msg.textContent = `Username "${input.value.trim()}" claimed! (simulated)`;
-      input.value = '';
-    });
-  </script>
+<script>
+  // Make all grief.lol text clickable to homepage
+  document.querySelectorAll('a.brand, .username').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.onclick = () => window.location.href = 'index.html';
+  });
+</script>
 </body>
 </html>
