@@ -3,128 +3,551 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>haunt.gg clone</title>
+<title>haunt.gg Clone - Neon Dark Biolink & Community</title>
 <style>
-  /* Reset */
-  * {
+  /* ===== Reset & base styles ===== */
+  *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
   }
-  body, html {
+  html, body {
     height: 100%;
-    background: #000;
-    color: #fff;
     font-family: 'Poppins', sans-serif;
+    background: #000000;
+    color: #e0f7ff;
     overflow-x: hidden;
   }
+  body {
+    position: relative;
+  }
+  a {
+    color: #6affff;
+    text-decoration: none;
+  }
+  a:hover,
+  button:hover {
+    text-decoration: underline;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
 
-  /* Container center */
-  .container {
-    height: 100vh;
+  /* ===== Fonts ===== */
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;700&display=swap');
+
+  /* ===== Container & Layout ===== */
+  .page-wrapper {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 24px;
-    text-align: center;
-    padding: 0 20px;
+    padding: 2rem 1rem 4rem;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Logo text */
+  /* ===== Logo ===== */
   .logo {
+    font-family: 'Orbitron', sans-serif;
     font-weight: 900;
-    font-size: 4rem;
-    letter-spacing: 0.15em;
+    font-size: 5rem;
     color: #6affff;
     text-transform: uppercase;
+    letter-spacing: 0.2em;
+    text-shadow:
+      0 0 8px #6affffaa,
+      0 0 20px #6affffcc,
+      0 0 30px #33ccccee,
+      0 0 40px #33ccccff;
     user-select: none;
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 0 0 20px #6affff88, 0 0 40px #6affffaa;
+    margin-bottom: 0.2rem;
   }
-
-  /* Subtitle */
-  .subtitle {
+  .logo-subtitle {
     font-weight: 400;
-    font-size: 1.2rem;
-    color: #66ffffaa;
-    letter-spacing: 0.05em;
+    font-size: 1.25rem;
+    color: #33ccccaa;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
   }
 
-  /* Buttons */
-  .buttons {
+  /* ===== Neon underline ===== */
+  .underline {
+    width: 80px;
+    height: 4px;
+    margin: 0 auto 3rem;
+    background: linear-gradient(90deg, #33ccccff 0%, #6affffcc 50%, #33ccccff 100%);
+    border-radius: 9999px;
+    box-shadow:
+      0 0 20px #6affffdd,
+      0 0 30px #33cccccc;
+    animation: pulseGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  /* ===== Buttons Container ===== */
+  .btn-group {
     display: flex;
-    gap: 16px;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
   }
   .btn {
+    border: 2.5px solid #6affff;
+    background: transparent;
+    color: #6affff;
+    padding: 0.85rem 2.5rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 9999px;
+    box-shadow:
+      0 0 10px #6affff55,
+      inset 0 0 5px #6affffaa;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn:hover,
+  .btn:focus-visible {
+    background: #6affff;
+    color: #000;
+    box-shadow:
+      0 0 25px #6affffdd,
+      inset 0 0 15px #6affffee;
+    outline: none;
+  }
+  .btn:active {
+    transform: scale(0.95);
+  }
+
+  /* ===== Sections ===== */
+  .section {
+    max-width: 900px;
+    width: 100%;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
+  .section h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 2.25rem;
+    color: #33cccc;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #33ccccaa;
+  }
+  .section p {
+    font-size: 1.1rem;
+    color: #66ffffcc;
+    line-height: 1.6;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  /* ===== Features Grid ===== */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .feature-card {
+    background: #0a0a0abb;
+    border-radius: 12px;
+    padding: 1.8rem 1.6rem;
+    box-shadow:
+      0 0 10px #33cccc66,
+      inset 0 0 12px #33cccc44;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 0 25px #33ccccaa,
+      inset 0 0 15px #33cccc88;
+  }
+  .feature-icon {
+    font-size: 3.2rem;
+    color: #6affff;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 8px #6affffbb;
+  }
+  .feature-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #66ffffdd;
+  }
+  .feature-desc {
+    font-size: 1rem;
+    color: #99ffffcc;
+    line-height: 1.4;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    width: 100%;
+    padding: 1.25rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: #33cccc88;
+    position: relative;
+    user-select: none;
+  }
+  .social-links {
+    margin-bottom: 0.75rem;
+  }
+  .social-links a {
+    margin: 0 0.7rem;
+    font-size: 1.6rem;
+    color: #33cccccc;
+    transition: color 0.3s ease;
+  }
+  .social-links a:hover {
+    color: #6affff;
+  }
+
+  /* ===== Modal (hidden by default) ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 1rem;
+  }
+  .modal-overlay.active {
+    display: flex;
+  }
+  .modal {
+    background: #000011ee;
+    border-radius: 14px;
+    box-shadow: 0 0 40px #33ccccbb;
+    width: 100%;
+    max-width: 420px;
+    padding: 2rem 2.5rem;
+    position: relative;
+    color: #99ffff;
+    font-size: 1rem;
+  }
+  .modal h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #6affff;
+    margin-bottom: 1.3rem;
+    user-select: none;
+  }
+  .modal label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #33cccccc;
+  }
+  .modal input[type="text"],
+  .modal input[type="email"],
+  .modal input[type="password"] {
+    width: 100%;
+    background: #000000bb;
+    border: 1.5px solid #33ccccaa;
+    border-radius: 8px;
+    color: #ccffff;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    transition: border-color 0.3s ease;
+  }
+  .modal input:focus {
+    outline: none;
+    border-color: #6affff;
+    box-shadow: 0 0 8px #6affff88;
+  }
+  .modal .modal-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  .modal .btn-modal-close,
+  .modal .btn-modal-submit {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: 9999px;
     border: 2px solid #6affff;
     background: transparent;
     color: #6affff;
-    padding: 12px 32px;
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #6affff44;
+    transition: all 0.25s ease;
     user-select: none;
   }
-  .btn:hover {
+  .modal .btn-modal-close:hover {
+    background: #33cccc;
+    color: #000;
+  }
+  .modal .btn-modal-submit:hover {
     background: #6affff;
     color: #000;
-    box-shadow: 0 0 10px #6affff;
+    box-shadow: 0 0 30px #6affffdd;
   }
 
-  /* Glowing underline */
-  .underline {
-    margin-top: 8px;
-    width: 60px;
-    height: 3px;
-    background: #6affff;
-    border-radius: 9999px;
-    box-shadow: 0 0 15px #6affff;
-    animation: pulse 2s infinite alternate;
-    margin-left: auto;
-    margin-right: auto;
+  /* ===== Particle Canvas ===== */
+  #particle-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: #000;
   }
 
-  @keyframes pulse {
-    0% {opacity: 0.5;}
-    100% {opacity: 1;}
-  }
-
-  /* Footer text */
-  footer {
-    position: absolute;
-    bottom: 24px;
-    width: 100%;
-    text-align: center;
-    color: #33cccc88;
-    font-size: 0.85rem;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-  }
-
-  /* Responsive */
-  @media (max-width: 480px) {
+  /* ===== Responsive ===== */
+  @media (max-width: 600px) {
     .logo {
-      font-size: 2.5rem;
+      font-size: 3rem;
+      letter-spacing: 0.1em;
     }
-    .buttons {
+    .logo-subtitle {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .btn-group {
       flex-direction: column;
-      gap: 12px;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+    .section h2 {
+      font-size: 1.75rem;
     }
   }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="container" role="main" aria-label="Haunt GG clone landing page">
+  <canvas id="particle-canvas"></canvas>
+  <div class="page-wrapper" role="main" aria-label="Haunt GG clone landing page">
     <div class="logo" aria-label="Haunt GG Logo">HAUNT.GG</div>
-    <div class="underline"></div>
-    <div class="subtitle">Your favorite gaming community and biolink platform</div>
-    <div class="buttons" role="navigation" aria-label="Main site actions">
-      <button class="btn" aria-label="Sign Up">Sign Up</button>
-      <button class="btn" aria-label="Log In">Log In</button>
+    <div class="logo-subtitle">Your favorite gaming community and biolink platform</div>
+    <div class="underline" aria-hidden="true"></div>
+
+    <div class="btn-group" role="navigation" aria-label="Main site actions">
+      <button id="btn-signup" class="btn" aria-haspopup="dialog" aria-controls="modal-signup">Sign Up</button>
+      <button id="btn-login" class="btn" aria-haspopup="dialog" aria-controls="modal-login">Log In</button>
+    </div>
+
+    <section class="section" aria-label="Features and benefits">
+      <h2>Why haunt.gg?</h2>
+      <p>Join thousands of gamers using haunt.gg to connect, share, and showcase their gaming profiles. Create custom biolinks with vibrant neon themes that stand out.</p>
+      <div class="features-grid">
+        <article class="feature-card" tabindex="0" aria-label="Custom Biolinks">
+          <div class="feature-icon" aria-hidden="true">🔗</div>
+          <h3 class="feature-title">Custom Biolinks</h3>
+          <p class="feature-desc">Personalize your profile link with unique neon themes and add your social media, music, and more.</p>
+        </article>
+        <article class="feature-card" tabindex="0" aria-label="Community Chat">
+          <div class="feature-icon" aria-hidden="true">💬</div>
+          <h3 class="feature-title">Community Chat</h3>
+          <p class="feature-desc">Engage with like-minded gamers, find new friends, and share your passion in real time.</p>
+        </article>
+        <article class="feature-card" tabindex="0" aria-label="Game Integration">
+          <div class="feature-icon" aria-hidden="true">🎮</div>
+          <h3 class="feature-title">Game Integration</h3>
+          <p class="feature-desc">Connect your favorite games to display stats and achievements right on your profile.</p>
+        </article>
+        <article class="feature-card" tabindex="0" aria-label="Mobile Friendly">
+          <div class="feature-icon" aria-hidden="true">📱</div>
+          <h3 class="feature-title">Mobile Friendly</h3>
+          <p class="feature-desc">Access your profile and community features on any device, anywhere.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <div class="social-links" aria-label="Social media links">
+        <a href="#" aria-label="Twitter" target="_blank" rel="noopener">🐦</a>
+        <a href="#" aria-label="Discord" target="_blank" rel="noopener">💎</a>
+        <a href="#" aria-label="GitHub" target="_blank" rel="noopener">🐙</a>
+      </div>
+      &copy; 2025 haunt.gg clone. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Modal Templates -->
+  <div id="modal-signup-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-signup-title" tabindex="-1">
+    <div class="modal" role="document">
+      <h3 id="modal-signup-title">Sign Up</h3>
+      <form id="signup-form" novalidate>
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" autocomplete="username" required minlength="3" maxlength="20" />
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" autocomplete="email" required />
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" autocomplete="new-password" required minlength="6" />
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-close" aria-label="Close Sign Up form">Cancel</button>
+          <button type="submit" class="btn-modal-submit">Create Account</button>
+        </div>
+      </form>
     </div>
   </div>
-  <footer>© 2025 haunt.gg clone. All rights reserved.</footer>
+
+  <div id="modal-login-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-login-title" tabindex="-1">
+    <div class="modal" role="document">
+      <h3 id="modal-login-title">Log In</h3>
+      <form id="login-form" novalidate>
+        <label for="login-username">Username or Email</label>
+        <input type="text" id="login-username" name="username" autocomplete="username" required />
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" autocomplete="current-password" required />
+        <div class="modal-actions">
+          <button type="button" class="btn-modal-close" aria-label="Close Log In form">Cancel</button>
+          <button type="submit" class="btn-modal-submit">Log In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  // Particle animation inspired by haunt.gg neon style
+
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let particlesArray = [];
+  const maxParticles = 120;
+
+  // Resize canvas
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Particle class
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.6 + 0.3;
+      this.color = `rgba(106, 255, 255, ${this.opacity})`;
+      this.life = Math.random() * 300 + 300;
+      this.age = 0;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.age++;
+      if(this.age > this.life) this.reset();
+      // Wrap around screen edges
+      if(this.x < 0) this.x = canvas.width;
+      else if(this.x > canvas.width) this.x = 0;
+      if(this.y < 0) this.y = canvas.height;
+      else if(this.y > canvas.height) this.y = 0;
+    }
+    draw() {
+      ctx.beginPath();
+      const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 6);
+      gradient.addColorStop(0, 'rgba(106,255,255,0.6)');
+      gradient.addColorStop(1, 'rgba(106,255,255,0)');
+      ctx.fillStyle = gradient;
+      ctx.arc(this.x, this.y, this.size * 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = '#6affff';
+      ctx.shadowBlur = 8;
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  // Initialize particles
+  function initParticles() {
+    particlesArray = [];
+    for(let i=0; i<maxParticles; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+  initParticles();
+
+  // Animate particles
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // Modal logic
+  function setupModal(buttonId, modalOverlayId) {
+    const openBtn = document.getElementById(buttonId);
+    const modalOverlay = document.getElementById(modalOverlayId);
+    const closeBtn = modalOverlay.querySelector('.btn-modal-close');
+
+    openBtn.addEventListener('click', () => {
+      modalOverlay.classList.add('active');
+      modalOverlay.focus();
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+      openBtn.focus();
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if(e.target === modalOverlay) {
+        modalOverlay.classList.remove('active');
+        openBtn.focus();
+      }
+    });
+
+    // Trap focus inside modal
+    modalOverlay.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') {
+        modalOverlay.classList.remove('active');
+        openBtn.focus();
+      }
+    });
+  }
+
+  setupModal('btn-signup', 'modal-signup-overlay');
+  setupModal('btn-login', 'modal-login-overlay');
+
+  // Form submission placeholders
+  document.getElementById('signup-form').addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Signup form submitted!\n(Replace with real backend logic.)');
+    document.getElementById('modal-signup-overlay').classList.remove('active');
+  });
+  document.getElementById('login-form').addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Login form submitted!\n(Replace with real backend logic.)');
+    document.getElementById('modal-login-overlay').classList.remove('active');
+  });
+</script>
 </body>
 </html>
