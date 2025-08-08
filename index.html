@@ -6,391 +6,239 @@
 <title>grave.bio — your bio, refined</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-/* ======================================================
-   grave.bio - Single file site
-   Theme: dark with blood-red + muted cyan accents
-   Design: centered card (guns.lol-like), minimal, refined
-   ====================================================== */
-
-/* ---------- root colors & variables ---------- */
+/* ------------- VARIABLES & RESET ------------- */
 :root{
   --bg:#050506;
-  --surface:#0f0f12;
+  --surface:#0f1114;
   --muted:#9aa0a6;
-  --accent-red:#c0392b;   /* blood-red */
-  --accent-cyan:#2ec4c4;  /* muted cyan */
+  --accent-a:#c0392b;   /* blood-red */
+  --accent-b:#2ec4c4;   /* muted-cyan */
   --glass: rgba(255,255,255,0.03);
-  --glass-2: rgba(255,255,255,0.02);
-  --radius:18px;
-  --radius-sm:10px;
-  --trans:240ms cubic-bezier(.2,.9,.25,1);
-  --card-shadow: 0 18px 48px rgba(0,0,0,0.6);
-  --maxw:980px;
-  --mono: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  --focus-ring: 3px solid rgba(46,196,196,0.12);
+  --radius:16px;
+  --trans:260ms cubic-bezier(.2,.9,.25,1);
+  --shadow: 0 18px 48px rgba(0,0,0,0.6);
+  --maxw:1100px;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
-
-/* ---------- reset & base ---------- */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family:var(--mono);
-  background:
-    radial-gradient(800px 480px at 10% 85%, rgba(46,196,196,0.03), transparent 8%),
-    radial-gradient(600px 360px at 90% 20%, rgba(192,57,43,0.02), transparent 6%),
-    var(--bg);
-  color:#e8eef2;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow-y:auto;
-  scroll-behavior:smooth;
-  -webkit-tap-highlight-color: transparent;
+  margin:0; font-family:var(--font); background:var(--bg); color:#e9eef2;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  -webkit-tap-highlight-color:transparent; scroll-behavior:smooth;
 }
 
-/* ---------- custom scrollbar ---------- */
-::-webkit-scrollbar{ width:10px; height:10px; }
-::-webkit-scrollbar-track{ background: transparent; }
-::-webkit-scrollbar-thumb{
-  background: linear-gradient(180deg,var(--accent-cyan),var(--accent-red));
-  border-radius:12px;
-  border: 2px solid rgba(0,0,0,0.25);
-}
-body{ scrollbar-color: linear-gradient(var(--accent-cyan),var(--accent-red)) transparent; }
+/* custom scrollbar */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent-b),var(--accent-a));border-radius:12px;border:2px solid rgba(0,0,0,0.25)}
+body{scrollbar-color: linear-gradient(var(--accent-b),var(--accent-a)) transparent}
 
-/* ---------- utilities ---------- */
-.container{ max-width:var(--maxw); margin: 92px auto; padding: 0 20px; display:block; }
-.row{ display:flex; gap:20px; align-items:flex-start; justify-content:center; }
-.center{ display:grid; place-items:center; }
-.flex{ display:flex; }
-.grid{ display:grid; }
-.hidden{ display:none !important; }
-.kbd{ background:rgba(255,255,255,0.03); padding:6px 8px; border-radius:6px; font-weight:600; font-size:13px; color:var(--muted); border:1px solid rgba(255,255,255,0.02) }
+/* utilities */
+.container{max-width:var(--maxw);margin:86px auto;padding:0 18px}
+.row{display:flex;gap:20px;align-items:center}
+.center{display:grid;place-items:center}
+.flex{display:flex}
+.space{justify-content:space-between}
+.hidden{display:none}
+.cta{cursor:pointer}
+.small{font-size:13px;color:var(--muted)}
 
-/* ---------- header (minimal) ---------- */
+/* ------------- HEADER ------------- */
 .header{
-  position:fixed; left:50%; transform:translateX(-50%); top:18px; width:calc(100% - 40px); max-width:var(--maxw);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:999px; padding:10px 14px; display:flex; gap:12px; align-items:center; z-index:1000;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.02);
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);width:calc(100% - 36px);max-width:var(--maxw);
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:999px;
+  padding:10px 16px; display:flex;gap:12px;align-items:center;z-index:1200;border:1px solid rgba(255,255,255,0.02)
 }
-.brand{ display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-.brand-mark{
-  width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:700; color:#111;
-  background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan));
-  box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+.logo{display:flex;gap:12px;align-items:center;cursor:pointer;user-select:none}
+.logo-mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:#111;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));box-shadow:0 8px 26px rgba(0,0,0,0.4)}
+.logo-text{font-weight:700;font-size:16px}
+.header-nav{margin-left:24px;display:flex;gap:12px}
+.header-nav button{background:transparent;border:none;color:var(--muted);padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
+.header-nav button.active{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#0b0b0b;box-shadow:0 8px 26px rgba(0,0,0,0.4)}
+.header-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:700;cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#0b0b0b;box-shadow:0 12px 36px rgba(0,0,0,0.45)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+/* ------------- LAYOUT ------------- */
+.layout{display:grid;grid-template-columns: 1fr 420px;gap:32px;align-items:start;margin-top:28px}
+@media(max-width:980px){ .layout{grid-template-columns:1fr; padding-bottom:28px} }
+
+/* ------------- HERO (centered) ------------- */
+.hero{
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+  border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)
 }
-.brand-title{ font-weight:700; font-size:16px; letter-spacing:-0.02em; color:#fff; }
-.header-nav{ margin-left: auto; display:flex; gap:10px; align-items:center; }
-.header-btn{
-  background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--muted); padding:8px 12px; border-radius:999px;
-  cursor:pointer; font-weight:600; font-size:13px;
-}
-.header-btn.primary{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#101010; border:none; box-shadow:0 10px 26px rgba(0,0,0,0.5); }
-.header-btn:focus{ outline:none; box-shadow: var(--focus-ring); }
+.title{font-size:38px;margin:6px 0 8px 0;line-height:1.02;font-weight:700}
+.title .accent{color:var(--accent-a)}
+.lead{color:var(--muted);margin:0 0 18px;font-size:15px;max-width:60ch}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 
-/* ---------- layout: central card ---------- */
-.shell{ display:flex; justify-content:center; align-items:flex-start; gap:32px; width:100%; }
-.card{
-  width:100%; max-width:960px; border-radius:20px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
-  padding:28px; box-shadow:var(--card-shadow); border:1px solid rgba(255,255,255,0.03);
-  display:flex; gap:30px; align-items:flex-start; position:relative; overflow:visible;
-}
-
-/* left column: hero-ish */
-.col-left{ flex:1 1 560px; min-width:260px; padding-top:6px; }
-.title{
-  font-size:44px; line-height:1.02; font-weight:700; margin:0 0 12px 0;
-}
-.title .accent{ color:var(--accent-red); background:transparent; -webkit-background-clip:text; }
-.lead{ color:var(--muted); margin:0 0 22px; font-size:15px; max-width:600px; }
-
-/* action cluster */
-.actions{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:18px; }
-.btn{ padding:12px 20px; border-radius:999px; cursor:pointer; border:none; font-weight:700; font-size:14px; transition: transform var(--trans), box-shadow var(--trans); }
-.btn.primary{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0f0f10; box-shadow: 0 12px 34px rgba(0,0,0,0.5); }
-.btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
-.btn:hover{ transform:translateY(-4px); }
-
-/* tiny note line */
-.note{ color:var(--muted); font-size:13px; display:flex; gap:10px; align-items:center; margin-top:6px; }
-
-/* right column: profile preview (centered like guns.lol) */
-.col-right{ width:420px; min-width:300px; display:flex; align-items:flex-start; justify-content:center; }
+/* ------------- PREVIEW CARD (right column) ------------- */
+.preview-wrap{position:sticky;top:100px}
 .preview{
-  width:100%; border-radius:22px; padding:20px; position:relative; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.14));
-  border:1px solid rgba(255,255,255,0.03); box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  width:100%;border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+  border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);overflow:visible
 }
-.preview::before{
-  content:""; position:absolute; left:12px; top:12px; right:12px; height:96px; border-radius:14px; background:linear-gradient(180deg, rgba(46,196,196,0.06), rgba(192,57,43,0.04)); filter:blur(18px); z-index:0;
+.preview-top{display:flex;gap:14px;align-items:center}
+.avatar{width:84px;height:84px;border-radius:18px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));display:grid;place-items:center;font-weight:800;color:#111;font-size:26px}
+.info{flex:1}
+.username{font-weight:700;font-size:18px;display:flex;align-items:center;gap:8px}
+.bio{color:var(--muted);font-size:13px;margin-top:6px}
+.badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,0.03)}
+
+/* ------------- LINKS (vertical burger style) ------------- */
+.links-vertical{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.link-vertical{
+  display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
+  border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform var(--trans),box-shadow var(--trans)
 }
+.link-vertical:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.6)}
+.link-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,var(--accent-b),var(--accent-a));display:grid;place-items:center;color:#070707;font-weight:800}
+.link-main{font-weight:700}
+.link-sub{font-size:13px;color:var(--muted)}
 
-/* avatar & meta */
-.preview-top{ display:flex; gap:16px; align-items:center; position:relative; z-index: 2; }
-.avatar{
-  width:92px; height:92px; border-radius:20px; display:grid; place-items:center; font-weight:800; font-size:28px; color:#111;
-  background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan));
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+/* ------------- PANELS BELOW (full width) ------------- */
+.panels{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+.panel{display:none;background:transparent;padding:12px}
+.panel.active{display:block}
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+
+/* ------------- ADMIN MODAL (password driven) ------------- */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1400;align-items:center;justify-content:center}
+.modal{background:var(--surface);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);width:92%;max-width:680px;box-shadow:0 30px 90px rgba(0,0,0,0.8)}
+.modal h3{margin:0 0 8px 0}
+.modal .form{display:flex;gap:8px;margin-top:10px}
+.modal .input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+.modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+
+/* ------------- TOASTS ------------- */
+.toast-wrap{position:fixed;right:18px;bottom:18px;z-index:1600;display:flex;flex-direction:column;gap:10px}
+.toast{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));padding:10px 14px;border-radius:10px;color:#0b0b0b;font-weight:800;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+
+/* ------------- small screens ------------- */
+@media(max-width:980px){
+  .header{left:12px;transform:none;width:calc(100% - 24px)}
+  .layout{grid-template-columns:1fr;gap:18px}
+  .preview-wrap{position:relative;top:0}
+  .preview{margin-top:8px}
+  .hero{border-radius:14px;padding:16px}
 }
-.meta{ flex:1; }
-.username{ font-size:20px; font-weight:700; display:flex; gap:10px; align-items:center; }
-.underline{ width:40px; height:6px; border-radius:6px; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); filter:blur(6px); opacity:0.95; transform:translateY(6px); transition: transform var(--trans) }
-.preview:hover .underline{ transform:translateY(0); }
-.bio{ color:var(--muted); font-size:14px; margin-top:6px; }
-
-/* badges */
-.badges{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap }
-.badge{ padding:6px 10px; font-weight:700; font-size:13px; border-radius:10px; background: rgba(255,255,255,0.02); color:#fff; border:1px solid rgba(255,255,255,0.03) }
-
-/* links area: different style than before (wider pill buttons) */
-.links{ margin-top:20px; display:flex; gap:12px; flex-direction:column; z-index:2; }
-.link-item{
-  display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; cursor:pointer;
-  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
-  border:1px solid rgba(255,255,255,0.02); transition: transform var(--trans), box-shadow var(--trans);
-}
-.link-item:hover{ transform:translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
-.link-left{ width:44px; height:44px; border-radius:10px; background: linear-gradient(135deg,var(--accent-cyan),var(--accent-red)); display:grid; place-items:center; color:#0f0f10; font-weight:800; }
-.link-main{ font-weight:700; font-size:15px; }
-.link-sub{ color:var(--muted); font-size:13px }
-
-/* inline small footer */
-.preview-foot{ margin-top:12px; color:var(--muted); font-size:13px; display:flex; gap:8px; align-items:center }
-
-/* tabs / panels below main */
-.panels{ margin-top:18px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.02) }
-.panel{ display:none; padding:18px 0 }
-.panel.active{ display:block }
-
-/* features grid */
-.features-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
-.feature{ padding:14px; border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); font-weight:600; color:#fff; }
-
-/* pricing */
-.pricing{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
-.price{ padding:16px; min-width:160px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.03) }
-
-/* faq */
-.faq{ margin-top:8px; display:flex; flex-direction:column; gap:8px }
-.faq-item{ background:transparent; border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.02) }
-.q{ display:flex; justify-content:space-between; align-items:center; font-weight:700; cursor:pointer }
-.a{ margin-top:10px; color:var(--muted); display:none }
-.faq-item.open .a{ display:block }
-
-/* admin (hidden by default) */
-.admin-panel{ margin-top:12px; background:rgba(255,255,255,0.02); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03) }
-.admin-panel table{ width:100%; border-collapse:collapse; color:#fff }
-.admin-panel th, .admin-panel td{ padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); text-align:left; font-size:14px }
-
-/* profile editor compact */
-.editor{ display:flex; flex-direction:column; gap:8px; margin-top:8px }
-.input{ padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:#fff }
-
-/* modals & toasts */
-.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:2000 }
-.modal{ width:92%; max-width:640px; background:var(--surface); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 30px 80px rgba(0,0,0,0.7) }
-.modal h3{ margin:0 0 8px 0 }
-.toast-wrap{ position:fixed; right:24px; bottom:24px; z-index:2500; display:flex; flex-direction:column; gap:10px }
-
-/* simple toast style */
-.toast{ padding:10px 14px; border-radius:10px; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0f0f10; font-weight:700; box-shadow:0 10px 30px rgba(0,0,0,0.6) }
-
-/* responsive layout adjustments */
-@media (max-width:980px){
-  .card{ flex-direction:column; gap:18px; padding:18px }
-  .col-right{ width:100% }
-  .col-left{ width:100% }
-  .container{ margin-top:72px }
-  .header{ left:12px; transform:none; width:calc(100% - 24px) }
-}
-
-/* accessibility focus ring for keyboard nav */
-[tabindex]:focus{ outline:none; box-shadow: var(--focus-ring); border-radius:10px }
-
-/* subtle entrance animations */
-.fade-up{ transform:translateY(6px); opacity:0; transition: transform 420ms cubic-bezier(.2,.9,.25,1), opacity 420ms ease; }
-.fade-up.in{ transform:none; opacity:1; }
 </style>
 </head>
 <body>
 
-<!-- header -->
-<div class="header" role="banner">
-  <div class="brand" id="brand" tabindex="0" aria-label="grave.bio — go to home">
-    <div class="brand-mark" aria-hidden="true">G</div>
+<!-- HEADER -->
+<header class="header" role="banner">
+  <div class="logo" id="brand" tabindex="0">
+    <div class="logo-mark" aria-hidden="true">G</div>
     <div>
-      <div class="brand-title">grave.bio</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:2px">your bio, refined</div>
+      <div class="logo-text">grave.bio</div>
+      <div class="small">your bio, refined</div>
     </div>
   </div>
 
-  <div class="header-nav" role="navigation" aria-label="primary">
-    <button class="header-btn" id="btnFeatures" data-target="features">Features</button>
-    <button class="header-btn" id="btnPricing" data-target="pricing">Pricing</button>
-    <button class="header-btn" id="btnHelp" data-target="help">Help</button>
-    <button class="header-btn primary" id="btnSignup" data-target="signup">Join Waitlist</button>
-  </div>
-</div>
+  <nav class="header-nav" role="navigation" aria-label="Main navigation">
+    <button class="nav-btn active" data-panel="features">Features</button>
+    <button class="nav-btn" data-panel="pricing">Pricing</button>
+    <button class="nav-btn" data-panel="help">Help</button>
+  </nav>
 
-<!-- container -->
+  <div class="header-actions">
+    <button class="btn ghost" id="btnPreview">Preview</button>
+    <button class="btn primary" id="btnJoin">Join Waitlist</button>
+    <button class="btn ghost" id="btnAdmin">Admin</button>
+  </div>
+</header>
+
+<!-- CONTAINER -->
 <div class="container">
-  <div class="shell">
-    <div class="col-left">
-      <h1 class="title">Elevate your <span class="accent">digital card</span>.</h1>
-      <p class="lead">Clean, focused, and fast: a single page that holds your links, music, and contact. Designed to be shared — and remembered.</p>
+  <div class="layout">
 
-      <div class="actions fade-up" id="mainActions">
-        <button class="btn primary" id="claimBtn">Claim a username</button>
-        <button class="btn ghost" id="customizeBtn">Customize page</button>
-        <div style="width:12px"></div>
-        <div class="kbd" title="Quick tip">Press <strong>g</strong> twice to open admin</div>
-      </div>
+    <!-- LEFT: hero + panels (main content) -->
+    <div>
+      <section class="hero">
+        <h1 class="title">Polished link pages for creators & builders.</h1>
+        <p class="lead">One refined card to hold your links, music, and work. Fast, shareable, and surgically minimal.</p>
 
-      <div class="note" style="margin-top:14px">
-        <div style="display:flex;align-items:center;gap:10px"><div style="width:10px;height:10px;border-radius:20px;background:var(--accent-cyan)"></div>Hosted • Fast</div>
-        <div style="margin-left:12px;color:var(--muted)">Free baseline • paid upgrades available</div>
-      </div>
-
-      <!-- panels area (features/pricing/help/signup/admin/profile editor) -->
-      <div class="panels">
-        <!-- FEATURES -->
-        <div id="features" class="panel" aria-hidden="true">
-          <h3 style="margin:0 0 10px 0">Features</h3>
-          <div class="features-grid">
-            <div class="feature">Vanity username</div>
-            <div class="feature">Custom links (drag & drop)</div>
-            <div class="feature">Now playing embeds (Spotify)</div>
-            <div class="feature">Theme toggle (dark/light)</div>
-            <div class="feature">Admin moderation tools</div>
-            <div class="feature">Analytics preview (mock)</div>
-          </div>
+        <div class="hero-actions">
+          <button class="btn primary" id="heroClaim">Claim username</button>
+          <button class="btn ghost" id="heroEdit">Edit profile</button>
+          <div class="small">No noise. No tracking. Just your links.</div>
         </div>
 
-        <!-- PRICING -->
-        <div id="pricing" class="panel" aria-hidden="true">
-          <h3 style="margin:0 0 10px 0">Pricing (preview)</h3>
-          <div class="pricing">
-            <div class="price">
-              <div style="font-weight:800">Free</div>
-              <div style="color:var(--muted);margin-top:6px">Starter • 5 links • basic embeds</div>
-            </div>
-            <div class="price">
-              <div style="font-weight:800">Pro</div>
-              <div style="color:var(--muted);margin-top:6px">Unlimited links • analytics • custom domain</div>
-            </div>
-            <div class="price">
-              <div style="font-weight:800">Business</div>
-              <div style="color:var(--muted);margin-top:6px">Team & white-label</div>
+        <!-- Panels container (hidden by default) -->
+        <div class="panels" id="panels">
+          <div id="p-features" class="panel">
+            <h3>Features</h3>
+            <div class="panel-grid">
+              <div class="feature">Vanity username</div>
+              <div class="feature">Link ordering (drag & drop)</div>
+              <div class="feature">Embed now playing</div>
+              <div class="feature">Theme toggle</div>
             </div>
           </div>
-        </div>
 
-        <!-- HELP -->
-        <div id="help" class="panel" aria-hidden="true">
-          <h3 style="margin:0 0 10px 0">Help & FAQ</h3>
-          <div class="faq">
-            <div class="faq-item" id="faq1">
-              <div class="q">How do I claim a username?<span>▸</span></div>
-              <div class="a">Click 'Claim a username' and follow the signup flow. Username checks happen instantly (mock).</div>
+          <div id="p-pricing" class="panel">
+            <h3>Pricing</h3>
+            <div class="panel-grid">
+              <div class="feature">Free — basic profile</div>
+              <div class="feature">Pro — custom domains & analytics</div>
+              <div class="feature">Business — team & white-label</div>
             </div>
-            <div class="faq-item" id="faq2">
-              <div class="q">Can I change my links order?<span>▸</span></div>
-              <div class="a">Yes — drag and drop within your profile preview to reorder links. Changes are saved client-side in this demo.</div>
-            </div>
-            <div class="faq-item" id="faq3">
-              <div class="q">Is custom domain supported?<span>▸</span></div>
-              <div class="a">Custom domain is available on Pro and Business plans (mock).</div>
+          </div>
+
+          <div id="p-help" class="panel">
+            <h3>Help</h3>
+            <div class="faq">
+              <div class="faq-item">
+                <div class="q">How to claim a username?</div>
+                <div class="a">Click ‘Claim username’ and follow the mock flow. This demo stores local preview only.</div>
+              </div>
+              <div class="faq-item">
+                <div class="q">Can I reorder links?</div>
+                <div class="a">Yes — drag and drop link items in the preview to reorder them (client-side).</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- SIGNUP -->
-        <div id="signup" class="panel" aria-hidden="true">
-          <h3 style="margin:0 0 10px 0">Join the waitlist</h3>
-          <form id="signupForm" style="margin-top:10px;">
-            <div style="display:flex; gap:8px; margin-bottom:10px;">
-              <input class="input" id="su-username" name="username" placeholder="username" required style="flex:1" />
-              <input class="input" id="su-email" name="email" placeholder="email@example.com" required style="flex:1" />
-            </div>
-            <div style="display:flex; gap:8px;">
-              <button class="btn primary" type="submit">Claim</button>
-              <button class="btn ghost" type="button" id="clearSignup">Clear</button>
-            </div>
-            <div id="signupMsg" style="margin-top:10px;color:var(--muted)"></div>
-          </form>
-        </div>
-
-        <!-- ADMIN (hidden until secret) -->
-        <div id="admin" class="panel" aria-hidden="true" data-secret="false">
-          <h3 style="margin:0 0 10px 0">Admin (mock)</h3>
-          <div class="admin-panel">
-            <table>
-              <thead><tr><th>User</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody id="adminRows">
-                <tr><td>demo</td><td>Active</td><td><button data-act="ban" data-user="demo">Ban</button></td></tr>
-                <tr><td>abusive</td><td>Banned</td><td><button data-act="unban" data-user="abusive">Unban</button></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- PROFILE editor (compact) -->
-        <div id="profileEditor" class="panel" aria-hidden="true">
-          <h3 style="margin:0 0 10px 0">Profile editor (mock)</h3>
-          <div class="editor">
-            <input id="pe-username" class="input" placeholder="display name" value="grave" />
-            <input id="pe-bio" class="input" placeholder="short bio" value="I share music, projects, and links." />
-            <input id="pe-links" class="input" placeholder="comma separated links" value="https://twitter.com/,https://open.spotify.com/" />
-            <div style="display:flex; gap:8px;">
-              <button class="btn primary" id="saveProfile">Save</button>
-              <button class="btn ghost" id="resetProfile">Reset</button>
-              <button class="btn ghost" id="openPreview">Preview</button>
-            </div>
-            <div id="profileMsg" style="margin-top:8px;color:var(--muted)"></div>
-          </div>
-        </div>
-
-      </div>
+      </section>
     </div>
 
-    <!-- right: centered preview "guns.lol style" -->
-    <div class="col-right">
-      <div class="preview fade-up in" id="previewCard" role="region" aria-label="Profile preview">
+    <!-- RIGHT: preview card (vertical links) -->
+    <aside class="preview-wrap">
+      <div class="preview" id="previewCard" role="region" aria-label="Profile preview">
         <div class="preview-top">
-          <div class="avatar" id="pv-avatar" aria-hidden="true">
-            <!-- neat glyph (SVG) -->
-            <svg viewBox="0 0 24 24" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#111" opacity="0.05"/><path d="M12 6v6l4 2" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/></svg>
-          </div>
-          <div class="meta">
-            <div class="username" id="pv-name">grave <div class="underline" aria-hidden="true"></div></div>
-            <div class="bio" id="pv-bio">I share music, projects, and links.</div>
-            <div class="badges">
-              <div class="badge">Creator</div>
-              <div class="badge">Early</div>
-            </div>
+          <div class="avatar" id="pv-avatar">G</div>
+          <div class="info">
+            <div class="username" id="pv-name">grave</div>
+            <div class="bio" id="pv-bio">I share music, projects and links.</div>
+            <div class="badges" id="pv-badges"><div class="badge">Creator</div><div class="badge">Early</div></div>
           </div>
         </div>
 
-        <div class="links" id="linksList" aria-label="links list">
-          <!-- link items are created dynamically; initial set below -->
-          <div class="link-item" data-href="https://grave.bio/grave" draggable="true">
-            <div class="link-left">G</div>
+        <div class="links-vertical" id="linksList" aria-live="polite">
+          <div class="link-vertical" data-href="https://grave.bio/grave" draggable="true">
+            <div class="link-icon">G</div>
             <div>
               <div class="link-main">grave.bio/grave</div>
               <div class="link-sub">Tap to copy</div>
             </div>
           </div>
 
-          <a class="link-item" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
-            <div class="link-left">S</div>
+          <a class="link-vertical" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+            <div class="link-icon">S</div>
             <div>
               <div class="link-main">Now Playing — Dear Mama</div>
               <div class="link-sub">Spotify</div>
             </div>
           </a>
 
-          <a class="link-item" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
-            <div class="link-left">T</div>
+          <a class="link-vertical" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+            <div class="link-icon">T</div>
             <div>
               <div class="link-main">@grave</div>
               <div class="link-sub">Twitter</div>
@@ -398,306 +246,289 @@ body{ scrollbar-color: linear-gradient(var(--accent-cyan),var(--accent-red)) tra
           </a>
         </div>
 
-        <div class="preview-foot" style="justify-content:space-between; margin-top:14px;">
-          <div style="display:flex; gap:10px; align-items:center"><div style="width:10px;height:10px;border-radius:20px;background:var(--accent-cyan)"></div> Live</div>
-          <div style="color:var(--muted); font-size:13px">Last updated • 1 day ago</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+          <div class="small">Live • <span id="lastUpdated">1 day ago</span></div>
+          <div class="small">Share • <span id="shareCount">0</span></div>
         </div>
       </div>
-    </div>
+    </aside>
 
   </div>
-</div>
 
-<!-- modal & toasts -->
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true">
-  <div class="modal" role="document" aria-modal="true" tabindex="0" id="modalBox">
-    <h3 id="modalTitle">Modal</h3>
-    <div id="modalBody" style="margin-top:10px;color:var(--muted)"></div>
-    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
-      <button class="header-btn" id="modalClose">Close</button>
+  <!-- BELOW: global panels area (for larger content) -->
+  <div style="margin-top:18px">
+    <div id="globalPanels" style="display:block">
+      <!-- expanded content displayed here when user opens nav -->
     </div>
   </div>
 </div>
 
-<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+<!-- ADMIN PASSWORD MODAL -->
+<div class="modal-backdrop" id="adminModal" role="dialog" aria-hidden="true">
+  <div class="modal" role="document" tabindex="0">
+    <h3>Admin Access</h3>
+    <div style="color:var(--muted)">Enter admin password to reveal mock admin panel (demonstration only).</div>
+    <div class="form" style="margin-top:12px">
+      <input id="adminPass" class="input" placeholder="password (demo)" />
+      <button class="btn primary" id="adminSubmit">Open</button>
+    </div>
+    <div class="actions" style="margin-top:12px">
+      <button class="btn ghost" id="adminCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOASTS -->
+<div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
 <script>
-/* ======================================================
-   grave.bio - client side interactions
-   - tab navigation
-   - signup form (mock)
-   - profile editor -> preview update
-   - drag & drop reordering (client-side)
-   - copy to clipboard
-   - admin secret toggle (press 'g' twice quickly)
-   - modal & toasts
-   ====================================================== */
+/* =========================
+   Core interactions
+   ========================= */
 
-/* ---------- helpers ---------- */
-function $(sel, ctx=document){ return ctx.querySelector(sel); }
-function $all(sel, ctx=document){ return Array.from((ctx||document).querySelectorAll(sel)); }
-function toast(msg, timeout=2600){
-  const w = document.getElementById('toastWrap');
-  const n = document.createElement('div'); n.className='toast';
-  n.textContent = msg;
-  w.appendChild(n);
-  setTimeout(()=> { n.style.opacity='0'; n.style.transform='translateY(6px)'; setTimeout(()=> n.remove(), 260); }, timeout);
+/* helpers */
+const $ = (s, c=document) => c.querySelector(s);
+const $$ = (s, c=document) => Array.from((c||document).querySelectorAll(s));
+function toast(msg, tm=2200){
+  const wrap = $('#toasts');
+  const el = document.createElement('div'); el.className='toast'; el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=> { el.style.opacity = '0'; el.style.transform='translateY(6px)'; setTimeout(()=> el.remove(), 260); }, tm);
 }
 
-/* ---------- panel toggles ---------- */
-const panels = ['features','pricing','help','signup','admin','profileEditor'];
-function hideAllPanels(){
-  panels.forEach(id => {
-    const el = document.getElementById(id);
-    if(el){ el.classList.remove('active'); el.setAttribute('aria-hidden','true'); }
-  });
-}
-function showPanel(id){
-  hideAllPanels();
-  const el = document.getElementById(id);
-  if(el){
-    el.classList.add('active'); el.setAttribute('aria-hidden','false'); el.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-}
-
-/* header buttons */
-$all('.header-btn').forEach(btn=>{
+/* NAV: header nav buttons toggling panels */
+$$('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=> {
-    const t = btn.getAttribute('data-target');
-    if(t){ showPanel(t); }
+    const target = btn.dataset.panel;
+    // toggle active class visually
+    $$('.nav-btn').forEach(b=> b.classList.remove('active'));
+    btn.classList.add('active');
+    // show corresponding panel below hero
+    $$('.panel').forEach(p=> p.classList.remove('active'));
+    const panel = document.querySelector('#p-' + target);
+    if(panel){ panel.classList.add('active'); panel.scrollIntoView({behavior:'smooth', block:'start'}); }
   });
 });
 
-/* actions on page */
-$('#claimBtn').addEventListener('click', ()=> { showPanel('signup'); });
-$('#customizeBtn').addEventListener('click', ()=> { showPanel('profileEditor'); });
-$('#btnSignup').addEventListener('click', ()=> { showPanel('signup'); });
+/* HERO actions */
+$('#heroClaim').addEventListener('click', ()=> {
+  // show signup panel
+  $$('.panel').forEach(p=> p.classList.remove('active'));
+  $('#p-pricing').classList.remove('active');
+  $('#p-features').classList.remove('active');
+  $('#p-help').classList.remove('active');
+  $('#p-pricing').setAttribute('aria-hidden','true');
+  $('#p-features').setAttribute('aria-hidden','true');
+  $('#p-help').setAttribute('aria-hidden','true');
 
-/* brand home click */
+  // open global signup area instead
+  openSignup();
+});
+$('#heroEdit').addEventListener('click', ()=> {
+  // scroll to preview, open inline editor below panels
+  showEditor();
+});
 $('#brand').addEventListener('click', ()=> {
-  hideAllPanels();
   window.scrollTo({top:0,behavior:'smooth'});
-});
-$('#brand').addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); $('#brand').click(); } });
-
-/* ---------- signup mock ---------- */
-$('#signupForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const u = $('#su-username').value.trim();
-  const em = $('#su-email').value.trim();
-  const msg = $('#signupMsg');
-  msg.style.color = 'var(--muted)';
-  if(!/^[a-zA-Z0-9-_]{3,24}$/.test(u)){ msg.style.color='tomato'; msg.textContent='Username invalid: 3-24 chars, letters/numbers/-/_'; return; }
-  if(!/^\S+@\S+\.\S+$/.test(em)){ msg.style.color='tomato'; msg.textContent='Email invalid'; return; }
-  msg.style.color='var(--muted)'; msg.textContent='Checking availability...';
-  setTimeout(()=> {
-    if(u.toLowerCase() === 'admin' || u.toLowerCase() === 'grave'){ msg.style.color='tomato'; msg.textContent='Username taken'; }
-    else { msg.style.color='var(--accent-cyan)'; msg.textContent='Claimed! Check your email (mock)'; $('#signupForm').reset(); toast('Welcome aboard — mock signup complete'); }
-  }, 1000);
-});
-$('#clearSignup').addEventListener('click', ()=> { $('#signupForm').reset(); $('#signupMsg').textContent=''; });
-
-/* ---------- FAQ accordion ---------- */
-$all('.faq-item').forEach(item=>{
-  item.querySelector('.q').addEventListener('click', ()=>{
-    item.classList.toggle('open');
-  });
+  // close any open panels
+  $$('.panel').forEach(p=>p.classList.remove('active'));
+  $$('.nav-btn').forEach(b=>b.classList.remove('active'));
 });
 
-/* ---------- profile editor: update preview ---------- */
-function safeParseLinks(raw){
-  return raw.split(',').map(s=>s.trim()).filter(Boolean).slice(0,20);
-}
-function createLinkItem(href, label){
-  const isExternal = href.startsWith('http');
-  const el = document.createElement(isExternal ? 'a' : 'div');
-  el.className = 'link-item';
-  if(isExternal){ el.href = href; el.target = '_blank'; el.rel='noopener noreferrer'; }
-  else { el.setAttribute('role','button'); el.dataset.href = href; }
-  const left = document.createElement('div'); left.className='link-left';
-  left.textContent = label.slice(0,1).toUpperCase();
-  const main = document.createElement('div'); main.innerHTML = `<div class="link-main">${label}</div><div class="link-sub">${href}</div>`;
-  el.appendChild(left); el.appendChild(main);
-  // copy on click for non-anchor
-  if(!isExternal){
-    el.addEventListener('click', ()=> {
-      const txt = href;
-      navigator.clipboard?.writeText(txt).then(()=> toast('Copied: ' + txt)).catch(()=> toast('Copy failed'));
-    });
+/* PREVIEW interactions: copy main local link */
+$('#linksList').addEventListener('click', (e)=>{
+  const item = e.target.closest('.link-vertical');
+  if(!item) return;
+  // if it's an anchor, browser handles it.
+  if(item.tagName.toLowerCase() === 'a') return;
+  const href = item.dataset.href || (item.querySelector('.link-sub') && item.querySelector('.link-sub').textContent);
+  if(href){
+    navigator.clipboard?.writeText(href).then(()=> toast('Copied: ' + href)).catch(()=> toast('Copy failed'));
   }
-  return el;
-}
+});
 
-// apply saved/default profile to preview
-function applyProfileToPreview(){
-  const name = $('#pe-username').value.trim() || 'grave';
-  const bio = $('#pe-bio').value.trim() || 'I share music, projects, and links.';
-  const linksRaw = $('#pe-links').value || '';
-  const links = safeParseLinks(linksRaw);
-  $('#pv-name').textContent = name + ' ';
-  $('#pv-bio').textContent = bio;
+/* DRAG & DROP: vertical reorder */
+(function setupDrag(){
   const list = $('#linksList');
-  list.innerHTML = '';
-  // main profile link
-  const mainHref = `https://grave.bio/${encodeURIComponent(name)}`;
-  const mainEl = createLinkItem(mainHref, `grave.bio/${name}`);
-  list.appendChild(mainEl);
-  links.forEach(l=>{
-    try{
-      // attempt to generate label from hostname
-      const url = new URL(l);
-      const label = url.hostname.replace('www.','');
-      list.appendChild(createLinkItem(l, label));
-    }catch(err){
-      // if not valid url, treat as plain text
-      list.appendChild(createLinkItem(l, l));
-    }
-  });
-  toast('Preview updated');
-}
-
-$('#saveProfile').addEventListener('click', ()=>{
-  applyProfileToPreview();
-  $('#profileMsg').textContent = 'Profile saved (mock)';
-  setTimeout(()=> $('#profileMsg').textContent = '', 2200);
-});
-$('#resetProfile').addEventListener('click', ()=>{
-  $('#pe-username').value = 'grave';
-  $('#pe-bio').value = 'I share music, projects, and links.';
-  $('#pe-links').value = 'https://twitter.com/,https://open.spotify.com/';
-  applyProfileToPreview();
-  $('#profileMsg').textContent = 'Reset to defaults';
-  setTimeout(()=> $('#profileMsg').textContent = '', 2000);
-});
-$('#openPreview').addEventListener('click', ()=> {
-  showModal('Profile preview', 'This is a mock preview. In production a live modal with embed would appear.');
-});
-
-/* ---------- drag & drop reordering ---------- */
-(function enableDragReorder(){
-  const list = document.getElementById('linksList');
   let dragEl = null;
-  function handleDragStart(e){
-    dragEl = e.target.closest('.link-item');
+  function dragStart(e){
+    dragEl = e.target.closest('.link-vertical');
     if(!dragEl) return;
     dragEl.style.opacity = '0.4';
     e.dataTransfer.effectAllowed = 'move';
   }
-  function handleDragEnd(e){
-    if(dragEl) dragEl.style.opacity = '';
-    dragEl = null;
-  }
-  function handleDragOver(e){
+  function dragOver(e){
     e.preventDefault();
-    const target = e.target.closest('.link-item');
-    if(target && target !== dragEl){
-      const rect = target.getBoundingClientRect();
-      const next = (e.clientY - rect.top) > (rect.height / 2);
-      target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
-    }
+    const target = e.target.closest('.link-vertical');
+    if(!target || target === dragEl) return;
+    const rect = target.getBoundingClientRect();
+    const next = (e.clientY - rect.top) > (rect.height / 2);
+    target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
   }
-  // attach handlers (initial)
+  function dragEnd(){ if(dragEl) dragEl.style.opacity = ''; dragEl = null; }
   function attach(){
-    $all('#linksList .link-item').forEach(it=>{
-      it.setAttribute('draggable', 'true');
-      it.addEventListener('dragstart', handleDragStart);
-      it.addEventListener('dragend', handleDragEnd);
-      it.addEventListener('dragover', handleDragOver);
+    $$('.link-vertical', list).forEach(it=>{
+      it.setAttribute('draggable','true');
+      it.removeEventListener('dragstart', dragStart);
+      it.removeEventListener('dragend', dragEnd);
+      it.removeEventListener('dragover', dragOver);
+      it.addEventListener('dragstart', dragStart);
+      it.addEventListener('dragend', dragEnd);
+      it.addEventListener('dragover', dragOver);
     });
   }
-  // whenever linksList changes, reattach
-  const obs = new MutationObserver(()=> attach());
-  obs.observe(document.getElementById('linksList'), {childList:true, subtree:true});
-  // initial attach
+  new MutationObserver(attach).observe(list, {childList:true});
   attach();
 })();
 
-/* ---------- copy link interactions (click on profile link) ---------- */
-document.getElementById('linksList').addEventListener('click', (e)=>{
-  const item = e.target.closest('.link-item');
-  if(!item) return;
-  // if anchor, let it open; if not, copy dataset href (main links)
-  if(item.tagName.toLowerCase() === 'a') return;
-  const href = item.dataset.href || (item.querySelector('.link-sub') && item.querySelector('.link-sub').textContent);
-  if(href){
-    navigator.clipboard?.writeText(href).then(()=> toast('Copied ' + href)).catch(()=> toast('Copy failed'));
+/* PREVIEW profile update function used by editor */
+function updatePreview({name, bio, links}){
+  if(name) $('#pv-name').textContent = name;
+  if(bio) $('#pv-bio').textContent = bio;
+  if(Array.isArray(links)){
+    const list = $('#linksList'); list.innerHTML = '';
+    // main profile link
+    const main = document.createElement('div'); main.className='link-vertical'; main.dataset.href = `https://grave.bio/${encodeURIComponent(name || 'grave')}`;
+    main.innerHTML = `<div class="link-icon">G</div><div><div class="link-main">grave.bio/${name || 'grave'}</div><div class="link-sub">${main.dataset.href}</div></div>`;
+    list.appendChild(main);
+    links.forEach(l=>{
+      try{
+        const url = new URL(l);
+        const label = url.hostname.replace('www.','');
+        const a = document.createElement('a'); a.className='link-vertical'; a.href = l; a.target='_blank'; a.rel='noopener noreferrer';
+        a.innerHTML = `<div class="link-icon">${label.slice(0,1).toUpperCase()}</div><div><div class="link-main">${label}</div><div class="link-sub">${l}</div></div>`;
+        list.appendChild(a);
+      }catch(err){
+        const v = document.createElement('div'); v.className='link-vertical'; v.dataset.href = l;
+        v.innerHTML = `<div class="link-icon">${(l||' ').slice(0,1).toUpperCase()}</div><div><div class="link-main">${l}</div><div class="link-sub">${l}</div></div>`;
+        list.appendChild(v);
+      }
+    });
+  }
+  toast('Preview updated');
+}
+
+/* EDITOR UI (inline under panels) */
+function showEditor(){
+  // create simple editor area in globalPanels if not exists
+  let holder = $('#globalEditor');
+  if(!holder){
+    holder = document.createElement('div'); holder.id = 'globalEditor';
+    holder.style.marginTop = '14px';
+    holder.innerHTML = `
+      <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input id="editName" class="input" placeholder="display name" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+          <input id="editBio" class="input" placeholder="short bio" style="flex:2;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+          <input id="editLinks" class="input" placeholder="comma separated links" style="flex:3;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+          <button class="btn primary" id="saveEdit">Save</button>
+          <button class="btn ghost" id="cancelEdit">Close</button>
+        </div>
+        <div id="editMsg" class="small" style="margin-top:10px;color:var(--muted)"></div>
+      </div>
+    `;
+    $('#globalPanels').appendChild(holder);
+
+    $('#saveEdit').addEventListener('click', ()=>{
+      const name = $('#editName').value.trim() || 'grave';
+      const bio = $('#editBio').value.trim() || 'I share music, projects and links.';
+      const links = ($('#editLinks').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+      updatePreview({name,bio,links});
+      $('#editMsg').textContent = 'Saved to preview (mock)';
+      setTimeout(()=> $('#editMsg').textContent = '', 2000);
+    });
+    $('#cancelEdit').addEventListener('click', ()=> holder.remove());
+    // prefill
+    $('#editName').value = $('#pv-name').textContent.trim();
+    $('#editBio').value = $('#pv-bio').textContent.trim();
+    const existing = $$('#linksList .link-vertical').map(a => a.dataset.href || (a.querySelector('.link-sub')?.textContent || '')).filter(Boolean);
+    $('#editLinks').value = existing.join(',');
+  } else {
+    holder.remove();
+  }
+}
+
+/* SIGNUP global function (small modal-less flow) */
+function openSignup(){
+  // simple inline signup area appended to globalPanels
+  let s = $('#globalSignup');
+  if(!s){
+    s = document.createElement('div'); s.id='globalSignup';
+    s.style.marginTop='12px';
+    s.innerHTML = `
+      <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input id="signupName" class="input" placeholder="username" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)" />
+          <input id="signupEmail" class="input" placeholder="email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)" />
+          <button class="btn primary" id="signupSubmit">Claim</button>
+          <button class="btn ghost" id="signupCancel">Cancel</button>
+        </div>
+        <div id="signupNote" class="small" style="margin-top:10px;color:var(--muted)"></div>
+      </div>`;
+    $('#globalPanels').appendChild(s);
+    $('#signupSubmit').addEventListener('click', ()=>{
+      const u = $('#signupName').value.trim(); const e = $('#signupEmail').value.trim();
+      if(!/^[a-zA-Z0-9-_]{3,24}$/.test(u)){ $('#signupNote').textContent='Invalid username (3-24 chars).'; $('#signupNote').style.color='tomato'; return; }
+      if(!/^\S+@\S+\.\S+$/.test(e)){ $('#signupNote').textContent='Invalid email.'; $('#signupNote').style.color='tomato'; return; }
+      $('#signupNote').style.color='var(--muted)'; $('#signupNote').textContent='Claiming (mock)...';
+      setTimeout(()=> { $('#signupNote').textContent = 'Claimed — check your email (mock)'; toast('Signup mocked'); $('#signupName').value=''; $('#signupEmail').value=''; }, 900);
+    });
+    $('#signupCancel').addEventListener('click', ()=> s.remove());
+  } else {
+    s.remove();
+  }
+}
+
+/* ADMIN modal logic (password prompt) */
+$('#btnAdmin').addEventListener('click', ()=> { $('#adminModal').style.display='flex'; $('#adminModal').setAttribute('aria-hidden','false'); $('#adminPass').focus(); });
+$('#adminCancel').addEventListener('click', ()=> { $('#adminModal').style.display='none'; $('#adminModal').setAttribute('aria-hidden','true'); });
+$('#adminSubmit').addEventListener('click', ()=> {
+  const p = $('#adminPass').value;
+  if(p === 'letmein'){ // demo password
+    $('#adminModal').style.display='none'; $('#adminModal').setAttribute('aria-hidden','true');
+    openAdminPanel();
+  } else {
+    toast('Wrong password (demo)');
   }
 });
 
-/* ---------- admin secret toggle (press 'g' twice quickly) ---------- */
-(function adminSecret(){
-  let last = 0, count = 0;
-  document.addEventListener('keydown', (e)=>{
-    const now = Date.now();
-    if(e.key.toLowerCase() === 'g'){
-      if(now - last < 400) count++; else count = 1;
-      last = now;
-      if(count >= 2){
-        // toggle admin visibility
-        const panel = document.getElementById('admin');
-        const visible = panel.getAttribute('data-secret') === 'true';
-        panel.setAttribute('data-secret', visible ? 'false' : 'true');
-        if(visible){ panel.style.display = 'none'; panel.setAttribute('aria-hidden','true'); toast('Admin hidden'); }
-        else { panel.style.display = 'block'; panel.setAttribute('aria-hidden','false'); panel.classList.add('active'); toast('Admin revealed (mock)'); }
-        count = 0;
-      }
-    }
+/* open admin panel inline */
+function openAdminPanel(){
+  const container = document.createElement('div');
+  container.style.marginTop = '12px';
+  container.innerHTML = `
+    <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
+      <h3 style="margin:0 0 8px 0">Admin — Mock</h3>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Manage users & content (client-side mock only).</div>
+      <table style="width:100%;border-collapse:collapse;color:#fff"><thead><tr><th style="text-align:left;padding:8px">User</th><th style="padding:8px">Status</th><th style="padding:8px">Actions</th></tr></thead>
+      <tbody id="adminTableBody"><tr><td style="padding:8px">demo</td><td style="padding:8px">Active</td><td style="padding:8px"><button class="btn ghost" data-act="ban" data-user="demo">Ban</button></td></tr></tbody></table>
+    </div>`;
+  $('#globalPanels').appendChild(container);
+  // simple handler for actions:
+  container.querySelector('#adminTableBody').addEventListener('click', e=>{
+    const b = e.target.closest('button');
+    if(!b) return;
+    const act = b.dataset.act, user = b.dataset.user;
+    if(act === 'ban'){ b.textContent='Unban'; b.dataset.act='unban'; toast(user + ' banned (mock)'); }
+    else if(act === 'unban'){ b.textContent='Ban'; b.dataset.act='ban'; toast(user + ' unbanned (mock)'); }
   });
-})();
-
-/* ---------- admin actions (mock) ---------- */
-document.getElementById('adminRows').addEventListener('click', (e)=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  const action = btn.dataset.act, user = btn.dataset.user;
-  if(action === 'ban'){ alert('Banned ' + user + ' (mock)'); btn.textContent = 'Unban'; btn.dataset.act = 'unban'; }
-  else if(action === 'unban'){ alert('Unbanned ' + user + ' (mock)'); btn.textContent = 'Ban'; btn.dataset.act = 'ban'; }
-});
-
-/* ---------- modal ---------- */
-function showModal(title, body){
-  const bd = document.getElementById('modalBackdrop');
-  $('#modalTitle').textContent = title;
-  $('#modalBody').textContent = body;
-  bd.style.display = 'flex';
-  bd.setAttribute('aria-hidden','false');
-  setTimeout(()=> $('#modalBox').focus(), 120);
-}
-function hideModal(){
-  const bd = document.getElementById('modalBackdrop');
-  bd.style.display = 'none';
-  bd.setAttribute('aria-hidden','true');
-}
-$('#modalClose').addEventListener('click', hideModal);
-document.getElementById('modalBackdrop').addEventListener('click', (e)=>{ if(e.target === e.currentTarget) hideModal(); });
-
-/* ---------- keyboard nav for panels ---------- */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape'){ hideModal(); hideAllVisiblePanels(); }
-});
-function hideAllVisiblePanels(){
-  panels = ['features','pricing','help','signup','admin','profileEditor'];
-  panels.forEach(id=>{ const el=document.getElementById(id); if(el) { el.classList.remove('active'); el.setAttribute('aria-hidden','true'); } });
 }
 
-/* ---------- initial: apply default profile values ---------- */
+/* PREVIEW: ensure drag&drop attaches on content changes */
+new MutationObserver(()=> {
+  $$('.link-vertical', $('#linksList')).forEach(it => it.setAttribute('draggable', 'true'));
+}).observe($('#linksList'), {childList:true, subtree:true});
+
+/* INITIAL SETUP */
 (function init(){
-  // ensure admin treated hidden by default
-  const admin = document.getElementById('admin');
-  admin.style.display = 'none';
-  admin.setAttribute('aria-hidden','true');
-
-  // apply profile default
-  applyProfileToPreview();
-
-  // subtle fade in
-  document.querySelectorAll('.fade-up').forEach((el, i)=>{
-    setTimeout(()=> el.classList.add('in'), 120 + i*60);
-  });
-
-  toast('grave.bio ready (demo)');
+  // remove active nav highlight
+  $$('.nav-btn').forEach(b => b.classList.remove('active'));
+  // hide panels initially
+  $$('.panel').forEach(p=> p.classList.remove('active'));
+  // small fade-in
+  setTimeout(()=> document.body.style.visibility='visible', 0);
+  toast('grave.bio — ready (demo)');
 })();
-
 </script>
 </body>
 </html>
