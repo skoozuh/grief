@@ -1,52 +1,262 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grief.lol</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Link Hub</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050507; /* deep black */
+      --card:#0b0b0d;
+      --muted:#9aa0a6;
+      --accent1: #00f0ff; /* cyan */
+      --accent2: #c857ff; /* magenta */
+      --accent3: #7af75b; /* acid green */
+      --glass: rgba(255,255,255,0.03);
+      --radius:18px;
+      --maxw:460px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;min-height:100%;font-family:Inter, Poppins, system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(200,100,255,0.04), transparent),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(0,240,255,0.03), transparent),
+                  var(--bg);
+      color:#e7e7ea; -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+      display:flex;align-items:center;justify-content:center;padding:48px;
+      overflow:hidden;
+    }
+
+    /* subtle floating shapes */
+    .float-shape{position:fixed;filter:blur(26px);opacity:0.15;mix-blend-mode:screen;pointer-events:none}
+    .s1{width:420px;height:420px;background:linear-gradient(135deg,var(--accent1),var(--accent2));left:-80px;top:-120px;border-radius:40%}
+    .s2{width:300px;height:300px;background:linear-gradient(135deg,var(--accent3),var(--accent2));right:-100px;bottom:-80px;border-radius:45%}
+
+    /* container */
+    .wrap{width:100%;max-width:1100px;display:flex;gap:40px;align-items:center;justify-content:center}
+
+    /* identity card */
+    .card{
+      width:100%;max-width:var(--maxw);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:28px;box-shadow:0 10px 30px rgba(0,0,0,0.6);backdrop-filter:blur(6px);
+      position:relative;z-index:3;border:1px solid rgba(255,255,255,0.03);
+    }
+
+    .top{display:flex;gap:16px;align-items:center}
+    .avatar{
+      width:84px;height:84px;border-radius:22px;overflow:hidden;flex:0 0 84px;border:2px solid rgba(255,255,255,0.04);background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);display:flex;align-items:center;justify-content:center;transition:transform .28s cubic-bezier(.2,.9,.3,1);
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .avatar:hover{transform:translateY(-6px) rotate(-3deg) scale(1.03)}
+
+    .meta{flex:1}
+    .username{font-weight:800;font-size:20px;letter-spacing:0.2px}
+    .vanity{font-size:13px;color:var(--muted);margin-top:6px}
+    .bio{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.4}
+
+    /* badges */
+    .badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+    .badge{background:var(--glass);padding:8px 10px;border-radius:10px;font-size:13px;color:var(--muted);position:relative;border:1px solid rgba(255,255,255,0.02);cursor:default}
+    .badge[data-tooltip]{position:relative}
+    .badge[data-tooltip]:hover::after{
+      content:attr(data-tooltip);position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 10px);white-space:nowrap;background:#0b0b0d;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);font-size:12px;color:var(--muted);opacity:1;transition:all .18s;box-shadow:0 8px 20px rgba(0,0,0,0.6)}
+
+    /* links */
+    .links{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+    .link-btn{display:inline-flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:999px;background:linear-gradient(90deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-weight:600;text-decoration:none;color:inherit;transition:transform .18s, box-shadow .18s, background .18s}
+    .link-left{display:flex;gap:12px;align-items:center}
+    .link-left .icon{width:36px;height:36px;border-radius:12px;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#050507;font-weight:700}
+    .link-right{opacity:0.9;color:var(--muted);font-size:13px}
+    .link-btn:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.6);}
+    .link-btn:hover .icon{filter:brightness(1.03);transform:scale(1.06)}
+
+    /* accent pulses */
+    .pulse{position:absolute;inset:auto -120px -120px auto;width:260px;height:260px;border-radius:50%;background:conic-gradient(from 120deg,var(--accent1),var(--accent2),var(--accent3));opacity:0.06;filter:blur(40px);transform:rotate(30deg);z-index:1}
+
+    /* extra column for embeds (collapsible) */
+    .side{display:none;max-width:420px;width:100%}
+    .embed-box{background:rgba(0,0,0,0.25);border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,0.03)}
+    .collapse-toggle{display:flex;gap:10px;align-items:center;cursor:pointer}
+
+    /* footer small */
+    .footer{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+
+    /* responsiveness */
+    @media (min-width:980px){
+      .wrap{justify-content:space-between}
+      .side{display:block}
+    }
+    @media (max-width:520px){
+      :root{--maxw:420px}
+      body{padding:20px}
+      .card{padding:18px}
+      .avatar{width:72px;height:72px;border-radius:16px}
+      .username{font-size:18px}
+    }
+
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="left">
-      <div class="branding">💀 grief.lol</div>
-      <h1>Your Digital <span class="highlight">Identity,</span><br />On Your Terms</h1>
-      <p class="tagline">
-        Create a stunning biolink page that represents your personal brand.<br />
-        Share all your content in one beautiful, customizable location.
-      </p>
-      <div class="buttons">
-        <a href="#" class="btn primary">Claim Username</a>
-        <a href="#" class="btn">Explore Features</a>
+  <div class="float-shape s1" aria-hidden></div>
+  <div class="float-shape s2" aria-hidden></div>
+
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Identity card">
+      <div class="top">
+        <div class="avatar" id="avatar">
+          <img src="https://images.unsplash.com/photo-1545996124-1a31555f4a12?q=80&w=800&auto=format&fit=crop&s=placeholder" alt="Avatar">
+        </div>
+        <div class="meta">
+          <div class="username">Your Name <span style="font-weight:400;color:var(--muted);font-size:13px">• @yourname</span></div>
+          <div class="vanity">yoursite.com/<strong>yourname</strong></div>
+          <div class="bio">Designer • builder of things. I make tiny internet homes, curated playlists, and the occasional chaos. Tap a link below to explore.</div>
+
+          <div class="badges">
+            <div class="badge" data-tooltip="Early supporter — joined 2024">Founder</div>
+            <div class="badge" data-tooltip="Verified creator on multiple platforms">Creator</div>
+            <div class="badge" data-tooltip="I make small drops and occasional merch">Shop</div>
+          </div>
+        </div>
       </div>
-      <div class="note">✅ 100% Free To Get Started · No Credit Card Required</div>
+
+      <div class="links" id="links">
+        <a class="link-btn" href="#" data-href="https://twitter.com" onclick="openLink(event,this)">
+          <div class="link-left"><div class="icon">T</div><div>
+            <div style="font-weight:700">Twitter</div>
+            <div style="font-size:12px;color:var(--muted)">Latest updates & threads</div>
+          </div></div>
+          <div class="link-right">@yourname</div>
+        </a>
+
+        <a class="link-btn" href="#" onclick="openLink(event,this)" data-href="https://youtube.com">
+          <div class="link-left"><div class="icon">Y</div><div>
+            <div style="font-weight:700">YouTube</div>
+            <div style="font-size:12px;color:var(--muted)">Shorts & clips</div>
+          </div></div>
+          <div class="link-right">Subscribe</div>
+        </a>
+
+        <a class="link-btn" href="#" onclick="openLink(event,this)" data-href="https://soundcloud.com">
+          <div class="link-left"><div class="icon">S</div><div>
+            <div style="font-weight:700">Music</div>
+            <div style="font-size:12px;color:var(--muted)">Open my listening list</div>
+          </div></div>
+          <div class="link-right">Play</div>
+        </a>
+      </div>
+
+      <div class="footer">Tip: Press <strong>⟲</strong> (top-left avatar) to toggle avatar tilt animation. Click a link to open in a new tab.</div>
+
+      <div class="pulse" aria-hidden></div>
     </div>
 
-    <div class="right">
-      <div class="profile-card">
-        <img src="assets/avatar.png" class="avatar" />
-        <h2>@yourname</h2>
-        <div class="badges">⭐ 💎 💰 🎗️ 🔥</div>
-        <p class="location">Web developer based in Somewhere</p>
-        <p class="meta">🌍 Vienna, Austria</p>
-        <div class="status">
-          <div class="status-avatar">
-            <img src="assets/avatar.png" />
-          </div>
-          <div class="status-info">
-            <strong>grief.lol#0001</strong> <span class="tag">grief</span>
-            <div>Playing Valorant<br /><small>Competitive • Haven</small></div>
-          </div>
-          <div class="status-icon">🎮</div>
+    <div class="side">
+      <div class="embed-box">
+        <div class="collapse-toggle" id="collapseToggle" onclick="toggleCollapse()">
+          <div style="font-weight:700">Media & embeds</div>
+          <div style="margin-left:auto;color:var(--muted)" id="collapseChevron">▶</div>
         </div>
-        <div class="socials">
-          <a href="#">💬</a>
-          <a href="#">🎧</a>
-          <a href="#">❌</a>
-          <a href="#">📸</a>
+
+        <div id="collapseContent" style="margin-top:12px;display:none">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Spotify</div>
+          <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" style="width:100%;height:90px;border-radius:8px;border:none;" allow="autoplay; encrypted-media"></iframe>
+
+          <div style="height:14px"></div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Social preview</div>
+          <div style="background:rgba(255,255,255,0.02);border-radius:8px;padding:12px;font-size:13px;color:var(--muted)">Embedded previews (Twitter, Instagram) will appear here when connected.</div>
         </div>
+      </div>
+
+      <div style="height:14px"></div>
+      <div class="embed-box" style="margin-top:12px">
+        <div style="font-weight:700;margin-bottom:8px">Settings</div>
+        <label style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+          <input id="soundToggle" type="checkbox" checked> Enable click sound
+        </label>
+        <label style="display:flex;gap:10px;align-items:center">
+          <input id="prefersReduced" type="checkbox"> Reduce motion
+        </label>
       </div>
     </div>
   </div>
+
+  <script>
+    // open links in new tab with subtle click
+    function playClick(){
+      if(!document.getElementById('soundToggle').checked) return;
+      // short webaudio 'tick'
+      try{
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine'; o.frequency.value = 800; g.gain.value = 0.06;
+        o.connect(g); g.connect(ctx.destination);
+        o.start(); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+        setTimeout(()=>{o.stop();ctx.close()},140);
+      }catch(e){}
+    }
+
+    function openLink(e, el){
+      e.preventDefault(); playClick();
+      const url = el.dataset.href || '#';
+      window.open(url,'_blank');
+    }
+
+    // collapse toggle
+    function toggleCollapse(){
+      const c = document.getElementById('collapseContent');
+      const ch = document.getElementById('collapseChevron');
+      if(c.style.display === 'none' || !c.style.display){
+        c.style.display = 'block'; ch.textContent = '▼';
+      } else { c.style.display = 'none'; ch.textContent = '▶'; }
+      playClick();
+    }
+
+    // avatar tilt preference
+    document.getElementById('avatar').addEventListener('click',()=>{
+      const a = document.getElementById('avatar');
+      a.classList.toggle('no-tilt');
+      playClick();
+    });
+
+    // optional: reduce motion
+    document.getElementById('prefersReduced').addEventListener('change',(e)=>{
+      if(e.target.checked){
+        document.documentElement.style.setProperty('--motion','none');
+        document.querySelectorAll('.avatar, .link-btn').forEach(x=>x.style.transition='none');
+      } else {
+        document.querySelectorAll('.avatar, .link-btn').forEach(x=>x.style.transition='transform .28s cubic-bezier(.2,.9,.3,1)');
+      }
+    });
+
+    // small progressive enhancement: floating shapes animation
+    (function animateShapes(){
+      const s1 = document.querySelector('.s1');
+      const s2 = document.querySelector('.s2');
+      let t = 0; function tick(){ t+=0.008;
+        s1.style.transform = `translateY(${Math.sin(t)*12}px) rotate(${t*8}deg)`;
+        s2.style.transform = `translateY(${Math.cos(t*1.3)*10}px) rotate(${t*6}deg)`;
+        requestAnimationFrame(tick);
+      };
+      tick();
+    })();
+
+    // preload: prefer-reduced-motion from OS
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.getElementById('prefersReduced').checked = true;
+      document.querySelectorAll('.avatar, .link-btn').forEach(x=>x.style.transition='none');
+    }
+
+    // small accessibility: keyboard open first link
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        const a = document.querySelector('.link-btn'); if(a) a.click();
+      }
+    });
+
+  </script>
 </body>
 </html>
