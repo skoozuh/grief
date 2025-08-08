@@ -3,1012 +3,653 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your digital identity</title>
-<meta name="description" content="Handcrafted premium biolink platform. Keep your socials, music, badges, and highlights in one beautifully designed place." />
+<title>grief.lol — Your Digital Identity</title>
+<!-- Google Fonts Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 <style>
-  /* ===========================
-     VARIABLES & BASE STYLES
-  =========================== */
+  /* == CSS VARIABLES & BASE COLORS == */
   :root {
-    --bg: #070507;
-    --panel: #0f0c10;
-    --muted: #9b8fa0;
-    --accent1: #ff5fb7; /* magenta */
-    --accent2: #7c5cff; /* purple */
-    --accent3: #00f0ff; /* cyan */
-    --glass: rgba(255, 255, 255, 0.03);
-    --glass-2: rgba(255, 255, 255, 0.02);
-    --radius: 20px;
-    --trans: 300ms;
-    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-    --font-primary: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
+    --bg-dark: #070507;
+    --bg-light: #fefefe;
+    --panel-dark: #0f0c10;
+    --panel-light: #fafafa;
+    --text-dark: #eee;
+    --text-light: #222;
+    --muted-dark: #9b8fa0;
+    --muted-light: #999;
+    --accent-magenta: #ff5fb7;
+    --accent-purple: #7c5cff;
+    --accent-cyan: #00f0ff;
+    --radius: 18px;
+    --trans: 0.3s ease;
+    --shadow-dark: 0 10px 40px rgba(0,0,0,0.6);
+    --shadow-light: 0 10px 40px rgba(0,0,0,0.12);
   }
+  /* Light theme overrides */
+  body[data-theme="light"] {
+    --bg-dark: var(--bg-light);
+    --panel-dark: var(--panel-light);
+    --text-dark: var(--text-light);
+    --muted-dark: var(--muted-light);
+    --shadow-dark: var(--shadow-light);
+  }
+
+  /* == RESET & BASE == */
   * {
     box-sizing: border-box;
   }
   html, body {
-    height: 100%;
-    margin: 0;
-    background: radial-gradient(1200px 700px at 10% 80%, rgba(124, 92, 255, 0.08), transparent 10%),
-                radial-gradient(900px 500px at 90% 20%, rgba(255, 95, 183, 0.06), transparent 8%),
-                var(--bg);
-    color: #eee;
-    font-family: var(--font-primary);
+    margin: 0; padding: 0;
+    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    transition: background var(--trans), color var(--trans);
   }
   a {
-    color: var(--accent1);
+    color: var(--accent-magenta);
     text-decoration: none;
     transition: color var(--trans);
   }
   a:hover, a:focus {
-    color: var(--accent2);
-    outline: none;
+    color: var(--accent-cyan);
   }
-  /* =============
-     SCROLLBAR
-  ============= */
-  /* Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent3) var(--panel);
-  }
-  /* Webkit */
-  *::-webkit-scrollbar {
-    width: 8px;
-  }
-  *::-webkit-scrollbar-track {
-    background: var(--panel);
-  }
-  *::-webkit-scrollbar-thumb {
-    background-color: var(--accent3);
-    border-radius: 8px;
-    border: 2px solid var(--panel);
-  }
-  /* ======================
-     LAYOUT & CONTAINERS
-  ====================== */
+
+  /* == UTILITY CLASSES == */
+
+  /* spacing */
+  .m-0 { margin: 0 !important; }
+  .mt-0 { margin-top: 0 !important; }
+  .mb-0 { margin-bottom: 0 !important; }
+  .ml-0 { margin-left: 0 !important; }
+  .mr-0 { margin-right: 0 !important; }
+  .p-0 { padding: 0 !important; }
+  .pt-0 { padding-top: 0 !important; }
+  .pb-0 { padding-bottom: 0 !important; }
+  .pl-0 { padding-left: 0 !important; }
+  .pr-0 { padding-right: 0 !important; }
+
+  .m-1 { margin: 4px !important; }
+  .mt-1 { margin-top: 4px !important; }
+  .mb-1 { margin-bottom: 4px !important; }
+  .ml-1 { margin-left: 4px !important; }
+  .mr-1 { margin-right: 4px !important; }
+  .p-1 { padding: 4px !important; }
+  .pt-1 { padding-top: 4px !important; }
+  .pb-1 { padding-bottom: 4px !important; }
+  .pl-1 { padding-left: 4px !important; }
+  .pr-1 { padding-right: 4px !important; }
+
+  .m-2 { margin: 8px !important; }
+  .mt-2 { margin-top: 8px !important; }
+  .mb-2 { margin-bottom: 8px !important; }
+  .ml-2 { margin-left: 8px !important; }
+  .mr-2 { margin-right: 8px !important; }
+  .p-2 { padding: 8px !important; }
+  .pt-2 { padding-top: 8px !important; }
+  .pb-2 { padding-bottom: 8px !important; }
+  .pl-2 { padding-left: 8px !important; }
+  .pr-2 { padding-right: 8px !important; }
+
+  /* typography */
+  .text-center { text-align: center !important; }
+  .text-left { text-align: left !important; }
+  .text-right { text-align: right !important; }
+  .text-muted { color: var(--muted-dark) !important; }
+  .font-light { font-weight: 300 !important; }
+  .font-regular { font-weight: 400 !important; }
+  .font-semibold { font-weight: 600 !important; }
+  .font-bold { font-weight: 700 !important; }
+  .text-small { font-size: 0.85rem !important; }
+  .text-medium { font-size: 1rem !important; }
+  .text-large { font-size: 1.3rem !important; }
+  .text-xlarge { font-size: 2rem !important; }
+
+  /* flex & grid helpers */
+  .flex { display: flex !important; }
+  .flex-center { justify-content: center !important; align-items: center !important; }
+  .flex-column { flex-direction: column !important; }
+  .flex-wrap { flex-wrap: wrap !important; }
+  .gap-1 { gap: 4px !important; }
+  .gap-2 { gap: 8px !important; }
+  .gap-3 { gap: 12px !important; }
+  .gap-4 { gap: 16px !important; }
+  .gap-5 { gap: 24px !important; }
+  .grid { display: grid !important; }
+  .grid-cols-2 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; }
+  .grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; }
+  .grid-gap-1 { grid-gap: 4px !important; }
+  .grid-gap-2 { grid-gap: 8px !important; }
+  .grid-gap-3 { grid-gap: 12px !important; }
+
+  /* visibility */
+  .hidden { display: none !important; }
+  .visible { display: block !important; }
+
+  /* == LAYOUT BASE == */
+
   header {
     position: fixed;
-    top: 20px;
+    top: 16px;
     left: 50%;
     transform: translateX(-50%);
+    width: calc(100% - 48px);
     max-width: 1200px;
-    width: calc(100% - 60px);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius: 40px;
-    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.03);
-    backdrop-filter: blur(8px) saturate(120%);
-    z-index: 100;
+    padding: 12px 24px;
+    background: var(--panel-dark);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-dark);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 24px;
-    gap: 20px;
+    z-index: 999;
+    transition: background var(--trans), box-shadow var(--trans);
   }
+  body[data-theme="light"] header {
+    background: var(--panel-light);
+    box-shadow: var(--shadow-light);
+  }
+
   .brand {
     font-weight: 700;
-    font-size: 18px;
-    color: var(--accent1);
+    font-size: 1.5rem;
+    letter-spacing: -0.06em;
     cursor: pointer;
+    color: var(--accent-magenta);
     user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    transition: color var(--trans);
   }
-  .brand .logo-mark {
-    width: 40px;
-    height: 40px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    box-shadow: 0 6px 24px rgba(124, 92, 255, 0.12), inset 0 -4px 8px rgba(0, 0, 0, 0.2);
-    color: #111;
-    font-weight: 900;
-    font-size: 22px;
-    display: grid;
-    place-items: center;
-    user-select: none;
+  .brand:hover {
+    color: var(--accent-cyan);
   }
+
   nav {
     display: flex;
-    gap: 26px;
-  }
-  nav a {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: color var(--trans);
-  }
-  nav a.active,
-  nav a:hover {
-    color: var(--accent3);
-  }
-  .btn {
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 10px 22px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    border: none;
-    transition: background var(--trans), box-shadow var(--trans);
-    user-select: none;
-    box-shadow: 0 8px 22px rgba(255, 95, 183, 0.28);
-  }
-  .btn:hover,
-  .btn:focus {
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    box-shadow: 0 12px 34px rgba(0, 240, 255, 0.38);
-    outline: none;
-  }
-  main {
-    margin: 110px auto 60px;
-    max-width: 1200px;
-    padding: 0 32px;
-  }
-  /* ===================
-     TAB CONTAINER
-  =================== */
-  .tabs {
-    display: flex;
     gap: 24px;
-    border-bottom: 1.6px solid var(--glass);
-    margin-bottom: 30px;
+    font-weight: 600;
   }
-  .tab {
-    padding: 12px 18px;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--muted);
+  nav button {
+    background: none;
+    border: none;
+    color: var(--muted-dark);
+    font-size: 1rem;
     cursor: pointer;
-    border-radius: var(--radius);
+    padding: 8px 12px;
+    border-radius: 12px;
     transition: background var(--trans), color var(--trans);
-    user-select: none;
   }
-  .tab.active {
-    color: var(--accent1);
-    background: var(--glass);
-    box-shadow: 0 6px 20px rgba(255, 95, 183, 0.12);
+  nav button:hover,
+  nav button[aria-selected="true"] {
+    background: var(--accent-magenta);
+    color: var(--bg-dark);
   }
-  /* ======================
-     PAGE SECTIONS (PAGES)
-  ====================== */
-  section.page {
+  body[data-theme="light"] nav button {
+    color: var(--muted-light);
+  }
+  body[data-theme="light"] nav button[aria-selected="true"] {
+    background: var(--accent-cyan);
+    color: var(--bg-light);
+  }
+
+  /* Theme toggle */
+  #theme-toggle {
+    background: var(--accent-purple);
+    border: none;
+    border-radius: 9999px;
+    width: 42px;
+    height: 26px;
+    position: relative;
+    cursor: pointer;
+    transition: background var(--trans);
+  }
+  #theme-toggle .thumb {
+    background: var(--bg-dark);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: left var(--trans), background var(--trans);
+  }
+  body[data-theme="light"] #theme-toggle {
+    background: var(--accent-cyan);
+  }
+  body[data-theme="light"] #theme-toggle .thumb {
+    left: 19px;
+    background: var(--bg-light);
+  }
+
+  /* == MAIN CONTENT & TABS == */
+  main {
+    margin: 96px auto 48px;
+    max-width: 1200px;
+    padding: 0 24px;
+    min-height: calc(100vh - 140px);
+    position: relative;
+  }
+  section.tab-panel {
     display: none;
-    animation: fadeInUp 0.4s ease forwards;
-    min-height: 500px;
-    color: var(--text);
+    animation: fadeIn 0.45s ease forwards;
   }
-  section.page.active {
+  section.tab-panel[aria-hidden="false"] {
     display: block;
   }
-  /* ======================
-     HERO / FRONT PAGE
-  ====================== */
-  .hero {
-    max-width: 640px;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  .hero h1 {
-    font-size: 3.2rem;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 18px;
-    letter-spacing: -0.02em;
-  }
-  .hero h1 .accent {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 6px 18px rgba(255, 95, 183, 0.12));
-  }
-  .hero p.lead {
-    font-size: 17px;
-    max-width: 580px;
-    line-height: 1.5;
-    color: var(--muted);
-    margin-bottom: 32px;
-  }
-  .hero .btn-group {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .hero .btn-group .btn-outline {
-    background: transparent;
-    border: 2px solid var(--accent1);
-    color: var(--accent1);
-    font-weight: 700;
-    padding: 10px 22px;
-    border-radius: 999px;
-    transition: background var(--trans), color var(--trans);
-  }
-  .hero .btn-group .btn-outline:hover,
-  .hero .btn-group .btn-outline:focus {
-    background: var(--accent1);
-    color: #111;
-  }
-  /* ======================
-     LINK PREVIEW CARD
-  ====================== */
-  .card-preview {
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: var(--card-shadow);
-    padding: 28px;
-    max-width: 700px;
-    width: 100%;
-    transition: box-shadow var(--trans);
+
+  /* == FOOTER == */
+  footer {
+    text-align: center;
+    padding: 24px 12px;
+    color: var(--muted-dark);
+    font-size: 0.85rem;
     user-select: none;
   }
-  .card-preview:hover {
-    box-shadow: var(--shadow-hover);
-  }
-  .card-preview .username {
-    font-weight: 700;
-    font-size: 28px;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .card-preview .bio {
-    font-size: 15px;
-    color: var(--muted);
-    margin-bottom: 18px;
-  }
-  .card-preview .links-list {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-  }
-  .card-preview .link-pill {
-    white-space: nowrap;
-    padding: 12px 20px;
-    border-radius: 18px;
-    font-weight: 600;
-    font-size: 14px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    color: #111;
-    box-shadow: 0 5px 20px rgba(255, 95, 183, 0.4);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    user-select: none;
-  }
-  .card-preview .link-pill:hover,
-  .card-preview .link-pill:focus {
-    transform: translateY(-4px);
-    box-shadow: 0 9px 26px rgba(255, 95, 183, 0.6);
-    outline: none;
-  }
-  /* Scrollbar for links-list */
-  .card-preview .links-list::-webkit-scrollbar {
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
     height: 8px;
   }
-  .card-preview .links-list::-webkit-scrollbar-track {
-    background: var(--panel);
+  ::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .card-preview .links-list::-webkit-scrollbar-thumb {
-    background: var(--accent3);
-    border-radius: 8px;
-  }
-  /* ======================
-     FORM - WAITLIST SIGNUP
-  ====================== */
-  form#signup-form {
-    max-width: 450px;
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 28px 32px;
-    box-shadow: var(--card-shadow);
-  }
-  form#signup-form label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--accent3);
-  }
-  form#signup-form input[type="text"],
-  form#signup-form input[type="email"] {
-    width: 100%;
-    padding: 12px 14px;
-    margin-bottom: 18px;
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-magenta);
     border-radius: 10px;
-    border: 1px solid var(--muted);
-    background: var(--bg);
-    color: #eee;
-    font-size: 16px;
-    transition: border-color var(--trans);
   }
-  form#signup-form input[type="text"]:focus,
-  form#signup-form input[type="email"]:focus {
-    border-color: var(--accent1);
-    outline: none;
+  body[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
   }
-  .error-message {
-    color: var(--color-danger);
-    font-size: 13px;
-    margin-top: -12px;
-    margin-bottom: 12px;
-    font-weight: 600;
-    display: none;
-  }
-  .error-message.active {
-    display: block;
-  }
-  form#signup-form button[type="submit"] {
-    width: 100%;
-    padding: 14px 0;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    font-weight: 700;
-    font-size: 16px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    transition: background var(--trans);
-  }
-  form#signup-form button[type="submit"]:hover,
-  form#signup-form button[type="submit"]:focus {
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    outline: none;
-  }
-  /* ======================
-     FAQ SECTION
-  ====================== */
-  .faq {
-    max-width: 700px;
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: var(--card-shadow);
-    padding: 28px 32px;
-    margin-top: 40px;
-  }
-  .faq h2 {
-    margin-bottom: 20px;
-    color: var(--accent1);
-    font-weight: 700;
-  }
-  .faq-item {
-    margin-bottom: 16px;
-  }
-  .faq-question {
-    font-weight: 700;
-    cursor: pointer;
-    position: relative;
-    padding-right: 30px;
-    user-select: none;
-    color: var(--muted);
-    transition: color var(--trans);
-  }
-  .faq-question::after {
-    content: '+';
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 22px;
-    line-height: 1;
-    color: var(--accent1);
-    transition: transform var(--trans);
-  }
-  .faq-question[aria-expanded="true"]::after {
-    content: '−';
-    transform: rotate(180deg);
-  }
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    color: var(--text);
-    transition: max-height 0.3s ease;
-    padding-left: 12px;
-    font-size: 15px;
-  }
-  .faq-answer.open {
-    max-height: 300px;
-    margin-top: 8px;
-  }
-  /* ======================
-     ADMIN PANEL MOCKUP
-  ====================== */
-  .admin-panel {
-    max-width: 900px;
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: var(--card-shadow);
-    padding: 32px 28px;
-    color: var(--text);
-  }
-  .admin-panel h2 {
-    margin-bottom: 24px;
-    color: var(--accent2);
-  }
-  .admin-section {
-    margin-bottom: 28px;
-  }
-  .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 24px;
-  }
-  .admin-table th, .admin-table td {
-    border-bottom: 1px solid var(--glass-2);
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 14px;
-  }
-  .admin-table th {
-    color: var(--accent3);
-    font-weight: 700;
-  }
-  .btn-danger {
-    background: var(--color-danger);
-    color: #111;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background var(--trans);
-  }
-  .btn-danger:hover,
-  .btn-danger:focus {
-    background: #c43636;
-    outline: none;
-  }
-  .input-text {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 10px;
-    border: 1px solid var(--muted);
-    background: var(--bg);
-    color: #eee;
-    font-size: 14px;
-    margin-bottom: 12px;
-    transition: border-color var(--trans);
-  }
-  .input-text:focus {
-    border-color: var(--accent3);
-    outline: none;
-  }
-  /* ======================
-     UTILS - FLEX & GRID
-  ====================== */
-  .flex {
-    display: flex;
-  }
-  .flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .flex-column {
-    display: flex;
-    flex-direction: column;
-  }
-  .gap-12 {
-    gap: 12px;
-  }
-  .gap-20 {
-    gap: 20px;
-  }
-  .text-center {
-    text-align: center;
-  }
-  .mt-20 {
-    margin-top: 20px;
-  }
-  .mb-20 {
-    margin-bottom: 20px;
-  }
-  .px-12 {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-  .py-12 {
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-  .btn-sm {
-    font-size: 13px;
-    padding: 6px 14px;
-    border-radius: 999px;
-  }
-  /* ======================
-     ANIMATIONS
-  ====================== */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+  /* Accessibility - reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0ms !important;
+      transition-duration: 0ms !important;
     }
   }
-  @keyframes pulseAccent {
-    0%, 100% {
-      text-shadow: 0 0 6px var(--accent1);
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    header {
+      width: calc(100% - 24px);
+      padding: 8px 16px;
     }
-    50% {
-      text-shadow: 0 0 18px var(--accent2);
+    nav {
+      gap: 16px;
+      font-size: 0.9rem;
     }
   }
-  .pulse {
-    animation: pulseAccent 3s ease-in-out infinite;
-  }
-  /* ======================
-     RESPONSIVE
-  ====================== */
-  @media (max-width: 900px) {
+  @media (max-width: 600px) {
     main {
-      padding: 0 16px;
-      margin: 100px auto 40px;
-    }
-    header {
-      width: calc(100% - 40px);
-    }
-    .hero h1 {
-      font-size: 2.4rem;
-    }
-    .card-preview {
-      max-width: 100%;
+      margin-top: 72px;
+      padding: 0 12px;
     }
     nav {
-      gap: 14px;
-      font-size: 13px;
-    }
-    .btn {
-      font-size: 14px;
-      padding: 8px 20px;
-    }
-  }
-  @media (max-width: 550px) {
-    .tabs {
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    nav {
-      display: none;
-    }
-    header {
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 14px 24px;
-      gap: 14px;
-    }
-    .brand {
-      font-size: 20px;
+      gap: 10px;
     }
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
 </head>
-<body>
-<header>
-  <div class="brand" id="home-link" tabindex="0" role="button" aria-label="Go to homepage">
-    <div class="logo-mark">G</div>
-    grief.lol
-  </div>
-  <nav aria-label="Primary navigation">
-    <a href="#" class="nav-link active" data-tab="home" tabindex="0">Home</a>
-    <a href="#" class="nav-link" data-tab="features" tabindex="0">Features</a>
-    <a href="#" class="nav-link" data-tab="pricing" tabindex="0">Pricing</a>
-    <a href="#" class="nav-link" data-tab="help" tabindex="0">Help</a>
-    <a href="#" class="nav-link" data-tab="signup" tabindex="0">Join Waitlist</a>
-    <a href="#" class="nav-link" data-tab="learn" tabindex="0">Learn More</a>
-    <a href="#" class="nav-link" data-tab="admin" tabindex="0">Admin Panel</a>
-  </nav>
-  <button class="btn" id="theme-toggle" aria-label="Toggle dark/light theme">🌙</button>
-</header>
-<main>
-  <!-- TAB NAV TABS (only visible on mobile) -->
-  <div class="tabs" role="tablist" aria-label="Page sections">
-    <div class="tab active" data-tab="home" role="tab" tabindex="0" aria-selected="true">Home</div>
-    <div class="tab" data-tab="features" role="tab" tabindex="-1" aria-selected="false">Features</div>
-    <div class="tab" data-tab="pricing" role="tab" tabindex="-1" aria-selected="false">Pricing</div>
-    <div class="tab" data-tab="help" role="tab" tabindex="-1" aria-selected="false">Help</div>
-    <div class="tab" data-tab="signup" role="tab" tabindex="-1" aria-selected="false">Join Waitlist</div>
-    <div class="tab" data-tab="learn" role="tab" tabindex="-1" aria-selected="false">Learn More</div>
-    <div class="tab" data-tab="admin" role="tab" tabindex="-1" aria-selected="false">Admin Panel</div>
-  </div>
+<body data-theme="dark">
 
-  <!-- HOME PAGE -->
-  <section class="page active" id="page-home" role="tabpanel" aria-labelledby="tab-home">
-    <div class="hero">
-      <h1>
-        Build your <span class="accent pulse">digital identity</span> in minutes.
-      </h1>
-      <p class="lead">
-        grief.lol is your sleek, modern biolink platform — share all your socials, badges, music, and more with a beautiful, hand-crafted page.
-      </p>
-      <div class="btn-group">
-        <button class="btn" data-tab-target="signup">Join Waitlist</button>
-        <button class="btn btn-outline" data-tab-target="learn">Learn More</button>
-      </div>
+<header role="banner">
+  <div class="brand" tabindex="0" role="link" aria-label="Go to homepage" id="homeBtn">grief.lol</div>
+  <nav role="navigation" aria-label="Primary navigation">
+    <button role="tab" aria-selected="true" aria-controls="homeTab" id="tab-home">Home</button>
+    <button role="tab" aria-selected="false" aria-controls="featuresTab" id="tab-features">Features</button>
+    <button role="tab" aria-selected="false" aria-controls="pricingTab" id="tab-pricing">Pricing</button>
+    <button role="tab" aria-selected="false" aria-controls="helpTab" id="tab-help">Help</button>
+    <button role="tab" aria-selected="false" aria-controls="signupTab" id="tab-signup">Sign Up</button>
+    <button role="tab" aria-selected="false" aria-controls="adminTab" id="tab-admin">Admin</button>
+  </nav>
+  <button aria-label="Toggle theme" id="theme-toggle" aria-pressed="false">
+    <span class="thumb"></span>
+  </button>
+</header>
+
+<main>
+  <!-- Tab Panels -->
+
+  <!-- Home Tab -->
+  <section id="homeTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="false" aria-labelledby="tab-home">
+    <h1 class="font-bold text-xlarge m-0 mb-2">Your digital <span style="background: linear-gradient(90deg, var(--accent-magenta), var(--accent-purple)); -webkit-background-clip: text; color: transparent;">Identity</span>,<br>on your terms.</h1>
+    <p class="text-medium text-muted mb-4">A handcrafted, premium biolink page platform for creators & builders. Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
+
+    <div class="flex gap-3 mb-5 flex-wrap">
+      <button class="btn-primary" id="btnClaim">Claim Username</button>
+      <button class="btn-secondary" id="btnExplore">Explore Features ▾</button>
     </div>
-    <br />
-    <div class="card-preview" aria-label="Preview of grief.lol biolink page example">
-      <div class="username">@grieflol</div>
-      <div class="bio">The ultimate hub for your socials, links, badges, and music streaming.</div>
-      <div class="links-list" tabindex="0" aria-label="Example links on preview">
-        <div class="link-pill" tabindex="0">YouTube</div>
-        <div class="link-pill" tabindex="0">Twitter</div>
-        <div class="link-pill" tabindex="0">Spotify</div>
-        <div class="link-pill" tabindex="0">Discord</div>
-        <div class="link-pill" tabindex="0">Donate</div>
+
+    <div class="profile-preview panel-shadow rounded p-4" aria-label="Biolink preview example" role="region">
+      <div class="flex gap-4 align-center mb-3">
+        <div class="avatar preview-avatar" aria-hidden="true">G</div>
+        <div>
+          <div class="font-semibold" style="font-size:1.25rem;">grief</div>
+          <div class="text-muted text-small">Minimal. Moody. Made for creators who want control.</div>
+        </div>
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <a href="https://twitter.com/grief" class="link-item" target="_blank" rel="noopener noreferrer">Twitter - @grief</a>
+        <a href="https://youtube.com" class="link-item" target="_blank" rel="noopener noreferrer">YouTube - grief</a>
+        <a href="https://spotify.com" class="link-item" target="_blank" rel="noopener noreferrer">Spotify - Now Playing</a>
       </div>
     </div>
   </section>
 
-  <!-- FEATURES PAGE -->
-  <section class="page" id="page-features" role="tabpanel" aria-labelledby="tab-features">
-    <h2>Features</h2>
-    <ul>
-      <li>Fully customizable profile links and buttons</li>
-      <li>Badge system to highlight achievements</li>
-      <li>Music and social embeds (Spotify, YouTube, TikTok, etc.)</li>
-      <li>Dark theme with neon accent colors</li>
-      <li>Admin panel for user management and content moderation</li>
-      <li>Responsive design for all devices</li>
-      <li>Custom domain support and vanity URLs</li>
-      <li>Secure and private user data</li>
-      <li>Easy drag & drop link reordering</li>
+  <!-- Features Tab -->
+  <section id="featuresTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="true" aria-labelledby="tab-features">
+    <h2 class="font-bold text-large mb-3">Features</h2>
+    <ul class="features-list">
+      <li>Custom sound effects & micro-interactions</li>
+      <li>Music embeds (Spotify / SoundCloud)</li>
+      <li>Unique badges & social integrations</li>
+      <li>Drag & drop link reordering</li>
+      <li>Theme toggle (dark/light)</li>
+      <li>Admin panel with user management</li>
+      <li>Accordion FAQ</li>
+      <li>Animated modals & toast notifications</li>
+      <li>Mobile friendly responsive UI</li>
     </ul>
   </section>
 
-  <!-- PRICING PAGE -->
-  <section class="page" id="page-pricing" role="tabpanel" aria-labelledby="tab-pricing">
-    <h2>Pricing</h2>
-    <p>We offer a free tier with basic features. Upgrade anytime for premium features like custom domains, priority support, and more.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Plan</th><th>Price</th><th>Features</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Free</td>
-          <td>$0/month</td>
-          <td>Basic biolinks, standard badges, community support</td>
-        </tr>
-        <tr>
-          <td>Premium</td>
-          <td>$6.99/month</td>
-          <td>Custom domains, priority support, extra badges, advanced analytics</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Pricing Tab -->
+  <section id="pricingTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="true" aria-labelledby="tab-pricing">
+    <h2 class="font-bold text-large mb-3">Pricing</h2>
+    <p>Our core biolink page platform is <strong>100% free</strong> to get started. No credit card required.</p>
+    <p>Premium plans unlock:</p>
+    <ul class="features-list">
+      <li>Custom domain support</li>
+      <li>Advanced analytics & stats</li>
+      <li>Priority support</li>
+      <li>Additional customization options</li>
+    </ul>
+    <button class="btn-primary mt-3">Get Premium</button>
   </section>
 
-  <!-- HELP PAGE -->
-  <section class="page" id="page-help" role="tabpanel" aria-labelledby="tab-help">
-    <h2>Help & FAQ</h2>
-    <div class="faq">
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">How do I create my grief.lol profile?</button>
-        <div class="faq-answer" id="faq1" role="region" aria-labelledby="faq1-btn">
-          Sign up for an account, claim your username, and start adding your links!
-        </div>
+  <!-- Help Tab -->
+  <section id="helpTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="true" aria-labelledby="tab-help">
+    <h2 class="font-bold text-large mb-3">Help & FAQ</h2>
+    <div class="accordion" role="list">
+      <button class="accordion-toggle" aria-expanded="false" aria-controls="faq1" id="faq1-btn">How do I claim my username?</button>
+      <div class="accordion-content" id="faq1" role="region" aria-labelledby="faq1-btn" hidden>
+        <p>Simply click "Claim Username" on the homepage or sign up page and follow the steps.</p>
       </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">Can I use custom domains?</button>
-        <div class="faq-answer" id="faq2" role="region" aria-labelledby="faq2-btn">
-          Yes! Premium users can link their own domains to grief.lol pages.
-        </div>
+
+      <button class="accordion-toggle" aria-expanded="false" aria-controls="faq2" id="faq2-btn">Can I connect my Spotify account?</button>
+      <div class="accordion-content" id="faq2" role="region" aria-labelledby="faq2-btn" hidden>
+        <p>Yes! You can add your Spotify or SoundCloud links to show currently playing tracks on your bio.</p>
       </div>
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">How do I contact support?</button>
-        <div class="faq-answer" id="faq3" role="region" aria-labelledby="faq3-btn">
-          Use the Help page’s contact form or email support@grief.lol.
-        </div>
+
+      <button class="accordion-toggle" aria-expanded="false" aria-controls="faq3" id="faq3-btn">Is there a free plan?</button>
+      <div class="accordion-content" id="faq3" role="region" aria-labelledby="faq3-btn" hidden>
+        <p>Yes, the basic biolink page is free. Premium features come at affordable monthly rates.</p>
       </div>
     </div>
   </section>
 
-  <!-- SIGNUP PAGE -->
-  <section class="page" id="page-signup" role="tabpanel" aria-labelledby="tab-signup">
-    <h2>Join Our Waitlist</h2>
-    <form id="signup-form" novalidate>
-      <label for="name-input">Full Name</label>
-      <input type="text" id="name-input" name="name" placeholder="Your name" required autocomplete="name" aria-describedby="name-error" />
-      <div class="error-message" id="name-error">Please enter your name.</div>
+  <!-- Sign Up Tab -->
+  <section id="signupTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="true" aria-labelledby="tab-signup">
+    <h2 class="font-bold text-large mb-3">Create your biolink</h2>
+    <form id="signupForm" novalidate autocomplete="off" aria-describedby="signupHint">
+      <label for="usernameInput" class="font-semibold">Choose a username</label><br />
+      <input type="text" id="usernameInput" name="username" placeholder="Your username" required minlength="3" maxlength="15" aria-required="true" aria-describedby="usernameHelp" autocomplete="off" />
+      <small id="usernameHelp" class="text-muted">3-15 characters, letters and numbers only.</small>
 
-      <label for="email-input">Email Address</label>
-      <input type="email" id="email-input" name="email" placeholder="you@example.com" required autocomplete="email" aria-describedby="email-error" />
-      <div class="error-message" id="email-error">Please enter a valid email address.</div>
-
-      <button type="submit">Sign Up</button>
+      <button type="submit" class="btn-primary mt-3" aria-live="polite">Claim Username</button>
     </form>
+    <div id="signupHint" class="text-small mt-2 text-muted">Don't worry, it's free and fast.</div>
   </section>
 
-  <!-- LEARN MORE PAGE -->
-  <section class="page" id="page-learn" role="tabpanel" aria-labelledby="tab-learn">
-    <h2>Learn More</h2>
-    <p>grief.lol is crafted for creators, streamers, and communities who want to centralize their online presence with style and simplicity.</p>
-    <p>We provide easy-to-use tools to build your own profile page packed with links, badges, music, and embedded social media—all in one place.</p>
-    <p>Stay connected and keep your audience engaged with minimal setup.</p>
-  </section>
+  <!-- Admin Tab -->
+  <section id="adminTab" class="tab-panel" role="tabpanel" tabindex="0" aria-hidden="true" aria-labelledby="tab-admin">
+    <h2 class="font-bold text-large mb-3">Admin Panel</h2>
+    <p class="text-muted mb-4">Mockup UI to manage users, ban accounts, adjust site settings, and view analytics.</p>
 
-  <!-- ADMIN PANEL PAGE -->
-  <section class="page" id="page-admin" role="tabpanel" aria-labelledby="tab-admin" tabindex="0">
-    <h2>Admin Panel</h2>
-    <div class="admin-panel">
-      <div class="admin-section">
-        <h3>User Management</h3>
-        <table class="admin-table" aria-describedby="user-management-desc">
-          <caption id="user-management-desc">List of registered users with options to ban or edit assets</caption>
-          <thead>
-            <tr>
-              <th>Username</th><th>Email</th><th>Status</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="admin-user-list">
-            <!-- JS populates dummy users -->
-          </tbody>
-        </table>
-      </div>
-      <div class="admin-section">
-        <h3>Asset Moderation</h3>
-        <p>Block or unblock user-submitted assets from appearing on the site.</p>
-        <input type="text" class="input-text" id="block-asset-input" placeholder="Enter asset name to block" />
-        <button class="btn btn-sm" id="block-asset-btn">Block Asset</button>
-        <ul id="blocked-assets-list" style="margin-top: 12px; list-style: none; padding-left: 0; color: var(--muted);"></ul>
+    <div class="admin-section">
+      <h3 class="font-semibold">User Management</h3>
+      <table aria-label="User Management Table" style="width:100%; border-collapse: collapse;">
+        <thead>
+          <tr style="text-align:left; border-bottom: 2px solid var(--muted-dark);">
+            <th>Username</th>
+            <th>Status</th>
+            <th>Assets</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="adminUserList">
+          <!-- Example rows filled by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="admin-section mt-5">
+      <h3 class="font-semibold">Site Settings</h3>
+      <label>
+        <input type="checkbox" id="settingDisableNewSignups" /> Disable new signups
+      </label>
+      <br />
+      <label>
+        <input type="checkbox" id="settingMaintenanceMode" /> Enable maintenance mode
+      </label>
+    </div>
+
+    <div class="admin-section mt-5">
+      <h3 class="font-semibold">Analytics (Mockup)</h3>
+      <div class="analytics-card">
+        <div class="analytics-header">
+          <span>Total Users</span>
+          <span class="analytics-metric" id="analyticsTotalUsers">1234</span>
+        </div>
+        <div class="analytics-header">
+          <span>Active Today</span>
+          <span class="analytics-metric" id="analyticsActiveToday">567</span>
+        </div>
+        <div class="analytics-header">
+          <span>Page Views</span>
+          <span class="analytics-metric" id="analyticsPageViews">8901</span>
+        </div>
       </div>
     </div>
   </section>
 </main>
+
+<footer>
+  &copy; 2025 grief.lol — Crafted with 💜
+</footer>
+
+<!-- Toast container -->
+<div id="toastContainer" aria-live="polite" aria-atomic="true" class="toast-container"></div>
+
+<!-- BUTTON STYLES -->
+<style>
+  .btn-primary {
+    background: var(--accent-magenta);
+    color: var(--bg-dark);
+    border: none;
+    padding: 12px 24px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+  .btn-primary:hover, .btn-primary:focus {
+    background: var(--accent-cyan);
+    outline: none;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent-magenta);
+    border: 2px solid var(--accent-magenta);
+    padding: 10px 22px;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  .btn-secondary:hover, .btn-secondary:focus {
+    background: var(--accent-magenta);
+    color: var(--bg-dark);
+    outline: none;
+  }
+
+  /* Profile Preview */
+  .profile-preview {
+    background: var(--panel-dark);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-dark);
+    max-width: 380px;
+  }
+  .panel-shadow {
+    box-shadow: var(--shadow-dark);
+  }
+  .rounded {
+    border-radius: var(--radius);
+  }
+  .preview-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    color: var(--bg-dark);
+    font-weight: 700;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+  .link-item {
+    background: var(--panel-dark);
+    padding: 10px 16px;
+    border-radius: 14px;
+    color: var(--accent-magenta);
+    font-weight: 600;
+    transition: background var(--trans), color var(--trans);
+    display: block;
+    text-decoration: none;
+  }
+  .link-item:hover, .link-item:focus {
+    background: var(--accent-magenta);
+    color: var(--bg-dark);
+    outline: none;
+  }
+</style>
+
 <script>
-  // ================================
-  // UTILITIES
-  // ================================
-  function $(selector, context = document) {
-    return context.querySelector(selector);
-  }
-  function $all(selector, context = document) {
-    return [...context.querySelectorAll(selector)];
-  }
+  // == BASE JS: Tab switching, theme toggle, form validation, toast system ==
 
-  // ================================
-  // TAB SWITCHING LOGIC
-  // ================================
-  const navLinks = $all('nav a.nav-link');
-  const tabs = $all('.tabs .tab');
-  const pages = $all('section.page');
+  (() => {
+    const tabs = document.querySelectorAll('nav button[role="tab"]');
+    const panels = document.querySelectorAll('section.tab-panel');
+    const homeBtn = document.getElementById('homeBtn');
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
 
-  function activateTab(tabName) {
-    // Nav links
-    navLinks.forEach(link => {
-      const isActive = link.dataset.tab === tabName;
-      link.classList.toggle('active', isActive);
-      link.setAttribute('aria-current', isActive ? 'page' : 'false');
-    });
-    // Mobile tabs
+    // Tab switching handler
+    function activateTab(tabId) {
+      tabs.forEach(t => {
+        const isActive = t.id === tabId;
+        t.setAttribute('aria-selected', isActive);
+      });
+      panels.forEach(p => {
+        p.setAttribute('aria-hidden', p.id !== tabId.replace('tab-', '') ? "true" : "false");
+      });
+      // Focus first heading in the active panel for accessibility
+      const activePanel = document.getElementById(tabId.replace('tab-', ''));
+      if (activePanel) {
+        activePanel.focus();
+      }
+    }
+
     tabs.forEach(tab => {
-      const isActive = tab.dataset.tab === tabName;
-      tab.classList.toggle('active', isActive);
-      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      tab.tabIndex = isActive ? 0 : -1;
+      tab.addEventListener('click', () => {
+        activateTab(tab.id);
+      });
     });
-    // Show page content
-    pages.forEach(page => {
-      const isActive = page.id === 'page-' + tabName;
-      page.classList.toggle('active', isActive);
-      page.setAttribute('tabindex', isActive ? '0' : '-1');
-    });
-    // Scroll to top on page switch
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
-  // Handle nav link clicks
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const tab = link.dataset.tab;
-      activateTab(tab);
-    });
-  });
-  // Handle mobile tabs clicks
-  tabs.forEach(tab => {
-    tab.addEventListener('click', e => {
-      const tabName = tab.dataset.tab;
-      activateTab(tabName);
-    });
-    tab.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const tabName = tab.dataset.tab;
-        activateTab(tabName);
-      }
-    });
-  });
-  // Hero buttons to tab switch
-  $all('.btn[data-tab-target]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const target = btn.getAttribute('data-tab-target');
-      activateTab(target);
-    });
-  });
-  // Brand click goes to home
-  $('#home-link').addEventListener('click', e => activateTab('home'));
-  $('#home-link').addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      activateTab('home');
-    }
-  });
 
-  // ================================
-  // FAQ ACCORDION
-  // ================================
-  $all('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', !expanded);
-      const answer = document.getElementById(button.getAttribute('aria-controls'));
-      if (!expanded) {
-        answer.classList.add('open');
+    // Make brand clickable, goes to home tab
+    homeBtn.addEventListener('click', () => {
+      activateTab('tab-home');
+    });
+
+    // Initial activate home
+    activateTab('tab-home');
+
+    // Theme toggle
+    function loadTheme() {
+      const saved = localStorage.getItem('grief-theme') || 'dark';
+      body.setAttribute('data-theme', saved);
+      themeToggle.setAttribute('aria-pressed', saved === 'light' ? 'true' : 'false');
+    }
+    function toggleTheme() {
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        themeToggle.setAttribute('aria-pressed', 'true');
+        localStorage.setItem('grief-theme', 'light');
       } else {
-        answer.classList.remove('open');
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.setAttribute('aria-pressed', 'false');
+        localStorage.setItem('grief-theme', 'dark');
       }
-    });
-  });
-
-  // ================================
-  // FORM VALIDATION - SIGNUP
-  // ================================
-  const signupForm = $('#signup-form');
-  const nameInput = $('#name-input');
-  const emailInput = $('#email-input');
-  const nameError = $('#name-error');
-  const emailError = $('#email-error');
-
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-  signupForm.addEventListener('submit', e => {
-    e.preventDefault();
-    let valid = true;
-
-    if (!nameInput.value.trim()) {
-      nameError.classList.add('active');
-      valid = false;
-    } else {
-      nameError.classList.remove('active');
     }
-    if (!validateEmail(emailInput.value.trim())) {
-      emailError.classList.add('active');
-      valid = false;
-    } else {
-      emailError.classList.remove('active');
-    }
-    if (valid) {
-      alert('Thanks for signing up to the waitlist, ' + nameInput.value.trim() + '!');
-      signupForm.reset();
-    }
-  });
+    themeToggle.addEventListener('click', toggleTheme);
+    loadTheme();
 
-  // ================================
-  // THEME TOGGLE
-  // ================================
-  const themeToggle = $('#theme-toggle');
-  let darkMode = true;
-  themeToggle.addEventListener('click', () => {
-    if (darkMode) {
-      document.documentElement.style.setProperty('--bg', '#fafafa');
-      document.documentElement.style.setProperty('--panel', '#f2f2f2');
-      document.documentElement.style.setProperty('--muted', '#666');
-      document.documentElement.style.setProperty('--color-text', '#111');
-      document.documentElement.style.setProperty('--accent1', '#7c5cff');
-      document.documentElement.style.setProperty('--accent2', '#4bbdcb');
-      document.documentElement.style.setProperty('--accent3', '#ff5fb7');
-      themeToggle.textContent = '☀️';
-    } else {
-      document.documentElement.style.setProperty('--bg', '#070507');
-      document.documentElement.style.setProperty('--panel', '#0f0c10');
-      document.documentElement.style.setProperty('--muted', '#9b8fa0');
-      document.documentElement.style.setProperty('--color-text', '#eee');
-      document.documentElement.style.setProperty('--accent1', '#ff5fb7');
-      document.documentElement.style.setProperty('--accent2', '#7c5cff');
-      document.documentElement.style.setProperty('--accent3', '#00f0ff');
-      themeToggle.textContent = '🌙';
-    }
-    darkMode = !darkMode;
-  });
-
-  // ================================
-  // ADMIN PANEL MOCK USER DATA
-  // ================================
-  const adminUserList = $('#admin-user-list');
-  let blockedAssets = [];
-
-  const dummyUsers = [
-    { username: 'cray', email: 'cray@example.com', banned: false },
-    { username: 'isaiah', email: 'isaiah@grief.lol', banned: true },
-    { username: 'dailyyumzy', email: 'daily@foodfacts.com', banned: false },
-    { username: 'hacker101', email: 'hacker@darkweb.com', banned: false },
-  ];
-
-  function renderUsers() {
-    adminUserList.innerHTML = '';
-    dummyUsers.forEach((user, i) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>${user.banned ? '<span style="color:#e94f4f;font-weight:700;">Banned</span>' : 'Active'}</td>
-        <td>
-          <button class="btn btn-sm btn-danger" data-user="${i}" aria-label="Toggle ban user ${user.username}">
-            ${user.banned ? 'Unban' : 'Ban'}
-          </button>
-        </td>
-      `;
-      adminUserList.appendChild(tr);
-    });
-    // Add event listeners to ban buttons
-    $all('.btn-danger', adminUserList).forEach(btn => {
-      btn.onclick = () => {
-        const idx = +btn.dataset.user;
-        dummyUsers[idx].banned = !dummyUsers[idx].banned;
-        renderUsers();
+    // Toast system
+    const toastContainer = document.getElementById('toastContainer');
+    function showToast(message, duration = 3500) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      const btnClose = document.createElement('button');
+      btnClose.setAttribute('aria-label', 'Dismiss notification');
+      btnClose.innerHTML = '&times;';
+      btnClose.onclick = () => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
       };
-    });
-  }
-  renderUsers();
-
-  // ================================
-  // BLOCK ASSET BUTTON
-  // ================================
-  const blockAssetInput = $('#block-asset-input');
-  const blockAssetBtn = $('#block-asset-btn');
-  const blockedAssetsList = $('#blocked-assets-list');
-
-  function renderBlockedAssets() {
-    blockedAssetsList.innerHTML = '';
-    blockedAssets.forEach((asset, idx) => {
-      const li = document.createElement('li');
-      li.textContent = asset;
-      const btn = document.createElement('button');
-      btn.textContent = 'Unblock';
-      btn.className = 'btn btn-sm btn-danger';
-      btn.style.marginLeft = '10px';
-      btn.onclick = () => {
-        blockedAssets.splice(idx, 1);
-        renderBlockedAssets();
-      };
-      li.appendChild(btn);
-      blockedAssetsList.appendChild(li);
-    });
-  }
-  blockAssetBtn.addEventListener('click', () => {
-    const val = blockAssetInput.value.trim();
-    if (val && !blockedAssets.includes(val)) {
-      blockedAssets.push(val);
-      blockAssetInput.value = '';
-      renderBlockedAssets();
+      toast.appendChild(btnClose);
+      toastContainer.appendChild(toast);
+      // Trigger show
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+      // Auto remove
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
     }
-  });
-  renderBlockedAssets();
 
-  // ================================
-  // ACCESSIBILITY: Keyboard tab switch
-  // ================================
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-      const currentTabIndex = tabs.findIndex(t => t.classList.contains('active'));
-      let nextIndex;
-      if (e.key === 'ArrowRight') nextIndex = (currentTabIndex + 1) % tabs.length;
-      else nextIndex = (currentTabIndex - 1 + tabs.length) % tabs.length;
-      tabs[nextIndex].focus();
-      activateTab(tabs[nextIndex].dataset.tab);
+    // Form validation example on signup
+    const signupForm = document.getElementById('signupForm');
+    if (signupForm) {
+      signupForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const usernameInput = signupForm.username;
+        const val = usernameInput.value.trim();
+        if (!val.match(/^[a-zA-Z0-9]{3,15}$/)) {
+          showToast('Username must be 3-15 letters or numbers only.');
+          usernameInput.focus();
+          return;
+        }
+        showToast(`Username "${val}" claimed! (mockup)`);
+        signupForm.reset();
+        // Switch to home tab for demo
+        activateTab('tab-home');
+      });
     }
-  });
+  })();
 </script>
-</body>
-</html>
