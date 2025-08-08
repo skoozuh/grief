@@ -1,355 +1,360 @@
-<!DOCTYPE html>
-<html lang="en" >
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>grief.bio — Your Digital Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset */
-    * {
-      box-sizing: border-box;
-    }
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background: #0e0e14;
-      color: #e3e3e8;
-      font-family: 'Poppins', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>grief.lol — links</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070507;
+    --panel:#0f0c10;
+    --muted:#9b8fa0;
+    --accent1:#ff5fb7; /* magenta */
+    --accent2:#7c5cff; /* purple */
+    --accent3:#00f0ff; /* cyan */
+    --glass: rgba(255,255,255,0.03);
+    --glass-2: rgba(255,255,255,0.02);
+    --radius:20px;
+    --trans:300ms;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
 
-    /* Layout containers */
-    header {
-      position: fixed;
-      top: 24px;
-      left: 24px;
-      font-weight: 600;
-      font-size: 1.5rem;
-      letter-spacing: 0.12em;
-      color: #4ff8ff;
-      user-select: none;
-      z-index: 10;
-    }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    background: radial-gradient(1200px 700px at 10% 80%, rgba(124,92,255,0.08), transparent 10%),
+                radial-gradient(900px 500px at 90% 20%, rgba(255,95,183,0.06), transparent 8%),
+                var(--bg);
+    color:#eee;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+    position:relative;
+    min-height:100vh;
+  }
 
-    .auth-forms {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      display: flex;
-      gap: 20px;
-      z-index: 10;
-    }
-    .auth-form {
-      background: #181822;
-      border-radius: 12px;
-      padding: 18px 24px;
-      width: 280px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: 0 0 8px rgba(79,248,255,0.2);
-      transition: box-shadow 0.3s ease;
-      user-select: none;
-    }
-    .auth-form:hover {
-      box-shadow: 0 0 20px rgba(79,248,255,0.4);
-    }
-    .auth-form h2 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 1.3rem;
-      color: #4ff8ff;
-      user-select: text;
-    }
-    .auth-form input {
-      padding: 12px 14px;
-      border-radius: 8px;
-      border: none;
-      background: #23232f;
-      color: #ddd;
-      font-size: 1rem;
-      font-weight: 500;
-      outline-offset: 2px;
-      outline-color: transparent;
-      transition: outline-color 0.2s ease;
-      user-select: text;
-    }
-    .auth-form input::placeholder {
-      color: #7a7a8d;
-      font-weight: 400;
-    }
-    .auth-form input:focus {
-      outline-color: #4ff8ff;
-      background: #2c2c3b;
-    }
-    .auth-form button {
-      background: #4ff8ff;
-      border: none;
-      border-radius: 10px;
-      padding: 14px 0;
-      font-weight: 600;
-      font-size: 1rem;
-      color: #0e0e14;
-      cursor: pointer;
-      user-select: none;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 0 6px rgba(79,248,255,0.3);
-    }
-    .auth-form button:hover {
-      background: #2ee0e6;
-      box-shadow: 0 0 16px rgba(46,224,230,0.6);
-    }
+  /* faint animated diagonal stripes over background */
+  .bg-animated{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mix-blend-mode: overlay;
+    opacity:0.6;
+    animation: drift 18s linear infinite;
+  }
+  @keyframes drift{ from{background-position:0 0} to{background-position:1000px 1000px} }
 
-    main {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 160px 20px 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 36px;
-      user-select: none;
-      text-align: center;
-    }
-    main h1 {
-      font-weight: 600;
-      font-size: 3rem;
-      color: #4ff8ff;
-      letter-spacing: 0.12em;
-      margin: 0;
-      user-select: text;
-    }
-    main p {
-      font-weight: 400;
-      font-size: 1.25rem;
-      line-height: 1.5;
-      color: #b5b5bf;
-      max-width: 440px;
-      margin: 0;
-      user-select: text;
-    }
+  /* header */
+  header{
+    position:fixed; left:50%; transform:translateX(-50%); top:22px; z-index:20;
+    width:calc(100% - 80px); max-width:1200px; display:flex; justify-content:space-between; align-items:center;
+    padding:10px 20px; gap:16px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:40px; box-shadow:0 6px 30px rgba(0,0,0,0.6);
+    border:1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px) saturate(120%);
+  }
+  .brand{display:flex; align-items:center; gap:12px; font-weight:600}
+  .logo-mark{
+    width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+    background:linear-gradient(135deg,var(--accent1),var(--accent2));
+    box-shadow: 0 6px 24px rgba(124,92,255,0.12), inset 0 -4px 8px rgba(0,0,0,0.2);
+    color:#111; font-weight:700;
+  }
+  nav{display:flex; gap:18px; align-items:center;}
+  nav a{color:var(--muted); text-decoration:none; font-weight:500; font-size:14px}
+  .cta{
+    padding:8px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.06);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    font-weight:600; color:#fff; cursor:pointer;
+    transition: all var(--trans) ease;
+  }
+  .cta:hover{ transform:translateY(-3px) scale(1.02); box-shadow:0 12px 30px rgba(124,92,255,0.16); }
 
-    .claim-username {
-      width: 100%;
-      max-width: 420px;
-      margin-top: 12px;
-    }
-    form.claim-form {
-      display: flex;
-      gap: 14px;
-    }
-    form.claim-form input[type="text"] {
-      flex: 1;
-      border-radius: 12px;
-      padding: 16px 20px;
-      font-size: 1.15rem;
-      font-weight: 600;
-      border: none;
-      background: #23232f;
-      color: #ddd;
-      outline-offset: 2px;
-      outline-color: transparent;
-      transition: outline-color 0.2s ease, background-color 0.2s ease;
-    }
-    form.claim-form input[type="text"]::placeholder {
-      color: #777783;
-      font-weight: 400;
-    }
-    form.claim-form input[type="text"]:focus {
-      outline-color: #4ff8ff;
-      background: #2e2e3d;
-    }
-    form.claim-form button {
-      background: #4ff8ff;
-      border: none;
-      border-radius: 12px;
-      padding: 0 28px;
-      font-weight: 600;
-      font-size: 1.15rem;
-      color: #0e0e14;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 0 8px rgba(79,248,255,0.3);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    form.claim-form button:hover {
-      background: #32d9db;
-      box-shadow: 0 0 18px rgba(50,217,219,0.6);
-    }
-    #claimStatus {
-      margin-top: 14px;
-      font-weight: 600;
-      color: #4ff8ff;
-      min-height: 24px;
-      user-select: none;
-    }
+  /* page container */
+  .wrap{ position:relative; z-index:5; max-width:1200px; margin:110px auto 80px; padding: 0 28px; display:flex; gap:40px; align-items:flex-start;}
+  /* left text area */
+  .hero{
+    flex:1; max-width:620px;
+    padding-top:20px;
+  }
+  h1{
+    font-size:48px; line-height:1.02; margin:0 0 18px 0; letter-spacing:-0.02em;
+    font-weight:700;
+  }
+  h1 .accent{ color:transparent; background:linear-gradient(90deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; background-clip:text; filter:drop-shadow(0 6px 18px rgba(255,95,183,0.12));}
+  p.lead{ color:var(--muted); margin:0 0 28px; font-size:16px; max-width:560px }
 
-    /* Features grid */
-    section.features {
-      margin-top: 60px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 28px;
-      user-select: none;
-      max-width: 600px;
-    }
-    .feature-card {
-      background: #181822;
-      border-radius: 16px;
-      padding: 24px 20px;
-      box-shadow: 0 0 10px rgba(79,248,255,0.08);
-      text-align: center;
-      transition: box-shadow 0.3s ease;
-      cursor: default;
-      user-select: text;
-    }
-    .feature-card:hover {
-      box-shadow: 0 0 22px rgba(79,248,255,0.2);
-    }
-    .feature-card h3 {
-      margin: 0 0 10px;
-      font-weight: 600;
-      font-size: 1.2rem;
-      color: #4ff8ff;
-      user-select: text;
-    }
-    .feature-card p {
-      margin: 0;
-      font-weight: 400;
-      font-size: 0.95rem;
-      color: #b0b0bf;
-      line-height: 1.4;
-      user-select: text;
-    }
+  .big-actions{ display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
+  .pill{
+    padding:12px 18px; border-radius:999px; border:1px solid rgba(255,255,255,0.05);
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    cursor:pointer; font-weight:600; color:#fff;
+    transition: all 220ms ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  }
+  .pill.glow{
+    border:1px solid rgba(255,95,183,0.25);
+    background: linear-gradient(90deg, rgba(255,95,183,0.06), rgba(124,92,255,0.04));
+  }
+  .pill:hover{ transform:translateY(-6px); filter:brightness(1.06); }
 
-    footer {
-      margin-top: 80px;
-      padding: 20px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #555770;
-      user-select: none;
-    }
+  .muted-line{ display:flex; gap:14px; color:var(--muted); font-size:13px; align-items:center;}
+  .status-dot{ width:10px; height:10px; border-radius:999px; background:#20d860; box-shadow:0 0 6px rgba(32,216,96,0.12)}
 
-    /* Responsive */
-    @media (max-width: 640px) {
-      .auth-forms {
-        flex-direction: column;
-        right: 24px;
-        gap: 14px;
-        width: 280px;
-      }
-      .feature-card {
-        max-width: 100%;
-      }
-    }
-  </style>
+  /* profile card */
+  .card-wrap{ width:430px; max-width:44vw; min-width:320px; display:flex; justify-content:center; align-items:flex-start;}
+  .card{
+    width:100%; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.2));
+    border-radius:var(--radius); padding:28px; border:1px solid rgba(255,255,255,0.04);
+    box-shadow: var(--card-shadow);
+    position:relative; overflow:visible;
+    backdrop-filter: blur(8px) saturate(120%);
+    transition: transform var(--trans) ease, box-shadow var(--trans);
+  }
+  .card:before{
+    content:""; position:absolute; left:12px; top:12px; right:12px; height:120px; border-radius:calc(var(--radius) - 8px);
+    background: linear-gradient(180deg, rgba(124,92,255,0.12), rgba(255,95,183,0.06));
+    filter: blur(24px); opacity:0.9; pointer-events:none;
+  }
+  .card-top{ display:flex; gap:18px; align-items:center; position:relative; z-index:2}
+  .avatar{
+    width:92px; height:92px; border-radius:24px; flex-shrink:0;
+    display:grid; place-items:center; font-weight:700; font-size:30px;
+    background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#111;
+    box-shadow: 0 8px 30px rgba(124,92,255,0.14), inset 0 -6px 12px rgba(0,0,0,0.25);
+    transform-origin:center;
+    transition: transform 300ms cubic-bezier(.2,.9,.25,1), box-shadow 300ms;
+  }
+  .avatar:hover{ transform:translateY(-6px) rotate(-2deg) scale(1.02); box-shadow:0 18px 40px rgba(124,92,255,0.2) }
+
+  .meta{ flex:1 }
+  .username{ font-size:20px; font-weight:700; margin-bottom:6px; display:flex; gap:10px; align-items:center }
+  .user-bio{ color:var(--muted); font-size:14px; margin-bottom:10px }
+  .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+  .badge{ padding:6px 8px; border-radius:10px; font-weight:600; font-size:12px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03); cursor:default; transition: transform 180ms }
+  .badge:hover{ transform:translateY(-4px); box-shadow:0 10px 24px rgba(124,92,255,0.06) }
+
+  /* link list */
+  .links{ margin-top:18px; display:flex; flex-direction:column; gap:12px; position:relative; z-index:2 }
+  .link{
+    display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; cursor:pointer;
+    border:1px solid rgba(255,255,255,0.025);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+  }
+  .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2))}
+  .link .label{ flex:1; font-weight:600 }
+  .link .sub{ color:var(--muted); font-size:13px }
+
+  .link:hover{ transform:translateY(-8px); box-shadow: 0 22px 40px rgba(0,0,0,0.6); }
+  .link:active{ transform:translateY(-2px); }
+
+  /* footer small */
+  .small{ color:var(--muted); font-size:13px; margin-top:14px; display:flex; gap:10px; align-items:center }
+
+  /* responsive */
+  @media(max-width:980px){
+    .wrap{ flex-direction:column; gap:28px; margin-top:80px; align-items:center }
+    .card-wrap{ width:100%; max-width:760px; min-width: auto }
+    .card{ width:92% }
+    h1{ font-size:36px; text-align:center }
+    .hero{ text-align:center }
+    header{ left:12px; transform:none; width:calc(100% - 24px) }
+    nav{display:none}
+  }
+  @media(max-width:520px){
+    .avatar{ width:74px; height:74px; border-radius:18px; font-size:22px }
+    .card{ padding:18px; border-radius:16px }
+    .pill{ padding:10px 14px }
+    h1{ font-size:28px }
+  }
+
+  /* tiny neon underline animation for username */
+  .username .glow-underline{
+    display:inline-block; height:6px; width:40px; border-radius:6px; margin-left:6px;
+    background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));
+    filter:blur(8px); opacity:0.9; transform:translateY(6px); transition:transform 220ms;
+  }
+  .card:hover .glow-underline{ transform:translateY(0) }
+
+  /* subtle parallax movement */
+  .parallax-slow{ transform: translateZ(0); transition: transform 800ms ease; }
+</style>
 </head>
 <body>
-  <header>grief.bio</header>
+  <div class="bg-animated" aria-hidden="true"></div>
 
-  <div class="auth-forms" role="region" aria-label="User sign up and log in">
-    <form id="signupForm" autocomplete="off" novalidate aria-label="Sign Up Form" class="auth-form">
-      <h2>Sign Up</h2>
-      <input type="text" name="username" placeholder="Username" minlength="3" required autocomplete="username" />
-      <input type="email" name="email" placeholder="Email" required autocomplete="email" />
-      <input type="password" name="password" placeholder="Password" minlength="6" required autocomplete="new-password" />
-      <button type="submit">Create Account</button>
-    </form>
-
-    <form id="loginForm" autocomplete="off" novalidate aria-label="Log In Form" class="auth-form">
-      <h2>Log In</h2>
-      <input type="text" name="username" placeholder="Username or Email" required autocomplete="username" />
-      <input type="password" name="password" placeholder="Password" required autocomplete="current-password" />
-      <button type="submit">Log In</button>
-    </form>
-  </div>
+  <header role="banner" class="parallax-slow">
+    <div class="brand" aria-hidden="true">
+      <div class="logo-mark" aria-hidden="true">g</div>
+      <div style="font-size:16px">grief.lol</div>
+    </div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#help">Help</a>
+    </nav>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+      <button class="cta" onclick="document.getElementById('claim').scrollIntoView({behavior:'smooth'})">Claim</button>
+    </div>
+  </header>
 
   <main>
-    <h1>Your Digital Identity, Simplified</h1>
-    <p>Create your custom grief.bio link — your hub to share everything you want, in one clean page.</p>
+    <section class="wrap">
+      <div class="hero">
+        <h1>Your digital <span class="accent">Identity</span>,<br/>on your terms.</h1>
+        <p class="lead">A handcrafted, premium biolink page for creators & builders. Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
 
-    <section class="claim-username" aria-label="Claim your username">
-      <form id="claimForm" class="claim-form" autocomplete="off" novalidate>
-        <input
-          type="text"
-          id="claimUsername"
-          name="claimUsername"
-          placeholder="Choose your username"
-          minlength="3"
-          required
-          aria-required="true"
-        />
-        <button type="submit">Check Availability</button>
-      </form>
-      <p id="claimStatus" aria-live="polite" aria-atomic="true" role="status"></p>
+        <div class="big-actions">
+          <button class="pill glow" onclick="playClick(); document.location='#'">Claim Username</button>
+          <button class="pill" onclick="document.getElementById('links').scrollIntoView({behavior:'smooth'})">Explore Features ▾</button>
+        </div>
+
+        <div class="muted-line"><span class="status-dot"></span><div>100% free to get started • no credit card required</div></div>
+      </div>
+
+      <div class="card-wrap">
+        <div class="card" id="profileCard">
+          <div class="card-top">
+            <!-- Avatar: replace inner SVG with <img src="your-avatar.png" /> if desired -->
+            <div class="avatar" id="avatar" title="grief" aria-hidden="true">
+              <!-- simple ghost-ish glyph -->
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,0.3))">
+                <path d="M12 2C9.8 2 8 3.8 8 6v2H6.5C5.7 8 5 8.7 5 9.5v6C5 17.9 6.1 19 7.5 19c.9 0 1.6-.5 2-1.2.4.7 1.1 1.2 2 1.2s1.6-.5 2-1.2c.4.7 1.1 1.2 2 1.2 1.4 0 2.5-1.1 2.5-2.5v-6c0-.8-.7-1.5-1.5-1.5H16V6c0-2.2-1.8-4-4-4z" fill="#111"/>
+                <circle cx="9.3" cy="11.2" r="0.9" fill="#fff"/>
+                <circle cx="14.7" cy="11.2" r="0.9" fill="#fff"/>
+              </svg>
+            </div>
+
+            <div class="meta">
+              <div class="username">
+                grief
+                <span class="glow-underline" aria-hidden="true"></span>
+              </div>
+              <div class="user-bio">Minimal. Moody. Made for creators who want control. Music embeds, socials, and custom badges.</div>
+
+              <div class="badges" aria-hidden="true">
+                <div class="badge" title="Verified">✔️ Verified</div>
+                <div class="badge" title="Music">🎧 Music</div>
+                <div class="badge" title="Premium">★ Premium</div>
+                <div class="badge" title="Host">⚡ Fast</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="links" class="links" style="margin-top:22px">
+            <div class="link" onclick="navigator.clipboard?.writeText('https://grief.lol/username'); pulse(this)">
+              <div class="ico">🔗</div>
+              <div>
+                <div class="label">grief.lol/username</div>
+                <div class="sub">Tap to copy your profile link</div>
+              </div>
+            </div>
+
+            <a class="link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" onclick="playClick()">
+              <div class="ico">🎵</div>
+              <div>
+                <div class="label">Now playing — Dear Mama</div>
+                <div class="sub">Nino Paid · Spotify</div>
+              </div>
+            </a>
+
+            <a class="link" href="https://twitter.com/" target="_blank" rel="noopener noreferrer" onclick="playClick()">
+              <div class="ico">🐦</div>
+              <div>
+                <div class="label">@grief</div>
+                <div class="sub">Twitter</div>
+              </div>
+            </a>
+
+            <a class="link" href="#contact" onclick="playClick()">
+              <div class="ico">✉️</div>
+              <div>
+                <div class="label">Contact / Collab</div>
+                <div class="sub">Say hi — let’s make something</div>
+              </div>
+            </a>
+
+            <div class="small">
+              <div>Last updated • 2 days ago</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- subtle decorative faux-screen on the right of the card (optional) -->
+      </div>
     </section>
 
-    <section class="features" aria-label="Features of grief.bio">
-      <article class="feature-card">
-        <h3>Custom Vanity URLs</h3>
-        <p>Simple and memorable links: grief.bio/yourname</p>
-      </article>
-      <article class="feature-card">
-        <h3>Interactive Badges</h3>
-        <p>Show off your achievements with clean, clickable badges</p>
-      </article>
-      <article class="feature-card">
-        <h3>Media Embeds</h3>
-        <p>Add music, social, and video embeds effortlessly</p>
-      </article>
-      <article class="feature-card">
-        <h3>Responsive Design</h3>
-        <p>Works beautifully on all devices: desktop, tablet, and phone</p>
-      </article>
+    <!-- Features section (small sample) -->
+    <section id="features" style="max-width:1100px;margin:40px auto;padding:30px 28px;color:var(--muted); z-index:3; position:relative;">
+      <h2 style="color:#fff;font-size:22px;margin:6px 0 12px">Features</h2>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;">
+        <div style="padding:16px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)">Custom sound effects & micro-interactions</div>
+        <div style="padding:16px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)">Music embeds (Spotify / SoundCloud)</div>
+        <div style="padding:16px;border-radius:12px;background:var(--glass);border:1px solid rgba(255,255,255,0.02)">Unique badges & social integrations</div>
+      </div>
     </section>
+
+    <div id="claim" style="height:120px;"></div>
   </main>
 
-  <footer>&copy; 2025 grief.bio — Made with care.</footer>
+<script>
+  // small click sound using WebAudio API
+  let audioCtx;
+  function playClick(){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(700, audioCtx.currentTime);
+      g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start();
+      o.stop(audioCtx.currentTime + 0.2);
+    }catch(e){/* silently fail on browsers that block audio */ }
+  }
 
-  <script>
-    // Claim username check simulation
-    const claimForm = document.getElementById("claimForm");
-    const claimStatus = document.getElementById("claimStatus");
+  // subtle parallax follow on mouse
+  const card = document.getElementById('profileCard');
+  document.addEventListener('mousemove', (e)=>{
+    const x = (e.clientX - window.innerWidth/2) / (window.innerWidth/2);
+    const y = (e.clientY - window.innerHeight/2) / (window.innerHeight/2);
+    card.style.transform = `translate3d(${x*6}px, ${y*6}px, 0) rotateX(${y * 2}deg) rotateY(${x * -2}deg)`;
+  });
+  document.addEventListener('mouseleave', ()=> card.style.transform = '');
 
-    claimForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const username = claimForm.claimUsername.value.trim();
-      claimStatus.style.color = "#4ff8ff";
-      claimStatus.textContent = "";
-      if (username.length < 3) {
-        claimStatus.style.color = "#ff6666";
-        claimStatus.textContent = "Username must be at least 3 characters.";
-        return;
-      }
-      claimStatus.textContent = "Checking availability...";
-      setTimeout(() => {
-        if (Math.random() > 0.5) {
-          claimStatus.style.color = "#4caf50";
-          claimStatus.textContent = `'${username}' is available!`;
-        } else {
-          claimStatus.style.color = "#ff6666";
-          claimStatus.textContent = `'${username}' is taken. Try another.`;
-        }
-      }, 1200);
-    });
+  // small pulse animation when copying
+  function pulse(el){
+    el.animate([
+      { transform: 'scale(1)' },
+      { transform: 'scale(0.98)' },
+      { transform: 'scale(1.02)' },
+      { transform: 'scale(1)' },
+    ], { duration: 380, easing:'cubic-bezier(.2,.9,.25,1)'});
+    playClick();
+  }
 
-    // Sign Up & Login demo redirect to user page
-    document.getElementById("signupForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const username = e.target.username.value.trim();
-      alert("Sign Up successful! Redirecting...");
-      window.location.href = `user.html?username=${encodeURIComponent(username)}`;
-    });
-    document.getElementById("loginForm").addEventListener("submit", e => {
-      e.preventDefault();
-      const username = e.target.username.value.trim();
-      alert("Login successful! Redirecting...");
-      window.location.href = `user.html?username=${encodeURIComponent(username)}`;
-    });
-  </script>
+  // accessibility: prefer-reduced-motion support
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(reduce.matches){
+    document.querySelectorAll('*').forEach(n => n.style.transitionDuration = '0ms');
+    document.querySelectorAll('.bg-animated, .card:before').forEach(n => n.style.animation = 'none');
+  }
+
+  // tiny parallax background move on scroll (depth)
+  window.addEventListener('scroll', ()=>{
+    const y = window.scrollY;
+    document.querySelector('.bg-animated').style.transform = `translateY(${y * -0.08}px)`;
+  }, {passive:true});
+</script>
 </body>
 </html>
