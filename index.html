@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>grief.bio — Your Digital Identity</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet" />
+  <title>grief.bio — Your Digital Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     /* Reset */
     * {
@@ -12,190 +12,216 @@
     }
     body, html {
       margin: 0; padding: 0; height: 100%;
-      font-family: 'Montserrat', sans-serif;
-      background: #121212;
-      color: #e0e0e0;
+      background: #0e0e14;
+      color: #e3e3e8;
+      font-family: 'Poppins', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
+      overflow-x: hidden;
     }
 
-    /* Layout */
+    /* Layout containers */
     header {
       position: fixed;
-      top: 20px; left: 20px;
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: #8ab4f8;
+      top: 24px;
+      left: 24px;
+      font-weight: 600;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: #4ff8ff;
       user-select: none;
       z-index: 10;
     }
 
-    .top-bar {
+    .auth-forms {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 24px;
+      right: 24px;
       display: flex;
-      gap: 16px;
+      gap: 20px;
       z-index: 10;
     }
-    .top-bar form {
-      background: #1e1e1e;
-      border-radius: 8px;
-      padding: 10px 14px;
+    .auth-form {
+      background: #181822;
+      border-radius: 12px;
+      padding: 18px 24px;
+      width: 280px;
       display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 8px;
-      min-width: 200px;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 0 8px rgba(79,248,255,0.2);
+      transition: box-shadow 0.3s ease;
       user-select: none;
     }
-    .top-bar input[type="text"],
-    .top-bar input[type="email"],
-    .top-bar input[type="password"] {
-      background: #2a2a2a;
+    .auth-form:hover {
+      box-shadow: 0 0 20px rgba(79,248,255,0.4);
+    }
+    .auth-form h2 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #4ff8ff;
+      user-select: text;
+    }
+    .auth-form input {
+      padding: 12px 14px;
+      border-radius: 8px;
       border: none;
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-size: 0.9rem;
-      color: #e0e0e0;
-      outline: none;
-      width: 90px;
+      background: #23232f;
+      color: #ddd;
+      font-size: 1rem;
       font-weight: 500;
+      outline-offset: 2px;
+      outline-color: transparent;
+      transition: outline-color 0.2s ease;
+      user-select: text;
     }
-    .top-bar input::placeholder {
-      color: #888;
+    .auth-form input::placeholder {
+      color: #7a7a8d;
+      font-weight: 400;
     }
-    .top-bar button {
-      background: #8ab4f8;
+    .auth-form input:focus {
+      outline-color: #4ff8ff;
+      background: #2c2c3b;
+    }
+    .auth-form button {
+      background: #4ff8ff;
       border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
+      border-radius: 10px;
+      padding: 14px 0;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #0e0e14;
       cursor: pointer;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #121212;
-      transition: background-color 0.2s ease;
       user-select: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 0 6px rgba(79,248,255,0.3);
     }
-    .top-bar button:hover {
-      background: #a3b9ff;
+    .auth-form button:hover {
+      background: #2ee0e6;
+      box-shadow: 0 0 16px rgba(46,224,230,0.6);
     }
 
     main {
-      max-width: 700px;
+      max-width: 600px;
       margin: 0 auto;
-      padding: 160px 20px 60px;
+      padding: 160px 20px 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 30px;
+      gap: 36px;
       user-select: none;
+      text-align: center;
     }
     main h1 {
+      font-weight: 600;
       font-size: 3rem;
-      font-weight: 700;
-      color: #8ab4f8;
-      text-align: center;
+      color: #4ff8ff;
+      letter-spacing: 0.12em;
       margin: 0;
+      user-select: text;
     }
     main p {
-      font-size: 1.2rem;
-      color: #bbbbbb;
-      text-align: center;
+      font-weight: 400;
+      font-size: 1.25rem;
+      line-height: 1.5;
+      color: #b5b5bf;
+      max-width: 440px;
       margin: 0;
-      max-width: 450px;
-      line-height: 1.4;
+      user-select: text;
     }
 
     .claim-username {
-      margin-top: 20px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      margin-top: 12px;
     }
     form.claim-form {
       display: flex;
-      gap: 12px;
+      gap: 14px;
     }
     form.claim-form input[type="text"] {
       flex: 1;
-      padding: 12px 16px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1.1rem;
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 1.15rem;
       font-weight: 600;
-      background: #1e1e1e;
-      color: #e0e0e0;
-      outline: none;
-      transition: background-color 0.2s ease;
+      border: none;
+      background: #23232f;
+      color: #ddd;
+      outline-offset: 2px;
+      outline-color: transparent;
+      transition: outline-color 0.2s ease, background-color 0.2s ease;
     }
     form.claim-form input[type="text"]::placeholder {
-      color: #666;
-      font-weight: 500;
+      color: #777783;
+      font-weight: 400;
     }
     form.claim-form input[type="text"]:focus {
-      background: #2a2a2a;
+      outline-color: #4ff8ff;
+      background: #2e2e3d;
     }
     form.claim-form button {
-      background: #8ab4f8;
+      background: #4ff8ff;
       border: none;
-      padding: 0 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #121212;
+      border-radius: 12px;
+      padding: 0 28px;
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: #0e0e14;
       cursor: pointer;
       user-select: none;
-      transition: background-color 0.2s ease;
+      box-shadow: 0 0 8px rgba(79,248,255,0.3);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
     form.claim-form button:hover {
-      background: #a3b9ff;
+      background: #32d9db;
+      box-shadow: 0 0 18px rgba(50,217,219,0.6);
     }
     #claimStatus {
-      margin-top: 12px;
+      margin-top: 14px;
       font-weight: 600;
-      color: #8ab4f8;
-      text-align: center;
-      min-height: 22px;
+      color: #4ff8ff;
+      min-height: 24px;
       user-select: none;
     }
 
-    /* Features */
+    /* Features grid */
     section.features {
       margin-top: 60px;
       width: 100%;
-      display: flex;
-      justify-content: space-around;
-      gap: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 28px;
       user-select: none;
+      max-width: 600px;
     }
     .feature-card {
-      background: #1e1e1e;
-      border-radius: 10px;
-      padding: 20px 18px;
-      max-width: 160px;
+      background: #181822;
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 0 10px rgba(79,248,255,0.08);
       text-align: center;
-      box-shadow: none;
-      transition: background-color 0.25s ease;
+      transition: box-shadow 0.3s ease;
+      cursor: default;
+      user-select: text;
     }
     .feature-card:hover {
-      background: #2a2a2a;
+      box-shadow: 0 0 22px rgba(79,248,255,0.2);
     }
     .feature-card h3 {
       margin: 0 0 10px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #8ab4f8;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #4ff8ff;
       user-select: text;
     }
     .feature-card p {
       margin: 0;
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: #bbb;
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: #b0b0bf;
+      line-height: 1.4;
       user-select: text;
     }
 
@@ -204,23 +230,20 @@
       padding: 20px;
       text-align: center;
       font-size: 0.85rem;
-      color: #555;
+      color: #555770;
       user-select: none;
     }
 
     /* Responsive */
     @media (max-width: 640px) {
-      .top-bar {
+      .auth-forms {
         flex-direction: column;
-        right: 10px;
-        gap: 12px;
+        right: 24px;
+        gap: 14px;
+        width: 280px;
       }
-      .top-bar form {
-        min-width: 180px;
-      }
-      section.features {
-        flex-direction: column;
-        gap: 18px;
+      .feature-card {
+        max-width: 100%;
       }
     }
   </style>
@@ -228,15 +251,17 @@
 <body>
   <header>grief.bio</header>
 
-  <div class="top-bar" aria-label="User Sign Up and Log In forms">
-    <form id="signupForm" autocomplete="off" novalidate aria-label="Sign Up Form">
+  <div class="auth-forms" role="region" aria-label="User sign up and log in">
+    <form id="signupForm" autocomplete="off" novalidate aria-label="Sign Up Form" class="auth-form">
+      <h2>Sign Up</h2>
       <input type="text" name="username" placeholder="Username" minlength="3" required autocomplete="username" />
       <input type="email" name="email" placeholder="Email" required autocomplete="email" />
       <input type="password" name="password" placeholder="Password" minlength="6" required autocomplete="new-password" />
-      <button type="submit">Sign Up</button>
+      <button type="submit">Create Account</button>
     </form>
 
-    <form id="loginForm" autocomplete="off" novalidate aria-label="Login Form">
+    <form id="loginForm" autocomplete="off" novalidate aria-label="Log In Form" class="auth-form">
+      <h2>Log In</h2>
       <input type="text" name="username" placeholder="Username or Email" required autocomplete="username" />
       <input type="password" name="password" placeholder="Password" required autocomplete="current-password" />
       <button type="submit">Log In</button>
@@ -244,8 +269,8 @@
   </div>
 
   <main>
-    <h1>Own Your Digital Identity</h1>
-    <p>Create a custom grief.bio page that’s uniquely yours — simple, clean, and easy to share.</p>
+    <h1>Your Digital Identity, Simplified</h1>
+    <p>Create your custom grief.bio link — your hub to share everything you want, in one clean page.</p>
 
     <section class="claim-username" aria-label="Claim your username">
       <form id="claimForm" class="claim-form" autocomplete="off" novalidate>
@@ -265,20 +290,20 @@
 
     <section class="features" aria-label="Features of grief.bio">
       <article class="feature-card">
-        <h3>Vanity URLs</h3>
-        <p>grief.bio/yourname — memorable and unique profile links.</p>
+        <h3>Custom Vanity URLs</h3>
+        <p>Simple and memorable links: grief.bio/yourname</p>
       </article>
       <article class="feature-card">
-        <h3>Badges</h3>
-        <p>Showcase your achievements with interactive badges.</p>
+        <h3>Interactive Badges</h3>
+        <p>Show off your achievements with clean, clickable badges</p>
       </article>
       <article class="feature-card">
         <h3>Media Embeds</h3>
-        <p>Add music, videos, and social media to your page.</p>
+        <p>Add music, social, and video embeds effortlessly</p>
       </article>
       <article class="feature-card">
-        <h3>Responsive</h3>
-        <p>Looks great on desktop, tablet, and mobile.</p>
+        <h3>Responsive Design</h3>
+        <p>Works beautifully on all devices: desktop, tablet, and phone</p>
       </article>
     </section>
   </main>
@@ -286,14 +311,14 @@
   <footer>&copy; 2025 grief.bio — Made with care.</footer>
 
   <script>
-    // Simulate claim username check
+    // Claim username check simulation
     const claimForm = document.getElementById("claimForm");
     const claimStatus = document.getElementById("claimStatus");
 
-    claimForm.addEventListener("submit", e => {
+    claimForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const username = claimForm.claimUsername.value.trim();
-      claimStatus.style.color = "#8ab4f8";
+      claimStatus.style.color = "#4ff8ff";
       claimStatus.textContent = "";
       if (username.length < 3) {
         claimStatus.style.color = "#ff6666";
@@ -302,7 +327,6 @@
       }
       claimStatus.textContent = "Checking availability...";
       setTimeout(() => {
-        // Random availability demo logic
         if (Math.random() > 0.5) {
           claimStatus.style.color = "#4caf50";
           claimStatus.textContent = `'${username}' is available!`;
@@ -310,19 +334,21 @@
           claimStatus.style.color = "#ff6666";
           claimStatus.textContent = `'${username}' is taken. Try another.`;
         }
-      }, 1400);
+      }, 1200);
     });
 
-    // Demo sign up and login handlers
+    // Sign Up & Login demo redirect to user page
     document.getElementById("signupForm").addEventListener("submit", e => {
       e.preventDefault();
-      alert("Sign Up submitted (demo). Redirecting to your profile page...");
-      window.location.href = "user.html?username=" + encodeURIComponent(document.querySelector("#signupForm input[name='username']").value.trim());
+      const username = e.target.username.value.trim();
+      alert("Sign Up successful! Redirecting...");
+      window.location.href = `user.html?username=${encodeURIComponent(username)}`;
     });
     document.getElementById("loginForm").addEventListener("submit", e => {
       e.preventDefault();
-      alert("Log In submitted (demo). Redirecting to your profile page...");
-      window.location.href = "user.html?username=" + encodeURIComponent(document.querySelector("#loginForm input[name='username']").value.trim());
+      const username = e.target.username.value.trim();
+      alert("Login successful! Redirecting...");
+      window.location.href = `user.html?username=${encodeURIComponent(username)}`;
     });
   </script>
 </body>
