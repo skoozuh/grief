@@ -1,506 +1,660 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>grief.lol — Your Digital Identity</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    /* CSS Variables */
-    :root {
-      --bg: #070507;
-      --panel-bg: #121016;
-      --text-primary: #eaeaea;
-      --text-muted: #9b8fa0;
-      --accent1: #7c5cff;
-      --accent2: #4a36d8;
-      --accent3: #00f0ff;
-      --radius: 16px;
-      --transition: 300ms ease;
-      --shadow-light: rgba(124, 92, 255, 0.2);
-      --shadow-dark: rgba(0, 0, 0, 0.8);
-      --border-light: rgba(255, 255, 255, 0.07);
-      --scrollbar-bg: #1b1822;
-      --scrollbar-thumb: var(--accent1);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>grief.lol — Your Digital Identity</title>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* Root CSS Variables */
+  :root {
+    --bg: #070507;
+    --panel-bg: #121016;
+    --text-primary: #eaeaea;
+    --text-muted: #9b8fa0;
+    --accent1: #7c5cff;
+    --accent2: #4a36d8;
+    --accent3: #00f0ff;
+    --radius: 16px;
+    --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-light: rgba(124, 92, 255, 0.2);
+    --shadow-dark: rgba(0, 0, 0, 0.8);
+    --border-light: rgba(255, 255, 255, 0.07);
+    --scrollbar-bg: #1b1822;
+    --scrollbar-thumb: var(--accent1);
+  }
 
-    /* Reset */
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-    body, html {
-      margin: 0; padding: 0;
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-y: scroll;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      scroll-behavior: smooth;
-    }
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI,
+      Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-y: scroll;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
 
-    /* Scrollbar - Custom */
-    ::-webkit-scrollbar {
-      width: 10px;
-      background: var(--scrollbar-bg);
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--scrollbar-bg);
-      border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--scrollbar-thumb);
-      border-radius: 10px;
-      transition: background var(--transition);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--accent2);
-    }
+  /* Scrollbar - Custom */
+  ::-webkit-scrollbar {
+    width: 10px;
+    background: var(--scrollbar-bg);
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+    transition: background var(--transition);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent2);
+  }
 
-    /* Utility classes */
-    .flex {
-      display: flex;
-      align-items: center;
-    }
-    .flex-center {
-      justify-content: center;
-      align-items: center;
-    }
-    .flex-between {
-      justify-content: space-between;
-    }
-    .gap-sm {
-      gap: 8px;
-    }
-    .gap-md {
-      gap: 16px;
-    }
-    .gap-lg {
-      gap: 24px;
-    }
-    .text-muted {
-      color: var(--text-muted);
-    }
-    .text-accent {
-      color: var(--accent1);
-    }
-    .rounded {
-      border-radius: var(--radius);
-    }
-    .btn {
-      background: var(--accent1);
-      color: #111;
-      border: none;
-      padding: 12px 24px;
-      font-weight: 600;
-      border-radius: var(--radius);
-      cursor: pointer;
-      box-shadow: 0 6px 20px var(--shadow-light);
-      transition: background var(--transition), transform var(--transition);
-      user-select: none;
-    }
-    .btn:hover {
-      background: var(--accent2);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px var(--shadow-light);
-    }
-    .btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 12px var(--shadow-light);
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--accent1);
-      color: var(--accent1);
-    }
-    .btn-outline:hover {
-      background: var(--accent1);
-      color: #111;
-    }
+  /* Utility Classes */
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  .flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-between {
+    justify-content: space-between;
+  }
+  .gap-sm {
+    gap: 8px;
+  }
+  .gap-md {
+    gap: 16px;
+  }
+  .gap-lg {
+    gap: 24px;
+  }
+  .text-muted {
+    color: var(--text-muted);
+  }
+  .text-accent {
+    color: var(--accent1);
+  }
+  .rounded {
+    border-radius: var(--radius);
+  }
+  .btn {
+    background: var(--accent1);
+    color: #111;
+    border: none;
+    padding: 12px 24px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    box-shadow: 0 6px 20px var(--shadow-light);
+    transition: background var(--transition), transform var(--transition);
+    user-select: none;
+    text-align: center;
+  }
+  .btn:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px var(--shadow-light);
+  }
+  .btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 12px var(--shadow-light);
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--accent1);
+    color: var(--accent1);
+  }
+  .btn-outline:hover {
+    background: var(--accent1);
+    color: #111;
+  }
 
-    /* Container */
-    .container {
-      max-width: 1200px;
-      margin: 100px auto 80px;
-      padding: 0 24px;
-    }
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 120px auto 80px;
+    padding: 0 24px;
+  }
 
-    /* Header */
-    header {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(100% - 48px);
-      max-width: 1200px;
-      background: var(--panel-bg);
-      border-radius: var(--radius);
-      box-shadow: 0 8px 32px var(--shadow-dark);
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 9999;
-      user-select: none;
-    }
-    .header-logo {
-      font-weight: 700;
-      font-size: 24px;
-      letter-spacing: -0.02em;
-      cursor: pointer;
-      color: var(--accent1);
-      transition: color var(--transition);
-      user-select: none;
-    }
-    .header-logo:hover {
-      color: var(--accent2);
-    }
+  /* Header */
+  header {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 32px var(--shadow-dark);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 9999;
+    user-select: none;
+  }
+  .header-logo {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    color: var(--accent1);
+    transition: color var(--transition);
+    user-select: none;
+  }
+  .header-logo:hover {
+    color: var(--accent2);
+  }
 
-    nav {
-      display: flex;
-      gap: 24px;
-    }
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 15px;
-      padding: 8px 12px;
-      border-radius: var(--radius);
-      transition: background var(--transition), color var(--transition);
-      user-select: none;
-    }
-    nav a:hover, nav a.active {
-      background: var(--accent1);
-      color: #111;
-    }
+  nav {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    transition: background var(--transition), color var(--transition);
+    user-select: none;
+  }
+  nav a:hover,
+  nav a.active {
+    background: var(--accent1);
+    color: #111;
+  }
 
-    /* Main Tabs Container */
+  /* Theme toggle */
+  #theme-toggle {
+    background: transparent;
+    border: 1.5px solid var(--accent1);
+    border-radius: var(--radius);
+    cursor: pointer;
+    padding: 8px 12px;
+    color: var(--accent1);
+    font-weight: 600;
+    user-select: none;
+    transition: background var(--transition), color var(--transition);
+  }
+  #theme-toggle:hover {
+    background: var(--accent1);
+    color: #111;
+  }
+
+  /* Main Tabs Container */
+  #tabs {
+    position: relative;
+    min-height: 700px;
+    margin-top: 80px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 40px var(--shadow-dark);
+    padding: 40px 48px;
+    transition: opacity 0.4s ease;
+  }
+
+  /* Hide inactive tabs */
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Home Tab */
+  #home h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  #home h1 .accent {
+    color: var(--accent1);
+  }
+  #home p.lead {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 32px;
+    line-height: 1.4;
+  }
+  #home .actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  #home .btn-lg {
+    padding: 16px 36px;
+    font-size: 18px;
+  }
+
+  /* Horizontal Biolink preview card */
+  #bio-preview {
+    margin-top: 60px;
+    background: #1c1830;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+    max-width: 700px;
+    overflow: hidden;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease;
+  }
+
+  /* Preview Header */
+  #bio-preview-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #29243f;
+  }
+  #bio-preview-header h2 {
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--accent1);
+    user-select: none;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  #bio-preview-header .status {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  /* Link list horizontal */
+  #bio-preview-links {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding: 20px 28px;
+    scroll-behavior: smooth;
+  }
+  #bio-preview-links::-webkit-scrollbar {
+    height: 8px;
+  }
+  #bio-preview-links::-webkit-scrollbar-thumb {
+    background: var(--accent1);
+    border-radius: 4px;
+  }
+  .preview-link {
+    background: var(--panel-bg);
+    border-radius: 12px;
+    min-width: 180px;
+    padding: 16px 20px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: background var(--transition), transform var(--transition);
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+  .preview-link:hover {
+    background: var(--accent2);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px var(--shadow-light);
+  }
+  .preview-link-label {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .preview-link-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
     #tabs {
-      position: relative;
-      min-height: 700px;
-      margin-top: 80px;
-      background: var(--panel-bg);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 40px var(--shadow-dark);
-      padding: 40px 48px;
-      transition: opacity 0.4s ease;
+      padding: 32px 24px;
     }
-
-    /* Hide inactive tabs */
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-    /* Home Tab */
     #home h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-    #home h1 .accent {
-      color: var(--accent1);
+      font-size: 36px;
     }
     #home p.lead {
-      font-size: 18px;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin-bottom: 32px;
-      line-height: 1.4;
+      font-size: 16px;
     }
-    #home .actions {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    #home .btn-lg {
-      padding: 16px 36px;
-      font-size: 18px;
-    }
-
-    /* Horizontal Biolink preview card */
     #bio-preview {
-      margin-top: 60px;
-      background: #1c1830;
-      border-radius: var(--radius);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.6);
-      max-width: 700px;
-      overflow: hidden;
-      user-select: none;
-      display: flex;
+      max-width: 100%;
       flex-direction: column;
-      transition: transform 0.4s ease;
     }
-
-    /* Preview Header */
-    #bio-preview-header {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #29243f;
-    }
-    #bio-preview-header h2 {
-      font-weight: 600;
-      font-size: 22px;
-      color: var(--accent1);
-      user-select: none;
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
-    #bio-preview-header .status {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    /* Link list horizontal */
     #bio-preview-links {
-      display: flex;
-      overflow-x: auto;
-      gap: 12px;
-      padding: 20px 28px;
-      scroll-behavior: smooth;
-    }
-    #bio-preview-links::-webkit-scrollbar {
-      height: 8px;
-    }
-    #bio-preview-links::-webkit-scrollbar-thumb {
-      background: var(--accent1);
-      border-radius: 4px;
+      flex-wrap: wrap;
+      overflow-x: visible;
     }
     .preview-link {
-      background: var(--panel-bg);
-      border-radius: 12px;
-      min-width: 180px;
-      padding: 16px 20px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      cursor: pointer;
-      transition: background var(--transition), transform var(--transition);
-      display: flex;
+      min-width: auto;
+      width: 100%;
+    }
+    nav {
+      gap: 16px;
+    }
+  }
+  @media (max-width: 520px) {
+    header {
+      padding: 12px 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav a {
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+    #home h1 {
+      font-size: 28px;
+    }
+    #home p.lead {
+      font-size: 14px;
+    }
+    #bio-preview-links {
       flex-direction: column;
-      user-select: none;
     }
-    .preview-link:hover {
-      background: var(--accent2);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px var(--shadow-light);
+    .preview-link {
+      width: 100%;
     }
-    .preview-link-label {
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 6px;
-      color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .preview-link-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  }
 
-    /* Responsive */
-    @media (max-width: 960px) {
-      #tabs {
-        padding: 32px 24px;
-      }
-      #home h1 {
-        font-size: 36px;
-      }
-      #home p.lead {
-        font-size: 16px;
-      }
-      #bio-preview {
-        max-width: 100%;
-        flex-direction: column;
-      }
-      #bio-preview-links {
-        flex-wrap: wrap;
-        overflow-x: visible;
-      }
-      .preview-link {
-        min-width: auto;
-        width: 100%;
-      }
-      nav {
-        gap: 16px;
-      }
+  /* Toast Notifications */
+  #toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .toast {
+    min-width: 240px;
+    background: var(--accent1);
+    color: #111;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px var(--shadow-light);
+    font-weight: 600;
+    user-select: none;
+    opacity: 0;
+    transform: translateX(100%);
+    animation: toast-in 300ms forwards, toast-out 300ms forwards 2.7s;
+  }
+  .toast-success {
+    background: #29d865;
+    color: #111;
+  }
+  .toast-error {
+    background: #ff4444;
+    color: #111;
+  }
+  @keyframes toast-in {
+    to {
+      opacity: 1;
+      transform: translateX(0);
     }
-    @media (max-width: 520px) {
-      header {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      nav a {
-        font-size: 14px;
-        padding: 8px 10px;
-      }
-      #home h1 {
-        font-size: 28px;
-      }
-      #home p.lead {
-        font-size: 14px;
-      }
-      #bio-preview-links {
-        flex-direction: column;
-      }
-      .preview-link {
-        width: 100%;
-      }
+  }
+  @keyframes toast-out {
+    to {
+      opacity: 0;
+      transform: translateX(100%);
     }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-logo" id="nav-home" tabindex="0" role="button" aria-label="Go to home tab">grief.lol</div>
-    <nav role="navigation" aria-label="Primary navigation">
-      <a href="#" class="nav-link active" data-tab="home" tabindex="0">Home</a>
-      <a href="#" class="nav-link" data-tab="features" tabindex="0">Features</a>
-      <a href="#" class="nav-link" data-tab="pricing" tabindex="0">Pricing</a>
-      <a href="#" class="nav-link" data-tab="help" tabindex="0">Help</a>
-      <a href="#" class="nav-link" data-tab="signup" tabindex="0">Sign Up</a>
-      <a href="#" class="nav-link" data-tab="admin" tabindex="0">Admin Panel</a>
-      <a href="#" class="nav-link" data-tab="profile" tabindex="0">Profile</a>
-    </nav>
-  </header>
+<header>
+  <div class="header-logo" id="nav-home" tabindex="0" role="button" aria-label="Go to home tab"
+    >grief.lol</div
+  >
+  <nav role="navigation" aria-label="Primary navigation">
+    <a href="#" class="nav-link active" data-tab="home" tabindex="0">Home</a>
+    <a href="#" class="nav-link" data-tab="features" tabindex="0">Features</a>
+    <a href="#" class="nav-link" data-tab="pricing" tabindex="0">Pricing</a>
+    <a href="#" class="nav-link" data-tab="help" tabindex="0">Help</a>
+    <a href="#" class="nav-link" data-tab="signup" tabindex="0">Sign Up</a>
+    <a href="#" class="nav-link" data-tab="admin" tabindex="0">Admin Panel</a>
+    <a href="#" class="nav-link" data-tab="profile" tabindex="0">Profile</a>
+  </nav>
+  <button id="theme-toggle" aria-label="Toggle dark and light theme">Dark Mode</button>
+</header>
 
-  <main class="container" role="main">
-    <!-- Tabs content -->
-    <section id="tabs">
+<main class="container" role="main">
+  <!-- Tabs content -->
+  <section id="tabs" aria-live="polite">
+    <!-- Home Tab -->
+    <article
+      id="home"
+      class="tab-content active"
+      role="tabpanel"
+      aria-labelledby="nav-home"
+      tabindex="0"
+    >
+      <h1>
+        Welcome to <span class="accent">grief.lol</span>
+      </h1>
+      <p class="lead">
+        Your digital identity, centralized and customizable. Keep your socials,
+        music, and highlights in one beautiful place.
+      </p>
+      <div class="actions">
+        <button class="btn btn-lg" data-action="claim">Claim Your Username</button>
+        <button class="btn btn-outline" data-action="learn-more">Learn More</button>
+      </div>
 
-      <!-- Home Tab -->
-      <article id="home" class="tab-content active" role="tabpanel" aria-labelledby="nav-home" tabindex="0">
-        <h1>Welcome to <span class="accent">grief.lol</span></h1>
-        <p class="lead">Your digital identity, centralized and customizable. Keep your socials, music, and highlights in one beautiful place.</p>
-        <div class="actions">
-          <button class="btn btn-lg" data-action="claim">Claim Your Username</button>
-          <button class="btn btn-outline" data-action="learn-more">Learn More</button>
+      <!-- Biolink preview horizontal -->
+      <div id="bio-preview" aria-label="Example biolink preview card">
+        <div id="bio-preview-header">
+          <h2>Your BioLink Preview</h2>
+          <div class="status">Active • Last updated 1 day ago</div>
         </div>
-
-        <!-- Biolink preview horizontal -->
-        <div id="bio-preview" aria-label="Example biolink preview card">
-          <div id="bio-preview-header">
-            <h2>Your BioLink Preview</h2>
-            <div class="status">Active • Last updated 1 day ago</div>
+        <div id="bio-preview-links" tabindex="0" aria-live="polite">
+          <div
+            class="preview-link"
+            tabindex="0"
+            role="link"
+            aria-label="Link to your Twitter profile"
+          >
+            <div class="preview-link-label">Twitter</div>
+            <div class="preview-link-sub">@grief</div>
           </div>
-          <div id="bio-preview-links" tabindex="0" aria-live="polite">
-            <div class="preview-link" tabindex="0" role="link" aria-label="Link to your Twitter profile">
-              <div class="preview-link-label">Twitter</div>
-              <div class="preview-link-sub">@grief</div>
-            </div>
-            <div class="preview-link" tabindex="0" role="link" aria-label="Link to your Spotify now playing">
-              <div class="preview-link-label">Now Playing — Dear Mama</div>
-              <div class="preview-link-sub">Nino Paid · Spotify</div>
-            </div>
-            <div class="preview-link" tabindex="0" role="link" aria-label="Contact or collaboration link">
-              <div class="preview-link-label">Contact / Collab</div>
-              <div class="preview-link-sub">Say hi — let’s make something</div>
-            </div>
-            <div class="preview-link" tabindex="0" role="link" aria-label="Your personal grief.lol profile link">
-              <div class="preview-link-label">grief.lol/username</div>
-              <div class="preview-link-sub">Tap to copy your profile link</div>
-            </div>
+          <div
+            class="preview-link"
+            tabindex="0"
+            role="link"
+            aria-label="Link to your Spotify now playing"
+          >
+            <div class="preview-link-label">Now Playing — Dear Mama</div>
+            <div class="preview-link-sub">Nino Paid · Spotify</div>
+          </div>
+          <div
+            class="preview-link"
+            tabindex="0"
+            role="link"
+            aria-label="Contact or collaboration link"
+          >
+            <div class="preview-link-label">Contact / Collab</div>
+            <div class="preview-link-sub">Say hi — let’s make something</div>
+          </div>
+          <div
+            class="preview-link"
+            tabindex="0"
+            role="link"
+            aria-label="Your personal grief.lol profile link"
+          >
+            <div class="preview-link-label">grief.lol/username</div>
+            <div class="preview-link-sub">Tap to copy your profile link</div>
           </div>
         </div>
-      </article>
+      </div>
+    </article>
+    <!-- More tabs below, coming next chunk -->
+  </section>
+</main>
 
-      <!-- More tabs to come in next chunk -->
+<!-- Toast notifications container -->
+<div id="toast-container" role="alert" aria-live="assertive" aria-atomic="true"></div>
 
-    </section>
-  </main>
+<script>
+  // Tab switching logic with accessibility
+  const navLinks = document.querySelectorAll("nav a.nav-link");
+  const tabs = document.querySelectorAll(".tab-content");
 
-  <script>
-    // Tab switching logic
-    const navLinks = document.querySelectorAll('nav a.nav-link');
-    const tabs = document.querySelectorAll('.tab-content');
+  function setActiveTab(tabName) {
+    tabs.forEach((t) => {
+      if (t.id === tabName) {
+        t.classList.add("active");
+        t.setAttribute("aria-hidden", "false");
+        t.setAttribute("tabindex", "0");
+      } else {
+        t.classList.remove("active");
+        t.setAttribute("aria-hidden", "true");
+        t.setAttribute("tabindex", "-1");
+      }
+    });
 
-    function setActiveTab(tabName) {
-      tabs.forEach(t => {
-        if (t.id === tabName) {
-          t.classList.add('active');
-          t.setAttribute('aria-hidden', 'false');
-          t.setAttribute('tabindex', '0');
-        } else {
-          t.classList.remove('active');
-          t.setAttribute('aria-hidden', 'true');
-          t.setAttribute('tabindex', '-1');
-        }
-      });
+    navLinks.forEach((link) => {
+      if (link.dataset.tab === tabName) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
 
-      navLinks.forEach(link => {
-        if (link.dataset.tab === tabName) {
-          link.classList.add('active');
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.classList.remove('active');
-          link.removeAttribute('aria-current');
-        }
-      });
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const tab = e.target.dataset.tab;
+      setActiveTab(tab);
+    });
+    link.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setActiveTab(e.target.dataset.tab);
+        e.target.focus();
+      }
+    });
+  });
+
+  // Header logo click: go home tab
+  document.querySelector(".header-logo").addEventListener("click", () => {
+    setActiveTab("home");
+  });
+
+  // Accessibility: Allow header logo keyboard navigation
+  document.querySelector(".header-logo").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setActiveTab("home");
     }
+  });
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const tab = e.target.dataset.tab;
-        setActiveTab(tab);
-      });
-      link.addEventListener('keydown', e => {
-        if(e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          setActiveTab(e.target.dataset.tab);
-          e.target.focus();
-        }
-      });
-    });
-
-    // Header logo click: go home tab
-    document.querySelector('.header-logo').addEventListener('click', () => {
-      setActiveTab('home');
-    });
-
-    // Accessibility: Allow header logo keyboard navigation
-    document.querySelector('.header-logo').addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setActiveTab('home');
-      }
-    });
-
-    // Copy profile link from preview card
-    const bioPreview = document.getElementById('bio-preview-links');
-    bioPreview.addEventListener('click', e => {
-      const target = e.target.closest('.preview-link');
-      if (!target) return;
-      const label = target.querySelector('.preview-link-label').textContent.trim();
-      if(label === 'grief.lol/username'){
-        navigator.clipboard.writeText('https://grief.lol/username').then(() => {
-          alert('Profile link copied to clipboard!');
+  // Copy profile link from preview card
+  const bioPreview = document.getElementById("bio-preview-links");
+  bioPreview.addEventListener("click", (e) => {
+    const target = e.target.closest(".preview-link");
+    if (!target) return;
+    const label = target
+      .querySelector(".preview-link-label")
+      .textContent.trim();
+    if (label === "grief.lol/username") {
+      navigator.clipboard
+        .writeText("https://grief.lol/username")
+        .then(() => {
+          showToast("Profile link copied to clipboard!", "success");
+        })
+        .catch(() => {
+          showToast("Failed to copy link.", "error");
         });
-      }
-    });
+    }
+  });
 
-    // Handle Claim button (mock)
-    document.querySelector('[data-action="claim"]').addEventListener('click', () => {
-      setActiveTab('signup');
-    });
+  // Handle Claim button (mock)
+  document.querySelector('[data-action="claim"]').addEventListener("click", () => {
+    setActiveTab("signup");
+  });
 
-    // Handle Learn More button (mock)
-    document.querySelector('[data-action="learn-more"]').addEventListener('click', () => {
-      setActiveTab('features');
-    });
+  // Handle Learn More button (mock)
+  document.querySelector('[data-action="learn-more"]').addEventListener("click", () => {
+    setActiveTab("features");
+  });
 
-  </script>
+  // Toast notification system
+  const toastContainer = document.getElementById("toast-container");
+  function showToast(message, type = "info") {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    if (type === "success") toast.classList.add("toast-success");
+    if (type === "error") toast.classList.add("toast-error");
+    toast.textContent = message;
+    toastContainer.appendChild(toast);
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
 
+  // Theme toggle
+  const themeToggleBtn = document.getElementById("theme-toggle");
+  function setTheme(theme) {
+    if (theme === "dark") {
+      document.documentElement.style.setProperty("--bg", "#070507");
+      document.documentElement.style.setProperty("--panel-bg", "#121016");
+      document.documentElement.style.setProperty("--text-primary", "#eaeaea");
+      document.documentElement.style.setProperty("--text-muted", "#9b8fa0");
+      document.documentElement.style.setProperty("--accent1", "#7c5cff");
+      document.documentElement.style.setProperty("--accent2", "#4a36d8");
+      document.documentElement.style.setProperty("--accent3", "#00f0ff");
+      themeToggleBtn.textContent = "Light Mode";
+    } else {
+      document.documentElement.style.setProperty("--bg", "#f9fafb");
+      document.documentElement.style.setProperty("--panel-bg", "#ffffff");
+      document.documentElement.style.setProperty("--text-primary", "#222222");
+      document.documentElement.style.setProperty("--text-muted", "#666666");
+      document.documentElement.style.setProperty("--accent1", "#3b82f6");
+      document.documentElement.style.setProperty("--accent2", "#2563eb");
+      document.documentElement.style.setProperty("--accent3", "#06b6d4");
+      themeToggleBtn.textContent = "Dark Mode";
+    }
+  }
+  let currentTheme = "dark";
+  themeToggleBtn.addEventListener("click", () => {
+    currentTheme = currentTheme === "dark" ? "light" : "dark";
+    setTheme(currentTheme);
+    showToast(`Switched to ${currentTheme} mode`, "success");
+  });
+
+  // Initialize theme on page load
+  setTheme(currentTheme);
+</script>
 </body>
 </html>
