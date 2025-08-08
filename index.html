@@ -4,993 +4,955 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>grief.lol — Your digital identity</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 <style>
-  /* ===== CSS Variables ===== */
+  /* Root colors & vars */
   :root {
-    --bg-dark: #0a0a0f;
-    --bg-light: #fefefe;
-    --text-dark: #111;
-    --text-light: #eee;
-    --accent-primary: #7c5cff;
-    --accent-secondary: #ff5fb7;
-    --accent-muted: #9b8fa0;
-    --border-radius: 16px;
-    --transition: 250ms ease;
-    --shadow-light: rgba(124, 92, 255, 0.15);
-    --shadow-dark: rgba(0, 0, 0, 0.5);
-    --max-width: 1120px;
+    --bg: #070507;
+    --panel: #0f0c10;
+    --muted: #9b8fa0;
+    --accent1: #ff5fb7; /* magenta */
+    --accent2: #7c5cff; /* purple */
+    --accent3: #00f0ff; /* cyan */
+    --radius: 16px;
+    --trans: 280ms ease;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    --scrollbar-bg: #1a1720;
+    --scrollbar-thumb: #7c5cff88;
   }
 
-  /* ===== Reset & base ===== */
-  * {
+  /* Reset & basics */
+  *, *::before, *::after {
     box-sizing: border-box;
   }
-  html, body {
+  body, html {
     margin: 0; padding: 0; height: 100%;
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
+    background: radial-gradient(1200px 700px at 10% 80%, rgba(124,92,255,0.08), transparent 10%),
+                radial-gradient(900px 500px at 90% 20%, rgba(255,95,183,0.06), transparent 8%),
+                var(--bg);
+    color: #eee;
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-y: scroll;
-  }
-  a {
-    color: var(--accent-primary);
-    text-decoration: none;
-    cursor: pointer;
-    transition: color var(--transition);
-  }
-  a:hover,
-  a:focus {
-    color: var(--accent-secondary);
-    outline: none;
-  }
-
-  /* ===== Scrollbar ===== */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-secondary);
-  }
-
-  /* ===== Container & Layout ===== */
-  .container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 1rem 1.25rem;
-  }
-  header {
-    position: fixed;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: var(--max-width);
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: saturate(150%) blur(12px);
-    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    z-index: 9999;
-  }
-  header .brand {
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: -0.02em;
-    color: var(--accent-primary);
-    user-select: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  header .brand svg {
-    width: 30px; height: 30px;
-    fill: var(--accent-secondary);
-  }
-  nav {
-    margin-left: auto;
-    display: flex;
-    gap: 1.5rem;
-  }
-  nav button {
-    background: none;
-    border: none;
-    color: var(--accent-muted);
-    font-weight: 600;
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-    cursor: pointer;
-    border-radius: var(--border-radius);
-    transition: color var(--transition), background var(--transition);
-  }
-  nav button:hover,
-  nav button:focus {
-    background: var(--accent-primary);
-    color: var(--text-light);
-    outline: none;
-  }
-  nav button.active {
-    background: var(--accent-secondary);
-    color: var(--text-light);
-  }
-
-  /* ===== Main Content Sections ===== */
-  main {
-    padding-top: 70px;
     min-height: 100vh;
-  }
-  section.page {
-    display: none;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    padding: 2rem 1rem 3rem;
-    max-width: var(--max-width);
-    margin: 0 auto;
-  }
-  section.page.active {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* ===== Home Page ===== */
-  .home-hero {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 680px;
-    margin: 3rem auto 6rem;
-    text-align: center;
-  }
-  .home-hero h1 {
-    font-weight: 700;
-    font-size: 3.5rem;
-    line-height: 1.05;
-    margin: 0;
-  }
-  .home-hero h1 .accent {
-    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-style: normal;
-  }
-  .home-hero p.lead {
-    font-weight: 400;
-    font-size: 1.1rem;
-    color: var(--accent-muted);
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .home-hero .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
-  }
-  .btn-primary, .btn-secondary {
-    font-weight: 600;
-    padding: 0.75rem 1.8rem;
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color var(--transition), color var(--transition);
-  }
-  .btn-primary {
-    background: var(--accent-primary);
-    color: var(--text-light);
-  }
-  .btn-primary:hover, .btn-primary:focus {
-    background: var(--accent-secondary);
-    outline: none;
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--accent-muted);
-    border: 2px solid var(--accent-primary);
-  }
-  .btn-secondary:hover, .btn-secondary:focus {
-    color: var(--accent-primary);
-    border-color: var(--accent-secondary);
-    outline: none;
-  }
-
-  /* ===== Link Preview (Horizontal Card List) ===== */
-  .link-preview {
-    max-width: 680px;
-    margin: 0 auto 5rem;
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
+    overflow-y: auto;
     scroll-behavior: smooth;
   }
-  .link-preview::-webkit-scrollbar {
-    height: 8px;
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
   }
-  .link-preview::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+    border: 3px solid var(--scrollbar-bg);
+  }
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 100px auto 60px;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  header {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 40px;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px) saturate(120%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 28px;
+    z-index: 30;
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: -0.02em;
+    font-family: 'Poppins', sans-serif;
+  }
+  header nav {
+    display: flex;
+    gap: 28px;
+  }
+  header nav button {
     background: transparent;
+    border: none;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 14px;
+    transition: background-color var(--trans), color var(--trans);
   }
-  .link-preview::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
-    border-radius: 4px;
+  header nav button:hover,
+  header nav button.active {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
   }
-  .link-preview::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-secondary);
+  header nav button:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
   }
-  .link-card {
-    flex: 0 0 auto;
-    background: rgba(124, 92, 255, 0.05);
-    border-radius: var(--border-radius);
-    padding: 1rem 1.5rem;
-    box-shadow: 0 6px 15px var(--shadow-dark);
-    min-width: 210px;
-    transition: transform var(--transition);
+  header .cta {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    border: none;
+    border-radius: 9999px;
+    padding: 12px 24px;
+    color: #111;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    font-size: 15px;
+    box-shadow: 0 12px 30px rgba(124,92,255,0.16);
+    transition: transform var(--trans);
+  }
+  header .cta:hover {
+    transform: translateY(-3px) scale(1.04);
+  }
+  header .cta:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 4px;
+  }
+
+  /* Main Content Grid */
+  main {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Hero Section */
+  .hero {
+    flex: 1 1 580px;
+    max-width: 620px;
+    padding-top: 20px;
+  }
+  .hero h1 {
+    font-size: 48px;
+    line-height: 1.05;
+    margin: 0 0 18px 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 18px rgba(255,95,183,0.12));
+  }
+  .hero p.lead {
+    font-size: 17px;
+    max-width: 540px;
+    margin: 0 0 28px;
+    color: var(--muted);
+  }
+  .hero .actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .hero .actions button {
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 30px;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    transition: all 220ms ease;
+  }
+  .hero .actions button.primary {
+    border: none;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+    box-shadow: 0 18px 40px rgba(124,92,255,0.28);
+  }
+  .hero .actions button.primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-4px);
+  }
+  .hero .actions button:hover {
+    filter: brightness(1.06);
+    transform: translateY(-3px);
+  }
+
+  /* Profile Preview Card */
+  .profile-card {
+    flex: 1 1 420px;
+    max-width: 440px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.22));
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 28px 24px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
     user-select: none;
+    position: relative;
   }
-  .link-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 24px var(--shadow-dark);
+  .profile-card::before {
+    content: "";
+    position: absolute;
+    top: 14px; left: 14px; right: 14px;
+    height: 110px;
+    border-radius: calc(var(--radius) - 6px);
+    background: linear-gradient(180deg, rgba(124,92,255,0.12), rgba(255,95,183,0.06));
+    filter: blur(22px);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 0;
   }
-  .link-card .label {
-    font-weight: 600;
-    font-size: 1.05rem;
-    color: var(--text-light);
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .link-card .sub {
-    font-weight: 400;
-    font-size: 0.85rem;
-    color: var(--accent-muted);
-  }
-
-  /* ===== Features Page ===== */
-  .features-list {
-    max-width: 800px;
-    margin: 2rem auto 3rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.3rem;
-  }
-  .feature-item {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--border-radius);
-    padding: 1.4rem 1.2rem;
-    box-shadow: 0 8px 16px rgba(124, 92, 255, 0.08);
-    transition: background-color var(--transition);
-    cursor: default;
-    user-select: none;
-  }
-  .feature-item:hover {
-    background: rgba(124, 92, 255, 0.15);
-  }
-  .feature-item h3 {
-    margin: 0 0 0.8rem 0;
-    font-weight: 600;
-    color: var(--accent-primary);
-  }
-  .feature-item p {
-    margin: 0;
-    font-weight: 400;
-    color: var(--accent-muted);
-    font-size: 0.9rem;
-    line-height: 1.3;
-  }
-
-  /* ===== Pricing Page ===== */
-  .pricing-cards {
-    max-width: 840px;
-    margin: 2rem auto 3rem;
+  .profile-top {
     display: flex;
-    gap: 1.5rem;
+    align-items: center;
+    gap: 18px;
+    z-index: 2;
+  }
+  .avatar {
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    box-shadow: 0 8px 28px rgba(124,92,255,0.16), inset 0 -5px 14px rgba(0,0,0,0.27);
+    display: grid;
+    place-items: center;
+    color: #111;
+    font-weight: 700;
+    font-size: 34px;
+    user-select: none;
+  }
+  .avatar svg {
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+    width: 56px;
+    height: 56px;
+  }
+  .avatar:hover {
+    transform: translateY(-6px) rotate(-2deg) scale(1.02);
+    box-shadow: 0 18px 40px rgba(124,92,255,0.28);
+    transition: transform 280ms ease, box-shadow 280ms ease;
+  }
+  .profile-meta {
+    flex: 1;
+  }
+  .username {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .username .underline {
+    display: inline-block;
+    height: 5px;
+    width: 38px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+    filter: blur(6px);
+    opacity: 0.9;
+    transform: translateY(6px);
+    transition: transform 220ms ease;
+  }
+  .profile-card:hover .underline {
+    transform: translateY(0);
+  }
+  .user-bio {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .badges {
+    display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    justify-content: center;
-  }
-  .pricing-card {
-    flex: 1 1 240px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: var(--border-radius);
-    box-shadow: 0 8px 20px rgba(124, 92, 255, 0.12);
-    padding: 2rem 1.6rem;
-    text-align: center;
-    transition: box-shadow var(--transition);
-    cursor: default;
     user-select: none;
   }
-  .pricing-card:hover {
-    box-shadow: 0 12px 28px rgba(124, 92, 255, 0.25);
-  }
-  .pricing-card h3 {
-    margin: 0 0 1rem 0;
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--accent-primary);
-  }
-  .pricing-card .price {
-    font-weight: 700;
-    font-size: 2.4rem;
-    color: var(--accent-secondary);
-    margin-bottom: 1rem;
-  }
-  .pricing-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.4rem 0;
-    font-weight: 400;
-    font-size: 0.95rem;
-    color: var(--accent-muted);
-    text-align: left;
-  }
-  .pricing-card ul li {
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
-  }
-  .pricing-card button {
-    padding: 0.8rem 1.8rem;
-    border-radius: var(--border-radius);
-    border: none;
-    background: var(--accent-primary);
-    color: var(--text-light);
+  .badge {
     font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color var(--transition);
+    font-size: 12px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    border-radius: 10px;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,0.03);
+    cursor: default;
+    transition: transform 180ms ease;
   }
-  .pricing-card button:hover,
-  .pricing-card button:focus {
-    background: var(--accent-secondary);
-    outline: none;
+  .badge:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(124,92,255,0.06);
   }
 
-  /* ===== Help Page ===== */
-  .help-content {
+  /* Links list horizontal style */
+  .links {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .links::-webkit-scrollbar {
+    height: 8px;
+  }
+  .links::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
+  }
+  .link {
+    flex: 0 0 auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+    border-radius: 14px;
+    padding: 12px 18px;
+    min-width: 220px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid rgba(255,255,255,0.025);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
+  }
+  .link:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  }
+  .link:active {
+    transform: translateY(-2px);
+  }
+  .link .label {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .link .sub {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .link .icon {
+    font-size: 22px;
+  }
+
+  /* Tabs content wrapper */
+  .tab-content {
+    display: none;
+    max-width: 1000px;
+    margin: 60px auto 80px;
+    padding: 0 28px;
+  }
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Features Section */
+  #features .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+  }
+  #features .feature {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    text-align: center;
+    user-select: none;
+    color: #ddd;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 280ms ease;
+  }
+  #features .feature:hover {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+    box-shadow: 0 8px 22px rgba(124,92,255,0.3);
+    cursor: default;
+  }
+
+  /* Pricing Section */
+  #pricing {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 12px;
+  }
+  #pricing table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    color: #eee;
+  }
+  #pricing th, #pricing td {
+    padding: 16px 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  #pricing th {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  #pricing tr {
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+  #pricing tr:hover {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+  }
+
+  /* Help Section */
+  #help .faq {
     max-width: 800px;
-    margin: 2rem auto 3rem;
-    color: var(--accent-muted);
-  }
-  .help-content h2 {
-    color: var(--accent-primary);
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-  .faq {
-    max-width: 700px;
     margin: 0 auto;
   }
-  .accordion {
-    border-radius: var(--border-radius);
-    background: rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-    box-shadow: 0 6px 12px rgba(124, 92, 255, 0.08);
-    margin-bottom: 1.5rem;
-  }
-  .accordion-header {
+  .faq-item {
+    background: var(--panel);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    padding: 18px 20px;
     cursor: pointer;
-    padding: 1rem 1.2rem;
-    font-weight: 600;
-    font-size: 1rem;
     user-select: none;
-    background: var(--bg-dark);
-    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color var(--transition);
+    color: #ddd;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    transition: background-color 280ms ease;
   }
-  .accordion-header:hover {
-    background: rgba(124, 92, 255, 0.15);
+  .faq-item:hover {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
   }
-  .accordion-header:after {
-    content: "▶";
-    font-size: 0.8rem;
-    transition: transform var(--transition);
-    color: var(--accent-muted);
+  .faq-item.active {
+    background: linear-gradient(90deg, var(--accent2), var(--accent3));
+    color: #111;
   }
-  .accordion-header[aria-expanded="true"]:after {
-    transform: rotate(90deg);
-    color: var(--accent-primary);
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 350ms ease;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 14px;
   }
-  .accordion-content {
-    padding: 1rem 1.2rem;
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: var(--accent-muted);
-    display: none;
-  }
-  .accordion-content[aria-hidden="false"] {
-    display: block;
+  .faq-item.active .faq-answer {
+    max-height: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
-  /* ===== Signup Page ===== */
-  .signup-form {
-    max-width: 440px;
-    margin: 3rem auto 5rem;
-    background: rgba(124, 92, 255, 0.05);
-    padding: 2rem 2.4rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 25px rgba(124, 92, 255, 0.1);
+  /* Signup Section */
+  #signup {
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--panel);
+    padding: 32px 28px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.4);
   }
-  .signup-form h2 {
+  #signup h2 {
     margin-top: 0;
-    margin-bottom: 1.2rem;
     font-weight: 700;
-    color: var(--accent-primary);
-    text-align: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+    color: white;
   }
-  .form-group {
-    margin-bottom: 1.2rem;
+  #signup form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
-  label {
-    display: block;
-    margin-bottom: 0.3rem;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
+  #signup input, #signup select {
+    padding: 14px 16px;
     border-radius: 10px;
-    border: 1px solid rgba(124, 92, 255, 0.3);
-    background: var(--bg-dark);
-    color: var(--text-light);
-    font-size: 1rem;
-    transition: border-color var(--transition);
-  }
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 10px var(--shadow-light);
-  }
-  .error-message {
-    color: #ff6b6b;
-    font-size: 0.85rem;
-    margin-top: 0.15rem;
-  }
-  .form-message {
-    font-size: 0.9rem;
-    margin-top: 0.8rem;
-    font-weight: 600;
-    text-align: center;
-  }
-  .submit-btn {
-    width: 100%;
-    padding: 0.75rem 1.25rem;
     border: none;
-    background: var(--accent-primary);
-    color: var(--text-light);
-    font-weight: 700;
-    font-size: 1.1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition);
+    background: #14101a;
+    color: #eee;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 220ms ease;
   }
-  .submit-btn:hover,
-  .submit-btn:focus {
-    background: var(--accent-secondary);
+  #signup input:focus,
+  #signup select:focus {
+    background: #1f1930;
     outline: none;
+    box-shadow: 0 0 0 2px var(--accent3);
+  }
+  #signup button {
+    padding: 16px;
+    border-radius: 9999px;
+    border: none;
+    font-weight: 700;
+    font-size: 16px;
+    color: #111;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    cursor: pointer;
+    box-shadow: 0 16px 48px rgba(124,92,255,0.32);
+    transition: filter 220ms ease;
+  }
+  #signup button:hover {
+    filter: brightness(1.1);
   }
 
-  /* ===== Admin Panel ===== */
-  .admin-panel {
+  /* Admin Panel */
+  #admin {
     max-width: 960px;
-    margin: 3rem auto 5rem;
+    margin: 0 auto;
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+    color: #eee;
   }
-  .admin-panel h2 {
+  #admin h2 {
     font-weight: 700;
-    color: var(--accent-primary);
-    margin-bottom: 1rem;
-    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
   }
-  .user-table {
+  #admin .section {
+    margin-bottom: 28px;
+  }
+  #admin table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(124, 92, 255, 0.05);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(124, 92, 255, 0.1);
   }
-  .user-table th,
-  .user-table td {
-    padding: 0.9rem 1rem;
+  #admin th, #admin td {
+    padding: 14px 16px;
     text-align: left;
-    font-size: 0.9rem;
-    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
-    user-select: none;
+    border-bottom: 1px solid #222;
   }
-  .user-table th {
-    background: rgba(124, 92, 255, 0.12);
-    font-weight: 600;
+  #admin th {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+    font-weight: 700;
   }
-  .user-table tr:hover {
-    background: rgba(124, 92, 255, 0.1);
+  #admin tbody tr:hover {
+    background: #24174b;
   }
-  .user-table button {
-    background: var(--accent-primary);
+  #admin button {
+    background: var(--accent1);
     border: none;
-    border-radius: 12px;
-    color: var(--text-light);
+    color: #111;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 600;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.85rem;
-    transition: background-color var(--transition);
+    transition: background-color 200ms ease;
   }
-  .user-table button:hover {
-    background: var(--accent-secondary);
+  #admin button:hover {
+    background: var(--accent2);
   }
 
-  /* ===== Profile Editor ===== */
-  .profile-editor {
-    max-width: 480px;
-    margin: 2rem auto 6rem;
-    background: rgba(124, 92, 255, 0.05);
-    padding: 2rem 2.4rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 25px rgba(124, 92, 255, 0.1);
+  /* Profile Editor */
+  #profile-editor {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 28px 28px;
+    box-shadow: 0 10px 38px rgba(0,0,0,0.5);
   }
-  .profile-editor h2 {
-    margin-top: 0;
-    margin-bottom: 1.2rem;
+  #profile-editor h2 {
     font-weight: 700;
-    color: var(--accent-primary);
-    text-align: center;
+    font-size: 26px;
+    margin-bottom: 22px;
+    color: #eee;
   }
-  .profile-editor label {
+  #profile-editor form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  #profile-editor label {
     font-weight: 600;
-    font-size: 0.9rem;
-    display: block;
-    margin-bottom: 0.3rem;
+    font-size: 15px;
+    color: #ccc;
   }
-  .profile-editor input[type="text"],
-  .profile-editor input[type="url"] {
-    width: 100%;
-    padding: 0.55rem 0.8rem;
+  #profile-editor input[type="text"],
+  #profile-editor textarea {
+    background: #1a1428;
     border-radius: 10px;
-    border: 1px solid rgba(124, 92, 255, 0.3);
-    background: var(--bg-dark);
-    color: var(--text-light);
-    font-size: 1rem;
-    transition: border-color var(--transition);
-    margin-bottom: 1rem;
-  }
-  .profile-editor input[type="text"]:focus,
-  .profile-editor input[type="url"]:focus {
-    border-color: var(--accent-primary);
-    outline: none;
-    box-shadow: 0 0 10px var(--shadow-light);
-  }
-  .profile-editor .avatar-preview {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    margin: 0 auto 1.25rem;
-    background-color: rgba(124, 92, 255, 0.2);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .profile-editor button.save-profile {
-    width: 100%;
-    background: var(--accent-primary);
     border: none;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1.5rem;
-    font-weight: 700;
-    color: var(--text-light);
-    cursor: pointer;
-    transition: background-color var(--transition);
+    padding: 14px 18px;
+    color: #eee;
+    font-size: 15px;
+    resize: vertical;
   }
-  .profile-editor button.save-profile:hover,
-  .profile-editor button.save-profile:focus {
-    background: var(--accent-secondary);
-    outline: none;
+  #profile-editor textarea {
+    min-height: 90px;
+  }
+  #profile-editor button {
+    padding: 14px 24px;
+    border-radius: 9999px;
+    border: none;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: filter 220ms ease;
+  }
+  #profile-editor button:hover {
+    filter: brightness(1.1);
   }
 
-  /* ===== Responsive ===== */
-  @media (max-width: 768px) {
-    .home-hero h1 {
-      font-size: 2.8rem;
-    }
-    nav {
-      gap: 0.8rem;
-    }
-    .features-list {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-    .pricing-cards {
+  /* Media Queries */
+  @media (max-width: 1024px) {
+    main {
       flex-direction: column;
-      gap: 1rem;
+      align-items: center;
+    }
+    .hero, .profile-card {
+      max-width: 90vw;
     }
   }
-  @media (max-width: 400px) {
-    .home-hero h1 {
-      font-size: 2.2rem;
+  @media (max-width: 480px) {
+    header nav {
+      display: none;
     }
-    .home-hero p.lead {
-      font-size: 1rem;
+    header .cta {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+    .hero h1 {
+      font-size: 32px;
     }
   }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="container" style="display:flex;align-items:center;gap:1rem;">
-    <div class="brand" tabindex="0" aria-label="grief.lol homepage" role="link" id="nav-home-btn">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" />
-      </svg>
-      grief.lol
-    </div>
-    <nav aria-label="Primary navigation">
-      <button id="nav-home" class="active" aria-current="page">Home</button>
-      <button id="nav-features">Features</button>
-      <button id="nav-pricing">Pricing</button>
-      <button id="nav-help">Help</button>
-      <button id="nav-signup">Signup</button>
-      <button id="nav-admin">Admin Panel</button>
-    </nav>
-  </div>
+  <div class="logo" id="logoBtn">grief.lol</div>
+  <nav>
+    <button data-tab="home" class="active">Home</button>
+    <button data-tab="features">Features</button>
+    <button data-tab="pricing">Pricing</button>
+    <button data-tab="help">Help</button>
+    <button data-tab="signup">Sign Up</button>
+    <button data-tab="admin">Admin</button>
+    <button data-tab="profile">Profile</button>
+  </nav>
+  <button class="cta" id="joinWaitlistBtn">Join Waitlist</button>
 </header>
-<main>
-  <!-- Home Page -->
-  <section class="page active" id="page-home" tabindex="0" aria-label="Home page">
-    <div class="home-hero">
-      <h1>
-        Your digital identity, <span class="accent">simplified.</span>
-      </h1>
-      <p class="lead">One link to connect all your social, projects, and passions — grief.lol makes it effortless.</p>
-      <div class="buttons">
-        <button class="btn-primary" id="btn-get-started">Get Started</button>
-        <button class="btn-secondary" id="btn-learn-more">Learn More</button>
+
+<main class="container">
+  <!-- Hero -->
+  <section class="hero tab-content active" id="home">
+    <h1>Build your <span class="accent">digital identity</span> with grief.lol</h1>
+    <p class="lead">A sleek, minimal, and modern biolink platform. Connect your socials, showcase your best links, and shine online.</p>
+    <div class="actions">
+      <button class="primary" id="signupBtn">Create Your Link</button>
+      <button id="learnMoreBtn">Learn More</button>
+    </div>
+  </section>
+
+  <!-- Profile Preview -->
+  <aside class="profile-card tab-content active" id="profilePreview">
+    <div class="profile-top">
+      <div class="avatar" title="grief.lol Logo">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8M12 8v8"/></svg>
+      </div>
+      <div class="profile-meta">
+        <div class="username">username <span class="underline"></span></div>
+        <div class="user-bio">Your personal biolink page with all your socials, projects, and info in one clean spot.</div>
+        <div class="badges">
+          <div class="badge">Creator</div>
+          <div class="badge">Premium</div>
+          <div class="badge">Early Access</div>
+        </div>
       </div>
     </div>
-
-    <div class="link-preview" aria-label="Preview of user biolinks">
-      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="YouTube channel link preview">
-        <div class="label">YouTube</div>
-        <div class="sub">/userchannel</div>
-      </div>
-      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="Twitter profile link preview">
+    <div class="links" aria-label="Profile Links">
+      <div class="link" tabindex="0" role="link">
         <div class="label">Twitter</div>
-        <div class="sub">@userhandle</div>
+        <div class="sub">@yourhandle</div>
       </div>
-      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="GitHub repo link preview">
-        <div class="label">GitHub</div>
-        <div class="sub">/user</div>
+      <div class="link" tabindex="0" role="link">
+        <div class="label">YouTube</div>
+        <div class="sub">Subscribe Now</div>
       </div>
-      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="Portfolio website preview">
+      <div class="link" tabindex="0" role="link">
         <div class="label">Portfolio</div>
-        <div class="sub">userportfolio.com</div>
+        <div class="sub">My work & projects</div>
+      </div>
+      <div class="link" tabindex="0" role="link">
+        <div class="label">Discord</div>
+        <div class="sub">Join my server</div>
       </div>
     </div>
-  </section>
+  </aside>
 
-  <!-- Features Page -->
-  <section class="page" id="page-features" tabindex="0" aria-label="Features page">
+  <!-- Features Tab -->
+  <section id="features" class="tab-content">
     <h2>Features</h2>
-    <div class="features-list">
-      <div class="feature-item">
-        <h3>Custom Links</h3>
-        <p>Create and organize your personal links with drag & drop ease.</p>
+    <div class="feature-grid">
+      <div class="feature">Custom Vanity URLs</div>
+      <div class="feature">Drag & Drop Link Ordering</div>
+      <div class="feature">Detailed Analytics Dashboard</div>
+      <div class="feature">Fully Responsive & Mobile Friendly</div>
+      <div class="feature">Easy Social Media Integration</div>
+      <div class="feature">Advanced Profile Customization</div>
+      <div class="feature">Secure Account Management</div>
+      <div class="feature">Admin Control Panel</div>
+    </div>
+  </section>
+
+  <!-- Pricing Tab -->
+  <section id="pricing" class="tab-content">
+    <h2>Pricing</h2>
+    <table>
+      <thead>
+        <tr><th>Plan</th><th>Monthly</th><th>Yearly</th><th>Features</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Free</td><td>$0</td><td>—</td><td>Basic Links & Socials</td></tr>
+        <tr><td>Premium</td><td>$6.99</td><td>$69.99</td><td>Custom URLs, Analytics, Priority Support</td></tr>
+        <tr><td>Business</td><td>$19.99</td><td>$199.99</td><td>Multi-User, Team Management, Advanced Controls</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Help Tab -->
+  <section id="help" class="tab-content">
+    <h2>Help & FAQ</h2>
+    <div class="faq">
+      <div class="faq-item" tabindex="0">
+        <div class="faq-question">How do I create my biolink page?</div>
+        <div class="faq-answer">Simply click “Sign Up” and fill in your details. Customize your page anytime from your profile.</div>
       </div>
-      <div class="feature-item">
-        <h3>Profile Personalization</h3>
-        <p>Change your avatar, username, and bio to express yourself.</p>
+      <div class="faq-item" tabindex="0">
+        <div class="faq-question">Can I use my own custom domain?</div>
+        <div class="faq-answer">Yes! Custom domains are available with Premium and Business plans.</div>
       </div>
-      <div class="feature-item">
-        <h3>Analytics</h3>
-        <p>Track clicks and views to optimize your online presence.</p>
-      </div>
-      <div class="feature-item">
-        <h3>Dark/Light Mode</h3>
-        <p>Switch between modes for any environment or preference.</p>
-      </div>
-      <div class="feature-item">
-        <h3>Admin Controls</h3>
-        <p>Manage users, ban or unblock accounts, and moderate content.</p>
+      <div class="faq-item" tabindex="0">
+        <div class="faq-question">Is grief.lol mobile friendly?</div>
+        <div class="faq-answer">Absolutely. The platform is designed to look great on phones, tablets, and desktops.</div>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Page -->
-  <section class="page" id="page-pricing" tabindex="0" aria-label="Pricing page">
-    <h2>Pricing Plans</h2>
-    <div class="pricing-cards">
-      <div class="pricing-card">
-        <h3>Free</h3>
-        <div class="price">$0<span style="font-weight:400;font-size:1rem;">/month</span></div>
-        <ul>
-          <li>Basic profile customization</li>
-          <li>Up to 5 links</li>
-          <li>Standard analytics</li>
-          <li>Email support</li>
-        </ul>
-        <button>Get Started</button>
-      </div>
-      <div class="pricing-card">
-        <h3>Pro</h3>
-        <div class="price">$9.99<span style="font-weight:400;font-size:1rem;">/month</span></div>
-        <ul>
-          <li>Unlimited links</li>
-          <li>Advanced analytics</li>
-          <li>Custom domain support</li>
-          <li>Priority support</li>
-        </ul>
-        <button>Upgrade Now</button>
-      </div>
-      <div class="pricing-card">
-        <h3>Enterprise</h3>
-        <div class="price">Contact Us</div>
-        <ul>
-          <li>White-label solutions</li>
-          <li>Dedicated account manager</li>
-          <li>Custom integrations</li>
-          <li>24/7 support</li>
-        </ul>
-        <button>Contact Sales</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Help Page -->
-  <section class="page" id="page-help" tabindex="0" aria-label="Help page">
-    <h2>Help & FAQs</h2>
-    <div class="help-content">
-      <div class="faq">
-        <div class="accordion" id="faq1">
-          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq1-content" id="faq1-header">How do I create a bio link?</div>
-          <div class="accordion-content" id="faq1-content" aria-hidden="true">Simply sign up, add your links, and share your grief.lol URL!</div>
-        </div>
-        <div class="accordion" id="faq2">
-          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq2-content" id="faq2-header">Can I customize my profile?</div>
-          <div class="accordion-content" id="faq2-content" aria-hidden="true">Yes! You can change your avatar, username, bio, and add custom links.</div>
-        </div>
-        <div class="accordion" id="faq3">
-          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq3-content" id="faq3-header">Is grief.lol free to use?</div>
-          <div class="accordion-content" id="faq3-content" aria-hidden="true">We offer a free tier with basic features and premium plans for advanced needs.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Signup Page -->
-  <section class="page" id="page-signup" tabindex="0" aria-label="Signup page">
-    <form class="signup-form" novalidate>
-      <h2>Create your grief.lol account</h2>
-      <div class="form-group">
-        <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" name="username" autocomplete="username" required />
-        <div class="error-message" id="error-username"></div>
-      </div>
-      <div class="form-group">
-        <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" name="email" autocomplete="email" required />
-        <div class="error-message" id="error-email"></div>
-      </div>
-      <div class="form-group">
-        <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="password" autocomplete="new-password" required minlength="8" />
-        <div class="error-message" id="error-password"></div>
-      </div>
-      <button class="submit-btn" type="submit">Sign Up</button>
-      <p class="form-message" id="signup-message"></p>
+  <!-- Signup Tab -->
+  <section id="signup" class="tab-content">
+    <h2>Create Your grief.lol Profile</h2>
+    <form id="signupForm" novalidate>
+      <input type="text" name="username" placeholder="Choose your username" required minlength="3" maxlength="24" />
+      <input type="email" name="email" placeholder="Your email address" required />
+      <input type="password" name="password" placeholder="Create a password" required minlength="6" />
+      <select name="plan" required>
+        <option value="">Select Plan</option>
+        <option value="free">Free</option>
+        <option value="premium">Premium - $6.99/mo</option>
+        <option value="business">Business - $19.99/mo</option>
+      </select>
+      <button type="submit">Sign Up</button>
     </form>
   </section>
 
-  <!-- Admin Panel -->
-  <section class="page" id="page-admin" tabindex="0" aria-label="Admin panel">
-    <div class="admin-panel">
-      <h2>Admin Panel</h2>
-      <table class="user-table" aria-describedby="user-table-desc">
-        <caption id="user-table-desc">List of users with management actions</caption>
+  <!-- Admin Tab -->
+  <section id="admin" class="tab-content" aria-label="Admin Control Panel">
+    <h2>Admin Panel</h2>
+    <div class="section">
+      <h3>Manage Users</h3>
+      <table>
         <thead>
-          <tr>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
+          <tr><th>User</th><th>Status</th><th>Actions</th></tr>
         </thead>
-        <tbody id="admin-user-list">
-          <!-- Rows populated by JS -->
+        <tbody id="adminUsersList">
+          <tr>
+            <td>user123</td>
+            <td>Active</td>
+            <td>
+              <button data-action="ban" data-user="user123">Ban</button>
+              <button data-action="edit" data-user="user123">Edit Assets</button>
+            </td>
+          </tr>
+          <tr>
+            <td>troubleMaker</td>
+            <td>Banned</td>
+            <td>
+              <button data-action="unban" data-user="troubleMaker">Unban</button>
+              <button data-action="edit" data-user="troubleMaker">Edit Assets</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+    <div class="section">
+      <h3>Site Settings (Mockup)</h3>
+      <form id="siteSettingsForm">
+        <label>
+          Site Title:
+          <input type="text" name="siteTitle" value="grief.lol" />
+        </label>
+        <label>
+          Enable Maintenance Mode:
+          <select name="maintenanceMode">
+            <option value="off" selected>Off</option>
+            <option value="on">On</option>
+          </select>
+        </label>
+        <button type="submit">Save Settings</button>
+      </form>
+    </div>
   </section>
 
-  <!-- Profile Editor -->
-  <section class="page" id="page-profile" tabindex="0" aria-label="Profile editor">
-    <form class="profile-editor" novalidate>
-      <h2>Edit Profile</h2>
-      <div class="avatar-preview" id="avatar-preview" aria-label="Avatar preview"></div>
-      <label for="profile-username">Username</label>
-      <input type="text" id="profile-username" name="profile-username" required maxlength="20" />
-      <label for="profile-bio">Bio</label>
-      <input type="text" id="profile-bio" name="profile-bio" maxlength="140" />
-      <label for="profile-website">Website URL</label>
-      <input type="url" id="profile-website" name="profile-website" placeholder="https://example.com" />
-      <button class="save-profile" type="submit">Save Changes</button>
+  <!-- Profile Editor Tab -->
+  <section id="profile" class="tab-content">
+    <h2>Edit Your Profile</h2>
+    <form id="profileForm" novalidate>
+      <label for="profileUsername">Username</label>
+      <input id="profileUsername" name="username" type="text" placeholder="Your username" minlength="3" maxlength="24" required />
+      <label for="profileBio">Bio</label>
+      <textarea id="profileBio" name="bio" placeholder="Short bio or description" maxlength="250"></textarea>
+      <label for="profileLinks">Links (comma separated URLs)</label>
+      <input id="profileLinks" name="links" type="text" placeholder="https://twitter.com/yourhandle, https://youtube.com/channel/..." />
+      <button type="submit">Save Profile</button>
     </form>
   </section>
 </main>
 
-<!-- Modal System -->
-<div id="modal-container" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1" class="modal-hidden">
-  <div class="modal-overlay"></div>
-  <div class="modal-content" role="document" tabindex="0" aria-labelledby="modal-title" aria-describedby="modal-desc">
-    <h3 id="modal-title"></h3>
-    <p id="modal-desc"></p>
-    <button id="modal-close" aria-label="Close modal">Close</button>
-  </div>
+<!-- Modal placeholder -->
+<div id="modal" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+  <div id="modalContent" role="document" tabindex="0"></div>
+  <button id="modalCloseBtn" aria-label="Close modal">&times;</button>
 </div>
 
 <script>
-  // ===== Tab Navigation =====
-  const tabs = ["home", "features", "pricing", "help", "signup", "admin", "profile"];
-  const navButtons = tabs.map(tab => document.getElementById(`nav-${tab}`));
-  const pages = tabs.map(tab => document.getElementById(`page-${tab}`));
+  // Tab switching logic
+  const tabs = document.querySelectorAll('header nav button');
+  const contents = document.querySelectorAll('.tab-content');
 
-  navButtons.forEach((btn, idx) => {
-    btn.addEventListener("click", () => {
-      // Remove active class from all buttons
-      navButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-      // Show the page, hide others
-      pages.forEach(page => page.classList.remove("active"));
-      pages[idx].classList.add("active");
-      pages[idx].focus();
+      const target = tab.getAttribute('data-tab');
+      contents.forEach(content => {
+        if (content.id === target) {
+          content.classList.add('active');
+        } else {
+          content.classList.remove('active');
+        }
+      });
     });
   });
 
-  // Brand clickable to go home
-  document.getElementById("nav-home-btn").addEventListener("click", () => {
-    navButtons.forEach(b => b.classList.remove("active"));
-    navButtons[0].classList.add("active");
-    pages.forEach(page => page.classList.remove("active"));
-    pages[0].classList.add("active");
-    pages[0].focus();
+  // Click grief.lol logo to go home tab
+  document.getElementById('logoBtn').addEventListener('click', () => {
+    document.querySelector('header nav button.active').classList.remove('active');
+    const homeTab = document.querySelector('header nav button[data-tab="home"]');
+    homeTab.classList.add('active');
+    contents.forEach(content => {
+      content.id === 'home' ? content.classList.add('active') : content.classList.remove('active');
+    });
   });
 
-  // ===== Accordion FAQ =====
-  document.querySelectorAll(".accordion-header").forEach(header => {
-    header.addEventListener("click", () => {
-      const expanded = header.getAttribute("aria-expanded") === "true";
-      header.setAttribute("aria-expanded", !expanded);
-      const content = document.getElementById(header.getAttribute("aria-controls"));
-      content.setAttribute("aria-hidden", expanded);
+  // Signup button in hero switches to signup tab
+  document.getElementById('signupBtn').addEventListener('click', () => {
+    document.querySelector('header nav button.active').classList.remove('active');
+    const signupTab = document.querySelector('header nav button[data-tab="signup"]');
+    signupTab.classList.add('active');
+    contents.forEach(content => {
+      content.id === 'signup' ? content.classList.add('active') : content.classList.remove('active');
     });
-    header.addEventListener("keydown", (e) => {
+  });
+
+  // Learn more button toggles features tab
+  document.getElementById('learnMoreBtn').addEventListener('click', () => {
+    document.querySelector('header nav button.active').classList.remove('active');
+    const featuresTab = document.querySelector('header nav button[data-tab="features"]');
+    featuresTab.classList.add('active');
+    contents.forEach(content => {
+      content.id === 'features' ? content.classList.add('active') : content.classList.remove('active');
+    });
+  });
+
+  // Join Waitlist button also triggers signup tab
+  document.getElementById('joinWaitlistBtn').addEventListener('click', () => {
+    document.querySelector('header nav button.active').classList.remove('active');
+    const signupTab = document.querySelector('header nav button[data-tab="signup"]');
+    signupTab.classList.add('active');
+    contents.forEach(content => {
+      content.id === 'signup' ? content.classList.add('active') : content.classList.remove('active');
+    });
+  });
+
+  // FAQ accordion toggle
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+      item.classList.toggle('active');
+    });
+    item.addEventListener('keydown', e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        header.click();
+        item.classList.toggle('active');
       }
     });
   });
 
-  // ===== Signup Form Validation =====
-  const signupForm = document.querySelector(".signup-form");
-  const errorUsername = document.getElementById("error-username");
-  const errorEmail = document.getElementById("error-email");
-  const errorPassword = document.getElementById("error-password");
-  const signupMessage = document.getElementById("signup-message");
-
-  signupForm.addEventListener("submit", (e) => {
+  // Form validation example for signup
+  document.getElementById('signupForm').addEventListener('submit', e => {
     e.preventDefault();
-    errorUsername.textContent = "";
-    errorEmail.textContent = "";
-    errorPassword.textContent = "";
-    signupMessage.textContent = "";
-
-    let valid = true;
-    const username = signupForm.username.value.trim();
-    const email = signupForm.email.value.trim();
-    const password = signupForm.password.value.trim();
-
-    if (!username.match(/^[a-zA-Z0-9_-]{3,20}$/)) {
-      errorUsername.textContent = "Username must be 3-20 characters, letters, numbers, _ or - only.";
-      valid = false;
+    const form = e.target;
+    if (!form.checkValidity()) {
+      alert('Please fill all required fields correctly.');
+      return;
     }
-    if (!email.match(/^\S+@\S+\.\S+$/)) {
-      errorEmail.textContent = "Please enter a valid email.";
-      valid = false;
-    }
-    if (password.length < 8) {
-      errorPassword.textContent = "Password must be at least 8 characters.";
-      valid = false;
-    }
-
-    if (!valid) return;
-
-    signupMessage.textContent = "Creating your account...";
-    // Simulate async signup
-    setTimeout(() => {
-      signupMessage.textContent = "Account created! Please check your email.";
-      signupForm.reset();
-    }, 1400);
+    alert('Signup form submitted! (Mock)');
+    form.reset();
   });
 
-  // ===== Profile Editor =====
-  const profileEditor = document.querySelector(".profile-editor");
-  const avatarPreview = document.getElementById("avatar-preview");
-
-  // Dummy avatar URL
-  let avatarURL = "https://i.pravatar.cc/96";
-
-  avatarPreview.style.backgroundImage = `url(${avatarURL})`;
-
-  profileEditor.profileUsername.value = "user123";
-  profileEditor.profileBio.value = "This is my bio.";
-  profileEditor.profileWebsite.value = "";
-
-  profileEditor.addEventListener("submit", (e) => {
+  // Profile form validation
+  document.getElementById('profileForm').addEventListener('submit', e => {
     e.preventDefault();
-    // Simulate save
-    alert("Profile saved (simulation)");
+    const form = e.target;
+    if (!form.checkValidity()) {
+      alert('Please fill all required fields correctly.');
+      return;
+    }
+    alert('Profile saved! (Mock)');
   });
 
-  // ===== Modal Logic =====
-  const modalContainer = document.getElementById("modal-container");
-  const modalTitle = document.getElementById("modal-title");
-  const modalDesc = document.getElementById("modal-desc");
-  const modalClose = document.getElementById("modal-close");
+  // Site settings form (admin)
+  document.getElementById('siteSettingsForm').addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Site settings saved! (Mock)');
+  });
 
-  function openModal(title, description) {
-    modalTitle.textContent = title;
-    modalDesc.textContent = description;
-    modalContainer.classList.remove("modal-hidden");
-    modalContainer.setAttribute("aria-hidden", "false");
-    modalClose.focus();
-  }
-  function closeModal() {
-    modalContainer.classList.add("modal-hidden");
-    modalContainer.setAttribute("aria-hidden", "true");
-  }
-
-  modalClose.addEventListener("click", closeModal);
-  modalContainer.querySelector(".modal-overlay").addEventListener("click", closeModal);
-  document.addEventListener("keydown", (e) => {
-    if (!modalContainer.classList.contains("modal-hidden") && e.key === "Escape") {
-      closeModal();
+  // Admin user actions mock
+  document.getElementById('adminUsersList').addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      const action = e.target.dataset.action;
+      const user = e.target.dataset.user;
+      alert(`Action "${action}" on user "${user}" triggered (Mock).`);
     }
   });
-
-  // ===== Toast Notifications =====
-  // (Implement later)
-
-  // ===== Drag & Drop Reordering (Dummy) =====
-  // (Implement later)
-
-  // ===== Theme Toggle (Dark/Light) =====
-  // (Implement later)
-
-  // ===== Responsive & Utility JS =====
-  // (Implement later)
 </script>
 </body>
 </html>
