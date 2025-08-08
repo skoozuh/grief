@@ -6,368 +6,568 @@
 <title>grave.bio — your bio, refined</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-/* ------------- VARIABLES & RESET ------------- */
-:root{
-  --bg:#050506;
-  --surface:#0f1114;
-  --muted:#9aa0a6;
-  --accent-a:#c0392b;   /* blood-red */
-  --accent-b:#2ec4c4;   /* muted-cyan */
-  --glass: rgba(255,255,255,0.03);
-  --radius:16px;
-  --trans:260ms cubic-bezier(.2,.9,.25,1);
-  --shadow: 0 18px 48px rgba(0,0,0,0.6);
-  --maxw:1100px;
-  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; font-family:var(--font); background:var(--bg); color:#e9eef2;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  -webkit-tap-highlight-color:transparent; scroll-behavior:smooth;
-}
+  /* ======================================================
+     grave.bio — big single-file frontpage
+     OG centered card vibe, lots of content, minimal noise
+     Colors: deep charcoal, warm red accent, muted cyan accent
+     ====================================================== */
 
-/* custom scrollbar */
-::-webkit-scrollbar{width:10px;height:10px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent-b),var(--accent-a));border-radius:12px;border:2px solid rgba(0,0,0,0.25)}
-body{scrollbar-color: linear-gradient(var(--accent-b),var(--accent-a)) transparent}
+  :root{
+    --bg:#050507;
+    --panel:#0f0c10;
+    --muted:#9b8fa0;
+    --accent-red:#c2392f;
+    --accent-cyan:#28c7c7;
+    --glass: rgba(255,255,255,0.03);
+    --radius:18px;
+    --sm-radius:10px;
+    --trans:280ms cubic-bezier(.2,.9,.25,1);
+    --card-shadow: 0 20px 60px rgba(0,0,0,0.65);
+    --maxw:1100px;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --focus: 3px solid rgba(40,199,199,0.12);
+  }
 
-/* utilities */
-.container{max-width:var(--maxw);margin:86px auto;padding:0 18px}
-.row{display:flex;gap:20px;align-items:center}
-.center{display:grid;place-items:center}
-.flex{display:flex}
-.space{justify-content:space-between}
-.hidden{display:none}
-.cta{cursor:pointer}
-.small{font-size:13px;color:var(--muted)}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:
+      radial-gradient(700px 420px at 10% 85%, rgba(40,199,199,0.03), transparent 8%),
+      radial-gradient(500px 320px at 92% 15%, rgba(194,57,43,0.02), transparent 6%),
+      var(--bg);
+    color:#e9eef2;
+    font-family:var(--font);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-y:auto;
+    scroll-behavior:smooth;
+  }
 
-/* ------------- HEADER ------------- */
-.header{
-  position:fixed;top:18px;left:50%;transform:translateX(-50%);width:calc(100% - 36px);max-width:var(--maxw);
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:999px;
-  padding:10px 16px; display:flex;gap:12px;align-items:center;z-index:1200;border:1px solid rgba(255,255,255,0.02)
-}
-.logo{display:flex;gap:12px;align-items:center;cursor:pointer;user-select:none}
-.logo-mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:700;color:#111;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));box-shadow:0 8px 26px rgba(0,0,0,0.4)}
-.logo-text{font-weight:700;font-size:16px}
-.header-nav{margin-left:24px;display:flex;gap:12px}
-.header-nav button{background:transparent;border:none;color:var(--muted);padding:8px 12px;border-radius:10px;font-weight:600;cursor:pointer}
-.header-nav button.active{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#0b0b0b;box-shadow:0 8px 26px rgba(0,0,0,0.4)}
-.header-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
-.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:700;cursor:pointer}
-.btn.primary{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#0b0b0b;box-shadow:0 12px 36px rgba(0,0,0,0.45)}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  /* custom scrollbar */
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{
+    background: linear-gradient(180deg,var(--accent-cyan),var(--accent-red));
+    border-radius:12px; border:2px solid rgba(0,0,0,0.25);
+  }
+  body{ scrollbar-color: linear-gradient(var(--accent-cyan),var(--accent-red)) transparent; }
 
-/* ------------- LAYOUT ------------- */
-.layout{display:grid;grid-template-columns: 1fr 420px;gap:32px;align-items:start;margin-top:28px}
-@media(max-width:980px){ .layout{grid-template-columns:1fr; padding-bottom:28px} }
+  /* small utility classes */
+  .container{ max-width:var(--maxw); margin:88px auto; padding:0 20px; }
+  .flex{ display:flex; align-items:center; }
+  .flex-col{ display:flex; flex-direction:column; }
+  .space{ justify-content:space-between; }
+  .gap-sm{ gap:8px; }
+  .gap-md{ gap:16px; }
+  .muted{ color:var(--muted); }
+  .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
-/* ------------- HERO (centered) ------------- */
-.hero{
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
-  border-radius:16px;padding:22px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow)
-}
-.title{font-size:38px;margin:6px 0 8px 0;line-height:1.02;font-weight:700}
-.title .accent{color:var(--accent-a)}
-.lead{color:var(--muted);margin:0 0 18px;font-size:15px;max-width:60ch}
-.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  /* header */
+  header {
+    position:fixed; top:18px; left:50%; transform:translateX(-50%);
+    width:calc(100% - 36px); max-width:var(--maxw); z-index:1200;
+    display:flex; align-items:center; gap:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .brand{ display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
+  .logo-mark{ width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:700; color:#111; background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan)); }
+  .brand-title{ font-weight:700; font-size:16px; }
+  nav{ margin-left:12px; display:flex; gap:14px; align-items:center; }
+  nav a{ color:var(--muted); text-decoration:none; font-weight:600; font-size:14px; padding:6px 10px; border-radius:10px }
+  nav a.active{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#111 }
 
-/* ------------- PREVIEW CARD (right column) ------------- */
-.preview-wrap{position:sticky;top:100px}
-.preview{
-  width:100%;border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
-  border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);overflow:visible
-}
-.preview-top{display:flex;gap:14px;align-items:center}
-.avatar{width:84px;height:84px;border-radius:18px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));display:grid;place-items:center;font-weight:800;color:#111;font-size:26px}
-.info{flex:1}
-.username{font-weight:700;font-size:18px;display:flex;align-items:center;gap:8px}
-.bio{color:var(--muted);font-size:13px;margin-top:6px}
-.badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.badge{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,0.03)}
+  .header-actions{ margin-left:auto; display:flex; align-items:center; gap:10px; }
 
-/* ------------- LINKS (vertical burger style) ------------- */
-.links-vertical{display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.link-vertical{
-  display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
-  border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform var(--trans),box-shadow var(--trans)
-}
-.link-vertical:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.6)}
-.link-icon{width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,var(--accent-b),var(--accent-a));display:grid;place-items:center;color:#070707;font-weight:800}
-.link-main{font-weight:700}
-.link-sub{font-size:13px;color:var(--muted)}
+  .btn {
+    border-radius:999px; padding:10px 16px; font-weight:700; cursor:pointer; border:none;
+  }
+  .btn-primary { background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0d0d0d; box-shadow:0 12px 36px rgba(0,0,0,0.45); }
+  .btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); }
 
-/* ------------- PANELS BELOW (full width) ------------- */
-.panels{margin-top:18px;display:flex;flex-direction:column;gap:12px}
-.panel{display:none;background:transparent;padding:12px}
-.panel.active{display:block}
-.panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  /* main layout - center card + more content */
+  .wrap { display:grid; grid-template-columns: 1fr 420px; gap:28px; align-items:start; margin-top:22px; }
+  @media(max-width:980px){ .wrap{ grid-template-columns:1fr; padding-bottom:30px } }
 
-/* ------------- ADMIN MODAL (password driven) ------------- */
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1400;align-items:center;justify-content:center}
-.modal{background:var(--surface);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);width:92%;max-width:680px;box-shadow:0 30px 90px rgba(0,0,0,0.8)}
-.modal h3{margin:0 0 8px 0}
-.modal .form{display:flex;gap:8px;margin-top:10px}
-.modal .input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
-.modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+  /* central big card (OG look) */
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+    border-radius:24px; padding:26px; border:1px solid rgba(255,255,255,0.03);
+    box-shadow: var(--card-shadow); overflow:visible;
+  }
 
-/* ------------- TOASTS ------------- */
-.toast-wrap{position:fixed;right:18px;bottom:18px;z-index:1600;display:flex;flex-direction:column;gap:10px}
-.toast{background:linear-gradient(90deg,var(--accent-b),var(--accent-a));padding:10px 14px;border-radius:10px;color:#0b0b0b;font-weight:800;box-shadow:0 12px 40px rgba(0,0,0,0.6)}
+  /* Hero area inside left column */
+  .hero { padding:8px 6px; }
+  h1 { margin:0; font-size:44px; line-height:1.02; font-weight:700; }
+  h1 .accent { background:linear-gradient(90deg,var(--accent-red),var(--accent-cyan)); -webkit-background-clip:text; color:transparent; }
+  p.lead{ margin:12px 0 18px 0; color:var(--muted); max-width:58ch; font-size:15px; }
 
-/* ------------- small screens ------------- */
-@media(max-width:980px){
-  .header{left:12px;transform:none;width:calc(100% - 24px)}
-  .layout{grid-template-columns:1fr;gap:18px}
-  .preview-wrap{position:relative;top:0}
-  .preview{margin-top:8px}
-  .hero{border-radius:14px;padding:16px}
-}
+  .action-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+
+  /* we'll pack a bunch of content below hero so it isn't empty */
+  .content-block{ margin-top:14px; display:grid; gap:12px; }
+
+  /* featured area: vanity + stats + rotating status */
+  .featured {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+    padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
+    display:flex; gap:12px; align-items:center;
+  }
+  .vanity { display:flex; gap:12px; align-items:center; flex:1; }
+  .vanity input {
+    background:transparent; border:1px solid rgba(255,255,255,0.04); padding:10px 12px; border-radius:12px; color:inherit; min-width:160px;
+  }
+  .vanity .preview { background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); border-radius:999px; padding:8px 12px; color:#0b0b0b; font-weight:800; }
+
+  .stats { display:flex; gap:12px; align-items:center; color:var(--muted) }
+  .stat { background: rgba(255,255,255,0.02); padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03); font-weight:700; }
+
+  /* rotating status */
+  .rotator { font-weight:600; color:var(--muted); margin-left:auto; padding-left:12px; }
+
+  /* features grid / blocks under hero */
+  .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; align-items:stretch; }
+  @media(max-width:980px){ .grid-3{ grid-template-columns:1fr } }
+  .feature-tile { background: rgba(255,255,255,0.02); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); font-weight:700; }
+
+  /* FAQ accordion */
+  .faq { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
+  .faq-item { border-radius:10px; padding:12px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.02); }
+  .faq-q { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; }
+  .faq-a { margin-top:8px; color:var(--muted); display:none; }
+
+  /* right column: preview card (centered) */
+  .preview {
+    width:100%; border-radius:18px; padding:18px; position:relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.14));
+    border:1px solid rgba(255,255,255,0.03); box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+  }
+  .preview::before { content:""; position:absolute; left:12px; top:12px; right:12px; height:96px; border-radius:12px; background:linear-gradient(180deg, rgba(40,199,199,0.05), rgba(194,57,43,0.03)); filter:blur(18px); z-index:0; pointer-events:none; }
+
+  .pv-top { display:flex; gap:12px; align-items:center; position:relative; z-index:2; }
+  .pv-avatar { width:92px; height:92px; border-radius:18px; display:grid; place-items:center; font-weight:800; font-size:30px; color:#111; background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan)); box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
+  .pv-meta { flex:1; }
+  .pv-name { font-size:20px; font-weight:800; display:flex; gap:10px; align-items:center; }
+  .pv-bio { color:var(--muted); font-size:14px; margin-top:6px; }
+
+  .badges { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .badge { padding:6px 10px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid rgba(255,255,255,0.03); font-weight:700; font-size:13px; position:relative; }
+
+  /* vertical/burger links style (no emojis) */
+  .pv-links { margin-top:16px; display:flex; flex-direction:column; gap:10px; z-index:2; }
+  .pv-link { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.02); cursor:pointer; transition:transform var(--trans), box-shadow var(--trans); text-decoration:none; color:inherit; }
+  .pv-link:hover{ transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,0.55); }
+  .pv-link-left { width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background: linear-gradient(135deg,var(--accent-cyan),var(--accent-red)); color:#0a0a0a; font-weight:800; }
+  .pv-link-title { font-weight:800; }
+  .pv-link-sub { color:var(--muted); font-size:13px; }
+
+  /* extra lower block: music mock, quotes rotator */
+  .lower { margin-top:16px; display:grid; gap:12px; }
+  .music { background:rgba(255,255,255,0.02); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); display:flex; gap:12px; align-items:center; }
+  .quote { font-weight:700; color:var(--muted); font-style:italic; }
+
+  /* footer */
+  footer { margin-top:28px; padding:18px; border-radius:12px; color:var(--muted); text-align:center; font-size:13px; }
+
+  /* small screens */
+  @media(max-width:980px){
+    header{ left:12px; transform:none; width:calc(100% - 24px) }
+    .pv-avatar { width:72px; height:72px; }
+    .wrap { grid-template-columns:1fr; }
+    h1 { font-size:32px }
+  }
+
+  /* focus styles */
+  [tabindex]:focus{ outline:none; box-shadow: var(--focus); border-radius:10px; }
+  button:focus, a:focus { outline:none; box-shadow:var(--focus); border-radius:8px; }
+
+  /* small animation utilities */
+  .fade { opacity:0; transform:translateY(8px); transition: opacity 420ms var(--trans), transform 420ms var(--trans); }
+  .fade.in { opacity:1; transform:none; }
+
+  /* tooltip for badges */
+  .badge[data-tooltip]:hover::after{
+    content: attr(data-tooltip); position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); background:#111;padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04); color:#fff; font-size:13px; white-space:nowrap; z-index:50;
+  }
+
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
-<header class="header" role="banner">
-  <div class="logo" id="brand" tabindex="0">
-    <div class="logo-mark" aria-hidden="true">G</div>
-    <div>
-      <div class="logo-text">grave.bio</div>
-      <div class="small">your bio, refined</div>
-    </div>
-  </div>
-
-  <nav class="header-nav" role="navigation" aria-label="Main navigation">
-    <button class="nav-btn active" data-panel="features">Features</button>
-    <button class="nav-btn" data-panel="pricing">Pricing</button>
-    <button class="nav-btn" data-panel="help">Help</button>
-  </nav>
-
-  <div class="header-actions">
-    <button class="btn ghost" id="btnPreview">Preview</button>
-    <button class="btn primary" id="btnJoin">Join Waitlist</button>
-    <button class="btn ghost" id="btnAdmin">Admin</button>
-  </div>
-</header>
-
-<!-- CONTAINER -->
-<div class="container">
-  <div class="layout">
-
-    <!-- LEFT: hero + panels (main content) -->
-    <div>
-      <section class="hero">
-        <h1 class="title">Polished link pages for creators & builders.</h1>
-        <p class="lead">One refined card to hold your links, music, and work. Fast, shareable, and surgically minimal.</p>
-
-        <div class="hero-actions">
-          <button class="btn primary" id="heroClaim">Claim username</button>
-          <button class="btn ghost" id="heroEdit">Edit profile</button>
-          <div class="small">No noise. No tracking. Just your links.</div>
-        </div>
-
-        <!-- Panels container (hidden by default) -->
-        <div class="panels" id="panels">
-          <div id="p-features" class="panel">
-            <h3>Features</h3>
-            <div class="panel-grid">
-              <div class="feature">Vanity username</div>
-              <div class="feature">Link ordering (drag & drop)</div>
-              <div class="feature">Embed now playing</div>
-              <div class="feature">Theme toggle</div>
-            </div>
-          </div>
-
-          <div id="p-pricing" class="panel">
-            <h3>Pricing</h3>
-            <div class="panel-grid">
-              <div class="feature">Free — basic profile</div>
-              <div class="feature">Pro — custom domains & analytics</div>
-              <div class="feature">Business — team & white-label</div>
-            </div>
-          </div>
-
-          <div id="p-help" class="panel">
-            <h3>Help</h3>
-            <div class="faq">
-              <div class="faq-item">
-                <div class="q">How to claim a username?</div>
-                <div class="a">Click ‘Claim username’ and follow the mock flow. This demo stores local preview only.</div>
-              </div>
-              <div class="faq-item">
-                <div class="q">Can I reorder links?</div>
-                <div class="a">Yes — drag and drop link items in the preview to reorder them (client-side).</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </section>
+  <header>
+    <div class="brand" id="brand" tabindex="0" aria-label="grave.bio home">
+      <div class="logo-mark" aria-hidden="true">G</div>
+      <div>
+        <div class="brand-title">grave.bio</div>
+        <div class="muted" style="font-size:12px">your bio, refined</div>
+      </div>
     </div>
 
-    <!-- RIGHT: preview card (vertical links) -->
-    <aside class="preview-wrap">
-      <div class="preview" id="previewCard" role="region" aria-label="Profile preview">
-        <div class="preview-top">
-          <div class="avatar" id="pv-avatar">G</div>
-          <div class="info">
-            <div class="username" id="pv-name">grave</div>
-            <div class="bio" id="pv-bio">I share music, projects and links.</div>
-            <div class="badges" id="pv-badges"><div class="badge">Creator</div><div class="badge">Early</div></div>
+    <nav aria-label="Primary navigation">
+      <a href="#features" class="nav-link" data-target="features">Features</a>
+      <a href="#pricing" class="nav-link" data-target="pricing">Pricing</a>
+      <a href="#faq" class="nav-link" data-target="faq">Help</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="themeToggle" aria-pressed="false">Toggle theme</button>
+      <button class="btn btn-primary" id="joinBtn">Join Waitlist</button>
+    </div>
+  </header>
+
+  <main class="container" role="main">
+
+    <div class="wrap">
+      <!-- LEFT: big content column -->
+      <div>
+        <div class="card hero fade in" id="heroCard" tabindex="0">
+          <h1>Make your <span class="accent">digital card</span> unforgettable.</h1>
+          <p class="lead">A focused, shareable profile for creators — music embeds, link management, and a vanity URL that reads grave.bio/you.</p>
+
+          <div class="action-row">
+            <button class="btn btn-primary" id="claimBtn">Claim Username</button>
+            <button class="btn btn-ghost" id="editBtn">Customize Page</button>
+
+            <div style="margin-left:auto" class="muted">No tracking • Fast • Mobile first</div>
+          </div>
+
+          <div class="content-block">
+            <!-- vanity + stats + rotator -->
+            <div class="featured">
+              <div class="vanity">
+                <label for="vanityInput" class="muted" style="font-weight:700;margin-right:8px">Vanity</label>
+                <input id="vanityInput" placeholder="yourusername" aria-label="Choose vanity username" />
+                <div class="preview" id="vanityPreview">grave.bio/<strong id="vanityLabel">yourusername</strong></div>
+              </div>
+
+              <div class="stats">
+                <div class="stat" id="statViews">Views: <span style="font-weight:900">1.2k</span></div>
+                <div class="stat" id="statFollows">Followers: <span style="font-weight:900">312</span></div>
+                <div class="stat" id="statJoined">Joined: <span style="font-weight:900">2024</span></div>
+              </div>
+
+              <div class="rotator" id="rotator">Status: <span id="rotText">Sharing a new playlist</span></div>
+            </div>
+
+            <!-- features -->
+            <div class="grid-3">
+              <div class="feature-tile">Custom URLs</div>
+              <div class="feature-tile">Drag & drop links</div>
+              <div class="feature-tile">Music embeds</div>
+            </div>
+
+            <!-- FAQ/Help area -->
+            <div class="faq" id="faq">
+              <div class="faq-item">
+                <div class="faq-q">How do I claim my username?<span>▸</span></div>
+                <div class="faq-a">Click "Claim Username" and fill the signup mock; this demo doesn't connect to a backend.</div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-q">Can I reorder links?</div>
+                <div class="faq-a">Yes — drag links in the preview column to reorder them; the demo saves order client-side.</div>
+              </div>
+            </div>
+
+            <!-- larger lower block: music + rotating quote -->
+            <div class="lower">
+              <div class="music">
+                <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-red));display:grid;place-items:center;color:#0a0a0a;font-weight:800">♫</div>
+                <div>
+                  <div style="font-weight:800">Now playing — Dear Mama</div>
+                  <div class="muted" style="margin-top:6px">Nino Paid · Spotify (embed mock)</div>
+                </div>
+                <div style="margin-left:auto"><button class="btn btn-ghost" id="playMock">Open Player</button></div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.01);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
+                <div style="font-weight:800">Quote</div>
+                <div class="quote" id="quote">"Create the thing you wish existed."</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="links-vertical" id="linksList" aria-live="polite">
-          <div class="link-vertical" data-href="https://grave.bio/grave" draggable="true">
-            <div class="link-icon">G</div>
-            <div>
-              <div class="link-main">grave.bio/grave</div>
-              <div class="link-sub">Tap to copy</div>
+        <!-- add more dense content so left column isn't empty -->
+        <div style="height:18px"></div>
+
+        <div class="card fade in" id="moreContent" tabindex="0" style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:800">Recent Visitors</div>
+            <div class="muted">View all</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_01</div>
+            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_02</div>
+            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_03</div>
+            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_04</div>
+          </div>
+
+          <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
+            <div style="flex:1;min-width:180px">
+              <div style="font-weight:700">Highlights</div>
+              <div class="muted" style="margin-top:8px">Show your pinned projects, latest drops, or links you want people to click first.</div>
+            </div>
+            <div style="min-width:200px">
+              <div style="font-weight:700">Badges</div>
+              <div style="display:flex;gap:8px;margin-top:8px">
+                <div class="badge" data-tooltip="Verified identity">Verified</div>
+                <div class="badge" data-tooltip="Music creator">Music</div>
+                <div class="badge" data-tooltip="Premium subscriber">Pro</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: preview column (dense, vertical links) -->
+      <aside>
+        <div class="preview" id="previewCard" tabindex="0">
+          <div class="pv-top">
+            <div class="pv-avatar" id="pvAvatar">G</div>
+            <div class="pv-meta">
+              <div class="pv-name" id="pvName">grave</div>
+              <div class="pv-bio" id="pvBio">Minimal. Moody. Made for creators who want control.</div>
+              <div class="badges" id="pvBadges">
+                <div class="badge" data-tooltip="Early adopter">Early</div>
+                <div class="badge" data-tooltip="Fast hosting">Fast</div>
+              </div>
             </div>
           </div>
 
-          <a class="link-vertical" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
-            <div class="link-icon">S</div>
-            <div>
-              <div class="link-main">Now Playing — Dear Mama</div>
-              <div class="link-sub">Spotify</div>
+          <div class="pv-links" id="pvLinks">
+            <div class="pv-link" data-href="https://grave.bio/grave" tabindex="0">
+              <div class="pv-link-left">G</div>
+              <div>
+                <div class="pv-link-title">grave.bio/grave</div>
+                <div class="pv-link-sub">Tap to copy</div>
+              </div>
             </div>
-          </a>
 
-          <a class="link-vertical" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
-            <div class="link-icon">T</div>
-            <div>
-              <div class="link-main">@grave</div>
-              <div class="link-sub">Twitter</div>
+            <a class="pv-link" href="https://open.spotify.com/" target="_blank" rel="noreferrer">
+              <div class="pv-link-left">S</div>
+              <div>
+                <div class="pv-link-title">Now Playing — Dear Mama</div>
+                <div class="pv-link-sub">Spotify</div>
+              </div>
+            </a>
+
+            <a class="pv-link" href="https://twitter.com/" target="_blank" rel="noreferrer">
+              <div class="pv-link-left">T</div>
+              <div>
+                <div class="pv-link-title">@grave</div>
+                <div class="pv-link-sub">Twitter</div>
+              </div>
+            </a>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+            <div class="muted">Last updated • 2 days ago</div>
+            <div><button class="btn btn-ghost" id="editLinksBtn">Edit Links</button></div>
+          </div>
+
+          <div style="margin-top:14px">
+            <div style="font-weight:800;margin-bottom:8px">Live Stats</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <div class="stat">Clicks <strong style="margin-left:6px">1,230</strong></div>
+              <div class="stat">Shares <strong style="margin-left:6px">98</strong></div>
+              <div class="stat">Impressions <strong style="margin-left:6px">12.4k</strong></div>
             </div>
-          </a>
-        </div>
+          </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-          <div class="small">Live • <span id="lastUpdated">1 day ago</span></div>
-          <div class="small">Share • <span id="shareCount">0</span></div>
+        </div> <!-- .preview -->
+      </aside>
+
+    </div> <!-- .wrap -->
+
+    <footer>
+      © <strong>grave.bio</strong> — built for creators. <span class="muted">Made with care · demo only</span>
+    </footer>
+  </main>
+
+  <!-- small modal for editing links (inline) -->
+  <div id="editModal" style="display:none; position:fixed; inset:0; z-index:1400; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
+    <div style="background:var(--panel); padding:16px; border-radius:12px; width:92%; max-width:720px; border:1px solid rgba(255,255,255,0.03);">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-weight:800">Edit Links</div>
+        <button id="closeEdit" class="btn btn-ghost">Close</button>
+      </div>
+      <div style="margin-top:12px">
+        <textarea id="linksTextarea" style="width:100%; min-height:120px; border-radius:10px; padding:10px; background:transparent; border:1px solid rgba(255,255,255,0.03); color:inherit;"></textarea>
+        <div style="display:flex; gap:8px; margin-top:8px; justify-content:flex-end;">
+          <button id="saveLinks" class="btn btn-primary">Save</button>
+          <button id="resetLinks" class="btn btn-ghost">Reset</button>
         </div>
       </div>
-    </aside>
-
-  </div>
-
-  <!-- BELOW: global panels area (for larger content) -->
-  <div style="margin-top:18px">
-    <div id="globalPanels" style="display:block">
-      <!-- expanded content displayed here when user opens nav -->
     </div>
   </div>
-</div>
 
-<!-- ADMIN PASSWORD MODAL -->
-<div class="modal-backdrop" id="adminModal" role="dialog" aria-hidden="true">
-  <div class="modal" role="document" tabindex="0">
-    <h3>Admin Access</h3>
-    <div style="color:var(--muted)">Enter admin password to reveal mock admin panel (demonstration only).</div>
-    <div class="form" style="margin-top:12px">
-      <input id="adminPass" class="input" placeholder="password (demo)" />
-      <button class="btn primary" id="adminSubmit">Open</button>
-    </div>
-    <div class="actions" style="margin-top:12px">
-      <button class="btn ghost" id="adminCancel">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOASTS -->
-<div class="toast-wrap" id="toasts" aria-live="polite"></div>
+  <!-- toasts -->
+  <div id="toasts" style="position:fixed; right:18px; bottom:18px; z-index:1600; display:flex; flex-direction:column; gap:10px;"></div>
 
 <script>
-/* =========================
-   Core interactions
-   ========================= */
+/* ======================================================
+   Client-side interactions for grave.bio demo page
+   - vanity preview & copy
+   - rotating status/quotes
+   - drag & drop reordering of links
+   - edit links modal (textarea)
+   - inline profile editor mock (edit profile)
+   - theme toggle (light/dark)
+   - toasts
+   - accessibility / keyboard
+   ====================================================== */
 
-/* helpers */
-const $ = (s, c=document) => c.querySelector(s);
-const $$ = (s, c=document) => Array.from((c||document).querySelectorAll(s));
-function toast(msg, tm=2200){
-  const wrap = $('#toasts');
-  const el = document.createElement('div'); el.className='toast'; el.textContent = msg;
-  wrap.appendChild(el);
-  setTimeout(()=> { el.style.opacity = '0'; el.style.transform='translateY(6px)'; setTimeout(()=> el.remove(), 260); }, tm);
-}
+(function(){
+  const $ = (s,ctx=document) => ctx.querySelector(s);
+  const $$ = (s,ctx=document) => Array.from((ctx||document).querySelectorAll(s));
 
-/* NAV: header nav buttons toggling panels */
-$$('.nav-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=> {
-    const target = btn.dataset.panel;
-    // toggle active class visually
-    $$('.nav-btn').forEach(b=> b.classList.remove('active'));
-    btn.classList.add('active');
-    // show corresponding panel below hero
-    $$('.panel').forEach(p=> p.classList.remove('active'));
-    const panel = document.querySelector('#p-' + target);
-    if(panel){ panel.classList.add('active'); panel.scrollIntoView({behavior:'smooth', block:'start'}); }
+  /* ---------- small toast utility ---------- */
+  function toast(msg, time=2200){
+    const wrap = $('#toasts');
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(()=> {
+      el.style.opacity = '0'; el.style.transform = 'translateY(6px)';
+      setTimeout(()=> el.remove(), 260);
+    }, time);
+  }
+
+  /* ---------- vanity input -> live preview ---------- */
+  const vanityInput = $('#vanityInput');
+  const vanityLabel = $('#vanityLabel');
+  vanityInput.addEventListener('input', (e)=>{
+    const v = String(e.target.value || 'yourusername').trim().replace(/\s+/g,'-');
+    vanityLabel.textContent = v || 'yourusername';
   });
-});
+  // copy vanity on click
+  $('#vanityPreview').addEventListener('click', ()=>{
+    const txt = 'https://grave.bio/' + (vanityLabel.textContent || 'yourusername');
+    navigator.clipboard?.writeText(txt).then(()=> toast('Copied ' + txt)).catch(()=> toast('Copy failed'));
+  });
 
-/* HERO actions */
-$('#heroClaim').addEventListener('click', ()=> {
-  // show signup panel
-  $$('.panel').forEach(p=> p.classList.remove('active'));
-  $('#p-pricing').classList.remove('active');
-  $('#p-features').classList.remove('active');
-  $('#p-help').classList.remove('active');
-  $('#p-pricing').setAttribute('aria-hidden','true');
-  $('#p-features').setAttribute('aria-hidden','true');
-  $('#p-help').setAttribute('aria-hidden','true');
-
-  // open global signup area instead
-  openSignup();
-});
-$('#heroEdit').addEventListener('click', ()=> {
-  // scroll to preview, open inline editor below panels
-  showEditor();
-});
-$('#brand').addEventListener('click', ()=> {
-  window.scrollTo({top:0,behavior:'smooth'});
-  // close any open panels
-  $$('.panel').forEach(p=>p.classList.remove('active'));
-  $$('.nav-btn').forEach(b=>b.classList.remove('active'));
-});
-
-/* PREVIEW interactions: copy main local link */
-$('#linksList').addEventListener('click', (e)=>{
-  const item = e.target.closest('.link-vertical');
-  if(!item) return;
-  // if it's an anchor, browser handles it.
-  if(item.tagName.toLowerCase() === 'a') return;
-  const href = item.dataset.href || (item.querySelector('.link-sub') && item.querySelector('.link-sub').textContent);
-  if(href){
-    navigator.clipboard?.writeText(href).then(()=> toast('Copied: ' + href)).catch(()=> toast('Copy failed'));
+  /* ---------- rotating statuses / quotes ---------- */
+  const rotatorTexts = [
+    'Sharing a new playlist',
+    'Working on a collaborative EP',
+    'Fresh drop: limited merch',
+    'Updates coming Friday',
+    'Testing new embed player'
+  ];
+  let rotIdx = 0;
+  const rotEl = $('#rotText');
+  function rotateStatus(){
+    rotIdx = (rotIdx + 1) % rotatorTexts.length;
+    rotEl.style.opacity = 0;
+    setTimeout(()=> {
+      rotEl.textContent = rotatorTexts[rotIdx];
+      rotEl.style.opacity = 1;
+    }, 320);
   }
-});
+  setInterval(rotateStatus, 4800);
 
-/* DRAG & DROP: vertical reorder */
-(function setupDrag(){
-  const list = $('#linksList');
-  let dragEl = null;
-  function dragStart(e){
-    dragEl = e.target.closest('.link-vertical');
-    if(!dragEl) return;
-    dragEl.style.opacity = '0.4';
-    e.dataTransfer.effectAllowed = 'move';
+  /* ---------- rotating quotes ---------- */
+  const quotes = [
+    "Create the thing you wish existed.",
+    "Less talk, more music.",
+    "Make it easy to find your best work.",
+    "Share what matters most."
+  ];
+  let qIdx = 0;
+  const qEl = $('#quote');
+  setInterval(()=> {
+    qIdx = (qIdx + 1) % quotes.length;
+    qEl.style.opacity = 0;
+    setTimeout(()=> { qEl.textContent = quotes[qIdx]; qEl.style.opacity = 1; }, 320);
+  }, 6000);
+
+  /* ---------- edit links modal ---------- */
+  const editModal = $('#editModal');
+  const pvLinks = $('#pvLinks');
+  const linksTextarea = $('#linksTextarea');
+
+  function serializeLinks(){
+    // convert pvLinks children into simple newline-separated list
+    const nodes = $$('.pv-link', pvLinks);
+    const arr = nodes.map(n => n.dataset.href || (n.querySelector('.pv-link-sub')?.textContent || '') ).filter(Boolean);
+    return arr.join('\n');
   }
-  function dragOver(e){
-    e.preventDefault();
-    const target = e.target.closest('.link-vertical');
-    if(!target || target === dragEl) return;
-    const rect = target.getBoundingClientRect();
-    const next = (e.clientY - rect.top) > (rect.height / 2);
-    target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
+
+  function populateLinksTextarea(){
+    linksTextarea.value = serializeLinks();
   }
-  function dragEnd(){ if(dragEl) dragEl.style.opacity = ''; dragEl = null; }
-  function attach(){
-    $$('.link-vertical', list).forEach(it=>{
+
+  function applyLinksFromTextarea(){
+    const raw = linksTextarea.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).slice(0,20);
+    // rebuild pvLinks
+    pvLinks.innerHTML = '';
+    // main profile link first
+    const profileName = $('#pvName').textContent.trim() || 'grave';
+    const mainHref = `https://grave.bio/${encodeURIComponent(profileName)}`;
+    const main = document.createElement('div'); main.className = 'pv-link'; main.dataset.href = mainHref; main.tabIndex = 0;
+    main.innerHTML = `<div class="pv-link-left">G</div><div><div class="pv-link-title">grave.bio/${profileName}</div><div class="pv-link-sub">${mainHref}</div></div>`;
+    pvLinks.appendChild(main);
+    raw.forEach(link=>{
+      const a = document.createElement('a'); a.className = 'pv-link'; a.href = link; a.target = '_blank'; a.rel = 'noreferrer';
+      let label = link;
+      try { const u = new URL(link); label = u.hostname.replace('www.',''); }
+      catch(e) { /* keep link as label */ }
+      a.innerHTML = `<div class="pv-link-left">${label.slice(0,1).toUpperCase()}</div><div><div class="pv-link-title">${label}</div><div class="pv-link-sub">${link}</div></div>`;
+      pvLinks.appendChild(a);
+    });
+    attachDnd(); // reattach drag handlers
+    toast('Links updated (mock)');
+  }
+
+  $('#editLinksBtn').addEventListener('click', ()=>{
+    populateLinksTextarea();
+    editModal.style.display = 'flex';
+  });
+  $('#closeEdit').addEventListener('click', ()=> editModal.style.display = 'none');
+  $('#saveLinks').addEventListener('click', ()=> {
+    applyLinksFromTextarea();
+    editModal.style.display = 'none';
+  });
+  $('#resetLinks').addEventListener('click', ()=> {
+    linksTextarea.value = 'https://twitter.com/\nhttps://open.spotify.com/';
+  });
+
+  /* ---------- click on pv-link (copy main link if non-anchor) ---------- */
+  pvLinks.addEventListener('click', (e)=>{
+    const item = e.target.closest('.pv-link');
+    if(!item) return;
+    if(item.tagName.toLowerCase() === 'a') return; // anchors open
+    const href = item.dataset.href || item.querySelector('.pv-link-sub')?.textContent || '';
+    if(href){
+      navigator.clipboard?.writeText(href).then(()=> toast('Copied ' + href)).catch(()=> toast('Copy failed'));
+    }
+  });
+
+  /* ---------- drag & drop reorder for pvLinks ---------- */
+  function attachDnd(){
+    const list = pvLinks;
+    let dragEl = null;
+    function dragStart(e){
+      dragEl = e.target.closest('.pv-link');
+      if(!dragEl) return;
+      dragEl.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    function dragOver(e){
+      e.preventDefault();
+      const target = e.target.closest('.pv-link');
+      if(!target || target === dragEl) return;
+      const rect = target.getBoundingClientRect();
+      const next = (e.clientY - rect.top) > (rect.height / 2);
+      target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
+    }
+    function dragEnd(){ if(dragEl) dragEl.style.opacity = ''; dragEl = null; }
+    // attach to existing items
+    $$('.pv-link', list).forEach(it=>{
       it.setAttribute('draggable','true');
       it.removeEventListener('dragstart', dragStart);
       it.removeEventListener('dragend', dragEnd);
@@ -377,157 +577,107 @@ $('#linksList').addEventListener('click', (e)=>{
       it.addEventListener('dragover', dragOver);
     });
   }
-  new MutationObserver(attach).observe(list, {childList:true});
-  attach();
-})();
+  attachDnd();
 
-/* PREVIEW profile update function used by editor */
-function updatePreview({name, bio, links}){
-  if(name) $('#pv-name').textContent = name;
-  if(bio) $('#pv-bio').textContent = bio;
-  if(Array.isArray(links)){
-    const list = $('#linksList'); list.innerHTML = '';
-    // main profile link
-    const main = document.createElement('div'); main.className='link-vertical'; main.dataset.href = `https://grave.bio/${encodeURIComponent(name || 'grave')}`;
-    main.innerHTML = `<div class="link-icon">G</div><div><div class="link-main">grave.bio/${name || 'grave'}</div><div class="link-sub">${main.dataset.href}</div></div>`;
-    list.appendChild(main);
-    links.forEach(l=>{
-      try{
-        const url = new URL(l);
-        const label = url.hostname.replace('www.','');
-        const a = document.createElement('a'); a.className='link-vertical'; a.href = l; a.target='_blank'; a.rel='noopener noreferrer';
-        a.innerHTML = `<div class="link-icon">${label.slice(0,1).toUpperCase()}</div><div><div class="link-main">${label}</div><div class="link-sub">${l}</div></div>`;
-        list.appendChild(a);
-      }catch(err){
-        const v = document.createElement('div'); v.className='link-vertical'; v.dataset.href = l;
-        v.innerHTML = `<div class="link-icon">${(l||' ').slice(0,1).toUpperCase()}</div><div><div class="link-main">${l}</div><div class="link-sub">${l}</div></div>`;
-        list.appendChild(v);
-      }
-    });
-  }
-  toast('Preview updated');
-}
-
-/* EDITOR UI (inline under panels) */
-function showEditor(){
-  // create simple editor area in globalPanels if not exists
-  let holder = $('#globalEditor');
-  if(!holder){
-    holder = document.createElement('div'); holder.id = 'globalEditor';
-    holder.style.marginTop = '14px';
-    holder.innerHTML = `
-      <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <input id="editName" class="input" placeholder="display name" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-          <input id="editBio" class="input" placeholder="short bio" style="flex:2;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-          <input id="editLinks" class="input" placeholder="comma separated links" style="flex:3;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
-          <button class="btn primary" id="saveEdit">Save</button>
-          <button class="btn ghost" id="cancelEdit">Close</button>
-        </div>
-        <div id="editMsg" class="small" style="margin-top:10px;color:var(--muted)"></div>
-      </div>
-    `;
-    $('#globalPanels').appendChild(holder);
-
-    $('#saveEdit').addEventListener('click', ()=>{
-      const name = $('#editName').value.trim() || 'grave';
-      const bio = $('#editBio').value.trim() || 'I share music, projects and links.';
-      const links = ($('#editLinks').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-      updatePreview({name,bio,links});
-      $('#editMsg').textContent = 'Saved to preview (mock)';
-      setTimeout(()=> $('#editMsg').textContent = '', 2000);
-    });
-    $('#cancelEdit').addEventListener('click', ()=> holder.remove());
-    // prefill
-    $('#editName').value = $('#pv-name').textContent.trim();
-    $('#editBio').value = $('#pv-bio').textContent.trim();
-    const existing = $$('#linksList .link-vertical').map(a => a.dataset.href || (a.querySelector('.link-sub')?.textContent || '')).filter(Boolean);
-    $('#editLinks').value = existing.join(',');
-  } else {
-    holder.remove();
-  }
-}
-
-/* SIGNUP global function (small modal-less flow) */
-function openSignup(){
-  // simple inline signup area appended to globalPanels
-  let s = $('#globalSignup');
-  if(!s){
-    s = document.createElement('div'); s.id='globalSignup';
-    s.style.marginTop='12px';
-    s.innerHTML = `
-      <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <input id="signupName" class="input" placeholder="username" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)" />
-          <input id="signupEmail" class="input" placeholder="email" style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)" />
-          <button class="btn primary" id="signupSubmit">Claim</button>
-          <button class="btn ghost" id="signupCancel">Cancel</button>
-        </div>
-        <div id="signupNote" class="small" style="margin-top:10px;color:var(--muted)"></div>
-      </div>`;
-    $('#globalPanels').appendChild(s);
-    $('#signupSubmit').addEventListener('click', ()=>{
-      const u = $('#signupName').value.trim(); const e = $('#signupEmail').value.trim();
-      if(!/^[a-zA-Z0-9-_]{3,24}$/.test(u)){ $('#signupNote').textContent='Invalid username (3-24 chars).'; $('#signupNote').style.color='tomato'; return; }
-      if(!/^\S+@\S+\.\S+$/.test(e)){ $('#signupNote').textContent='Invalid email.'; $('#signupNote').style.color='tomato'; return; }
-      $('#signupNote').style.color='var(--muted)'; $('#signupNote').textContent='Claiming (mock)...';
-      setTimeout(()=> { $('#signupNote').textContent = 'Claimed — check your email (mock)'; toast('Signup mocked'); $('#signupName').value=''; $('#signupEmail').value=''; }, 900);
-    });
-    $('#signupCancel').addEventListener('click', ()=> s.remove());
-  } else {
-    s.remove();
-  }
-}
-
-/* ADMIN modal logic (password prompt) */
-$('#btnAdmin').addEventListener('click', ()=> { $('#adminModal').style.display='flex'; $('#adminModal').setAttribute('aria-hidden','false'); $('#adminPass').focus(); });
-$('#adminCancel').addEventListener('click', ()=> { $('#adminModal').style.display='none'; $('#adminModal').setAttribute('aria-hidden','true'); });
-$('#adminSubmit').addEventListener('click', ()=> {
-  const p = $('#adminPass').value;
-  if(p === 'letmein'){ // demo password
-    $('#adminModal').style.display='none'; $('#adminModal').setAttribute('aria-hidden','true');
-    openAdminPanel();
-  } else {
-    toast('Wrong password (demo)');
-  }
-});
-
-/* open admin panel inline */
-function openAdminPanel(){
-  const container = document.createElement('div');
-  container.style.marginTop = '12px';
-  container.innerHTML = `
-    <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
-      <h3 style="margin:0 0 8px 0">Admin — Mock</h3>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:8px">Manage users & content (client-side mock only).</div>
-      <table style="width:100%;border-collapse:collapse;color:#fff"><thead><tr><th style="text-align:left;padding:8px">User</th><th style="padding:8px">Status</th><th style="padding:8px">Actions</th></tr></thead>
-      <tbody id="adminTableBody"><tr><td style="padding:8px">demo</td><td style="padding:8px">Active</td><td style="padding:8px"><button class="btn ghost" data-act="ban" data-user="demo">Ban</button></td></tr></tbody></table>
-    </div>`;
-  $('#globalPanels').appendChild(container);
-  // simple handler for actions:
-  container.querySelector('#adminTableBody').addEventListener('click', e=>{
-    const b = e.target.closest('button');
-    if(!b) return;
-    const act = b.dataset.act, user = b.dataset.user;
-    if(act === 'ban'){ b.textContent='Unban'; b.dataset.act='unban'; toast(user + ' banned (mock)'); }
-    else if(act === 'unban'){ b.textContent='Ban'; b.dataset.act='ban'; toast(user + ' unbanned (mock)'); }
+  /* ---------- small profile editor: claim & edit ---------- */
+  $('#claimBtn').addEventListener('click', ()=>{
+    const name = prompt('Enter username to claim (mock):', $('#pvName').textContent.trim() || 'grave');
+    if(!name) return;
+    const clean = String(name).trim().replace(/\s+/g,'-').toLowerCase();
+    $('#pvName').textContent = clean;
+    $('#vanityInput').value = clean;
+    $('#vanityLabel').textContent = clean;
+    toast('Username set (mock): ' + clean);
   });
-}
 
-/* PREVIEW: ensure drag&drop attaches on content changes */
-new MutationObserver(()=> {
-  $$('.link-vertical', $('#linksList')).forEach(it => it.setAttribute('draggable', 'true'));
-}).observe($('#linksList'), {childList:true, subtree:true});
+  $('#editBtn').addEventListener('click', ()=>{
+    // toggle a small inline editor (simple prompt flow for demo)
+    const bio = prompt('Edit bio (mock):', $('#pvBio').textContent) || '';
+    $('#pvBio').textContent = bio;
+    toast('Bio updated (mock)');
+  });
 
-/* INITIAL SETUP */
-(function init(){
-  // remove active nav highlight
-  $$('.nav-btn').forEach(b => b.classList.remove('active'));
-  // hide panels initially
-  $$('.panel').forEach(p=> p.classList.remove('active'));
-  // small fade-in
-  setTimeout(()=> document.body.style.visibility='visible', 0);
-  toast('grave.bio — ready (demo)');
+  /* ---------- play mock (music) ---------- */
+  $('#playMock').addEventListener('click', ()=> {
+    toast('Player open (mock)');
+  });
+
+  /* ---------- theme toggle (light/dark) ---------- */
+  const themeToggle = $('#themeToggle');
+  let dark = true;
+  themeToggle.addEventListener('click', ()=> {
+    dark = !dark;
+    if(!dark){
+      document.documentElement.style.setProperty('--bg','#fafafa');
+      document.documentElement.style.setProperty('--panel','#ffffff');
+      document.documentElement.style.setProperty('--muted','#6b7280');
+      document.documentElement.style.setProperty('--accent-red','#b91c1c');
+      document.documentElement.style.setProperty('--accent-cyan','#0ea5a4');
+      toast('Light theme (temporary)');
+      themeToggle.textContent = 'Dark theme';
+    } else {
+      document.documentElement.style.setProperty('--bg','#050507');
+      document.documentElement.style.setProperty('--panel','#0f0c10');
+      document.documentElement.style.setProperty('--muted','#9b8fa0');
+      document.documentElement.style.setProperty('--accent-red','#c2392f');
+      document.documentElement.style.setProperty('--accent-cyan','#28c7c7');
+      toast('Dark theme');
+      themeToggle.textContent = 'Toggle theme';
+    }
+  });
+
+  /* ---------- FAQ expand toggle ---------- */
+  $$('.faq-item').forEach(item=>{
+    item.querySelector('.faq-q').addEventListener('click', ()=>{
+      item.classList.toggle('open');
+      const ans = item.querySelector('.faq-a');
+      if(item.classList.contains('open')) ans.style.display = 'block'; else ans.style.display = 'none';
+    });
+  });
+
+  /* ---------- header nav -> scroll to panels ---------- */
+  $$('.nav-link').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const t = a.getAttribute('data-target');
+      const el = document.getElementById('p-' + t) || document.getElementById(t) || document.querySelector('#' + t);
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      // highlight
+      $$('.nav-link').forEach(x=>x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+
+  /* ---------- simple content insertion for deep links (features/pricing/faq) ---------- */
+  // create anchors below hero for nav scroll targets:
+  const featuresAnchor = document.createElement('div'); featuresAnchor.id = 'features'; featuresAnchor.style.paddingTop = '8px'; featuresAnchor.style.marginTop = '-8px';
+  $('#heroCard').after(featuresAnchor);
+  featuresAnchor.innerHTML = '<div style="height:2px;"></div>';
+
+  const pricingAnchor = document.createElement('div'); pricingAnchor.id = 'pricing'; pricingAnchor.style.marginTop = '12px';
+  featuresAnchor.after(pricingAnchor);
+  pricingAnchor.innerHTML = '<div style="height:2px;"></div>';
+
+  const faqAnchor = document.getElementById('faq');
+  if(faqAnchor) faqAnchor.id = 'faq';
+
+  /* ---------- initial animations (fade in) ---------- */
+  setTimeout(()=> {
+    $$('.fade').forEach(el => el.classList.add('in'));
+  }, 120);
+
+  /* ---------- small keyboard shortcuts ---------- */
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'e' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('#editBtn').click(); }
+    if(e.key === 'j' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('#claimBtn').click(); }
+    if(e.key === 't' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); themeToggle.click(); }
+  });
+
+  /* ---------- preload sample quote & rotator */  
+  // already set intervals above
+
+  /* ---------- finishing touches ---------- */
+  toast('grave.bio loaded (demo)');
 })();
 </script>
 </body>
