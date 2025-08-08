@@ -1,684 +1,755 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>grave.bio — your bio, refined</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>grief.lol — Your biolink</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 <style>
-  /* ======================================================
-     grave.bio — big single-file frontpage
-     OG centered card vibe, lots of content, minimal noise
-     Colors: deep charcoal, warm red accent, muted cyan accent
-     ====================================================== */
-
-  :root{
-    --bg:#050507;
-    --panel:#0f0c10;
-    --muted:#9b8fa0;
-    --accent-red:#c2392f;
-    --accent-cyan:#28c7c7;
-    --glass: rgba(255,255,255,0.03);
-    --radius:18px;
-    --sm-radius:10px;
-    --trans:280ms cubic-bezier(.2,.9,.25,1);
-    --card-shadow: 0 20px 60px rgba(0,0,0,0.65);
-    --maxw:1100px;
-    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    --focus: 3px solid rgba(40,199,199,0.12);
+  /* VARIABLES */
+  :root {
+    --bg: #0a0a0f;
+    --panel-bg: #121217;
+    --text-primary: #e0e0e0;
+    --text-muted: #777a8a;
+    --accent1: #6b84ff; /* blue */
+    --accent2: #ac65ff; /* purple */
+    --accent-gradient: linear-gradient(90deg, #6b84ff, #ac65ff);
+    --radius: 16px;
+    --transition: 250ms ease;
+    --shadow-light: rgba(107,132,255,0.35);
+    --shadow-dark: rgba(0,0,0,0.6);
   }
 
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    background:
-      radial-gradient(700px 420px at 10% 85%, rgba(40,199,199,0.03), transparent 8%),
-      radial-gradient(500px 320px at 92% 15%, rgba(194,57,43,0.02), transparent 6%),
-      var(--bg);
-    color:#e9eef2;
-    font-family:var(--font);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow-y:auto;
-    scroll-behavior:smooth;
+  /* RESET & BASE */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg);
+    font-family: "Poppins", sans-serif;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  a {
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  img {
+    max-width: 100%;
+    display: block;
   }
 
-  /* custom scrollbar */
-  ::-webkit-scrollbar{ width:10px; height:10px; }
-  ::-webkit-scrollbar-track{ background:transparent; }
-  ::-webkit-scrollbar-thumb{
-    background: linear-gradient(180deg,var(--accent-cyan),var(--accent-red));
-    border-radius:12px; border:2px solid rgba(0,0,0,0.25);
-  }
-  body{ scrollbar-color: linear-gradient(var(--accent-cyan),var(--accent-red)) transparent; }
-
-  /* small utility classes */
-  .container{ max-width:var(--maxw); margin:88px auto; padding:0 20px; }
-  .flex{ display:flex; align-items:center; }
-  .flex-col{ display:flex; flex-direction:column; }
-  .space{ justify-content:space-between; }
-  .gap-sm{ gap:8px; }
-  .gap-md{ gap:16px; }
-  .muted{ color:var(--muted); }
-  .sr-only{ position:absolute !important; width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-
-  /* header */
+  /* HEADER */
   header {
-    position:fixed; top:18px; left:50%; transform:translateX(-50%);
-    width:calc(100% - 36px); max-width:var(--maxw); z-index:1200;
-    display:flex; align-items:center; gap:12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.02);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 1120px;
+    padding: 8px 24px;
+    background: var(--panel-bg);
+    border-radius: 32px;
+    box-shadow: 0 6px 30px var(--shadow-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 999;
   }
-  .brand{ display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
-  .logo-mark{ width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:700; color:#111; background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan)); }
-  .brand-title{ font-weight:700; font-size:16px; }
-  nav{ margin-left:12px; display:flex; gap:14px; align-items:center; }
-  nav a{ color:var(--muted); text-decoration:none; font-weight:600; font-size:14px; padding:6px 10px; border-radius:10px }
-  nav a.active{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#111 }
-
-  .header-actions{ margin-left:auto; display:flex; align-items:center; gap:10px; }
-
-  .btn {
-    border-radius:999px; padding:10px 16px; font-weight:700; cursor:pointer; border:none;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--accent1);
+    user-select: none;
   }
-  .btn-primary { background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0d0d0d; box-shadow:0 12px 36px rgba(0,0,0,0.45); }
-  .btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); }
-
-  /* main layout - center card + more content */
-  .wrap { display:grid; grid-template-columns: 1fr 420px; gap:28px; align-items:start; margin-top:22px; }
-  @media(max-width:980px){ .wrap{ grid-template-columns:1fr; padding-bottom:30px } }
-
-  /* central big card (OG look) */
-  .card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
-    border-radius:24px; padding:26px; border:1px solid rgba(255,255,255,0.03);
-    box-shadow: var(--card-shadow); overflow:visible;
+  .brand .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--accent-gradient);
+    box-shadow: 0 6px 20px var(--shadow-light);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 28px;
+    color: #0a0a0f;
+    user-select: none;
   }
-
-  /* Hero area inside left column */
-  .hero { padding:8px 6px; }
-  h1 { margin:0; font-size:44px; line-height:1.02; font-weight:700; }
-  h1 .accent { background:linear-gradient(90deg,var(--accent-red),var(--accent-cyan)); -webkit-background-clip:text; color:transparent; }
-  p.lead{ margin:12px 0 18px 0; color:var(--muted); max-width:58ch; font-size:15px; }
-
-  .action-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
-
-  /* we'll pack a bunch of content below hero so it isn't empty */
-  .content-block{ margin-top:14px; display:grid; gap:12px; }
-
-  /* featured area: vanity + stats + rotating status */
-  .featured {
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
-    padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
-    display:flex; gap:12px; align-items:center;
+  nav {
+    display: flex;
+    gap: 28px;
   }
-  .vanity { display:flex; gap:12px; align-items:center; flex:1; }
-  .vanity input {
-    background:transparent; border:1px solid rgba(255,255,255,0.04); padding:10px 12px; border-radius:12px; color:inherit; min-width:160px;
+  nav a {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-muted);
+    transition: color var(--transition);
   }
-  .vanity .preview { background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); border-radius:999px; padding:8px 12px; color:#0b0b0b; font-weight:800; }
-
-  .stats { display:flex; gap:12px; align-items:center; color:var(--muted) }
-  .stat { background: rgba(255,255,255,0.02); padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03); font-weight:700; }
-
-  /* rotating status */
-  .rotator { font-weight:600; color:var(--muted); margin-left:auto; padding-left:12px; }
-
-  /* features grid / blocks under hero */
-  .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; align-items:stretch; }
-  @media(max-width:980px){ .grid-3{ grid-template-columns:1fr } }
-  .feature-tile { background: rgba(255,255,255,0.02); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.03); font-weight:700; }
-
-  /* FAQ accordion */
-  .faq { margin-top:6px; display:flex; flex-direction:column; gap:8px; }
-  .faq-item { border-radius:10px; padding:12px; background:rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.02); }
-  .faq-q { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:700; }
-  .faq-a { margin-top:8px; color:var(--muted); display:none; }
-
-  /* right column: preview card (centered) */
-  .preview {
-    width:100%; border-radius:18px; padding:18px; position:relative;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.14));
-    border:1px solid rgba(255,255,255,0.03); box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+  nav a:hover {
+    color: var(--accent2);
   }
-  .preview::before { content:""; position:absolute; left:12px; top:12px; right:12px; height:96px; border-radius:12px; background:linear-gradient(180deg, rgba(40,199,199,0.05), rgba(194,57,43,0.03)); filter:blur(18px); z-index:0; pointer-events:none; }
-
-  .pv-top { display:flex; gap:12px; align-items:center; position:relative; z-index:2; }
-  .pv-avatar { width:92px; height:92px; border-radius:18px; display:grid; place-items:center; font-weight:800; font-size:30px; color:#111; background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan)); box-shadow: 0 10px 30px rgba(0,0,0,0.45); }
-  .pv-meta { flex:1; }
-  .pv-name { font-size:20px; font-weight:800; display:flex; gap:10px; align-items:center; }
-  .pv-bio { color:var(--muted); font-size:14px; margin-top:6px; }
-
-  .badges { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
-  .badge { padding:6px 10px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid rgba(255,255,255,0.03); font-weight:700; font-size:13px; position:relative; }
-
-  /* vertical/burger links style (no emojis) */
-  .pv-links { margin-top:16px; display:flex; flex-direction:column; gap:10px; z-index:2; }
-  .pv-link { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.02); cursor:pointer; transition:transform var(--trans), box-shadow var(--trans); text-decoration:none; color:inherit; }
-  .pv-link:hover{ transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,0.55); }
-  .pv-link-left { width:44px; height:44px; border-radius:10px; display:grid; place-items:center; background: linear-gradient(135deg,var(--accent-cyan),var(--accent-red)); color:#0a0a0a; font-weight:800; }
-  .pv-link-title { font-weight:800; }
-  .pv-link-sub { color:var(--muted); font-size:13px; }
-
-  /* extra lower block: music mock, quotes rotator */
-  .lower { margin-top:16px; display:grid; gap:12px; }
-  .music { background:rgba(255,255,255,0.02); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); display:flex; gap:12px; align-items:center; }
-  .quote { font-weight:700; color:var(--muted); font-style:italic; }
-
-  /* footer */
-  footer { margin-top:28px; padding:18px; border-radius:12px; color:var(--muted); text-align:center; font-size:13px; }
-
-  /* small screens */
-  @media(max-width:980px){
-    header{ left:12px; transform:none; width:calc(100% - 24px) }
-    .pv-avatar { width:72px; height:72px; }
-    .wrap { grid-template-columns:1fr; }
-    h1 { font-size:32px }
+  .header-actions button {
+    background: transparent;
+    border: 2px solid var(--accent1);
+    padding: 8px 18px;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: var(--accent1);
+    transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+  }
+  .header-actions button:hover {
+    background: var(--accent1);
+    color: var(--bg);
+    box-shadow: 0 6px 20px var(--shadow-light);
   }
 
-  /* focus styles */
-  [tabindex]:focus{ outline:none; box-shadow: var(--focus); border-radius:10px; }
-  button:focus, a:focus { outline:none; box-shadow:var(--focus); border-radius:8px; }
-
-  /* small animation utilities */
-  .fade { opacity:0; transform:translateY(8px); transition: opacity 420ms var(--trans), transform 420ms var(--trans); }
-  .fade.in { opacity:1; transform:none; }
-
-  /* tooltip for badges */
-  .badge[data-tooltip]:hover::after{
-    content: attr(data-tooltip); position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); background:#111;padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04); color:#fff; font-size:13px; white-space:nowrap; z-index:50;
+  /* MAIN LAYOUT */
+  main {
+    margin-top: 80px;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 24px 20px 80px;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 40px;
+    min-height: calc(100vh - 100px);
   }
 
+  /* LEFT HERO */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0 0 14px 0;
+    line-height: 1.1;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p.lead {
+    font-weight: 400;
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 28px;
+  }
+
+  /* BUTTONS ROW */
+  .actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 14px 28px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    transition: background var(--transition), color var(--transition), transform 180ms ease;
+    box-shadow: 0 8px 20px var(--shadow-dark);
+    user-select: none;
+  }
+  .btn-primary {
+    background: var(--accent1);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    box-shadow: 0 12px 30px var(--shadow-light);
+    transform: translateY(-3px);
+  }
+  .btn-secondary {
+    background: transparent;
+    border: 2px solid var(--accent1);
+    color: var(--accent1);
+  }
+  .btn-secondary:hover {
+    background: var(--accent1);
+    color: var(--bg);
+    box-shadow: 0 12px 30px var(--shadow-light);
+    transform: translateY(-3px);
+  }
+
+  /* PROFILE PREVIEW CARD */
+  .profile-card {
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px var(--shadow-dark);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    max-height: 720px;
+  }
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
+    background: var(--accent-gradient);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 36px;
+    color: var(--bg);
+    box-shadow: 0 8px 30px var(--shadow-light);
+    user-select: none;
+    transition: transform 220ms ease;
+  }
+  .avatar:hover {
+    transform: scale(1.06) rotate(-3deg);
+  }
+  .profile-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .username {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .user-bio {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+  .badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .badge {
+    background: rgba(107, 132, 255, 0.12);
+    color: var(--accent1);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 6px 14px;
+    border-radius: 12px;
+    user-select: none;
+    transition: background var(--transition);
+  }
+  .badge:hover {
+    background: var(--accent1);
+    color: var(--bg);
+    cursor: default;
+  }
+
+  /* LINKS LIST - burger style horizontal stacked */
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .link-btn {
+    background: var(--panel-bg);
+    border-radius: 14px;
+    padding: 14px 22px;
+    box-shadow: 0 6px 30px var(--shadow-dark);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition), box-shadow var(--transition), transform 180ms ease;
+  }
+  .link-btn:hover {
+    background: var(--accent1);
+    box-shadow: 0 10px 40px var(--shadow-light);
+    color: var(--bg);
+    transform: translateY(-4px);
+  }
+  .link-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--accent2);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    color: var(--bg);
+  }
+  .link-content {
+    flex-grow: 1;
+  }
+  .link-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+  }
+  .link-sub {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* SOCIALS ROW */
+  .socials-row {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+  }
+  .social-link {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--panel-bg);
+    box-shadow: 0 6px 20px var(--shadow-dark);
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: color var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+  }
+  .social-link:hover {
+    color: var(--accent1);
+    box-shadow: 0 12px 36px var(--shadow-light);
+  }
+
+  /* MUSIC PREVIEW */
+  .music-preview {
+    margin-top: 36px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 12px 40px var(--shadow-dark);
+  }
+  .music-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  .music-artist {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .music-embed {
+    margin-top: 16px;
+    width: 100%;
+    aspect-ratio: 16 / 4;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px var(--shadow-dark);
+  }
+  .music-embed iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* STATS */
+  .stats-row {
+    margin-top: 36px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px var(--shadow-dark);
+    display: flex;
+    justify-content: space-around;
+    padding: 28px 0;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-number {
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--accent1);
+  }
+  .stat-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* ABOUT SECTION */
+  .about-section {
+    margin-top: 48px;
+    padding: 28px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px var(--shadow-dark);
+  }
+  .about-section h2 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .about-text {
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-size: 1rem;
+  }
+
+  /* LIVE FEED */
+  .live-feed {
+    margin-top: 40px;
+    background: var(--panel-bg);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: 0 12px 40px var(--shadow-dark);
+    max-height: 240px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent1) transparent;
+  }
+  .live-feed::-webkit-scrollbar {
+    width: 6px;
+  }
+  .live-feed::-webkit-scrollbar-thumb {
+    background: var(--accent1);
+    border-radius: 10px;
+  }
+  .live-feed-item {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    opacity: 0.85;
+    transition: opacity 250ms ease;
+  }
+  .live-feed-item.new {
+    opacity: 1;
+    font-weight: 600;
+    color: var(--accent1);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    user-select: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    main {
+      display: flex;
+      flex-direction: column;
+      margin-top: 60px;
+      padding: 20px;
+    }
+    .profile-card {
+      max-height: none;
+      padding: 24px;
+      margin-top: 40px;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .actions {
+      flex-direction: column;
+      gap: 14px;
+    }
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      padding: 14px 0;
+    }
+    .profile-header {
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+      text-align: center;
+    }
+    .profile-info {
+      justify-content: center;
+    }
+    .socials-row {
+      justify-content: center;
+      gap: 20px;
+      margin-top: 28px;
+    }
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+  }
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.3s; }
+  .fade-in:nth-child(3) { animation-delay: 0.5s; }
+  .fade-in:nth-child(4) { animation-delay: 0.7s; }
+  .fade-in:nth-child(5) { animation-delay: 0.9s; }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
 </style>
 </head>
 <body>
   <header>
-    <div class="brand" id="brand" tabindex="0" aria-label="grave.bio home">
-      <div class="logo-mark" aria-hidden="true">G</div>
-      <div>
-        <div class="brand-title">grave.bio</div>
-        <div class="muted" style="font-size:12px">your bio, refined</div>
-      </div>
-    </div>
-
-    <nav aria-label="Primary navigation">
-      <a href="#features" class="nav-link" data-target="features">Features</a>
-      <a href="#pricing" class="nav-link" data-target="pricing">Pricing</a>
-      <a href="#faq" class="nav-link" data-target="faq">Help</a>
+    <a href="#home" class="brand" aria-label="Go to homepage" onclick="showSection('home')">
+      <div class="logo" aria-hidden="true">g</div>
+      grief.lol
+    </a>
+    <nav>
+      <a href="#features" onclick="showSection('features')">Features</a>
+      <a href="#pricing" onclick="showSection('pricing')">Pricing</a>
+      <a href="#help" onclick="showSection('help')">Help</a>
+      <a href="#admin" onclick="showSection('admin')">Admin Panel</a>
     </nav>
-
     <div class="header-actions">
-      <button class="btn btn-ghost" id="themeToggle" aria-pressed="false">Toggle theme</button>
-      <button class="btn btn-primary" id="joinBtn">Join Waitlist</button>
+      <button onclick="showSection('signup')">Claim Username</button>
     </div>
   </header>
 
-  <main class="container" role="main">
-
-    <div class="wrap">
-      <!-- LEFT: big content column -->
-      <div>
-        <div class="card hero fade in" id="heroCard" tabindex="0">
-          <h1>Make your <span class="accent">digital card</span> unforgettable.</h1>
-          <p class="lead">A focused, shareable profile for creators — music embeds, link management, and a vanity URL that reads grave.bio/you.</p>
-
-          <div class="action-row">
-            <button class="btn btn-primary" id="claimBtn">Claim Username</button>
-            <button class="btn btn-ghost" id="editBtn">Customize Page</button>
-
-            <div style="margin-left:auto" class="muted">No tracking • Fast • Mobile first</div>
-          </div>
-
-          <div class="content-block">
-            <!-- vanity + stats + rotator -->
-            <div class="featured">
-              <div class="vanity">
-                <label for="vanityInput" class="muted" style="font-weight:700;margin-right:8px">Vanity</label>
-                <input id="vanityInput" placeholder="yourusername" aria-label="Choose vanity username" />
-                <div class="preview" id="vanityPreview">grave.bio/<strong id="vanityLabel">yourusername</strong></div>
-              </div>
-
-              <div class="stats">
-                <div class="stat" id="statViews">Views: <span style="font-weight:900">1.2k</span></div>
-                <div class="stat" id="statFollows">Followers: <span style="font-weight:900">312</span></div>
-                <div class="stat" id="statJoined">Joined: <span style="font-weight:900">2024</span></div>
-              </div>
-
-              <div class="rotator" id="rotator">Status: <span id="rotText">Sharing a new playlist</span></div>
-            </div>
-
-            <!-- features -->
-            <div class="grid-3">
-              <div class="feature-tile">Custom URLs</div>
-              <div class="feature-tile">Drag & drop links</div>
-              <div class="feature-tile">Music embeds</div>
-            </div>
-
-            <!-- FAQ/Help area -->
-            <div class="faq" id="faq">
-              <div class="faq-item">
-                <div class="faq-q">How do I claim my username?<span>▸</span></div>
-                <div class="faq-a">Click "Claim Username" and fill the signup mock; this demo doesn't connect to a backend.</div>
-              </div>
-
-              <div class="faq-item">
-                <div class="faq-q">Can I reorder links?</div>
-                <div class="faq-a">Yes — drag links in the preview column to reorder them; the demo saves order client-side.</div>
-              </div>
-            </div>
-
-            <!-- larger lower block: music + rotating quote -->
-            <div class="lower">
-              <div class="music">
-                <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent-cyan),var(--accent-red));display:grid;place-items:center;color:#0a0a0a;font-weight:800">♫</div>
-                <div>
-                  <div style="font-weight:800">Now playing — Dear Mama</div>
-                  <div class="muted" style="margin-top:6px">Nino Paid · Spotify (embed mock)</div>
-                </div>
-                <div style="margin-left:auto"><button class="btn btn-ghost" id="playMock">Open Player</button></div>
-              </div>
-
-              <div style="background:rgba(255,255,255,0.01);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
-                <div style="font-weight:800">Quote</div>
-                <div class="quote" id="quote">"Create the thing you wish existed."</div>
-              </div>
-            </div>
-          </div>
+  <main>
+    <!-- HOME SECTION -->
+    <section id="home" class="fade-in">
+      <div class="hero">
+        <h1>Your digital <br /> identity, <br /> on your <span>terms.</span></h1>
+        <p class="lead">A handcrafted, premium biolink page for creators & builders.<br />Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
+        <div class="actions">
+          <button class="btn-primary" onclick="showSection('signup')">Claim Your Username</button>
+          <button class="btn-secondary" onclick="showSection('learnmore')">Learn More</button>
         </div>
-
-        <!-- add more dense content so left column isn't empty -->
-        <div style="height:18px"></div>
-
-        <div class="card fade in" id="moreContent" tabindex="0" style="margin-top:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div style="font-weight:800">Recent Visitors</div>
-            <div class="muted">View all</div>
-          </div>
-          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
-            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_01</div>
-            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_02</div>
-            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_03</div>
-            <div style="background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)">visitor_04</div>
-          </div>
-
-          <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
-            <div style="flex:1;min-width:180px">
-              <div style="font-weight:700">Highlights</div>
-              <div class="muted" style="margin-top:8px">Show your pinned projects, latest drops, or links you want people to click first.</div>
-            </div>
-            <div style="min-width:200px">
-              <div style="font-weight:700">Badges</div>
-              <div style="display:flex;gap:8px;margin-top:8px">
-                <div class="badge" data-tooltip="Verified identity">Verified</div>
-                <div class="badge" data-tooltip="Music creator">Music</div>
-                <div class="badge" data-tooltip="Premium subscriber">Pro</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- RIGHT: preview column (dense, vertical links) -->
-      <aside>
-        <div class="preview" id="previewCard" tabindex="0">
-          <div class="pv-top">
-            <div class="pv-avatar" id="pvAvatar">G</div>
-            <div class="pv-meta">
-              <div class="pv-name" id="pvName">grave</div>
-              <div class="pv-bio" id="pvBio">Minimal. Moody. Made for creators who want control.</div>
-              <div class="badges" id="pvBadges">
-                <div class="badge" data-tooltip="Early adopter">Early</div>
-                <div class="badge" data-tooltip="Fast hosting">Fast</div>
-              </div>
+      <aside class="profile-card">
+        <div class="profile-header">
+          <div class="avatar" aria-label="User avatar">CR</div>
+          <div class="profile-info">
+            <div class="username">CRay</div>
+            <div class="user-bio">Creative coder and digital artist crafting cool stuff online.</div>
+            <div class="badges">
+              <span class="badge" title="Premium user">Premium</span>
+              <span class="badge" title="Bug finder">Bugfinder</span>
+              <span class="badge" title="Creative type">Creative</span>
+              <span class="badge" title="Top Booster">Booster</span>
             </div>
           </div>
+        </div>
 
-          <div class="pv-links" id="pvLinks">
-            <div class="pv-link" data-href="https://grave.bio/grave" tabindex="0">
-              <div class="pv-link-left">G</div>
-              <div>
-                <div class="pv-link-title">grave.bio/grave</div>
-                <div class="pv-link-sub">Tap to copy</div>
-              </div>
+        <div class="links" role="list" aria-label="User links">
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="link-btn" role="listitem">
+            <div class="link-icon" aria-hidden="true">▶</div>
+            <div class="link-content">
+              <div class="link-label">YouTube</div>
+              <div class="link-sub">My latest videos & livestreams</div>
             </div>
-
-            <a class="pv-link" href="https://open.spotify.com/" target="_blank" rel="noreferrer">
-              <div class="pv-link-left">S</div>
-              <div>
-                <div class="pv-link-title">Now Playing — Dear Mama</div>
-                <div class="pv-link-sub">Spotify</div>
-              </div>
-            </a>
-
-            <a class="pv-link" href="https://twitter.com/" target="_blank" rel="noreferrer">
-              <div class="pv-link-left">T</div>
-              <div>
-                <div class="pv-link-title">@grave</div>
-                <div class="pv-link-sub">Twitter</div>
-              </div>
-            </a>
-          </div>
-
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
-            <div class="muted">Last updated • 2 days ago</div>
-            <div><button class="btn btn-ghost" id="editLinksBtn">Edit Links</button></div>
-          </div>
-
-          <div style="margin-top:14px">
-            <div style="font-weight:800;margin-bottom:8px">Live Stats</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <div class="stat">Clicks <strong style="margin-left:6px">1,230</strong></div>
-              <div class="stat">Shares <strong style="margin-left:6px">98</strong></div>
-              <div class="stat">Impressions <strong style="margin-left:6px">12.4k</strong></div>
+          </a>
+          <a href="https://twitter.com" target="_blank" rel="noopener" class="link-btn" role="listitem">
+            <div class="link-icon" aria-hidden="true">🐦</div>
+            <div class="link-content">
+              <div class="link-label">Twitter</div>
+              <div class="link-sub">Follow me for updates</div>
             </div>
-          </div>
+          </a>
+          <a href="https://twitch.tv" target="_blank" rel="noopener" class="link-btn" role="listitem">
+            <div class="link-icon" aria-hidden="true">🎮</div>
+            <div class="link-content">
+              <div class="link-label">Twitch</div>
+              <div class="link-sub">Watch my streams live</div>
+            </div>
+          </a>
+          <a href="https://spotify.com" target="_blank" rel="noopener" class="link-btn" role="listitem">
+            <div class="link-icon" aria-hidden="true">🎵</div>
+            <div class="link-content">
+              <div class="link-label">Spotify</div>
+              <div class="link-sub">My curated playlists</div>
+            </div>
+          </a>
+        </div>
 
-        </div> <!-- .preview -->
+        <div class="music-preview">
+          <div class="music-title">Featured Track</div>
+          <div class="music-artist">Artist Name - Album</div>
+          <div class="music-embed" aria-label="Music preview player">
+            <iframe src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp" allow="encrypted-media" allowtransparency="true" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="stats-row" role="list" aria-label="User stats">
+          <div class="stat" role="listitem">
+            <div class="stat-number">12.5K</div>
+            <div class="stat-label">Followers</div>
+          </div>
+          <div class="stat" role="listitem">
+            <div class="stat-number">134</div>
+            <div class="stat-label">Following</div>
+          </div>
+          <div class="stat" role="listitem">
+            <div class="stat-number">23</div>
+            <div class="stat-label">Links</div>
+          </div>
+        </div>
+
+        <div class="about-section">
+          <h2>About Me</h2>
+          <p class="about-text">Hey! I’m a passionate digital creator building interactive experiences and cool apps. I believe in open creativity and making tools that empower others.</p>
+        </div>
+
+        <div class="live-feed" aria-live="polite" aria-atomic="true" aria-relevant="additions">
+          <div class="live-feed-item new">✨ Welcome to my bio link page!</div>
+          <div class="live-feed-item">📢 New feature rollout coming soon.</div>
+          <div class="live-feed-item">🔥 Over 12k followers and growing fast.</div>
+        </div>
       </aside>
+    </section>
 
-    </div> <!-- .wrap -->
+    <!-- FEATURES SECTION -->
+    <section id="features" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Features</h2>
+      <ul style="list-style: none; padding-left: 0; font-size: 1.1rem; line-height: 1.6; color: var(--text-muted); max-width: 640px;">
+        <li>• Customizable link buttons with icons and descriptions.</li>
+        <li>• Embedded music and video players.</li>
+        <li>• Responsive design for mobile and desktop.</li>
+        <li>• Real-time live feed updates.</li>
+        <li>• Animated badges and hover effects.</li>
+        <li>• Detailed stats and follower counts.</li>
+        <li>• Dark theme with vibrant accent colors.</li>
+        <li>• Admin panel for managing users and content (coming soon).</li>
+      </ul>
+    </section>
 
-    <footer>
-      © <strong>grave.bio</strong> — built for creators. <span class="muted">Made with care · demo only</span>
-    </footer>
+    <!-- PRICING SECTION -->
+    <section id="pricing" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Pricing</h2>
+      <div style="max-width: 640px; color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;">
+        <p>grief.lol offers a free tier with essential features. Upgrade to Premium for:</p>
+        <ul>
+          <li>• Unlimited links and badges</li>
+          <li>• Priority support</li>
+          <li>• Advanced analytics</li>
+          <li>• Early access to new features</li>
+        </ul>
+        <p><strong>Premium pricing:</strong> $6.99 / month</p>
+      </div>
+    </section>
+
+    <!-- HELP SECTION -->
+    <section id="help" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Help & FAQ</h2>
+      <details style="max-width: 640px; margin-bottom: 16px; font-size: 1.05rem; color: var(--text-muted);">
+        <summary>How do I claim my username?</summary>
+        <p>Click the 'Claim Your Username' button and follow the signup process.</p>
+      </details>
+      <details style="max-width: 640px; margin-bottom: 16px; font-size: 1.05rem; color: var(--text-muted);">
+        <summary>Can I link my social accounts?</summary>
+        <p>Yes! You can add and customize multiple links including socials, music, and more.</p>
+      </details>
+      <details style="max-width: 640px; margin-bottom: 16px; font-size: 1.05rem; color: var(--text-muted);">
+        <summary>Is my data safe?</summary>
+        <p>We take privacy seriously and protect your data using modern security best practices.</p>
+      </details>
+    </section>
+
+    <!-- ADMIN PANEL MOCKUP -->
+    <section id="admin" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Admin Panel</h2>
+      <div style="max-width: 640px; color: var(--text-muted); font-size: 1.1rem;">
+        <p><strong>User Management</strong></p>
+        <p>Ban users, modify user assets, review reports (mockup UI only).</p>
+        <button style="margin-top: 12px; padding: 8px 16px; border-radius: 12px; border:none; background: var(--accent1); color: var(--bg); font-weight: 600; cursor: pointer;">Open User Ban List</button>
+        <hr style="margin: 24px 0; border-color: var(--text-muted);" />
+        <p><strong>Site Settings</strong></p>
+        <p>Change global theme, toggle features, manage premium tiers.</p>
+        <button style="margin-top: 12px; padding: 8px 16px; border-radius: 12px; border:none; background: var(--accent2); color: var(--bg); font-weight: 600; cursor: pointer;">Edit Settings</button>
+      </div>
+    </section>
+
+    <!-- SIGNUP PAGE -->
+    <section id="signup" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Claim Your Username</h2>
+      <form id="signup-form" style="max-width: 480px; display: flex; flex-direction: column; gap: 16px; color: var(--text-muted);">
+        <label for="username" style="font-weight: 600;">Choose your username</label>
+        <input type="text" id="username" name="username" placeholder="yourname" required
+          style="padding: 12px 16px; border-radius: 12px; border: none; background: var(--panel-bg); color: var(--text-primary); font-size: 1.1rem;" />
+        <label for="email" style="font-weight: 600;">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required
+          style="padding: 12px 16px; border-radius: 12px; border: none; background: var(--panel-bg); color: var(--text-primary); font-size: 1.1rem;" />
+        <button type="submit" class="btn-primary" style="align-self: flex-start;">Claim</button>
+      </form>
+      <p id="signup-msg" style="margin-top: 16px; font-weight: 600;"></p>
+    </section>
+
+    <!-- LEARN MORE -->
+    <section id="learnmore" hidden>
+      <h2 style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 2rem; margin-bottom: 24px;">Learn More</h2>
+      <p style="max-width: 640px; font-size: 1.1rem; color: var(--text-muted); line-height: 1.5;">
+        grief.lol is built to give you a sleek, customizable biolink page with all your important info front and center.
+        Manage your socials, music, and links with ease. Our admin panel is coming soon to keep the community safe.
+      </p>
+    </section>
   </main>
 
-  <!-- small modal for editing links (inline) -->
-  <div id="editModal" style="display:none; position:fixed; inset:0; z-index:1400; background:rgba(0,0,0,0.6); align-items:center; justify-content:center;">
-    <div style="background:var(--panel); padding:16px; border-radius:12px; width:92%; max-width:720px; border:1px solid rgba(255,255,255,0.03);">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="font-weight:800">Edit Links</div>
-        <button id="closeEdit" class="btn btn-ghost">Close</button>
-      </div>
-      <div style="margin-top:12px">
-        <textarea id="linksTextarea" style="width:100%; min-height:120px; border-radius:10px; padding:10px; background:transparent; border:1px solid rgba(255,255,255,0.03); color:inherit;"></textarea>
-        <div style="display:flex; gap:8px; margin-top:8px; justify-content:flex-end;">
-          <button id="saveLinks" class="btn btn-primary">Save</button>
-          <button id="resetLinks" class="btn btn-ghost">Reset</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- toasts -->
-  <div id="toasts" style="position:fixed; right:18px; bottom:18px; z-index:1600; display:flex; flex-direction:column; gap:10px;"></div>
+  <footer>
+    &copy; 2025 grief.lol &mdash; Crafted with care by CRay
+  </footer>
 
 <script>
-/* ======================================================
-   Client-side interactions for grave.bio demo page
-   - vanity preview & copy
-   - rotating status/quotes
-   - drag & drop reordering of links
-   - edit links modal (textarea)
-   - inline profile editor mock (edit profile)
-   - theme toggle (light/dark)
-   - toasts
-   - accessibility / keyboard
-   ====================================================== */
+  // Section toggle logic
+  function showSection(id) {
+    const sections = document.querySelectorAll("main > section");
+    sections.forEach(s => s.hidden = true);
+    document.getElementById(id).hidden = false;
 
-(function(){
-  const $ = (s,ctx=document) => ctx.querySelector(s);
-  const $$ = (s,ctx=document) => Array.from((ctx||document).querySelectorAll(s));
-
-  /* ---------- small toast utility ---------- */
-  function toast(msg, time=2200){
-    const wrap = $('#toasts');
-    const el = document.createElement('div');
-    el.className = 'toast';
-    el.textContent = msg;
-    wrap.appendChild(el);
-    setTimeout(()=> {
-      el.style.opacity = '0'; el.style.transform = 'translateY(6px)';
-      setTimeout(()=> el.remove(), 260);
-    }, time);
+    // Scroll to top on section change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  // Show homepage on load
+  showSection('home');
 
-  /* ---------- vanity input -> live preview ---------- */
-  const vanityInput = $('#vanityInput');
-  const vanityLabel = $('#vanityLabel');
-  vanityInput.addEventListener('input', (e)=>{
-    const v = String(e.target.value || 'yourusername').trim().replace(/\s+/g,'-');
-    vanityLabel.textContent = v || 'yourusername';
-  });
-  // copy vanity on click
-  $('#vanityPreview').addEventListener('click', ()=>{
-    const txt = 'https://grave.bio/' + (vanityLabel.textContent || 'yourusername');
-    navigator.clipboard?.writeText(txt).then(()=> toast('Copied ' + txt)).catch(()=> toast('Copy failed'));
-  });
-
-  /* ---------- rotating statuses / quotes ---------- */
-  const rotatorTexts = [
-    'Sharing a new playlist',
-    'Working on a collaborative EP',
-    'Fresh drop: limited merch',
-    'Updates coming Friday',
-    'Testing new embed player'
-  ];
-  let rotIdx = 0;
-  const rotEl = $('#rotText');
-  function rotateStatus(){
-    rotIdx = (rotIdx + 1) % rotatorTexts.length;
-    rotEl.style.opacity = 0;
-    setTimeout(()=> {
-      rotEl.textContent = rotatorTexts[rotIdx];
-      rotEl.style.opacity = 1;
-    }, 320);
-  }
-  setInterval(rotateStatus, 4800);
-
-  /* ---------- rotating quotes ---------- */
-  const quotes = [
-    "Create the thing you wish existed.",
-    "Less talk, more music.",
-    "Make it easy to find your best work.",
-    "Share what matters most."
-  ];
-  let qIdx = 0;
-  const qEl = $('#quote');
-  setInterval(()=> {
-    qIdx = (qIdx + 1) % quotes.length;
-    qEl.style.opacity = 0;
-    setTimeout(()=> { qEl.textContent = quotes[qIdx]; qEl.style.opacity = 1; }, 320);
-  }, 6000);
-
-  /* ---------- edit links modal ---------- */
-  const editModal = $('#editModal');
-  const pvLinks = $('#pvLinks');
-  const linksTextarea = $('#linksTextarea');
-
-  function serializeLinks(){
-    // convert pvLinks children into simple newline-separated list
-    const nodes = $$('.pv-link', pvLinks);
-    const arr = nodes.map(n => n.dataset.href || (n.querySelector('.pv-link-sub')?.textContent || '') ).filter(Boolean);
-    return arr.join('\n');
-  }
-
-  function populateLinksTextarea(){
-    linksTextarea.value = serializeLinks();
-  }
-
-  function applyLinksFromTextarea(){
-    const raw = linksTextarea.value.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).slice(0,20);
-    // rebuild pvLinks
-    pvLinks.innerHTML = '';
-    // main profile link first
-    const profileName = $('#pvName').textContent.trim() || 'grave';
-    const mainHref = `https://grave.bio/${encodeURIComponent(profileName)}`;
-    const main = document.createElement('div'); main.className = 'pv-link'; main.dataset.href = mainHref; main.tabIndex = 0;
-    main.innerHTML = `<div class="pv-link-left">G</div><div><div class="pv-link-title">grave.bio/${profileName}</div><div class="pv-link-sub">${mainHref}</div></div>`;
-    pvLinks.appendChild(main);
-    raw.forEach(link=>{
-      const a = document.createElement('a'); a.className = 'pv-link'; a.href = link; a.target = '_blank'; a.rel = 'noreferrer';
-      let label = link;
-      try { const u = new URL(link); label = u.hostname.replace('www.',''); }
-      catch(e) { /* keep link as label */ }
-      a.innerHTML = `<div class="pv-link-left">${label.slice(0,1).toUpperCase()}</div><div><div class="pv-link-title">${label}</div><div class="pv-link-sub">${link}</div></div>`;
-      pvLinks.appendChild(a);
-    });
-    attachDnd(); // reattach drag handlers
-    toast('Links updated (mock)');
-  }
-
-  $('#editLinksBtn').addEventListener('click', ()=>{
-    populateLinksTextarea();
-    editModal.style.display = 'flex';
-  });
-  $('#closeEdit').addEventListener('click', ()=> editModal.style.display = 'none');
-  $('#saveLinks').addEventListener('click', ()=> {
-    applyLinksFromTextarea();
-    editModal.style.display = 'none';
-  });
-  $('#resetLinks').addEventListener('click', ()=> {
-    linksTextarea.value = 'https://twitter.com/\nhttps://open.spotify.com/';
-  });
-
-  /* ---------- click on pv-link (copy main link if non-anchor) ---------- */
-  pvLinks.addEventListener('click', (e)=>{
-    const item = e.target.closest('.pv-link');
-    if(!item) return;
-    if(item.tagName.toLowerCase() === 'a') return; // anchors open
-    const href = item.dataset.href || item.querySelector('.pv-link-sub')?.textContent || '';
-    if(href){
-      navigator.clipboard?.writeText(href).then(()=> toast('Copied ' + href)).catch(()=> toast('Copy failed'));
+  // Signup form submit dummy handler
+  document.getElementById('signup-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const username = e.target.username.value.trim();
+    const email = e.target.email.value.trim();
+    if(!username || !email) {
+      alert('Please fill all fields');
+      return;
     }
+    // Simulate async request
+    e.target.querySelector('button').disabled = true;
+    const msg = document.getElementById('signup-msg');
+    msg.textContent = 'Submitting...';
+    setTimeout(() => {
+      msg.textContent = `Congrats, @${username} is now claimed!`;
+      e.target.querySelector('button').disabled = false;
+      e.target.reset();
+    }, 1800);
   });
-
-  /* ---------- drag & drop reorder for pvLinks ---------- */
-  function attachDnd(){
-    const list = pvLinks;
-    let dragEl = null;
-    function dragStart(e){
-      dragEl = e.target.closest('.pv-link');
-      if(!dragEl) return;
-      dragEl.style.opacity = '0.4';
-      e.dataTransfer.effectAllowed = 'move';
-    }
-    function dragOver(e){
-      e.preventDefault();
-      const target = e.target.closest('.pv-link');
-      if(!target || target === dragEl) return;
-      const rect = target.getBoundingClientRect();
-      const next = (e.clientY - rect.top) > (rect.height / 2);
-      target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
-    }
-    function dragEnd(){ if(dragEl) dragEl.style.opacity = ''; dragEl = null; }
-    // attach to existing items
-    $$('.pv-link', list).forEach(it=>{
-      it.setAttribute('draggable','true');
-      it.removeEventListener('dragstart', dragStart);
-      it.removeEventListener('dragend', dragEnd);
-      it.removeEventListener('dragover', dragOver);
-      it.addEventListener('dragstart', dragStart);
-      it.addEventListener('dragend', dragEnd);
-      it.addEventListener('dragover', dragOver);
-    });
-  }
-  attachDnd();
-
-  /* ---------- small profile editor: claim & edit ---------- */
-  $('#claimBtn').addEventListener('click', ()=>{
-    const name = prompt('Enter username to claim (mock):', $('#pvName').textContent.trim() || 'grave');
-    if(!name) return;
-    const clean = String(name).trim().replace(/\s+/g,'-').toLowerCase();
-    $('#pvName').textContent = clean;
-    $('#vanityInput').value = clean;
-    $('#vanityLabel').textContent = clean;
-    toast('Username set (mock): ' + clean);
-  });
-
-  $('#editBtn').addEventListener('click', ()=>{
-    // toggle a small inline editor (simple prompt flow for demo)
-    const bio = prompt('Edit bio (mock):', $('#pvBio').textContent) || '';
-    $('#pvBio').textContent = bio;
-    toast('Bio updated (mock)');
-  });
-
-  /* ---------- play mock (music) ---------- */
-  $('#playMock').addEventListener('click', ()=> {
-    toast('Player open (mock)');
-  });
-
-  /* ---------- theme toggle (light/dark) ---------- */
-  const themeToggle = $('#themeToggle');
-  let dark = true;
-  themeToggle.addEventListener('click', ()=> {
-    dark = !dark;
-    if(!dark){
-      document.documentElement.style.setProperty('--bg','#fafafa');
-      document.documentElement.style.setProperty('--panel','#ffffff');
-      document.documentElement.style.setProperty('--muted','#6b7280');
-      document.documentElement.style.setProperty('--accent-red','#b91c1c');
-      document.documentElement.style.setProperty('--accent-cyan','#0ea5a4');
-      toast('Light theme (temporary)');
-      themeToggle.textContent = 'Dark theme';
-    } else {
-      document.documentElement.style.setProperty('--bg','#050507');
-      document.documentElement.style.setProperty('--panel','#0f0c10');
-      document.documentElement.style.setProperty('--muted','#9b8fa0');
-      document.documentElement.style.setProperty('--accent-red','#c2392f');
-      document.documentElement.style.setProperty('--accent-cyan','#28c7c7');
-      toast('Dark theme');
-      themeToggle.textContent = 'Toggle theme';
-    }
-  });
-
-  /* ---------- FAQ expand toggle ---------- */
-  $$('.faq-item').forEach(item=>{
-    item.querySelector('.faq-q').addEventListener('click', ()=>{
-      item.classList.toggle('open');
-      const ans = item.querySelector('.faq-a');
-      if(item.classList.contains('open')) ans.style.display = 'block'; else ans.style.display = 'none';
-    });
-  });
-
-  /* ---------- header nav -> scroll to panels ---------- */
-  $$('.nav-link').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      e.preventDefault();
-      const t = a.getAttribute('data-target');
-      const el = document.getElementById('p-' + t) || document.getElementById(t) || document.querySelector('#' + t);
-      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
-      // highlight
-      $$('.nav-link').forEach(x=>x.classList.remove('active'));
-      a.classList.add('active');
-    });
-  });
-
-  /* ---------- simple content insertion for deep links (features/pricing/faq) ---------- */
-  // create anchors below hero for nav scroll targets:
-  const featuresAnchor = document.createElement('div'); featuresAnchor.id = 'features'; featuresAnchor.style.paddingTop = '8px'; featuresAnchor.style.marginTop = '-8px';
-  $('#heroCard').after(featuresAnchor);
-  featuresAnchor.innerHTML = '<div style="height:2px;"></div>';
-
-  const pricingAnchor = document.createElement('div'); pricingAnchor.id = 'pricing'; pricingAnchor.style.marginTop = '12px';
-  featuresAnchor.after(pricingAnchor);
-  pricingAnchor.innerHTML = '<div style="height:2px;"></div>';
-
-  const faqAnchor = document.getElementById('faq');
-  if(faqAnchor) faqAnchor.id = 'faq';
-
-  /* ---------- initial animations (fade in) ---------- */
-  setTimeout(()=> {
-    $$('.fade').forEach(el => el.classList.add('in'));
-  }, 120);
-
-  /* ---------- small keyboard shortcuts ---------- */
-  document.addEventListener('keydown', (e)=>{
-    if(e.key === 'e' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('#editBtn').click(); }
-    if(e.key === 'j' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $('#claimBtn').click(); }
-    if(e.key === 't' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); themeToggle.click(); }
-  });
-
-  /* ---------- preload sample quote & rotator */  
-  // already set intervals above
-
-  /* ---------- finishing touches ---------- */
-  toast('grave.bio loaded (demo)');
-})();
 </script>
 </body>
 </html>
