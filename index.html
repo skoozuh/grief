@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol style clone - fresh version</title>
+<title>grief.lol Inspired Profile - Modern Dark</title>
 <style>
-  /* Reset */
-  * {
+  /* ----------------- Reset ------------------ */
+  *, *::before, *::after {
     margin: 0; padding: 0; box-sizing: border-box;
   }
   html, body {
@@ -17,164 +17,295 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 2rem;
+    overflow-x: hidden;
   }
-
-  /* Container card */
+  a, button {
+    font-family: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+  /* ------------ Container Card ------------ */
   .card {
-    background: #1e1e1e;
-    border-radius: 12px;
-    padding: 2rem 3rem;
-    width: 360px;
-    max-width: 100vw;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.7);
+    background: #1f1f1f;
+    border-radius: 16px;
+    padding: 3rem 3.5rem;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.8);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.6rem;
     position: relative;
+    animation: floatY 5s ease-in-out infinite;
   }
-
-  /* Profile name */
+  @keyframes floatY {
+    0%, 100% {transform: translateY(0);}
+    50% {transform: translateY(-8px);}
+  }
+  /* ------------ Profile Name ------------ */
   .username {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #67a8f5;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #4d90fe;
     letter-spacing: 0.05em;
     user-select: none;
+    margin-bottom: 0.25rem;
   }
-
-  /* Bio text */
+  /* ------------ Profile Bio ------------ */
   .bio {
-    font-size: 1rem;
-    color: #888;
     font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    max-width: 320px;
     text-align: center;
-    line-height: 1.4;
-    max-width: 280px;
+    color: #999;
+    margin-bottom: 1.8rem;
   }
-
-  /* Buttons container */
+  /* ------------ Button Group ------------ */
   .btn-group {
-    display: flex;
-    gap: 1rem;
     width: 100%;
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
   }
-
-  /* Buttons */
-  button {
+  button.btn {
     flex: 1;
-    padding: 0.75rem 0;
-    background: #2b2b2b;
-    border: 2px solid #67a8f5;
+    background: transparent;
+    border: 2.5px solid #4d90fe;
     border-radius: 9999px;
-    color: #67a8f5;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.85rem 0;
+    color: #4d90fe;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: inset 0 0 10px #4d90fe33;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.15s ease;
     user-select: none;
   }
-  button:hover {
-    background: #67a8f5;
+  button.btn:hover,
+  button.btn:focus-visible {
+    background-color: #4d90fe;
     color: #121212;
+    box-shadow:
+      0 0 15px #4d90feaa,
+      inset 0 0 15px #4d90fecc;
+    outline: none;
   }
-  button:focus-visible {
-    outline: 2px solid #4d7dd9;
+  button.btn:active {
+    transform: scale(0.94);
   }
-
-  /* Badges container */
+  /* ------------ Badges ------------ */
   .badges {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 3rem;
   }
   .badge {
-    background: #2f2f2f;
-    color: #67a8f5;
-    font-size: 0.8rem;
+    background: #2c2c2c;
+    color: #4d90fe;
     font-weight: 700;
-    padding: 0.35rem 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.4rem 1.1rem;
     border-radius: 9999px;
-    box-shadow: inset 0 0 6px #4a90e2aa;
+    box-shadow: inset 0 0 8px #4d90fe44;
+    position: relative;
     user-select: none;
+    cursor: default;
+    transition: background-color 0.3s ease;
   }
-
-  /* Social links */
+  .badge:hover {
+    background-color: #4d90fe22;
+  }
+  /* Tooltip container */
+  .badge[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4d90feee;
+    color: #121212;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 0 10px #4d90feaa;
+  }
+  .badge[data-tooltip]::after {
+    opacity: 0;
+  }
+  /* ------------ Social Links ------------ */
   .socials {
-    margin-top: 1.8rem;
     display: flex;
-    gap: 1.2rem;
+    gap: 1.3rem;
   }
   .social-link {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #2c2c2c;
+    color: #4d90fe;
+    font-size: 1.5rem;
+    display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    background: #2b2b2b;
-    color: #67a8f5;
-    font-size: 1.3rem;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
+    user-select: none;
   }
-  .social-link:hover {
-    background: #67a8f5;
+  .social-link:hover,
+  .social-link:focus-visible {
+    background-color: #4d90fe;
     color: #121212;
+    outline: none;
   }
-
-  /* Subtle floating animation */
-  @keyframes floatUpDown {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
+  /* ------------ Background Particles ------------ */
+  #particles-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: #121212;
   }
-  .card {
-    animation: floatUpDown 6s ease-in-out infinite;
-  }
-
-  /* Responsive tweaks */
-  @media (max-width: 400px) {
+  /* ------------ Responsive ------------ */
+  @media (max-width: 450px) {
     .card {
-      padding: 1.5rem 2rem;
-      width: 90vw;
+      padding: 2rem 2rem;
+      max-width: 100vw;
     }
     .username {
-      font-size: 1.6rem;
+      font-size: 2rem;
     }
-    button {
-      font-size: 0.9rem;
+    button.btn {
+      font-size: 1rem;
+      padding: 0.7rem 0;
+    }
+    .badges {
+      gap: 0.6rem;
     }
   }
 </style>
 </head>
 <body>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
   <main class="card" role="main" aria-label="User profile card">
     <h1 class="username" tabindex="0">skoo</h1>
-    <p class="bio">Producer. Creating beats and vibes from dusk till dawn.</p>
+    <p class="bio" tabindex="0">Producer. Crafting beats and vibes since forever.</p>
 
-    <div class="btn-group" role="navigation" aria-label="Profile actions">
-      <button type="button">Follow</button>
-      <button type="button">Message</button>
-    </div>
+    <nav class="btn-group" role="navigation" aria-label="Profile actions">
+      <button class="btn" type="button" aria-pressed="false" id="btnFollow">Follow</button>
+      <button class="btn" type="button" aria-pressed="false" id="btnMessage">Message</button>
+    </nav>
 
-    <div class="badges" aria-label="User badges">
-      <div class="badge" tabindex="0" title="Artist badge">Artist</div>
-      <div class="badge" tabindex="0" title="Booster badge">Booster</div>
-      <div class="badge" tabindex="0" title="Creative badge">Creative</div>
-    </div>
+    <section class="badges" aria-label="User badges">
+      <div class="badge" tabindex="0" data-tooltip="Artist badge - awarded for creativity">Artist</div>
+      <div class="badge" tabindex="0" data-tooltip="Booster badge - supports the platform">Booster</div>
+      <div class="badge" tabindex="0" data-tooltip="Creative badge - innovative creator">Creative</div>
+      <div class="badge" tabindex="0" data-tooltip="Creator badge - content producer">Creator</div>
+      <div class="badge" tabindex="0" data-tooltip="Crown badge - VIP member">Crown</div>
+    </section>
 
     <nav class="socials" aria-label="Social media links">
-      <a href="#" class="social-link" aria-label="Twitter" tabindex="0" role="link">🐦</a>
-      <a href="#" class="social-link" aria-label="YouTube" tabindex="0" role="link">▶️</a>
-      <a href="#" class="social-link" aria-label="Discord" tabindex="0" role="link">💬</a>
+      <a href="#" class="social-link" aria-label="Twitter" tabindex="0" role="link" title="Twitter" rel="noopener">🐦</a>
+      <a href="#" class="social-link" aria-label="YouTube" tabindex="0" role="link" title="YouTube" rel="noopener">▶️</a>
+      <a href="#" class="social-link" aria-label="Discord" tabindex="0" role="link" title="Discord" rel="noopener">💬</a>
+      <a href="#" class="social-link" aria-label="Instagram" tabindex="0" role="link" title="Instagram" rel="noopener">📸</a>
     </nav>
   </main>
+
+<script>
+  // Simple background particles animation (like subtle stars)
+
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let particles = [];
+  const PARTICLE_COUNT = 80;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 1.5 + 0.3;
+      this.speedX = (Math.random() - 0.5) * 0.15;
+      this.speedY = (Math.random() - 0.5) * 0.15;
+      this.opacity = Math.random() * 0.3 + 0.1;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x > canvas.width) this.x = 0;
+      else if (this.x < 0) this.x = canvas.width;
+      if (this.y > canvas.height) this.y = 0;
+      else if (this.y < 0) this.y = canvas.height;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(77, 144, 254, ${this.opacity})`;
+      ctx.shadowColor = `rgba(77, 144, 254, ${this.opacity * 0.8})`;
+      ctx.shadowBlur = 6;
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new Particle());
+    }
+  }
+  initParticles();
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Button toggles for Follow and Message - just visual feedback
+  const btnFollow = document.getElementById('btnFollow');
+  const btnMessage = document.getElementById('btnMessage');
+
+  btnFollow.addEventListener('click', () => {
+    if (btnFollow.getAttribute('aria-pressed') === 'true') {
+      btnFollow.setAttribute('aria-pressed', 'false');
+      btnFollow.textContent = 'Follow';
+    } else {
+      btnFollow.setAttribute('aria-pressed', 'true');
+      btnFollow.textContent = 'Following';
+    }
+  });
+
+  btnMessage.addEventListener('click', () => {
+    alert('Messaging feature coming soon!');
+  });
+</script>
 </body>
 </html>
