@@ -3,948 +3,994 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your Digital Identity</title>
+<title>grief.lol — Your digital identity</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
 <style>
-/* CSS Variables for theming */
-:root {
-  --color-bg: #070507;
-  --color-bg-alt: #0f0c10;
-  --color-text: #eee;
-  --color-muted: #9b8fa0;
-  --color-accent1: #ff5fb7;
-  --color-accent2: #7c5cff;
-  --color-accent3: #00f0ff;
-  --color-accent4: #20d860;
-  --color-error: #ff5050;
-  --color-success: #20d860;
-  --radius: 18px;
-  --transition: 0.3s ease;
-  --shadow-card: 0 10px 40px rgba(0,0,0,0.6);
-  --font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-/* Dark theme variables (will toggle) */
-[data-theme="light"] {
-  --color-bg: #fefefe;
-  --color-bg-alt: #ffffff;
-  --color-text: #222;
-  --color-muted: #666;
-  --color-accent1: #ff4f91;
-  --color-accent2: #5a45ff;
-  --color-accent3: #00aaff;
-  --color-accent4: #2bc46c;
-  --color-error: #e03b3b;
-  --color-success: #2bc46c;
-  --shadow-card: 0 10px 40px rgba(0,0,0,0.1);
-}
-
-/* Reset and basics */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-html, body {
-  margin: 0; padding: 0; height: 100%;
-  font-family: var(--font-family);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-bg-alt);
-  border-radius: var(--radius);
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--color-accent1), var(--color-accent2));
-  border-radius: var(--radius);
-  transition: background var(--transition);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, var(--color-accent2), var(--color-accent3));
-}
-
-/* Utility classes */
-/* Spacing */
-.m-0 { margin: 0 !important; }
-.mt-0 { margin-top: 0 !important; }
-.mb-0 { margin-bottom: 0 !important; }
-.ml-0 { margin-left: 0 !important; }
-.mr-0 { margin-right: 0 !important; }
-.mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
-.my-0 { margin-top: 0 !important; margin-bottom: 0 !important; }
-
-.m-auto { margin: auto !important; }
-.mt-1 { margin-top: 4px !important; }
-.mb-1 { margin-bottom: 4px !important; }
-.mt-2 { margin-top: 8px !important; }
-.mb-2 { margin-bottom: 8px !important; }
-.mt-3 { margin-top: 12px !important; }
-.mb-3 { margin-bottom: 12px !important; }
-.mt-4 { margin-top: 16px !important; }
-.mb-4 { margin-bottom: 16px !important; }
-.mt-5 { margin-top: 24px !important; }
-.mb-5 { margin-bottom: 24px !important; }
-
-/* Padding */
-.p-0 { padding: 0 !important; }
-.pt-0 { padding-top: 0 !important; }
-.pb-0 { padding-bottom: 0 !important; }
-.pl-0 { padding-left: 0 !important; }
-.pr-0 { padding-right: 0 !important; }
-.px-0 { padding-left: 0 !important; padding-right: 0 !important; }
-.py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
-
-.p-1 { padding: 4px !important; }
-.p-2 { padding: 8px !important; }
-.p-3 { padding: 12px !important; }
-.p-4 { padding: 16px !important; }
-.p-5 { padding: 24px !important; }
-.px-2 { padding-left: 8px !important; padding-right: 8px !important; }
-.py-2 { padding-top: 8px !important; padding-bottom: 8px !important; }
-
-/* Typography */
-.text-center { text-align: center !important; }
-.text-left { text-align: left !important; }
-.text-right { text-align: right !important; }
-.text-muted { color: var(--color-muted) !important; }
-.text-accent1 { color: var(--color-accent1) !important; }
-.text-accent2 { color: var(--color-accent2) !important; }
-.text-accent3 { color: var(--color-accent3) !important; }
-.text-bold { font-weight: 700 !important; }
-.text-italic { font-style: italic !important; }
-.text-underline { text-decoration: underline !important; }
-
-/* Display */
-.d-flex { display: flex !important; }
-.d-block { display: block !important; }
-.d-none { display: none !important; }
-.d-grid { display: grid !important; }
-
-/* Flex helpers */
-.flex-center { justify-content: center !important; align-items: center !important; }
-.flex-between { justify-content: space-between !important; align-items: center !important; }
-.flex-column { flex-direction: column !important; }
-.flex-wrap { flex-wrap: wrap !important; }
-.flex-grow { flex-grow: 1 !important; }
-.flex-shrink-0 { flex-shrink: 0 !important; }
-
-/* Grid helpers */
-.grid-1 { grid-template-columns: 1fr !important; }
-.grid-2 { grid-template-columns: repeat(2, 1fr) !important; }
-.grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
-.grid-4 { grid-template-columns: repeat(4, 1fr) !important; }
-
-/* Cursor */
-.cursor-pointer { cursor: pointer !important; }
-.cursor-default { cursor: default !important; }
-
-/* Button base */
-.button {
-  background: var(--color-bg-alt);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--color-text);
-  font-weight: 600;
-  padding: 12px 24px;
-  border-radius: var(--radius);
-  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
-  user-select: none;
-  outline: none;
-}
-.button:hover, .button:focus {
-  background: linear-gradient(90deg, var(--color-accent1), var(--color-accent2));
-  border-color: var(--color-accent1);
-  box-shadow: 0 8px 20px rgba(255,95,183,0.4);
-  color: #111;
-  outline: none;
-}
-.button:active {
-  transform: scale(0.97);
-  transition: transform 0.15s ease;
-}
-
-/* Container and layout */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Header */
-header {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1100px;
-  background: var(--color-bg-alt);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 24px;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  user-select: none;
-  backdrop-filter: saturate(180%) blur(16px);
-  transition: background-color 0.4s ease;
-}
-header .logo {
-  font-weight: 700;
-  font-size: 28px;
-  color: var(--color-accent1);
-  cursor: pointer;
-  user-select: none;
-  letter-spacing: -0.04em;
-  font-family: 'Poppins', sans-serif;
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-header .logo span {
-  font-weight: 300;
-  font-size: 22px;
-  color: var(--color-muted);
-  user-select: none;
-}
-header nav {
-  display: flex;
-  gap: 20px;
-}
-header nav button {
-  all: unset;
-  color: var(--color-muted);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: var(--radius);
-  transition: color var(--transition), background-color var(--transition);
-  user-select: none;
-}
-header nav button:hover,
-header nav button:focus {
-  background: var(--color-accent2);
-  color: #111;
-  box-shadow: 0 8px 20px rgba(124,92,255,0.35);
-}
-header nav button.active {
-  background: linear-gradient(90deg, var(--color-accent1), var(--color-accent2));
-  color: #111;
-  box-shadow: 0 12px 25px rgba(255,95,183,0.7);
-}
-
-/* Theme toggle */
-.theme-toggle {
-  all: unset;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 50%;
-  background: var(--color-bg-alt);
-  border: 1px solid rgba(255,255,255,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background var(--transition), border-color var(--transition);
-  user-select: none;
-}
-.theme-toggle:hover,
-.theme-toggle:focus {
-  background: var(--color-accent3);
-  border-color: var(--color-accent3);
-}
-.theme-toggle svg {
-  width: 24px;
-  height: 24px;
-  fill: var(--color-text);
-  transition: fill var(--transition);
-}
-
-/* Main content area */
-main {
-  margin-top: 72px;
-  flex-grow: 1;
-  padding-bottom: 60px;
-  min-height: calc(100vh - 72px);
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-/* Tabs container */
-.tabs {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 24px;
-  justify-content: center;
-}
-.tabs button {
-  all: unset;
-  padding: 12px 24px;
-  border-radius: var(--radius);
-  background: var(--color-bg-alt);
-  color: var(--color-muted);
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-  transition: background var(--transition), color var(--transition), box-shadow var(--transition);
-  user-select: none;
-}
-.tabs button:hover,
-.tabs button:focus {
-  background: var(--color-accent2);
-  color: #111;
-  box-shadow: 0 8px 20px rgba(124,92,255,0.35);
-}
-.tabs button.active {
-  background: linear-gradient(90deg, var(--color-accent1), var(--color-accent2));
-  color: #111;
-  box-shadow: 0 12px 25px rgba(255,95,183,0.7);
-}
-
-/* Tab content panels */
-.tab-panel {
-  display: none;
-  animation: fadeIn 0.6s ease forwards;
-}
-.tab-panel.active {
-  display: block;
-}
-
-/* FadeIn animation */
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(12px);}
-  to {opacity: 1; transform: translateY(0);}
-}
-
-/* Hero/Home tab */
-.hero {
-  max-width: 700px;
-  margin: 0 auto;
-  text-align: center;
-}
-.hero h1 {
-  font-size: 3.4rem;
-  line-height: 1.1;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: -0.03em;
-  user-select: none;
-}
-.hero h1 .accent {
-  background: linear-gradient(90deg, var(--color-accent1), var(--color-accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero p.lead {
-  color: var(--color-muted);
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  max-width: 460px;
-  margin-left: auto;
-  margin-right: auto;
-  user-select: none;
-}
-
-/* Hero buttons */
-.hero .actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.hero .actions .button {
-  min-width: 150px;
-  font-size: 1rem;
-  user-select: none;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 30px rgba(124,92,255,0.3);
-}
-.hero .actions .button.secondary {
-  background: transparent;
-  border: 1.5px solid var(--color-accent3);
-  color: var(--color-accent3);
-  box-shadow: none;
-}
-.hero .actions .button.secondary:hover,
-.hero .actions .button.secondary:focus {
-  background: var(--color-accent3);
-  color: #111;
-  box-shadow: 0 12px 35px rgba(0,240,255,0.5);
-}
-
-/* Biolink preview container */
-.preview {
-  margin: 40px auto 0;
-  max-width: 900px;
-  background: var(--color-bg-alt);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow-card);
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  user-select: none;
-}
-
-/* Preview left: avatar and user info */
-.preview-left {
-  flex-shrink: 0;
-  width: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-.preview-avatar {
-  width: 140px;
-  height: 140px;
-  border-radius: 28px;
-  background: linear-gradient(135deg, var(--color-accent1), var(--color-accent2));
-  box-shadow: 0 8px 40px rgba(124,92,255,0.25);
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 48px;
-  color: #111;
-  user-select: none;
-  transition: transform 0.3s ease;
-}
-.preview-avatar:hover {
-  transform: scale(1.05) rotate(-3deg);
-}
-.preview-username {
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: var(--color-text);
-  user-select: none;
-}
-.preview-bio {
-  font-size: 1rem;
-  color: var(--color-muted);
-  text-align: center;
-  user-select: none;
-}
-
-/* Preview right: horizontal biolink style */
-.preview-links {
-  flex-grow: 1;
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 18px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  scroll-behavior: smooth;
-}
-.preview-links::-webkit-scrollbar {
-  height: 8px;
-}
-.preview-links::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, var(--color-accent1), var(--color-accent2));
-  border-radius: var(--radius);
-}
-.preview-links::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* Individual biolink preview item */
-.preview-link {
-  min-width: 140px;
-  background: var(--color-bg);
-  border-radius: 14px;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-  padding: 14px 18px;
-  color: var(--color-text);
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
-  flex-shrink: 0;
-}
-.preview-link:hover,
-.preview-link:focus {
-  background: linear-gradient(90deg, var(--color-accent1), var(--color-accent2));
-  color: #111;
-  box-shadow: 0 12px 30px rgba(255,95,183,0.6);
-  transform: scale(1.1);
-  outline: none;
-}
-
-/* Responsive tweaks */
-@media (max-width: 1024px) {
-  .preview {
-    flex-direction: column;
-    align-items: center;
+  /* ===== CSS Variables ===== */
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-light: #fefefe;
+    --text-dark: #111;
+    --text-light: #eee;
+    --accent-primary: #7c5cff;
+    --accent-secondary: #ff5fb7;
+    --accent-muted: #9b8fa0;
+    --border-radius: 16px;
+    --transition: 250ms ease;
+    --shadow-light: rgba(124, 92, 255, 0.15);
+    --shadow-dark: rgba(0, 0, 0, 0.5);
+    --max-width: 1120px;
   }
-  .preview-links {
-    overflow-x: visible;
+
+  /* ===== Reset & base ===== */
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-y: scroll;
+  }
+  a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--transition);
+  }
+  a:hover,
+  a:focus {
+    color: var(--accent-secondary);
+    outline: none;
+  }
+
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+  }
+
+  /* ===== Container & Layout ===== */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+  }
+  header {
+    position: fixed;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--max-width);
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: saturate(150%) blur(12px);
+    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    z-index: 9999;
+  }
+  header .brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--accent-primary);
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  header .brand svg {
+    width: 30px; height: 30px;
+    fill: var(--accent-secondary);
+  }
+  nav {
+    margin-left: auto;
+    display: flex;
+    gap: 1.5rem;
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: var(--accent-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: color var(--transition), background var(--transition);
+  }
+  nav button:hover,
+  nav button:focus {
+    background: var(--accent-primary);
+    color: var(--text-light);
+    outline: none;
+  }
+  nav button.active {
+    background: var(--accent-secondary);
+    color: var(--text-light);
+  }
+
+  /* ===== Main Content Sections ===== */
+  main {
+    padding-top: 70px;
+    min-height: 100vh;
+  }
+  section.page {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    padding: 2rem 1rem 3rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  section.page.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ===== Home Page ===== */
+  .home-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 680px;
+    margin: 3rem auto 6rem;
+    text-align: center;
+  }
+  .home-hero h1 {
+    font-weight: 700;
+    font-size: 3.5rem;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .home-hero h1 .accent {
+    background: linear-gradient(90deg, var(--accent-secondary), var(--accent-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+  }
+  .home-hero p.lead {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--accent-muted);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .home-hero .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary, .btn-secondary {
+    font-weight: 600;
+    padding: 0.75rem 1.8rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition), color var(--transition);
+  }
+  .btn-primary {
+    background: var(--accent-primary);
+    color: var(--text-light);
+  }
+  .btn-primary:hover, .btn-primary:focus {
+    background: var(--accent-secondary);
+    outline: none;
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent-muted);
+    border: 2px solid var(--accent-primary);
+  }
+  .btn-secondary:hover, .btn-secondary:focus {
+    color: var(--accent-primary);
+    border-color: var(--accent-secondary);
+    outline: none;
+  }
+
+  /* ===== Link Preview (Horizontal Card List) ===== */
+  .link-preview {
+    max-width: 680px;
+    margin: 0 auto 5rem;
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-behavior: smooth;
+  }
+  .link-preview::-webkit-scrollbar {
+    height: 8px;
+  }
+  .link-preview::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .link-preview::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+  }
+  .link-preview::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+  }
+  .link-card {
+    flex: 0 0 auto;
+    background: rgba(124, 92, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 1rem 1.5rem;
+    box-shadow: 0 6px 15px var(--shadow-dark);
+    min-width: 210px;
+    transition: transform var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .link-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px var(--shadow-dark);
+  }
+  .link-card .label {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-light);
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .link-card .sub {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--accent-muted);
+  }
+
+  /* ===== Features Page ===== */
+  .features-list {
+    max-width: 800px;
+    margin: 2rem auto 3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.3rem;
+  }
+  .feature-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 1.4rem 1.2rem;
+    box-shadow: 0 8px 16px rgba(124, 92, 255, 0.08);
+    transition: background-color var(--transition);
+    cursor: default;
+    user-select: none;
+  }
+  .feature-item:hover {
+    background: rgba(124, 92, 255, 0.15);
+  }
+  .feature-item h3 {
+    margin: 0 0 0.8rem 0;
+    font-weight: 600;
+    color: var(--accent-primary);
+  }
+  .feature-item p {
+    margin: 0;
+    font-weight: 400;
+    color: var(--accent-muted);
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  /* ===== Pricing Page ===== */
+  .pricing-cards {
+    max-width: 840px;
+    margin: 2rem auto 3rem;
+    display: flex;
+    gap: 1.5rem;
     flex-wrap: wrap;
     justify-content: center;
   }
-  .preview-link {
-    min-width: 120px;
-    margin-bottom: 12px;
+  .pricing-card {
+    flex: 1 1 240px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 20px rgba(124, 92, 255, 0.12);
+    padding: 2rem 1.6rem;
+    text-align: center;
+    transition: box-shadow var(--transition);
+    cursor: default;
+    user-select: none;
   }
-}
-@media (max-width: 480px) {
-  header nav {
+  .pricing-card:hover {
+    box-shadow: 0 12px 28px rgba(124, 92, 255, 0.25);
+  }
+  .pricing-card h3 {
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--accent-primary);
+  }
+  .pricing-card .price {
+    font-weight: 700;
+    font-size: 2.4rem;
+    color: var(--accent-secondary);
+    margin-bottom: 1rem;
+  }
+  .pricing-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.4rem 0;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--accent-muted);
+    text-align: left;
+  }
+  .pricing-card ul li {
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .pricing-card button {
+    padding: 0.8rem 1.8rem;
+    border-radius: var(--border-radius);
+    border: none;
+    background: var(--accent-primary);
+    color: var(--text-light);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition);
+  }
+  .pricing-card button:hover,
+  .pricing-card button:focus {
+    background: var(--accent-secondary);
+    outline: none;
+  }
+
+  /* ===== Help Page ===== */
+  .help-content {
+    max-width: 800px;
+    margin: 2rem auto 3rem;
+    color: var(--accent-muted);
+  }
+  .help-content h2 {
+    color: var(--accent-primary);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .faq {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .accordion {
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(124, 92, 255, 0.08);
+    margin-bottom: 1.5rem;
+  }
+  .accordion-header {
+    cursor: pointer;
+    padding: 1rem 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    user-select: none;
+    background: var(--bg-dark);
+    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color var(--transition);
+  }
+  .accordion-header:hover {
+    background: rgba(124, 92, 255, 0.15);
+  }
+  .accordion-header:after {
+    content: "▶";
+    font-size: 0.8rem;
+    transition: transform var(--transition);
+    color: var(--accent-muted);
+  }
+  .accordion-header[aria-expanded="true"]:after {
+    transform: rotate(90deg);
+    color: var(--accent-primary);
+  }
+  .accordion-content {
+    padding: 1rem 1.2rem;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--accent-muted);
     display: none;
   }
-  header .menu-toggle {
+  .accordion-content[aria-hidden="false"] {
     display: block;
   }
-  .preview-avatar {
-    width: 110px;
-    height: 110px;
+
+  /* ===== Signup Page ===== */
+  .signup-form {
+    max-width: 440px;
+    margin: 3rem auto 5rem;
+    background: rgba(124, 92, 255, 0.05);
+    padding: 2rem 2.4rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(124, 92, 255, 0.1);
   }
-  .hero h1 {
-    font-size: 2.2rem;
+  .signup-form h2 {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-align: center;
   }
-  .hero p.lead {
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(124, 92, 255, 0.3);
+    background: var(--bg-dark);
+    color: var(--text-light);
     font-size: 1rem;
+    transition: border-color var(--transition);
   }
-}
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 10px var(--shadow-light);
+  }
+  .error-message {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+  }
+  .form-message {
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background: var(--accent-primary);
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+  .submit-btn:hover,
+  .submit-btn:focus {
+    background: var(--accent-secondary);
+    outline: none;
+  }
 
-/* Menu toggle for small screens */
-.menu-toggle {
-  all: unset;
-  cursor: pointer;
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  width: 30px;
-  height: 22px;
-  user-select: none;
-}
-.menu-toggle span {
-  display: block;
-  width: 100%;
-  height: 3.6px;
-  background: var(--color-text);
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
+  /* ===== Admin Panel ===== */
+  .admin-panel {
+    max-width: 960px;
+    margin: 3rem auto 5rem;
+  }
+  .admin-panel h2 {
+    font-weight: 700;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(124, 92, 255, 0.05);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(124, 92, 255, 0.1);
+  }
+  .user-table th,
+  .user-table td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(124, 92, 255, 0.15);
+    user-select: none;
+  }
+  .user-table th {
+    background: rgba(124, 92, 255, 0.12);
+    font-weight: 600;
+  }
+  .user-table tr:hover {
+    background: rgba(124, 92, 255, 0.1);
+  }
+  .user-table button {
+    background: var(--accent-primary);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    transition: background-color var(--transition);
+  }
+  .user-table button:hover {
+    background: var(--accent-secondary);
+  }
 
-/* Open menu styles */
-.menu-open header nav {
-  display: flex !important;
-  flex-direction: column;
-  gap: 10px;
-  background: var(--color-bg-alt);
-  position: fixed;
-  top: 72px;
-  right: 0;
-  width: 240px;
-  padding: 20px;
-  border-radius: 0 0 0 var(--radius);
-  box-shadow: var(--shadow-card);
-  z-index: 2000;
-}
+  /* ===== Profile Editor ===== */
+  .profile-editor {
+    max-width: 480px;
+    margin: 2rem auto 6rem;
+    background: rgba(124, 92, 255, 0.05);
+    padding: 2rem 2.4rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(124, 92, 255, 0.1);
+  }
+  .profile-editor h2 {
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-align: center;
+  }
+  .profile-editor label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .profile-editor input[type="text"],
+  .profile-editor input[type="url"] {
+    width: 100%;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid rgba(124, 92, 255, 0.3);
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: border-color var(--transition);
+    margin-bottom: 1rem;
+  }
+  .profile-editor input[type="text"]:focus,
+  .profile-editor input[type="url"]:focus {
+    border-color: var(--accent-primary);
+    outline: none;
+    box-shadow: 0 0 10px var(--shadow-light);
+  }
+  .profile-editor .avatar-preview {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    margin: 0 auto 1.25rem;
+    background-color: rgba(124, 92, 255, 0.2);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .profile-editor button.save-profile {
+    width: 100%;
+    background: var(--accent-primary);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: background-color var(--transition);
+  }
+  .profile-editor button.save-profile:hover,
+  .profile-editor button.save-profile:focus {
+    background: var(--accent-secondary);
+    outline: none;
+  }
 
-/* Animations */
-@keyframes pulse {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.05);}
-  100% {transform: scale(1);}
-}
-.pulse {
-  animation: pulse 1.6s ease-in-out infinite;
-}
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .home-hero h1 {
+      font-size: 2.8rem;
+    }
+    nav {
+      gap: 0.8rem;
+    }
+    .features-list {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .pricing-cards {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+  @media (max-width: 400px) {
+    .home-hero h1 {
+      font-size: 2.2rem;
+    }
+    .home-hero p.lead {
+      font-size: 1rem;
+    }
+  }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo cursor-pointer" id="logo">
-    grief<span>.lol</span>
+  <div class="container" style="display:flex;align-items:center;gap:1rem;">
+    <div class="brand" tabindex="0" aria-label="grief.lol homepage" role="link" id="nav-home-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" />
+      </svg>
+      grief.lol
+    </div>
+    <nav aria-label="Primary navigation">
+      <button id="nav-home" class="active" aria-current="page">Home</button>
+      <button id="nav-features">Features</button>
+      <button id="nav-pricing">Pricing</button>
+      <button id="nav-help">Help</button>
+      <button id="nav-signup">Signup</button>
+      <button id="nav-admin">Admin Panel</button>
+    </nav>
   </div>
-  <nav id="mainNav" aria-label="Primary navigation">
-    <button class="active" data-tab="home" aria-current="page">Home</button>
-    <button data-tab="features">Features</button>
-    <button data-tab="pricing">Pricing</button>
-    <button data-tab="help">Help</button>
-    <button data-tab="signup">Sign Up</button>
-    <button data-tab="learnmore">Learn More</button>
-    <button data-tab="admin" aria-label="Admin Panel" title="Admin Panel">Admin</button>
-  </nav>
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme" title="Toggle theme">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/>
-      <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-    </svg>
-  </button>
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav" id="menuToggle">
-    <span></span><span></span><span></span>
-  </button>
 </header>
-
 <main>
-  <!-- Tabs -->
-  <div class="tabs" role="tablist" aria-label="Primary Tabs">
-    <button role="tab" aria-selected="true" tabindex="0" aria-controls="tab-home" id="tab-home-btn" class="active" data-tab="home">Home</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-features" id="tab-features-btn" data-tab="features">Features</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-pricing" id="tab-pricing-btn" data-tab="pricing">Pricing</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-help" id="tab-help-btn" data-tab="help">Help</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-signup" id="tab-signup-btn" data-tab="signup">Sign Up</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-learnmore" id="tab-learnmore-btn" data-tab="learnmore">Learn More</button>
-    <button role="tab" aria-selected="false" tabindex="-1" aria-controls="tab-admin" id="tab-admin-btn" data-tab="admin">Admin Panel</button>
-  </div>
-
-  <!-- Tab Panels -->
-  <section id="tab-home" class="tab-panel active" role="tabpanel" tabindex="0" aria-labelledby="tab-home-btn">
-    <div class="hero">
-      <h1>Welcome to <span class="accent">grief.lol</span></h1>
-      <p class="lead">Your sleek, modern biolink platform to showcase all your social links, media, and digital identity in one place.</p>
-      <div class="actions">
-        <button class="button" data-tab="signup">Join Waitlist</button>
-        <button class="button secondary" data-tab="learnmore">Learn More</button>
+  <!-- Home Page -->
+  <section class="page active" id="page-home" tabindex="0" aria-label="Home page">
+    <div class="home-hero">
+      <h1>
+        Your digital identity, <span class="accent">simplified.</span>
+      </h1>
+      <p class="lead">One link to connect all your social, projects, and passions — grief.lol makes it effortless.</p>
+      <div class="buttons">
+        <button class="btn-primary" id="btn-get-started">Get Started</button>
+        <button class="btn-secondary" id="btn-learn-more">Learn More</button>
       </div>
     </div>
 
-    <div class="preview" aria-label="Example biolink preview">
-      <div class="preview-left" aria-hidden="true">
-        <div class="preview-avatar" aria-label="User avatar">GL</div>
-        <div class="preview-username">grief.lol/demo</div>
-        <div class="preview-bio">Connect all your profiles in one place with style.</div>
+    <div class="link-preview" aria-label="Preview of user biolinks">
+      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="YouTube channel link preview">
+        <div class="label">YouTube</div>
+        <div class="sub">/userchannel</div>
       </div>
-      <div class="preview-links" tabindex="0" aria-label="User links preview">
-        <div class="preview-link" tabindex="0">YouTube</div>
-        <div class="preview-link" tabindex="0">Twitter</div>
-        <div class="preview-link" tabindex="0">Discord</div>
-        <div class="preview-link" tabindex="0">Instagram</div>
-        <div class="preview-link" tabindex="0">TikTok</div>
+      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="Twitter profile link preview">
+        <div class="label">Twitter</div>
+        <div class="sub">@userhandle</div>
+      </div>
+      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="GitHub repo link preview">
+        <div class="label">GitHub</div>
+        <div class="sub">/user</div>
+      </div>
+      <div class="link-card" tabindex="0" role="button" aria-pressed="false" aria-label="Portfolio website preview">
+        <div class="label">Portfolio</div>
+        <div class="sub">userportfolio.com</div>
       </div>
     </div>
   </section>
 
-  <section id="tab-features" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-features-btn">
-    <h2 class="text-center">Features</h2>
-    <ul style="max-width: 700px; margin: 24px auto; list-style:none; padding:0;">
-      <li>✅ Customizable biolinks with drag & drop ordering</li>
-      <li>✅ Responsive design optimized for all devices</li>
-      <li>✅ Dark & Light theme toggle</li>
-      <li>✅ Detailed admin panel for managing users</li>
-      <li>✅ Animated modals and toast notifications</li>
-      <li>✅ Accordion style FAQs for easy browsing</li>
-      <li>✅ User profile editor with live preview</li>
-      <li>✅ Form validation with inline feedback</li>
-      <li>✅ And much more!</li>
-    </ul>
-  </section>
-
-  <section id="tab-pricing" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-pricing-btn">
-    <h2 class="text-center">Pricing</h2>
-    <div style="max-width: 700px; margin: 24px auto;">
-      <p>grief.lol is currently in beta. Pricing plans will be announced soon.</p>
-      <p>Stay tuned for affordable monthly and lifetime plans with premium features.</p>
+  <!-- Features Page -->
+  <section class="page" id="page-features" tabindex="0" aria-label="Features page">
+    <h2>Features</h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <h3>Custom Links</h3>
+        <p>Create and organize your personal links with drag & drop ease.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Profile Personalization</h3>
+        <p>Change your avatar, username, and bio to express yourself.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Analytics</h3>
+        <p>Track clicks and views to optimize your online presence.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Dark/Light Mode</h3>
+        <p>Switch between modes for any environment or preference.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Admin Controls</h3>
+        <p>Manage users, ban or unblock accounts, and moderate content.</p>
+      </div>
     </div>
   </section>
 
-  <section id="tab-help" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-help-btn">
-    <h2 class="text-center">Help & FAQ</h2>
-    <div style="max-width: 700px; margin: 24px auto;">
-      <p>If you have any questions or need help, reach out to support@grief.lol or check our FAQs below.</p>
-      <div class="accordion">
-        <button class="accordion-header" aria-expanded="false">How do I sign up?</button>
-        <div class="accordion-panel" hidden>
-          <p>Click the Sign Up tab, fill in your details, and claim your unique username.</p>
+  <!-- Pricing Page -->
+  <section class="page" id="page-pricing" tabindex="0" aria-label="Pricing page">
+    <h2>Pricing Plans</h2>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <h3>Free</h3>
+        <div class="price">$0<span style="font-weight:400;font-size:1rem;">/month</span></div>
+        <ul>
+          <li>Basic profile customization</li>
+          <li>Up to 5 links</li>
+          <li>Standard analytics</li>
+          <li>Email support</li>
+        </ul>
+        <button>Get Started</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Pro</h3>
+        <div class="price">$9.99<span style="font-weight:400;font-size:1rem;">/month</span></div>
+        <ul>
+          <li>Unlimited links</li>
+          <li>Advanced analytics</li>
+          <li>Custom domain support</li>
+          <li>Priority support</li>
+        </ul>
+        <button>Upgrade Now</button>
+      </div>
+      <div class="pricing-card">
+        <h3>Enterprise</h3>
+        <div class="price">Contact Us</div>
+        <ul>
+          <li>White-label solutions</li>
+          <li>Dedicated account manager</li>
+          <li>Custom integrations</li>
+          <li>24/7 support</li>
+        </ul>
+        <button>Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Help Page -->
+  <section class="page" id="page-help" tabindex="0" aria-label="Help page">
+    <h2>Help & FAQs</h2>
+    <div class="help-content">
+      <div class="faq">
+        <div class="accordion" id="faq1">
+          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq1-content" id="faq1-header">How do I create a bio link?</div>
+          <div class="accordion-content" id="faq1-content" aria-hidden="true">Simply sign up, add your links, and share your grief.lol URL!</div>
         </div>
-        <button class="accordion-header" aria-expanded="false">Can I customize my links?</button>
-        <div class="accordion-panel" hidden>
-          <p>Yes! Drag & drop your links to reorder them and customize the appearance.</p>
+        <div class="accordion" id="faq2">
+          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq2-content" id="faq2-header">Can I customize my profile?</div>
+          <div class="accordion-content" id="faq2-content" aria-hidden="true">Yes! You can change your avatar, username, bio, and add custom links.</div>
         </div>
-        <button class="accordion-header" aria-expanded="false">Is there a free tier?</button>
-        <div class="accordion-panel" hidden>
-          <p>Yes, grief.lol offers a free basic tier with optional premium upgrades.</p>
+        <div class="accordion" id="faq3">
+          <div class="accordion-header" tabindex="0" role="button" aria-expanded="false" aria-controls="faq3-content" id="faq3-header">Is grief.lol free to use?</div>
+          <div class="accordion-content" id="faq3-content" aria-hidden="true">We offer a free tier with basic features and premium plans for advanced needs.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="tab-signup" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-signup-btn">
-    <h2 class="text-center">Join the Waitlist</h2>
-    <form id="signupForm" style="max-width: 400px; margin: 24px auto;" novalidate>
-      <label for="email" class="mb-2">Email address</label><br />
-      <input type="email" id="email" name="email" required placeholder="you@example.com" style="width:100%; padding: 12px; border-radius: var(--radius); border: 1.5px solid var(--color-muted);" />
-      <div id="emailError" style="color: var(--color-error); font-size: 0.9rem; height: 20px; margin-top: 4px;"></div>
-
-      <label for="username" class="mb-2 mt-4">Desired username</label><br />
-      <input type="text" id="username" name="username" minlength="3" maxlength="20" required placeholder="yourusername" style="width:100%; padding: 12px; border-radius: var(--radius); border: 1.5px solid var(--color-muted);" />
-      <div id="usernameError" style="color: var(--color-error); font-size: 0.9rem; height: 20px; margin-top: 4px;"></div>
-
-      <button type="submit" class="button mt-4" style="width: 100%;">Claim Username</button>
-      <div id="formMessage" style="margin-top: 12px; font-weight: 600;"></div>
+  <!-- Signup Page -->
+  <section class="page" id="page-signup" tabindex="0" aria-label="Signup page">
+    <form class="signup-form" novalidate>
+      <h2>Create your grief.lol account</h2>
+      <div class="form-group">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" autocomplete="username" required />
+        <div class="error-message" id="error-username"></div>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" autocomplete="email" required />
+        <div class="error-message" id="error-email"></div>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" autocomplete="new-password" required minlength="8" />
+        <div class="error-message" id="error-password"></div>
+      </div>
+      <button class="submit-btn" type="submit">Sign Up</button>
+      <p class="form-message" id="signup-message"></p>
     </form>
   </section>
 
-  <section id="tab-learnmore" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-learnmore-btn">
-    <h2 class="text-center">Learn More About grief.lol</h2>
-    <div style="max-width: 700px; margin: 24px auto;">
-      <p>grief.lol is your ultimate tool to create and manage personal biolinks that represent you across the web.</p>
-      <p>Whether you're an influencer, creator, developer, or just someone who wants a sleek digital profile, grief.lol is designed with you in mind.</p>
-      <p>Explore features like drag & drop link ordering, theme customization, profile editing, and more — all from one place.</p>
+  <!-- Admin Panel -->
+  <section class="page" id="page-admin" tabindex="0" aria-label="Admin panel">
+    <div class="admin-panel">
+      <h2>Admin Panel</h2>
+      <table class="user-table" aria-describedby="user-table-desc">
+        <caption id="user-table-desc">List of users with management actions</caption>
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="admin-user-list">
+          <!-- Rows populated by JS -->
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section id="tab-admin" class="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-admin-btn">
-    <h2 class="text-center">Admin Panel (Demo)</h2>
-    <div style="max-width: 900px; margin: 24px auto;">
-      <p>This is a mock admin panel for managing users and site settings.</p>
-      <div style="display:flex; gap:20px; flex-wrap: wrap;">
-        <div style="flex: 1 1 320px; background: var(--color-bg-alt); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-card);">
-          <h3>User Management</h3>
-          <table style="width: 100%; border-collapse: collapse; color: var(--color-text);">
-            <thead>
-              <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <th style="padding: 10px; text-align: left;">Username</th>
-                <th style="padding: 10px; text-align: left;">Email</th>
-                <th style="padding: 10px; text-align: left;">Status</th>
-                <th style="padding: 10px; text-align: left;">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="userTableBody">
-              <!-- Dummy users added by JS -->
-            </tbody>
-          </table>
-        </div>
-        <div style="flex: 1 1 320px; background: var(--color-bg-alt); padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-card);">
-          <h3>Site Settings</h3>
-          <form id="siteSettingsForm" novalidate>
-            <label for="siteTitle" class="mb-2">Site Title</label><br />
-            <input type="text" id="siteTitle" name="siteTitle" value="grief.lol" style="width: 100%; padding: 10px; border-radius: var(--radius); border: 1.5px solid var(--color-muted);" />
-            <label for="maxLinks" class="mb-2 mt-4">Max Links per User</label><br />
-            <input type="number" id="maxLinks" name="maxLinks" min="1" max="50" value="10" style="width: 100%; padding: 10px; border-radius: var(--radius); border: 1.5px solid var(--color-muted);" />
-            <button type="submit" class="button mt-4" style="width: 100%;">Save Settings</button>
-            <div id="settingsMessage" style="margin-top: 12px; font-weight: 600;"></div>
-          </form>
-        </div>
-      </div>
-    </div>
+  <!-- Profile Editor -->
+  <section class="page" id="page-profile" tabindex="0" aria-label="Profile editor">
+    <form class="profile-editor" novalidate>
+      <h2>Edit Profile</h2>
+      <div class="avatar-preview" id="avatar-preview" aria-label="Avatar preview"></div>
+      <label for="profile-username">Username</label>
+      <input type="text" id="profile-username" name="profile-username" required maxlength="20" />
+      <label for="profile-bio">Bio</label>
+      <input type="text" id="profile-bio" name="profile-bio" maxlength="140" />
+      <label for="profile-website">Website URL</label>
+      <input type="url" id="profile-website" name="profile-website" placeholder="https://example.com" />
+      <button class="save-profile" type="submit">Save Changes</button>
+    </form>
   </section>
 </main>
 
+<!-- Modal System -->
+<div id="modal-container" aria-hidden="true" role="dialog" aria-modal="true" tabindex="-1" class="modal-hidden">
+  <div class="modal-overlay"></div>
+  <div class="modal-content" role="document" tabindex="0" aria-labelledby="modal-title" aria-describedby="modal-desc">
+    <h3 id="modal-title"></h3>
+    <p id="modal-desc"></p>
+    <button id="modal-close" aria-label="Close modal">Close</button>
+  </div>
+</div>
+
 <script>
-(() => {
-  // Tab switching logic
-  const tabs = document.querySelectorAll(".tabs button");
-  const panels = document.querySelectorAll(".tab-panel");
-  const navButtons = document.querySelectorAll("header nav button");
-  const logo = document.getElementById("logo");
-  const menuToggle = document.getElementById("menuToggle");
-  const mainNav = document.getElementById("mainNav");
-  const themeToggle = document.getElementById("themeToggle");
-  const body = document.body;
+  // ===== Tab Navigation =====
+  const tabs = ["home", "features", "pricing", "help", "signup", "admin", "profile"];
+  const navButtons = tabs.map(tab => document.getElementById(`nav-${tab}`));
+  const pages = tabs.map(tab => document.getElementById(`page-${tab}`));
 
-  function activateTab(tabName) {
-    tabs.forEach(btn => {
-      const isActive = btn.dataset.tab === tabName;
-      btn.classList.toggle("active", isActive);
-      btn.setAttribute("aria-selected", isActive);
-      btn.tabIndex = isActive ? 0 : -1;
-    });
-    navButtons.forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.tab === tabName);
-    });
-    panels.forEach(panel => {
-      panel.classList.toggle("active", panel.id === "tab-" + tabName);
-    });
-    // Close mobile menu if open
-    if (body.classList.contains("menu-open")) {
-      body.classList.remove("menu-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-    }
-  }
+  navButtons.forEach((btn, idx) => {
+    btn.addEventListener("click", () => {
+      // Remove active class from all buttons
+      navButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-  // Nav button clicks
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      activateTab(btn.dataset.tab);
+      // Show the page, hide others
+      pages.forEach(page => page.classList.remove("active"));
+      pages[idx].classList.add("active");
+      pages[idx].focus();
     });
   });
 
-  // Tab buttons clicks
-  tabs.forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      activateTab(btn.dataset.tab);
+  // Brand clickable to go home
+  document.getElementById("nav-home-btn").addEventListener("click", () => {
+    navButtons.forEach(b => b.classList.remove("active"));
+    navButtons[0].classList.add("active");
+    pages.forEach(page => page.classList.remove("active"));
+    pages[0].classList.add("active");
+    pages[0].focus();
+  });
+
+  // ===== Accordion FAQ =====
+  document.querySelectorAll(".accordion-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const expanded = header.getAttribute("aria-expanded") === "true";
+      header.setAttribute("aria-expanded", !expanded);
+      const content = document.getElementById(header.getAttribute("aria-controls"));
+      content.setAttribute("aria-hidden", expanded);
+    });
+    header.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        header.click();
+      }
     });
   });
 
-  // Logo click goes home
-  logo.addEventListener("click", () => activateTab("home"));
+  // ===== Signup Form Validation =====
+  const signupForm = document.querySelector(".signup-form");
+  const errorUsername = document.getElementById("error-username");
+  const errorEmail = document.getElementById("error-email");
+  const errorPassword = document.getElementById("error-password");
+  const signupMessage = document.getElementById("signup-message");
 
-  // Menu toggle for small screens
-  menuToggle.addEventListener("click", () => {
-    const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-    menuToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
-    body.classList.toggle("menu-open");
-  });
-
-  // Theme toggle logic
-  const currentTheme = localStorage.getItem("theme") || "dark";
-  body.setAttribute("data-theme", currentTheme);
-
-  function toggleTheme() {
-    const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    body.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-  }
-
-  themeToggle.addEventListener("click", toggleTheme);
-
-  // Signup form validation
-  const signupForm = document.getElementById("signupForm");
-  const emailInput = signupForm.querySelector("#email");
-  const usernameInput = signupForm.querySelector("#username");
-  const emailError = document.getElementById("emailError");
-  const usernameError = document.getElementById("usernameError");
-  const formMessage = document.getElementById("formMessage");
-
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
-  function validateUsername(username) {
-    return /^[a-zA-Z0-9-_]{3,20}$/.test(username);
-  }
-
-  signupForm.addEventListener("submit", e => {
+  signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    emailError.textContent = "";
-    usernameError.textContent = "";
-    formMessage.textContent = "";
-
-    const emailVal = emailInput.value.trim();
-    const usernameVal = usernameInput.value.trim();
+    errorUsername.textContent = "";
+    errorEmail.textContent = "";
+    errorPassword.textContent = "";
+    signupMessage.textContent = "";
 
     let valid = true;
+    const username = signupForm.username.value.trim();
+    const email = signupForm.email.value.trim();
+    const password = signupForm.password.value.trim();
 
-    if (!validateEmail(emailVal)) {
-      emailError.textContent = "Please enter a valid email address.";
+    if (!username.match(/^[a-zA-Z0-9_-]{3,20}$/)) {
+      errorUsername.textContent = "Username must be 3-20 characters, letters, numbers, _ or - only.";
       valid = false;
     }
-    if (!validateUsername(usernameVal)) {
-      usernameError.textContent = "Username must be 3-20 characters, letters, numbers, - or _ only.";
+    if (!email.match(/^\S+@\S+\.\S+$/)) {
+      errorEmail.textContent = "Please enter a valid email.";
+      valid = false;
+    }
+    if (password.length < 8) {
+      errorPassword.textContent = "Password must be at least 8 characters.";
       valid = false;
     }
 
     if (!valid) return;
 
-    // Dummy submission simulation
-    formMessage.style.color = "var(--color-accent3)";
-    formMessage.textContent = "Checking availability...";
+    signupMessage.textContent = "Creating your account...";
+    // Simulate async signup
     setTimeout(() => {
-      if (usernameVal.toLowerCase() === "admin" || usernameVal.toLowerCase() === "grief") {
-        usernameError.textContent = "Username is already taken.";
-        formMessage.textContent = "";
-      } else {
-        formMessage.style.color = "var(--color-success)";
-        formMessage.textContent = "Username claimed successfully! Welcome aboard.";
-        signupForm.reset();
-      }
-    }, 1500);
+      signupMessage.textContent = "Account created! Please check your email.";
+      signupForm.reset();
+    }, 1400);
   });
 
-  // Accordion logic for FAQ
-  const accordions = document.querySelectorAll(".accordion .accordion-header");
-  accordions.forEach(button => {
-    button.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      accordions.forEach(btn => {
-        btn.setAttribute("aria-expanded", "false");
-        btn.nextElementSibling.hidden = true;
-      });
-      if (!expanded) {
-        button.setAttribute("aria-expanded", "true");
-        button.nextElementSibling.hidden = false;
-      }
-    });
-  });
+  // ===== Profile Editor =====
+  const profileEditor = document.querySelector(".profile-editor");
+  const avatarPreview = document.getElementById("avatar-preview");
 
-  // Admin panel dummy users
-  const userTableBody = document.getElementById("userTableBody");
-  const dummyUsers = [
-    { username: "demoUser1", email: "user1@example.com", status: "Active" },
-    { username: "coolCat99", email: "cat99@example.com", status: "Banned" },
-    { username: "jane_doe", email: "jane@example.com", status: "Active" },
-    { username: "john_smith", email: "john@example.com", status: "Pending" }
-  ];
+  // Dummy avatar URL
+  let avatarURL = "https://i.pravatar.cc/96";
 
-  function renderUsers() {
-    userTableBody.innerHTML = "";
-    dummyUsers.forEach((user, i) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td style="padding: 10px;">${user.username}</td>
-        <td style="padding: 10px;">${user.email}</td>
-        <td style="padding: 10px;">${user.status}</td>
-        <td style="padding: 10px;">
-          <button class="button small" data-index="${i}" data-action="ban">Ban</button>
-          <button class="button small" data-index="${i}" data-action="unban">Unban</button>
-          <button class="button small" data-index="${i}" data-action="delete">Delete</button>
-        </td>
-      `;
-      userTableBody.appendChild(tr);
-    });
-  }
-  renderUsers();
+  avatarPreview.style.backgroundImage = `url(${avatarURL})`;
 
-  // Admin user actions (dummy)
-  userTableBody.addEventListener("click", e => {
-    if (e.target.tagName !== "BUTTON") return;
-    const btn = e.target;
-    const index = btn.dataset.index;
-    const action = btn.dataset.action;
-    if (index === undefined || !action) return;
-    const user = dummyUsers[index];
-    if (!user) return;
+  profileEditor.profileUsername.value = "user123";
+  profileEditor.profileBio.value = "This is my bio.";
+  profileEditor.profileWebsite.value = "";
 
-    switch(action) {
-      case "ban":
-        user.status = "Banned";
-        break;
-      case "unban":
-        user.status = "Active";
-        break;
-      case "delete":
-        dummyUsers.splice(index, 1);
-        break;
-    }
-    renderUsers();
-  });
-
-  // Admin settings save (dummy)
-  const siteSettingsForm = document.getElementById("siteSettingsForm");
-  const settingsMessage = document.getElementById("settingsMessage");
-
-  siteSettingsForm.addEventListener("submit", e => {
+  profileEditor.addEventListener("submit", (e) => {
     e.preventDefault();
-    settingsMessage.style.color = "var(--color-success)";
-    settingsMessage.textContent = "Settings saved!";
-    setTimeout(() => {
-      settingsMessage.textContent = "";
-    }, 2000);
+    // Simulate save
+    alert("Profile saved (simulation)");
   });
-})();
+
+  // ===== Modal Logic =====
+  const modalContainer = document.getElementById("modal-container");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDesc = document.getElementById("modal-desc");
+  const modalClose = document.getElementById("modal-close");
+
+  function openModal(title, description) {
+    modalTitle.textContent = title;
+    modalDesc.textContent = description;
+    modalContainer.classList.remove("modal-hidden");
+    modalContainer.setAttribute("aria-hidden", "false");
+    modalClose.focus();
+  }
+  function closeModal() {
+    modalContainer.classList.add("modal-hidden");
+    modalContainer.setAttribute("aria-hidden", "true");
+  }
+
+  modalClose.addEventListener("click", closeModal);
+  modalContainer.querySelector(".modal-overlay").addEventListener("click", closeModal);
+  document.addEventListener("keydown", (e) => {
+    if (!modalContainer.classList.contains("modal-hidden") && e.key === "Escape") {
+      closeModal();
+    }
+  });
+
+  // ===== Toast Notifications =====
+  // (Implement later)
+
+  // ===== Drag & Drop Reordering (Dummy) =====
+  // (Implement later)
+
+  // ===== Theme Toggle (Dark/Light) =====
+  // (Implement later)
+
+  // ===== Responsive & Utility JS =====
+  // (Implement later)
 </script>
 </body>
 </html>
