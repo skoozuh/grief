@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile — grief.bio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      user-select: none;
+    }
+    a {
+      color: #8ab4f8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #8ab4f8;
+      margin-bottom: 20px;
+      user-select: text;
+    }
+    .profile-card {
+      background: #1e1e1e;
+      border-radius: 14px;
+      padding: 30px 36px;
+      max-width: 400px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      box-shadow: none;
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      background: #2a2a2a;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      color: #666;
+      user-select: none;
+      font-weight: 700;
+    }
+    .username {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #8ab4f8;
+      margin-bottom: 12px;
+      user-select: text;
+    }
+    .bio {
+      font-weight: 500;
+      color: #bbb;
+      font-size: 1rem;
+      margin-bottom: 24px;
+      user-select: text;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+      user-select: none;
+    }
+    .links a {
+      background: #2a2a2a;
+      padding: 12px 18px;
+      border-radius: 8px;
+      color: #8ab4f8;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+      text-align: center;
+    }
+    .links a:hover {
+      background: #3a3a4a;
+    }
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      user-select: none;
+    }
+    .badge {
+      background: #33334d;
+      color: #8ab4f8;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      cursor: default;
+      user-select: text;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.85rem;
+      color: #555;
+      user-select: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header id="profileHeader">grief.bio — Profile</header>
+
+  <section class="profile-card" aria-label="User profile information">
+    <div class="profile-pic" aria-label="User avatar" id="avatar">?</div>
+    <div class="username" id="username">Username</div>
+    <div class="bio" id="bio">This is your bio. Edit this to tell people about yourself.</div>
+
+    <div class="links" id="links">
+      <a href="#" target="_blank" rel="noopener noreferrer">Example Link 1</a>
+      <a href="#" target="_blank" rel="noopener noreferrer">Example Link 2</a>
+      <a href="#" target="_blank" rel="noopener noreferrer">Example Link 3</a>
+    </div>
+
+    <div class="badges" id="badges">
+      <div class="badge" title="Early User">EARLY</div>
+      <div class="badge" title="Verified">VERIFIED</div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 grief.bio</footer>
+
+  <script>
+    // Get username from URL param ?username=
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+    const username = getQueryParam('username') || "guest";
+
+    // Fill username display
+    document.getElementById('username').textContent = username;
+
+    // Generate avatar initials from username (simple)
+    function getInitials(name) {
+      const parts = name.split(' ');
+      if(parts.length === 1) return name.charAt(0).toUpperCase();
+      return parts[0].charAt(0).toUpperCase() + parts[1].charAt(0).toUpperCase();
+    }
+    document.getElementById('avatar').textContent = getInitials(username);
+
+    // Demo bio and links - replace with real data backend fetch in prod
+    document.getElementById('bio').textContent = "This is a demo bio for " + username + ". You can customize it in your profile settings.";
+
+    const links = [
+      {name: "My Twitter", url: "https://twitter.com/" + username},
+      {name: "My GitHub", url: "https://github.com/" + username},
+      {name: "My Website", url: "https://example.com/"}
+    ];
+    const linksContainer = document.getElementById('links');
+    linksContainer.innerHTML = "";
+    links.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.textContent = link.name;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      linksContainer.appendChild(a);
+    });
+  </script>
+
+</body>
+</html>
