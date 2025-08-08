@@ -3,1070 +3,1011 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your Biolink Hub</title>
-<meta name="description" content="Create your personalized biolink landing page with grief.lol — simple, sleek, and powerful." />
+<title>grief.lol — Your digital identity</title>
+<meta name="description" content="Handcrafted premium biolink platform. Keep your socials, music, badges, and highlights in one beautifully designed place." />
 <style>
-  /* CSS Variables for theme colors and spacing */
+  /* ===========================
+     VARIABLES & BASE STYLES
+  =========================== */
   :root {
-    --color-bg: #121212;
-    --color-panel: #1f1f1f;
-    --color-text: #e0e0e0;
-    --color-text-muted: #999999;
-    --color-accent: #3ddc84;
-    --color-accent-light: #6de1a1;
-    --color-accent-dark: #2a9d58;
-    --color-danger: #ff4c4c;
-    --border-radius: 8px;
-    --shadow-main: 0 4px 15px rgba(61, 220, 132, 0.3);
-    --shadow-hover: 0 6px 20px rgba(61, 220, 132, 0.5);
-    --transition-fast: 0.3s ease;
-    --font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --bg: #070507;
+    --panel: #0f0c10;
+    --muted: #9b8fa0;
+    --accent1: #ff5fb7; /* magenta */
+    --accent2: #7c5cff; /* purple */
+    --accent3: #00f0ff; /* cyan */
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-2: rgba(255, 255, 255, 0.02);
+    --radius: 20px;
+    --trans: 300ms;
+    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    --font-primary: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif;
   }
-
-  /* Reset & base */
-  *, *::before, *::after {
+  * {
     box-sizing: border-box;
   }
-  body {
+  html, body {
+    height: 100%;
     margin: 0;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    font-family: var(--font-family);
-    line-height: 1.6;
+    background: radial-gradient(1200px 700px at 10% 80%, rgba(124, 92, 255, 0.08), transparent 10%),
+                radial-gradient(900px 500px at 90% 20%, rgba(255, 95, 183, 0.06), transparent 8%),
+                var(--bg);
+    color: #eee;
+    font-family: var(--font-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-  }
-  img, svg {
-    max-width: 100%;
-    height: auto;
-    display: block;
+    overflow-x: hidden;
   }
   a {
-    color: var(--color-accent);
+    color: var(--accent1);
     text-decoration: none;
-    transition: color var(--transition-fast);
+    transition: color var(--trans);
   }
-  a:hover,
-  a:focus {
-    color: var(--color-accent-light);
+  a:hover, a:focus {
+    color: var(--accent2);
     outline: none;
   }
-  button {
-    font-family: inherit;
+  /* =============
+     SCROLLBAR
+  ============= */
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent3) var(--panel);
   }
-  input, button {
-    outline-offset: 2px;
+  /* Webkit */
+  *::-webkit-scrollbar {
+    width: 8px;
   }
-
-  /* Container Utility */
-  .container {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  *::-webkit-scrollbar-track {
+    background: var(--panel);
   }
-
-  /* HEADER */
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--accent3);
+    border-radius: 8px;
+    border: 2px solid var(--panel);
+  }
+  /* ======================
+     LAYOUT & CONTAINERS
+  ====================== */
   header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: var(--color-panel);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.6);
-    height: 70px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 1200px;
+    width: calc(100% - 60px);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 40px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px) saturate(120%);
+    z-index: 100;
     display: flex;
     align-items: center;
-    padding: 0 2rem;
+    justify-content: space-between;
+    padding: 10px 24px;
+    gap: 20px;
   }
-  header .logo {
-    font-weight: 900;
-    font-size: 1.7rem;
-    color: var(--color-accent);
+  .brand {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--accent1);
     cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .logo-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    box-shadow: 0 6px 24px rgba(124, 92, 255, 0.12), inset 0 -4px 8px rgba(0, 0, 0, 0.2);
+    color: #111;
+    font-weight: 900;
+    font-size: 22px;
+    display: grid;
+    place-items: center;
     user-select: none;
   }
   nav {
-    margin-left: auto;
     display: flex;
-    gap: 2rem;
-    font-weight: 600;
-    font-size: 1.1rem;
+    gap: 26px;
   }
   nav a {
-    padding: 0.6rem 0.3rem;
-    position: relative;
-    user-select: none;
-  }
-  nav a::after {
-    content: '';
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    bottom: -4px;
-    left: 0;
-    background: var(--color-accent);
-    transition: width 0.25s ease;
-    border-radius: 2px;
-  }
-  nav a:hover::after,
-  nav a:focus-visible::after {
-    width: 100%;
-  }
-  .btn-header {
-    background: var(--color-accent);
-    color: var(--color-bg);
-    border-radius: var(--border-radius);
-    padding: 0.5rem 1.5rem;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
     cursor: pointer;
+    transition: color var(--trans);
+  }
+  nav a.active,
+  nav a:hover {
+    color: var(--accent3);
+  }
+  .btn {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
     border: none;
-    box-shadow: var(--shadow-main);
-    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background var(--trans), box-shadow var(--trans);
+    user-select: none;
+    box-shadow: 0 8px 22px rgba(255, 95, 183, 0.28);
+  }
+  .btn:hover,
+  .btn:focus {
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    box-shadow: 0 12px 34px rgba(0, 240, 255, 0.38);
+    outline: none;
+  }
+  main {
+    margin: 110px auto 60px;
+    max-width: 1200px;
+    padding: 0 32px;
+  }
+  /* ===================
+     TAB CONTAINER
+  =================== */
+  .tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1.6px solid var(--glass);
+    margin-bottom: 30px;
+  }
+  .tab {
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background var(--trans), color var(--trans);
     user-select: none;
   }
-  .btn-header:hover,
-  .btn-header:focus-visible {
-    background: var(--color-accent-light);
-    box-shadow: var(--shadow-hover);
-    outline-offset: 3px;
+  .tab.active {
+    color: var(--accent1);
+    background: var(--glass);
+    box-shadow: 0 6px 20px rgba(255, 95, 183, 0.12);
   }
-
-  /* HERO SECTION */
+  /* ======================
+     PAGE SECTIONS (PAGES)
+  ====================== */
+  section.page {
+    display: none;
+    animation: fadeInUp 0.4s ease forwards;
+    min-height: 500px;
+    color: var(--text);
+  }
+  section.page.active {
+    display: block;
+  }
+  /* ======================
+     HERO / FRONT PAGE
+  ====================== */
   .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6rem 0 8rem;
-    gap: 4rem;
-    position: relative;
+    max-width: 640px;
   }
-  .hero-left {
-    max-width: 540px;
-  }
-  .hero-left h1 {
-    font-size: 3.75rem;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 1rem;
-    color: var(--color-accent-light);
-    user-select: text;
-    overflow-wrap: break-word;
-  }
-  .hero-left p {
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--color-text-muted);
-    margin-bottom: 2rem;
-    user-select: text;
-  }
-  .hero-buttons {
-    display: flex;
-    gap: 1.25rem;
-  }
-  .btn-primary,
-  .btn-secondary {
-    border-radius: var(--border-radius);
-    font-weight: 700;
-    padding: 1rem 2.2rem;
-    font-size: 1.15rem;
-    border: none;
-    cursor: pointer;
-    box-shadow: var(--shadow-main);
-    user-select: none;
-    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
-  }
-  .btn-primary {
-    background: var(--color-accent);
-    color: var(--color-bg);
-  }
-  .btn-primary:hover,
-  .btn-primary:focus-visible {
-    background: var(--color-accent-light);
-    box-shadow: var(--shadow-hover);
-    outline-offset: 3px;
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-accent-light);
-    border: 2px solid var(--color-accent-light);
-  }
-  .btn-secondary:hover,
-  .btn-secondary:focus-visible {
-    background: var(--color-accent-light);
-    color: var(--color-bg);
-    outline-offset: 3px;
-  }
-
-  /* Hero typing animation for heading */
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-  @keyframes blinkCaret {
-    0%, 100% { border-color: transparent }
-    50% { border-color: var(--color-accent-light) }
-  }
-  .hero-left h1.typing {
-    overflow: hidden; /* Ensures the text is hidden until typed */
-    white-space: nowrap;
-    border-right: 3px solid var(--color-accent-light);
-    animation:
-      typing 3s steps(30, end) forwards,
-      blinkCaret 0.75s step-end infinite;
-  }
-
-  /* HERO RIGHT PREVIEW */
-  .hero-right {
-    flex: 1;
-    max-width: 460px;
-    background: var(--color-panel);
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    box-shadow: var(--shadow-main);
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .preview-header {
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--color-accent-light);
-    margin-bottom: 1rem;
-    user-select: text;
-  }
-  .preview-card {
-    background: #232323;
-    border-radius: var(--border-radius);
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-  .preview-profile {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .preview-avatar {
-    background: var(--color-accent);
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    font-weight: 900;
-    font-size: 1.75rem;
-    color: var(--color-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    box-shadow: 0 0 10px var(--color-accent-light);
-  }
-  .preview-meta {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .preview-username {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--color-accent-light);
-    user-select: text;
-  }
-  .preview-bio {
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    user-select: text;
-    max-width: 280px;
-    line-height: 1.3;
-  }
-  .preview-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  .preview-link {
-    background: var(--color-accent-dark);
-    padding: 0.6rem 1rem;
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--color-bg);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-grow: 1;
-    justify-content: center;
-    transition: background-color var(--transition-fast);
-  }
-  .preview-link:hover,
-  .preview-link:focus-visible {
-    background: var(--color-accent-light);
-    outline-offset: 3px;
-  }
-  .preview-link-icon {
-    font-size: 1.2rem;
-  }
-
-  /* FEATURES SECTION */
-  #features {
-    padding-bottom: 6rem;
-  }
-  #features h2 {
-    font-weight: 900;
-    font-size: 2.5rem;
-    text-align: center;
-    color: var(--color-accent-light);
-    margin-bottom: 3rem;
-    user-select: text;
-  }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
-  }
-  .feature-card {
-    background: var(--color-panel);
-    padding: 2rem 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-main);
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: default;
-  }
-  .feature-card:hover,
-  .feature-card:focus-within {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-6px);
-    outline: none;
-  }
-  .feature-icon {
-    font-size: 3rem;
-  }
-  .feature-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--color-accent-light);
-    user-select: text;
-  }
-  .feature-desc {
-    font-weight: 400;
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
-    text-align: center;
-    user-select: text;
-  }
-
-  /* PRICING SECTION */
-  #pricing {
-    padding-bottom: 6rem;
-  }
-  #pricing h2 {
-    font-weight: 900;
-    font-size: 2.5rem;
-    text-align: center;
-    color: var(--color-accent-light);
-    margin-bottom: 3rem;
-    user-select: text;
-  }
-  .pricing-cards {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-  }
-  .pricing-card {
-    background: var(--color-panel);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-main);
-    padding: 2rem 2.5rem;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    user-select: none;
-    cursor: default;
-    transition: box-shadow 0.3s ease;
-  }
-  .pricing-card:hover,
-  .pricing-card:focus-within {
-    box-shadow: var(--shadow-hover);
-    outline: none;
-  }
-  .pricing-title {
+  .hero h1 {
+    font-size: 3.2rem;
     font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--color-accent-light);
+    line-height: 1.1;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
   }
-  .pricing-price {
-    font-weight: 900;
-    font-size: 2rem;
-    color: var(--color-accent);
-    user-select: text;
+  .hero h1 .accent {
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 18px rgba(255, 95, 183, 0.12));
   }
-  .pricing-desc {
-    font-weight: 400;
-    font-size: 1rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0.5rem;
-    user-select: text;
+  .hero p.lead {
+    font-size: 17px;
+    max-width: 580px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-bottom: 32px;
   }
-  .pricing-features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.5rem 0;
+  .hero .btn-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
   }
-  .pricing-features li {
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--color-accent-light);
-    user-select: text;
-  }
-  .btn-pricing {
-    background-color: var(--color-accent);
-    padding: 1rem 2.2rem;
-    border-radius: var(--border-radius);
-    color: var(--color-bg);
+  .hero .btn-group .btn-outline {
+    background: transparent;
+    border: 2px solid var(--accent1);
+    color: var(--accent1);
     font-weight: 700;
-    font-size: 1.2rem;
-    box-shadow: var(--shadow-main);
+    padding: 10px 22px;
+    border-radius: 999px;
+    transition: background var(--trans), color var(--trans);
+  }
+  .hero .btn-group .btn-outline:hover,
+  .hero .btn-group .btn-outline:focus {
+    background: var(--accent1);
+    color: #111;
+  }
+  /* ======================
+     LINK PREVIEW CARD
+  ====================== */
+  .card-preview {
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 28px;
+    max-width: 700px;
+    width: 100%;
+    transition: box-shadow var(--trans);
     user-select: none;
-    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
-    cursor: pointer;
-    border: none;
   }
-  .btn-pricing:hover,
-  .btn-pricing:focus-visible {
-    background-color: var(--color-accent-light);
+  .card-preview:hover {
     box-shadow: var(--shadow-hover);
-    outline-offset: 3px;
   }
-
-  /* FAQ SECTION */
-  #faq {
-    padding-bottom: 6rem;
+  .card-preview .username {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  #faq h2 {
-    font-weight: 900;
-    font-size: 2.5rem;
-    text-align: center;
-    color: var(--color-accent-light);
-    margin-bottom: 3rem;
-    user-select: text;
+  .card-preview .bio {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .card-preview .links-list {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .card-preview .link-pill {
+    white-space: nowrap;
+    padding: 12px 20px;
+    border-radius: 18px;
+    font-weight: 600;
+    font-size: 14px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #111;
+    box-shadow: 0 5px 20px rgba(255, 95, 183, 0.4);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    user-select: none;
+  }
+  .card-preview .link-pill:hover,
+  .card-preview .link-pill:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 26px rgba(255, 95, 183, 0.6);
+    outline: none;
+  }
+  /* Scrollbar for links-list */
+  .card-preview .links-list::-webkit-scrollbar {
+    height: 8px;
+  }
+  .card-preview .links-list::-webkit-scrollbar-track {
+    background: var(--panel);
+  }
+  .card-preview .links-list::-webkit-scrollbar-thumb {
+    background: var(--accent3);
+    border-radius: 8px;
+  }
+  /* ======================
+     FORM - WAITLIST SIGNUP
+  ====================== */
+  form#signup-form {
+    max-width: 450px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--card-shadow);
+  }
+  form#signup-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--accent3);
+  }
+  form#signup-form input[type="text"],
+  form#signup-form input[type="email"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    border: 1px solid var(--muted);
+    background: var(--bg);
+    color: #eee;
+    font-size: 16px;
+    transition: border-color var(--trans);
+  }
+  form#signup-form input[type="text"]:focus,
+  form#signup-form input[type="email"]:focus {
+    border-color: var(--accent1);
+    outline: none;
+  }
+  .error-message {
+    color: var(--color-danger);
+    font-size: 13px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: none;
+  }
+  .error-message.active {
+    display: block;
+  }
+  form#signup-form button[type="submit"] {
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #111;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: background var(--trans);
+  }
+  form#signup-form button[type="submit"]:hover,
+  form#signup-form button[type="submit"]:focus {
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    outline: none;
+  }
+  /* ======================
+     FAQ SECTION
+  ====================== */
+  .faq {
+    max-width: 700px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 28px 32px;
+    margin-top: 40px;
+  }
+  .faq h2 {
+    margin-bottom: 20px;
+    color: var(--accent1);
+    font-weight: 700;
   }
   .faq-item {
-    background: var(--color-panel);
-    border-radius: var(--border-radius);
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    box-shadow: 0 6px 15px rgba(61, 220, 132, 0.12);
-    user-select: none;
+    margin-bottom: 16px;
   }
   .faq-question {
-    padding: 1.3rem 2rem;
-    cursor: pointer;
     font-weight: 700;
-    font-size: 1.15rem;
-    background-color: var(--color-accent-dark);
-    color: var(--color-bg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: none;
-    width: 100%;
-    text-align: left;
-    transition: background-color var(--transition-fast);
+    cursor: pointer;
+    position: relative;
+    padding-right: 30px;
     user-select: none;
+    color: var(--muted);
+    transition: color var(--trans);
   }
-  .faq-question:hover,
-  .faq-question:focus-visible {
-    background-color: var(--color-accent-light);
-    outline-offset: 3px;
+  .faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--accent1);
+    transition: transform var(--trans);
+  }
+  .faq-question[aria-expanded="true"]::after {
+    content: '−';
+    transform: rotate(180deg);
   }
   .faq-answer {
     max-height: 0;
     overflow: hidden;
-    padding: 0 2rem;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--color-text-muted);
-    transition: max-height 0.35s ease, padding 0.3s ease;
-    user-select: text;
+    color: var(--text);
+    transition: max-height 0.3s ease;
+    padding-left: 12px;
+    font-size: 15px;
   }
   .faq-answer.open {
-    max-height: 420px;
-    padding: 1rem 2rem 1.5rem 2rem;
+    max-height: 300px;
+    margin-top: 8px;
   }
-  .faq-icon {
-    font-size: 1.5rem;
-    user-select: none;
-    transition: transform 0.3s ease;
-    line-height: 1;
+  /* ======================
+     ADMIN PANEL MOCKUP
+  ====================== */
+  .admin-panel {
+    max-width: 900px;
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    padding: 32px 28px;
+    color: var(--text);
   }
-  .faq-question[aria-expanded="true"] .faq-icon {
-    transform: rotate(45deg);
+  .admin-panel h2 {
+    margin-bottom: 24px;
+    color: var(--accent2);
   }
-
-  /* SIGNUP FORM SECTION */
-  .signup {
-    max-width: 460px;
-    margin: 0 auto 6rem;
-    background: var(--color-panel);
-    padding: 3rem 3rem 3.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-main);
-    user-select: none;
+  .admin-section {
+    margin-bottom: 28px;
   }
-  .signup h2 {
-    font-weight: 900;
-    font-size: 2.4rem;
-    margin-bottom: 2rem;
-    color: var(--color-accent-light);
-    user-select: text;
-    text-align: center;
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
   }
-  form.signup-form {
+  .admin-table th, .admin-table td {
+    border-bottom: 1px solid var(--glass-2);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+  }
+  .admin-table th {
+    color: var(--accent3);
+    font-weight: 700;
+  }
+  .btn-danger {
+    background: var(--color-danger);
+    color: #111;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--trans);
+  }
+  .btn-danger:hover,
+  .btn-danger:focus {
+    background: #c43636;
+    outline: none;
+  }
+  .input-text {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--muted);
+    background: var(--bg);
+    color: #eee;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: border-color var(--trans);
+  }
+  .input-text:focus {
+    border-color: var(--accent3);
+    outline: none;
+  }
+  /* ======================
+     UTILS - FLEX & GRID
+  ====================== */
+  .flex {
+    display: flex;
+  }
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-column {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
   }
-  form.signup-form label {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--color-accent);
-    user-select: none;
+  .gap-12 {
+    gap: 12px;
   }
-  form.signup-form input {
-    font-weight: 500;
-    font-size: 1rem;
-    border-radius: var(--border-radius);
-    border: 1.5px solid #444;
-    padding: 0.75rem 1rem;
-    background: #161616;
-    color: var(--color-text);
-    transition: border-color var(--transition-fast);
+  .gap-20 {
+    gap: 20px;
   }
-  form.signup-form input:focus {
-    border-color: var(--color-accent-light);
-    outline-offset: 3px;
-    outline-color: var(--color-accent-light);
-  }
-  .submit-btn {
-    margin-top: 0.5rem;
-    background: var(--color-accent);
-    border: none;
-    padding: 1.2rem 2.2rem;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--color-bg);
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    box-shadow: var(--shadow-main);
-    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
-    user-select: none;
-  }
-  .submit-btn:hover,
-  .submit-btn:focus-visible {
-    background: var(--color-accent-light);
-    box-shadow: var(--shadow-hover);
-    outline-offset: 3px;
-  }
-  #email-error, #username-error {
-    min-height: 1.3rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-danger);
-  }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    user-select: none;
-  }
-  footer a {
-    color: var(--color-accent-light);
-  }
-  footer a:hover,
-  footer a:focus-visible {
-    color: var(--color-accent);
-  }
-
-  /* CUSTOM SCROLLBAR */
-  ::-webkit-scrollbar {
-    width: 12px;
-    background: var(--color-panel);
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--color-accent);
-    border-radius: 10px;
-    border: 3px solid var(--color-panel);
-    transition: background-color 0.3s ease;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-accent-light);
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-panel);
-  }
-
-  /* Responsive */
-  @media (max-width: 880px) {
-    .hero {
-      flex-direction: column-reverse;
-      gap: 3rem;
-      padding: 4rem 1.5rem 6rem;
-    }
-    .hero-left {
-      max-width: 100%;
-      text-align: center;
-    }
-    .hero-left h1.typing {
-      font-size: 2.5rem;
-    }
-    .hero-right {
-      max-width: 100%;
-      width: 100%;
-      padding: 1.75rem 1.5rem;
-    }
-    nav {
-      display: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .btn-primary, .btn-secondary {
-      padding: 0.85rem 1.4rem;
-      font-size: 1rem;
-    }
-    #features h2, #pricing h2, #faq h2, .signup h2 {
-      font-size: 2rem;
-    }
-    .feature-card {
-      padding: 1.5rem 1rem;
-    }
-    .pricing-card {
-      padding: 1.5rem 1.5rem;
-      max-width: 280px;
-    }
-  }
-
-  /* Utility classes */
   .text-center {
     text-align: center;
   }
-  .mb-1 {
-    margin-bottom: 1rem;
+  .mt-20 {
+    margin-top: 20px;
   }
-  .mb-2 {
-    margin-bottom: 2rem;
+  .mb-20 {
+    margin-bottom: 20px;
   }
-  .mb-3 {
-    margin-bottom: 3rem;
+  .px-12 {
+    padding-left: 12px;
+    padding-right: 12px;
   }
-  .btn-link {
-    background: none;
-    border: none;
-    padding: 0;
-    font-weight: 700;
-    color: var(--color-accent);
-    cursor: pointer;
+  .py-12 {
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
-  .btn-link:hover,
-  .btn-link:focus-visible {
-    color: var(--color-accent-light);
-    outline-offset: 3px;
+  .btn-sm {
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
   }
-
-  /* Focus visible outline */
-  :focus-visible {
-    outline: 3px solid var(--color-accent-light);
-    outline-offset: 3px;
-  }
-
-  /* Animations and flair */
+  /* ======================
+     ANIMATIONS
+  ====================== */
   @keyframes fadeInUp {
-    0% {
+    from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(20px);
     }
-    100% {
+    to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  .fadeInUp {
-    animation: fadeInUp 0.8s ease forwards;
+  @keyframes pulseAccent {
+    0%, 100% {
+      text-shadow: 0 0 6px var(--accent1);
+    }
+    50% {
+      text-shadow: 0 0 18px var(--accent2);
+    }
   }
-
-  /* Adding fadeInUp delays for staggered content */
-  .delay-1 {
-    animation-delay: 0.15s;
+  .pulse {
+    animation: pulseAccent 3s ease-in-out infinite;
   }
-  .delay-2 {
-    animation-delay: 0.3s;
+  /* ======================
+     RESPONSIVE
+  ====================== */
+  @media (max-width: 900px) {
+    main {
+      padding: 0 16px;
+      margin: 100px auto 40px;
+    }
+    header {
+      width: calc(100% - 40px);
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+    }
+    .card-preview {
+      max-width: 100%;
+    }
+    nav {
+      gap: 14px;
+      font-size: 13px;
+    }
+    .btn {
+      font-size: 14px;
+      padding: 8px 20px;
+    }
   }
-  .delay-3 {
-    animation-delay: 0.45s;
+  @media (max-width: 550px) {
+    .tabs {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav {
+      display: none;
+    }
+    header {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 14px 24px;
+      gap: 14px;
+    }
+    .brand {
+      font-size: 20px;
+    }
   }
-  .delay-4 {
-    animation-delay: 0.6s;
-  }
-  .delay-5 {
-    animation-delay: 0.75s;
-  }
-  .delay-6 {
-    animation-delay: 0.9s;
-  }
-
-  /* Dark mode toggle styles */
-  .dark-mode-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    background: var(--color-panel);
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow-main);
-    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
-    user-select: none;
-    z-index: 1100;
-  }
-  .dark-mode-toggle:hover,
-  .dark-mode-toggle:focus-visible {
-    background: var(--color-accent);
-    box-shadow: var(--shadow-hover);
-    outline-offset: 3px;
-  }
-  .dark-mode-toggle svg {
-    fill: var(--color-accent);
-    width: 24px;
-    height: 24px;
-    transition: fill var(--transition-fast);
-  }
-  .dark-mode-toggle.dark svg {
-    fill: var(--color-bg);
-  }
-
-  /* Dark mode variables override */
-  body.dark-mode {
-    --color-bg: #0c0c0c;
-    --color-panel: #171717;
-    --color-text: #ddd;
-    --color-text-muted: #bbb;
-    --color-accent: #68e6a3;
-    --color-accent-light: #a0f0be;
-    --color-accent-dark: #3fc775;
-    --color-danger: #ff6b6b;
-    --shadow-main: 0 4px 20px rgba(104, 230, 163, 0.4);
-    --shadow-hover: 0 8px 28px rgba(104, 230, 163, 0.7);
-  }
-
-  /* END OF MAIN CSS */
-
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-<header role="banner">
-  <a href="#" class="logo" aria-label="grief.lol Home">grief.lol</a>
-  <nav role="navigation" aria-label="Primary">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="#signup" class="btn-header">Join Waitlist</a>
+<header>
+  <div class="brand" id="home-link" tabindex="0" role="button" aria-label="Go to homepage">
+    <div class="logo-mark">G</div>
+    grief.lol
+  </div>
+  <nav aria-label="Primary navigation">
+    <a href="#" class="nav-link active" data-tab="home" tabindex="0">Home</a>
+    <a href="#" class="nav-link" data-tab="features" tabindex="0">Features</a>
+    <a href="#" class="nav-link" data-tab="pricing" tabindex="0">Pricing</a>
+    <a href="#" class="nav-link" data-tab="help" tabindex="0">Help</a>
+    <a href="#" class="nav-link" data-tab="signup" tabindex="0">Join Waitlist</a>
+    <a href="#" class="nav-link" data-tab="learn" tabindex="0">Learn More</a>
+    <a href="#" class="nav-link" data-tab="admin" tabindex="0">Admin Panel</a>
   </nav>
+  <button class="btn" id="theme-toggle" aria-label="Toggle dark/light theme">🌙</button>
 </header>
+<main>
+  <!-- TAB NAV TABS (only visible on mobile) -->
+  <div class="tabs" role="tablist" aria-label="Page sections">
+    <div class="tab active" data-tab="home" role="tab" tabindex="0" aria-selected="true">Home</div>
+    <div class="tab" data-tab="features" role="tab" tabindex="-1" aria-selected="false">Features</div>
+    <div class="tab" data-tab="pricing" role="tab" tabindex="-1" aria-selected="false">Pricing</div>
+    <div class="tab" data-tab="help" role="tab" tabindex="-1" aria-selected="false">Help</div>
+    <div class="tab" data-tab="signup" role="tab" tabindex="-1" aria-selected="false">Join Waitlist</div>
+    <div class="tab" data-tab="learn" role="tab" tabindex="-1" aria-selected="false">Learn More</div>
+    <div class="tab" data-tab="admin" role="tab" tabindex="-1" aria-selected="false">Admin Panel</div>
+  </div>
 
-<main class="container" role="main">
-  <section class="hero" aria-label="Welcome Section">
-    <div class="hero-left">
-      <h1 class="typing fadeInUp delay-1">Your Ultimate Biolink Hub</h1>
-      <p class="fadeInUp delay-2">
-        grief.lol lets you consolidate all your links, socials, and content into a sleek, shareable landing page.
+  <!-- HOME PAGE -->
+  <section class="page active" id="page-home" role="tabpanel" aria-labelledby="tab-home">
+    <div class="hero">
+      <h1>
+        Build your <span class="accent pulse">digital identity</span> in minutes.
+      </h1>
+      <p class="lead">
+        grief.lol is your sleek, modern biolink platform — share all your socials, badges, music, and more with a beautiful, hand-crafted page.
       </p>
-      <div class="hero-buttons fadeInUp delay-3">
-        <button class="btn-primary" id="join-waitlist-btn">Join Waitlist</button>
-        <button class="btn-secondary" id="learn-more-btn">Learn More</button>
+      <div class="btn-group">
+        <button class="btn" data-tab-target="signup">Join Waitlist</button>
+        <button class="btn btn-outline" data-tab-target="learn">Learn More</button>
       </div>
     </div>
-    <div class="hero-right fadeInUp delay-4" aria-label="Biolink preview example">
-      <div class="preview-header">Preview</div>
-      <div class="preview-card" tabindex="0" role="region" aria-label="Example biolink preview card">
-        <div class="preview-profile">
-          <div class="preview-avatar" aria-hidden="true">GL</div>
-          <div class="preview-meta">
-            <div class="preview-username">@gl_user</div>
-            <div class="preview-bio">A modern, customizable biolink for all your online presence.</div>
-          </div>
+    <br />
+    <div class="card-preview" aria-label="Preview of grief.lol biolink page example">
+      <div class="username">@grieflol</div>
+      <div class="bio">The ultimate hub for your socials, links, badges, and music streaming.</div>
+      <div class="links-list" tabindex="0" aria-label="Example links on preview">
+        <div class="link-pill" tabindex="0">YouTube</div>
+        <div class="link-pill" tabindex="0">Twitter</div>
+        <div class="link-pill" tabindex="0">Spotify</div>
+        <div class="link-pill" tabindex="0">Discord</div>
+        <div class="link-pill" tabindex="0">Donate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES PAGE -->
+  <section class="page" id="page-features" role="tabpanel" aria-labelledby="tab-features">
+    <h2>Features</h2>
+    <ul>
+      <li>Fully customizable profile links and buttons</li>
+      <li>Badge system to highlight achievements</li>
+      <li>Music and social embeds (Spotify, YouTube, TikTok, etc.)</li>
+      <li>Dark theme with neon accent colors</li>
+      <li>Admin panel for user management and content moderation</li>
+      <li>Responsive design for all devices</li>
+      <li>Custom domain support and vanity URLs</li>
+      <li>Secure and private user data</li>
+      <li>Easy drag & drop link reordering</li>
+    </ul>
+  </section>
+
+  <!-- PRICING PAGE -->
+  <section class="page" id="page-pricing" role="tabpanel" aria-labelledby="tab-pricing">
+    <h2>Pricing</h2>
+    <p>We offer a free tier with basic features. Upgrade anytime for premium features like custom domains, priority support, and more.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Plan</th><th>Price</th><th>Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Free</td>
+          <td>$0/month</td>
+          <td>Basic biolinks, standard badges, community support</td>
+        </tr>
+        <tr>
+          <td>Premium</td>
+          <td>$6.99/month</td>
+          <td>Custom domains, priority support, extra badges, advanced analytics</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- HELP PAGE -->
+  <section class="page" id="page-help" role="tabpanel" aria-labelledby="tab-help">
+    <h2>Help & FAQ</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq1" id="faq1-btn">How do I create my grief.lol profile?</button>
+        <div class="faq-answer" id="faq1" role="region" aria-labelledby="faq1-btn">
+          Sign up for an account, claim your username, and start adding your links!
         </div>
-        <div class="preview-links">
-          <a href="https://twitter.com/gl_user" target="_blank" rel="noopener noreferrer" class="preview-link" aria-label="Twitter Link">
-            <span class="preview-link-icon" aria-hidden="true">🐦</span> Twitter
-          </a>
-          <a href="https://youtube.com/gl_user" target="_blank" rel="noopener noreferrer" class="preview-link" aria-label="YouTube Link">
-            <span class="preview-link-icon" aria-hidden="true">▶️</span> YouTube
-          </a>
-          <a href="https://instagram.com/gl_user" target="_blank" rel="noopener noreferrer" class="preview-link" aria-label="Instagram Link">
-            <span class="preview-link-icon" aria-hidden="true">📸</span> Instagram
-          </a>
-          <a href="https://discord.gg/example" target="_blank" rel="noopener noreferrer" class="preview-link" aria-label="Discord Server Link">
-            <span class="preview-link-icon" aria-hidden="true">💬</span> Discord
-          </a>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq2" id="faq2-btn">Can I use custom domains?</button>
+        <div class="faq-answer" id="faq2" role="region" aria-labelledby="faq2-btn">
+          Yes! Premium users can link their own domains to grief.lol pages.
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq3" id="faq3-btn">How do I contact support?</button>
+        <div class="faq-answer" id="faq3" role="region" aria-labelledby="faq3-btn">
+          Use the Help page’s contact form or email support@grief.lol.
         </div>
       </div>
     </div>
   </section>
 
-  <section id="features" aria-label="Features Section">
-    <h2 class="fadeInUp delay-1">Features</h2>
-    <div class="features-grid">
-      <article class="feature-card fadeInUp delay-2" tabindex="0" role="article" aria-label="Unlimited Links Feature">
-        <div class="feature-icon" aria-hidden="true">∞</div>
-        <h3 class="feature-title">Unlimited Links</h3>
-        <p class="feature-desc">Add as many links as you want without limits or restrictions.</p>
-      </article>
-      <article class="feature-card fadeInUp delay-3" tabindex="0" role="article" aria-label="Custom Domains Feature">
-        <div class="feature-icon" aria-hidden="true">🌐</div>
-        <h3 class="feature-title">Custom Domains</h3>
-        <p class="feature-desc">Use your own domain for your biolink for full branding control.</p>
-      </article>
-      <article class="feature-card fadeInUp delay-4" tabindex="0" role="article" aria-label="Analytics Feature">
-        <div class="feature-icon" aria-hidden="true">📊</div>
-        <h3 class="feature-title">Analytics</h3>
-        <p class="feature-desc">Track your visitors and see detailed insights on link performance.</p>
-      </article>
-      <article class="feature-card fadeInUp delay-5" tabindex="0" role="article" aria-label="Customization Feature">
-        <div class="feature-icon" aria-hidden="true">🎨</div>
-        <h3 class="feature-title">Easy Customization</h3>
-        <p class="feature-desc">Customize the look, feel, and layout with simple tools.</p>
-      </article>
-      <article class="feature-card fadeInUp delay-6" tabindex="0" role="article" aria-label="Mobile Friendly Feature">
-        <div class="feature-icon" aria-hidden="true">📱</div>
-        <h3 class="feature-title">Mobile Friendly</h3>
-        <p class="feature-desc">Looks great on phones, tablets, and desktops alike.</p>
-      </article>
-      <article class="feature-card fadeInUp delay-1" tabindex="0" role="article" aria-label="Fast Loading Feature">
-        <div class="feature-icon" aria-hidden="true">⚡</div>
-        <h3 class="feature-title">Fast Loading</h3>
-        <p class="feature-desc">Optimized for speed so your links load instantly.</p>
-      </article>
-    </div>
-  </section>
+  <!-- SIGNUP PAGE -->
+  <section class="page" id="page-signup" role="tabpanel" aria-labelledby="tab-signup">
+    <h2>Join Our Waitlist</h2>
+    <form id="signup-form" novalidate>
+      <label for="name-input">Full Name</label>
+      <input type="text" id="name-input" name="name" placeholder="Your name" required autocomplete="name" aria-describedby="name-error" />
+      <div class="error-message" id="name-error">Please enter your name.</div>
 
-  <section id="pricing" aria-label="Pricing Section">
-    <h2 class="fadeInUp delay-1">Pricing</h2>
-    <div class="pricing-cards">
-      <article class="pricing-card fadeInUp delay-2" tabindex="0" role="region" aria-label="Free Plan">
-        <h3 class="pricing-title">Free</h3>
-        <p class="pricing-price">$0 <span style="font-weight: 400; font-size: 0.85rem;">/ forever</span></p>
-        <p class="pricing-desc">Get started with basic features.</p>
-        <ul class="pricing-features" aria-label="Free Plan Features">
-          <li>Unlimited links</li>
-          <li>Basic customization</li>
-          <li>Access to community support</li>
-        </ul>
-        <button class="btn-pricing" aria-label="Select Free Plan">Select</button>
-      </article>
-      <article class="pricing-card fadeInUp delay-3" tabindex="0" role="region" aria-label="Pro Plan">
-        <h3 class="pricing-title">Pro</h3>
-        <p class="pricing-price">$6.99 <span style="font-weight: 400; font-size: 0.85rem;">/ month</span></p>
-        <p class="pricing-desc">For power users who want more control.</p>
-        <ul class="pricing-features" aria-label="Pro Plan Features">
-          <li>Custom domains</li>
-          <li>Advanced analytics</li>
-          <li>Priority support</li>
-        </ul>
-        <button class="btn-pricing" aria-label="Select Pro Plan">Select</button>
-      </article>
-      <article class="pricing-card fadeInUp delay-4" tabindex="0" role="region" aria-label="Enterprise Plan">
-        <h3 class="pricing-title">Enterprise</h3>
-        <p class="pricing-price">Contact Us</p>
-        <p class="pricing-desc">Tailored solutions for teams and businesses.</p>
-        <ul class="pricing-features" aria-label="Enterprise Plan Features">
-          <li>Dedicated account manager</li>
-          <li>Custom integrations</li>
-          <li>Premium support</li>
-        </ul>
-        <button class="btn-pricing" aria-label="Contact Sales for Enterprise Plan">Contact</button>
-      </article>
-    </div>
-  </section>
+      <label for="email-input">Email Address</label>
+      <input type="email" id="email-input" name="email" placeholder="you@example.com" required autocomplete="email" aria-describedby="email-error" />
+      <div class="error-message" id="email-error">Please enter a valid email address.</div>
 
-  <section id="faq" aria-label="Frequently Asked Questions">
-    <h2 class="fadeInUp delay-1">FAQ</h2>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false" aria-controls="faq1-answer" id="faq1">
-        What is grief.lol?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer" id="faq1-answer" role="region" aria-labelledby="faq1">
-        grief.lol is a modern biolink platform that lets you easily create a personalized landing page with all your important links in one place.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false" aria-controls="faq2-answer" id="faq2">
-        Can I use my own domain?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer" id="faq2-answer" role="region" aria-labelledby="faq2">
-        Yes! grief.lol supports custom domains so you can have a branded URL that matches your identity.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false" aria-controls="faq3-answer" id="faq3">
-        Is there a free plan?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer" id="faq3-answer" role="region" aria-labelledby="faq3">
-        Absolutely, our free tier gives you unlimited links and basic customization to get started without any cost.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false" aria-controls="faq4-answer" id="faq4">
-        How do I join the waitlist?
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer" id="faq4-answer" role="region" aria-labelledby="faq4">
-        Just fill out the form below with your email and username, and we'll notify you as soon as grief.lol launches!
-      </div>
-    </div>
-  </section>
-
-  <section class="signup" id="signup" role="region" aria-labelledby="signup-title">
-    <h2 id="signup-title">Join the Waitlist</h2>
-    <form class="signup-form" id="signup-form" novalidate>
-      <label for="email">Email address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" aria-required="true" aria-describedby="email-error" required />
-      <div id="email-error" style="color:#ff4c4c; font-size:0.9rem; min-height:1.2rem;"></div>
-
-      <label for="username">Desired Username</label>
-      <input type="text" id="username" name="username" placeholder="yourusername" aria-required="true" aria-describedby="username-error" required minlength="3" maxlength="24" pattern="^[a-zA-Z0-9_]+$" />
-      <div id="username-error" style="color:#ff4c4c; font-size:0.9rem; min-height:1.2rem;"></div>
-
-      <button type="submit" class="submit-btn" aria-label="Submit Waitlist Form">Join Waitlist</button>
+      <button type="submit">Sign Up</button>
     </form>
   </section>
+
+  <!-- LEARN MORE PAGE -->
+  <section class="page" id="page-learn" role="tabpanel" aria-labelledby="tab-learn">
+    <h2>Learn More</h2>
+    <p>grief.lol is crafted for creators, streamers, and communities who want to centralize their online presence with style and simplicity.</p>
+    <p>We provide easy-to-use tools to build your own profile page packed with links, badges, music, and embedded social media—all in one place.</p>
+    <p>Stay connected and keep your audience engaged with minimal setup.</p>
+  </section>
+
+  <!-- ADMIN PANEL PAGE -->
+  <section class="page" id="page-admin" role="tabpanel" aria-labelledby="tab-admin" tabindex="0">
+    <h2>Admin Panel</h2>
+    <div class="admin-panel">
+      <div class="admin-section">
+        <h3>User Management</h3>
+        <table class="admin-table" aria-describedby="user-management-desc">
+          <caption id="user-management-desc">List of registered users with options to ban or edit assets</caption>
+          <thead>
+            <tr>
+              <th>Username</th><th>Email</th><th>Status</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-user-list">
+            <!-- JS populates dummy users -->
+          </tbody>
+        </table>
+      </div>
+      <div class="admin-section">
+        <h3>Asset Moderation</h3>
+        <p>Block or unblock user-submitted assets from appearing on the site.</p>
+        <input type="text" class="input-text" id="block-asset-input" placeholder="Enter asset name to block" />
+        <button class="btn btn-sm" id="block-asset-btn">Block Asset</button>
+        <ul id="blocked-assets-list" style="margin-top: 12px; list-style: none; padding-left: 0; color: var(--muted);"></ul>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer role="contentinfo">
-  <p>© 2025 grief.lol — Built with ♥ by the grief.lol Team. <a href="#">Privacy Policy</a> &middot; <a href="#">Terms</a></p>
-</footer>
-
-<button class="dark-mode-toggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode" id="darkModeToggle">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M21.752 15.002A9 9 0 0 1 9 2.25a9 9 0 0 0 12.752 12.752Z"/>
-  </svg>
-</button>
-
 <script>
-  // Smooth scroll for header links and buttons
-  document.querySelectorAll('header nav a, .btn-primary, .btn-secondary').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+  // ================================
+  // UTILITIES
+  // ================================
+  function $(selector, context = document) {
+    return context.querySelector(selector);
+  }
+  function $all(selector, context = document) {
+    return [...context.querySelectorAll(selector)];
+  }
+
+  // ================================
+  // TAB SWITCHING LOGIC
+  // ================================
+  const navLinks = $all('nav a.nav-link');
+  const tabs = $all('.tabs .tab');
+  const pages = $all('section.page');
+
+  function activateTab(tabName) {
+    // Nav links
+    navLinks.forEach(link => {
+      const isActive = link.dataset.tab === tabName;
+      link.classList.toggle('active', isActive);
+      link.setAttribute('aria-current', isActive ? 'page' : 'false');
+    });
+    // Mobile tabs
+    tabs.forEach(tab => {
+      const isActive = tab.dataset.tab === tabName;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      tab.tabIndex = isActive ? 0 : -1;
+    });
+    // Show page content
+    pages.forEach(page => {
+      const isActive = page.id === 'page-' + tabName;
+      page.classList.toggle('active', isActive);
+      page.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+    // Scroll to top on page switch
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+  // Handle nav link clicks
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const tab = link.dataset.tab;
+      activateTab(tab);
+    });
+  });
+  // Handle mobile tabs clicks
+  tabs.forEach(tab => {
+    tab.addEventListener('click', e => {
+      const tabName = tab.dataset.tab;
+      activateTab(tabName);
+    });
+    tab.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({behavior: 'smooth'});
-          target.focus({preventScroll:true});
-        }
+        const tabName = tab.dataset.tab;
+        activateTab(tabName);
       }
     });
   });
-
-  // Buttons that open sections or links
-  document.getElementById('join-waitlist-btn').addEventListener('click', () => {
-    document.getElementById('signup').scrollIntoView({behavior: 'smooth'});
-    document.getElementById('signup').focus({preventScroll:true});
+  // Hero buttons to tab switch
+  $all('.btn[data-tab-target]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const target = btn.getAttribute('data-tab-target');
+      activateTab(target);
+    });
   });
-  document.getElementById('learn-more-btn').addEventListener('click', () => {
-    document.getElementById('features').scrollIntoView({behavior: 'smooth'});
-    document.getElementById('features').focus({preventScroll:true});
+  // Brand click goes to home
+  $('#home-link').addEventListener('click', e => activateTab('home'));
+  $('#home-link').addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activateTab('home');
+    }
   });
 
-  // FAQ accordion toggling
-  const faqButtons = document.querySelectorAll('.faq-question');
-  faqButtons.forEach(button => {
+  // ================================
+  // FAQ ACCORDION
+  // ================================
+  $all('.faq-question').forEach(button => {
     button.addEventListener('click', () => {
       const expanded = button.getAttribute('aria-expanded') === 'true';
-      // Close all others
-      faqButtons.forEach(btn => {
-        btn.setAttribute('aria-expanded', 'false');
-        btn.nextElementSibling.classList.remove('open');
-      });
+      button.setAttribute('aria-expanded', !expanded);
+      const answer = document.getElementById(button.getAttribute('aria-controls'));
       if (!expanded) {
-        button.setAttribute('aria-expanded', 'true');
-        button.nextElementSibling.classList.add('open');
+        answer.classList.add('open');
+      } else {
+        answer.classList.remove('open');
       }
     });
   });
 
-  // Form validation
-  const signupForm = document.getElementById('signup-form');
-  signupForm.addEventListener('submit', (e) => {
+  // ================================
+  // FORM VALIDATION - SIGNUP
+  // ================================
+  const signupForm = $('#signup-form');
+  const nameInput = $('#name-input');
+  const emailInput = $('#email-input');
+  const nameError = $('#name-error');
+  const emailError = $('#email-error');
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+  signupForm.addEventListener('submit', e => {
     e.preventDefault();
-    const emailInput = signupForm.email;
-    const usernameInput = signupForm.username;
     let valid = true;
 
-    // Reset errors
-    document.getElementById('email-error').textContent = '';
-    document.getElementById('username-error').textContent = '';
-
-    // Email validation
-    if (!emailInput.value.trim()) {
+    if (!nameInput.value.trim()) {
+      nameError.classList.add('active');
       valid = false;
-      document.getElementById('email-error').textContent = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(emailInput.value.trim())) {
-      valid = false;
-      document.getElementById('email-error').textContent = 'Invalid email address.';
+    } else {
+      nameError.classList.remove('active');
     }
-
-    // Username validation
-    if (!usernameInput.value.trim()) {
+    if (!validateEmail(emailInput.value.trim())) {
+      emailError.classList.add('active');
       valid = false;
-      document.getElementById('username-error').textContent = 'Username is required.';
-    } else if (!/^[a-zA-Z0-9_]+$/.test(usernameInput.value.trim())) {
-      valid = false;
-      document.getElementById('username-error').textContent = 'Only letters, numbers, and underscores allowed.';
-    } else if (usernameInput.value.trim().length < 3 || usernameInput.value.trim().length > 24) {
-      valid = false;
-      document.getElementById('username-error').textContent = 'Username must be 3-24 characters long.';
+    } else {
+      emailError.classList.remove('active');
     }
-
-    if (!valid) {
-      return;
+    if (valid) {
+      alert('Thanks for signing up to the waitlist, ' + nameInput.value.trim() + '!');
+      signupForm.reset();
     }
-
-    // Submit logic placeholder
-    alert('Thank you for joining the waitlist! We will notify you soon.');
-    signupForm.reset();
   });
 
-  // Dark mode toggle
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.classList.toggle('dark');
+  // ================================
+  // THEME TOGGLE
+  // ================================
+  const themeToggle = $('#theme-toggle');
+  let darkMode = true;
+  themeToggle.addEventListener('click', () => {
+    if (darkMode) {
+      document.documentElement.style.setProperty('--bg', '#fafafa');
+      document.documentElement.style.setProperty('--panel', '#f2f2f2');
+      document.documentElement.style.setProperty('--muted', '#666');
+      document.documentElement.style.setProperty('--color-text', '#111');
+      document.documentElement.style.setProperty('--accent1', '#7c5cff');
+      document.documentElement.style.setProperty('--accent2', '#4bbdcb');
+      document.documentElement.style.setProperty('--accent3', '#ff5fb7');
+      themeToggle.textContent = '☀️';
+    } else {
+      document.documentElement.style.setProperty('--bg', '#070507');
+      document.documentElement.style.setProperty('--panel', '#0f0c10');
+      document.documentElement.style.setProperty('--muted', '#9b8fa0');
+      document.documentElement.style.setProperty('--color-text', '#eee');
+      document.documentElement.style.setProperty('--accent1', '#ff5fb7');
+      document.documentElement.style.setProperty('--accent2', '#7c5cff');
+      document.documentElement.style.setProperty('--accent3', '#00f0ff');
+      themeToggle.textContent = '🌙';
+    }
+    darkMode = !darkMode;
+  });
+
+  // ================================
+  // ADMIN PANEL MOCK USER DATA
+  // ================================
+  const adminUserList = $('#admin-user-list');
+  let blockedAssets = [];
+
+  const dummyUsers = [
+    { username: 'cray', email: 'cray@example.com', banned: false },
+    { username: 'isaiah', email: 'isaiah@grief.lol', banned: true },
+    { username: 'dailyyumzy', email: 'daily@foodfacts.com', banned: false },
+    { username: 'hacker101', email: 'hacker@darkweb.com', banned: false },
+  ];
+
+  function renderUsers() {
+    adminUserList.innerHTML = '';
+    dummyUsers.forEach((user, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${user.username}</td>
+        <td>${user.email}</td>
+        <td>${user.banned ? '<span style="color:#e94f4f;font-weight:700;">Banned</span>' : 'Active'}</td>
+        <td>
+          <button class="btn btn-sm btn-danger" data-user="${i}" aria-label="Toggle ban user ${user.username}">
+            ${user.banned ? 'Unban' : 'Ban'}
+          </button>
+        </td>
+      `;
+      adminUserList.appendChild(tr);
+    });
+    // Add event listeners to ban buttons
+    $all('.btn-danger', adminUserList).forEach(btn => {
+      btn.onclick = () => {
+        const idx = +btn.dataset.user;
+        dummyUsers[idx].banned = !dummyUsers[idx].banned;
+        renderUsers();
+      };
+    });
+  }
+  renderUsers();
+
+  // ================================
+  // BLOCK ASSET BUTTON
+  // ================================
+  const blockAssetInput = $('#block-asset-input');
+  const blockAssetBtn = $('#block-asset-btn');
+  const blockedAssetsList = $('#blocked-assets-list');
+
+  function renderBlockedAssets() {
+    blockedAssetsList.innerHTML = '';
+    blockedAssets.forEach((asset, idx) => {
+      const li = document.createElement('li');
+      li.textContent = asset;
+      const btn = document.createElement('button');
+      btn.textContent = 'Unblock';
+      btn.className = 'btn btn-sm btn-danger';
+      btn.style.marginLeft = '10px';
+      btn.onclick = () => {
+        blockedAssets.splice(idx, 1);
+        renderBlockedAssets();
+      };
+      li.appendChild(btn);
+      blockedAssetsList.appendChild(li);
+    });
+  }
+  blockAssetBtn.addEventListener('click', () => {
+    const val = blockAssetInput.value.trim();
+    if (val && !blockedAssets.includes(val)) {
+      blockedAssets.push(val);
+      blockAssetInput.value = '';
+      renderBlockedAssets();
+    }
+  });
+  renderBlockedAssets();
+
+  // ================================
+  // ACCESSIBILITY: Keyboard tab switch
+  // ================================
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const currentTabIndex = tabs.findIndex(t => t.classList.contains('active'));
+      let nextIndex;
+      if (e.key === 'ArrowRight') nextIndex = (currentTabIndex + 1) % tabs.length;
+      else nextIndex = (currentTabIndex - 1 + tabs.length) % tabs.length;
+      tabs[nextIndex].focus();
+      activateTab(tabs[nextIndex].dataset.tab);
+    }
   });
 </script>
 </body>
