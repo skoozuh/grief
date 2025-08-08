@@ -1,332 +1,419 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your Digital Identity</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --bg: #0a090e;
-    --card-bg: rgba(20, 15, 35, 0.9);
-    --accent1: #ff52b0;
-    --accent2: #815cff;
-    --accent3: #00e4ff;
-    --text-primary: #eaeaea;
-    --text-muted: #a093ac;
-    --border-radius: 18px;
-    --transition: 0.3s ease;
-    --shadow: 0 12px 40px rgba(130, 90, 255, 0.3);
-  }
-
-  /* Reset & basics */
-  * {
-    box-sizing: border-box;
-  }
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    background:
-      radial-gradient(600px circle at 20% 90%, var(--accent1) 0%, transparent 70%),
-      radial-gradient(700px circle at 85% 25%, var(--accent3) 0%, transparent 70%),
-      var(--bg);
-    font-family: 'Poppins', sans-serif;
-    color: var(--text-primary);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--accent2);
-    border-radius: 12px;
-    opacity: 0.6;
-    transition: opacity 0.25s;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    opacity: 1;
-  }
-
-  /* Header */
-  header {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 48px);
-    max-width: 1200px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(20, 15, 35, 0.8);
-    border-radius: var(--border-radius);
-    padding: 10px 24px;
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(12px);
-    z-index: 10;
-  }
-  .logo {
-    font-weight: 700;
-    font-size: 1.3rem;
-    cursor: pointer;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-  }
-  nav a {
-    margin-left: 28px;
-    text-decoration: none;
-    color: var(--text-muted);
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: color var(--transition);
-  }
-  nav a:hover,
-  nav a:focus {
-    color: var(--accent1);
-    outline: none;
-  }
-  .btn-signup {
-    margin-left: 36px;
-    padding: 10px 24px;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    border: none;
-    color: #111;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color var(--transition);
-  }
-  .btn-signup:hover,
-  .btn-signup:focus {
-    background: linear-gradient(90deg, var(--accent2), var(--accent3));
-    outline: none;
-  }
-
-  /* Main container */
-  main {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 140px 24px 48px;
-  }
-
-  /* Profile Card */
-  .profile-card {
-    background: var(--card-bg);
-    border-radius: var(--border-radius);
-    max-width: 440px;
-    width: 100%;
-    box-shadow: var(--shadow);
-    padding: 36px 32px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    user-select: none;
-  }
-
-  /* Avatar circle with initials */
-  .avatar {
-    width: 90px;
-    height: 90px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    box-shadow: 0 6px 20px rgba(255, 82, 176, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 44px;
-    color: #111;
-    margin: 0 auto;
-    transition: transform 0.3s ease;
-    cursor: default;
-  }
-  .avatar:hover {
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 14px 36px rgba(255, 82, 176, 0.6);
-  }
-
-  /* Username */
-  .username {
-    font-weight: 700;
-    font-size: 1.9rem;
-    text-align: center;
-    background: linear-gradient(90deg, var(--accent1), var(--accent3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .user-bio {
-    font-weight: 400;
-    color: var(--text-muted);
-    font-size: 1rem;
-    text-align: center;
-    line-height: 1.4;
-    margin-top: -6px;
-  }
-
-  /* Badges container */
-  .badges {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-  }
-  .badge {
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #111;
-    user-select: none;
-    box-shadow: 0 6px 14px rgba(0, 230, 255, 0.3);
-    cursor: default;
-    transition: transform 0.3s ease;
-  }
-  .badge:hover {
-    transform: translateY(-4px);
-  }
-
-  /* Biolinks container (vertical burger style) */
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-height: 400px;
-    overflow-y: auto;
-    padding-right: 8px;
-  }
-  .link {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.15));
-    border-radius: 16px;
-    padding: 16px 24px;
-    font-weight: 600;
-    color: var(--text-primary);
-    text-decoration: none;
-    box-shadow: 0 6px 24px rgba(124, 92, 255, 0.15);
-    transition: background-color var(--transition), box-shadow var(--transition), transform var(--transition);
-  }
-  .link:hover,
-  .link:focus {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    box-shadow: 0 18px 40px rgba(124, 92, 255, 0.4);
-    transform: translateY(-5px);
-    outline: none;
-  }
-  .link .icon {
-    font-size: 28px;
-    background: linear-gradient(135deg, var(--accent3), var(--accent2));
-    padding: 8px;
-    border-radius: 12px;
-    color: #111;
-    box-shadow: 0 6px 20px rgba(124, 92, 255, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-  }
-  .link .label {
-    flex: 1;
-  }
-  .link .subtitle {
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-
-  /* Call to action under profile */
-  .call-to-action {
-    display: flex;
-    justify-content: center;
-    gap: 22px;
-    margin-top: 16px;
-  }
-  .btn-primary {
-    padding: 14px 34px;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    border: none;
-    font-weight: 700;
-    font-size: 1rem;
-    color: #111;
-    cursor: pointer;
-    box-shadow: 0 12px 30px rgba(255, 82, 176, 0.45);
-    transition: background-color var(--transition), transform var(--transition);
-  }
-  .btn-primary:hover,
-  .btn-primary:focus {
-    background: linear-gradient(90deg, var(--accent3), var(--accent1));
-    transform: translateY(-4px);
-    outline: none;
-  }
-  .btn-secondary {
-    background: none;
-    border: 2px solid var(--accent2);
-    color: var(--accent2);
-    padding: 14px 34px;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color var(--transition), color var(--transition), transform var(--transition);
-  }
-  .btn-secondary:hover,
-  .btn-secondary:focus {
-    background: var(--accent2);
-    color: #111;
-    transform: translateY(-4px);
-    outline: none;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 24px 16px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    user-select: none;
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    main {
-      padding: 120px 16px 32px;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>grief.lol — Your Digital Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a090e;
+      --card-bg: rgba(20, 15, 35, 0.9);
+      --accent1: #ff52b0;
+      --accent2: #815cff;
+      --accent3: #00e4ff;
+      --text-primary: #eaeaea;
+      --text-muted: #a093ac;
+      --border-radius: 18px;
+      --transition: 0.3s ease;
+      --shadow: 0 12px 40px rgba(130, 90, 255, 0.3);
+      --glow1: #ff52b0;
+      --glow2: #815cff;
+      --glow3: #00e4ff;
     }
-    .profile-card {
-      max-width: 100%;
-      padding: 28px 20px 32px;
+
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
     }
-    .btn-primary,
-    .btn-secondary {
-      width: 100%;
-      padding: 14px 0;
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      background:
+        radial-gradient(600px circle at 20% 90%, var(--accent1) 0%, transparent 70%),
+        radial-gradient(700px circle at 85% 25%, var(--accent3) 0%, transparent 70%),
+        var(--bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: auto;
     }
-    .call-to-action {
-      flex-direction: column;
-      gap: 16px;
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent2);
+      border-radius: 12px;
+      opacity: 0.6;
+      transition: opacity 0.25s;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      opacity: 1;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(20, 15, 35, 0.8);
+      border-radius: var(--border-radius);
+      padding: 10px 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+      user-select: none;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      user-select: none;
+      transition: filter 0.3s ease;
+    }
+    .logo:hover,
+    .logo:focus {
+      filter: drop-shadow(0 0 6px var(--accent1));
+      outline: none;
     }
     nav a {
-      margin-left: 16px;
-      font-size: 0.85rem;
+      margin-left: 28px;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color var(--transition);
+      user-select: none;
     }
-  }
-</style>
+    nav a:hover,
+    nav a:focus {
+      color: var(--accent1);
+      outline: none;
+    }
+    .btn-signup {
+      margin-left: 36px;
+      padding: 10px 24px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border: none;
+      color: #111;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition), transform var(--transition);
+      user-select: none;
+    }
+    .btn-signup:hover,
+    .btn-signup:focus {
+      background: linear-gradient(90deg, var(--accent2), var(--accent3));
+      transform: scale(1.05);
+      outline: none;
+    }
+
+    /* Main container */
+    main {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 140px 24px 48px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideIn 0.8s ease forwards 0.3s;
+    }
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      max-width: 480px;
+      width: 100%;
+      box-shadow: var(--shadow);
+      padding: 36px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      user-select: none;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideIn 0.6s ease forwards 0.7s;
+    }
+
+    /* Avatar circle with initials */
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 6px 20px rgba(255, 82, 176, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 44px;
+      color: #111;
+      margin: 0 auto;
+      transition: transform 0.3s ease;
+      cursor: default;
+    }
+    .avatar:hover {
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 0 14px 36px rgba(255, 82, 176, 0.6);
+    }
+
+    /* Username with glowing gradient animation */
+    .username {
+      font-weight: 700;
+      font-size: 2.1rem;
+      text-align: center;
+      background: linear-gradient(270deg, var(--glow1), var(--glow2), var(--glow3), var(--glow1));
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientGlow 6s ease infinite;
+      user-select: text;
+    }
+    @keyframes gradientGlow {
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+
+    .user-bio {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 1rem;
+      text-align: center;
+      line-height: 1.4;
+      margin-top: -6px;
+      user-select: text;
+    }
+
+    /* Badges container */
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeSlideIn 0.5s ease forwards 1.1s;
+    }
+    .badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: linear-gradient(90deg, var(--accent3), var(--accent2));
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #111;
+      user-select: none;
+      box-shadow: 0 6px 14px rgba(0, 230, 255, 0.3);
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+    .badge:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Biolinks horizontal scroll container */
+    .links {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      opacity: 0;
+      animation: fadeSlideIn 0.5s ease forwards 1.3s;
+    }
+    /* Hide scrollbar but keep scroll functionality */
+    .links::-webkit-scrollbar {
+      height: 6px;
+    }
+    .links::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .links::-webkit-scrollbar-thumb {
+      background: var(--accent2);
+      border-radius: 10px;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .links::-webkit-scrollbar-thumb:hover {
+      opacity: 1;
+    }
+
+    .link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.15));
+      border-radius: 40px;
+      padding: 12px 26px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(124, 92, 255, 0.15);
+      transition:
+        background-color var(--transition),
+        box-shadow var(--transition),
+        transform var(--transition),
+        color var(--transition);
+      white-space: nowrap;
+      user-select: none;
+      cursor: pointer;
+    }
+    .link:hover,
+    .link:focus {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #111;
+      box-shadow: 0 18px 40px rgba(124, 92, 255, 0.4);
+      transform: translateY(-5px) scale(1.05);
+      outline: none;
+    }
+    .link .icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, var(--accent3), var(--accent2));
+      border-radius: 12px;
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      user-select: none;
+      box-shadow: 0 6px 20px rgba(124, 92, 255, 0.25);
+    }
+    .link .label {
+      user-select: text;
+    }
+    .link .subtitle {
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      user-select: text;
+      margin-left: 8px;
+    }
+
+    /* Call to action under profile */
+    .call-to-action {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 16px;
+      opacity: 0;
+      animation: fadeSlideIn 0.5s ease forwards 1.5s;
+    }
+    .btn-primary {
+      padding: 14px 34px;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(255, 82, 176, 0.45);
+      transition: background-color var(--transition), transform var(--transition);
+      user-select: none;
+    }
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: linear-gradient(90deg, var(--accent3), var(--accent1));
+      transform: translateY(-4px) scale(1.05);
+      outline: none;
+    }
+    .btn-secondary {
+      background: none;
+      border: 2px solid var(--accent2);
+      color: var(--accent2);
+      padding: 14px 34px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition), transform var(--transition);
+      user-select: none;
+    }
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background: var(--accent2);
+      color: #111;
+      transform: translateY(-4px) scale(1.05);
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      main {
+        padding: 120px 16px 32px;
+      }
+      .profile-card {
+        max-width: 100%;
+        padding: 28px 20px 32px;
+      }
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        padding: 14px 0;
+      }
+      .call-to-action {
+        flex-direction: column;
+        gap: 16px;
+      }
+      nav a {
+        margin-left: 16px;
+        font-size: 0.85rem;
+      }
+      .links {
+        padding-bottom: 4px;
+      }
+      .link {
+        padding: 12px 18px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <div class="logo" tabindex="0" role="link" aria-label="Go to grief.lol homepage" onclick="window.location.href='index.html'" onkeypress="if(event.key==='Enter'){window.location.href='index.html'}">grief.lol</div>
+  <div
+    class="logo"
+    tabindex="0"
+    role="link"
+    aria-label="Go to grief.lol homepage"
+    onclick="window.location.href='index.html'"
+    onkeypress="if(event.key==='Enter'){window.location.href='index.html'}"
+  >
+    grief.lol
+  </div>
   <nav>
     <a href="features.html" tabindex="0">Features</a>
     <a href="pricing.html" tabindex="0">Pricing</a>
@@ -348,29 +435,29 @@
       <div class="badge" tabindex="0" title="Beta Tester Badge">Beta</div>
     </div>
 
-    <nav class="links" aria-label="User biolinks">
+    <nav class="links" aria-label="User biolinks horizontal">
       <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="link" tabindex="0" aria-label="Twitter Profile">
-        <div class="icon" aria-hidden="true">🐦</div>
+        <div class="icon" aria-hidden="true">T</div>
         <div class="label">Twitter</div>
         <div class="subtitle">@yourusername</div>
       </a>
       <a href="https://youtube.com/channel/yourchannelid" target="_blank" rel="noopener noreferrer" class="link" tabindex="0" aria-label="YouTube Channel">
-        <div class="icon" aria-hidden="true">▶️</div>
+        <div class="icon" aria-hidden="true">Y</div>
         <div class="label">YouTube</div>
         <div class="subtitle">Your Channel</div>
       </a>
       <a href="https://instagram.com/yourusername" target="_blank" rel="noopener noreferrer" class="link" tabindex="0" aria-label="Instagram Profile">
-        <div class="icon" aria-hidden="true">📸</div>
+        <div class="icon" aria-hidden="true">I</div>
         <div class="label">Instagram</div>
         <div class="subtitle">@yourusername</div>
       </a>
       <a href="https://discord.gg/yourinvite" target="_blank" rel="noopener noreferrer" class="link" tabindex="0" aria-label="Discord Invite">
-        <div class="icon" aria-hidden="true">💬</div>
+        <div class="icon" aria-hidden="true">D</div>
         <div class="label">Discord</div>
         <div class="subtitle">Join our server</div>
       </a>
       <a href="https://soundcloud.com/yourusername" target="_blank" rel="noopener noreferrer" class="link" tabindex="0" aria-label="SoundCloud Profile">
-        <div class="icon" aria-hidden="true">🎵</div>
+        <div class="icon" aria-hidden="true">S</div>
         <div class="label">SoundCloud</div>
         <div class="subtitle">Listen now</div>
       </a>
