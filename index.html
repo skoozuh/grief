@@ -3,649 +3,699 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>grief.lol — links</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>grave.bio — your bio, refined</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-  /* =========================
-     Core variables & reset
-     ========================= */
-  :root{
-    --bg:#070507;
-    --panel:#0f0c10;
-    --muted:#9b8fa0;
-    --accent1:#ff5fb7; /* magenta */
-    --accent2:#7c5cff; /* purple */
-    --accent3:#00f0ff; /* cyan */
-    --glass: rgba(255,255,255,0.03);
-    --glass-2: rgba(255,255,255,0.02);
-    --radius:18px;
-    --trans:260ms cubic-bezier(.2,.9,.25,1);
-    --card-shadow: 0 12px 40px rgba(0,0,0,0.6);
-    --scrollbar-track:#0d0b0e;
-    --scrollbar-thumb: linear-gradient(135deg,var(--accent1),var(--accent2));
-    --maxw:1200px;
-    --font: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    font-family:var(--font);
-    background:
-      radial-gradient(1200px 700px at 10% 80%, rgba(124,92,255,0.06), transparent 10%),
-      radial-gradient(900px 500px at 90% 20%, rgba(255,95,183,0.05), transparent 8%),
-      var(--bg);
-    color:#eee;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    min-height:100vh;
-    overflow-y:auto;
-    scroll-behavior:smooth;
-  }
+/* ======================================================
+   grave.bio - Single file site
+   Theme: dark with blood-red + muted cyan accents
+   Design: centered card (guns.lol-like), minimal, refined
+   ====================================================== */
 
-  /* custom scrollbar */
-  ::-webkit-scrollbar{ width:10px; height:10px; }
-  ::-webkit-scrollbar-track{ background: var(--scrollbar-track); }
-  ::-webkit-scrollbar-thumb{
-    background: var(--accent2);
-    border-radius:12px;
-    border: 2px solid var(--scrollbar-track);
-  }
-  /* firefox */
-  body{ scrollbar-color: var(--accent2) var(--scrollbar-track); scrollbar-width: thin; }
+/* ---------- root colors & variables ---------- */
+:root{
+  --bg:#050506;
+  --surface:#0f0f12;
+  --muted:#9aa0a6;
+  --accent-red:#c0392b;   /* blood-red */
+  --accent-cyan:#2ec4c4;  /* muted cyan */
+  --glass: rgba(255,255,255,0.03);
+  --glass-2: rgba(255,255,255,0.02);
+  --radius:18px;
+  --radius-sm:10px;
+  --trans:240ms cubic-bezier(.2,.9,.25,1);
+  --card-shadow: 0 18px 48px rgba(0,0,0,0.6);
+  --maxw:980px;
+  --mono: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --focus-ring: 3px solid rgba(46,196,196,0.12);
+}
 
-  /* =========================
-     Header
-     ========================= */
-  header{
-    position:fixed; left:50%; transform:translateX(-50%); top:22px; z-index:1000;
-    width:calc(100% - 80px); max-width:var(--maxw); display:flex; justify-content:space-between; align-items:center;
-    padding:10px 20px; gap:16px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:40px; box-shadow:0 6px 30px rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.03);
-    backdrop-filter: blur(8px) saturate(120%);
-  }
-  .brand{display:flex; align-items:center; gap:12px; font-weight:700; cursor:pointer}
-  .brand .mark{
-    width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:700;
-    background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#111;
-    box-shadow: 0 6px 22px rgba(124,92,255,0.12);
-  }
-  nav{display:flex; gap:18px; align-items:center;}
-  nav button{background:transparent;border:none;color:var(--muted);font-weight:600;font-size:14px;padding:8px 12px;border-radius:12px;cursor:pointer}
-  nav button[aria-selected="true"]{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#111; box-shadow:0 10px 26px rgba(124,92,255,0.12) }
-  .cta{ padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.06); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); font-weight:700; color:#fff; cursor:pointer }
+/* ---------- reset & base ---------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--mono);
+  background:
+    radial-gradient(800px 480px at 10% 85%, rgba(46,196,196,0.03), transparent 8%),
+    radial-gradient(600px 360px at 90% 20%, rgba(192,57,43,0.02), transparent 6%),
+    var(--bg);
+  color:#e8eef2;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-y:auto;
+  scroll-behavior:smooth;
+  -webkit-tap-highlight-color: transparent;
+}
 
-  /* =========================
-     Layout: main wrap
-     ========================= */
-  .wrap{ position:relative; z-index:5; max-width:var(--maxw); margin:110px auto 80px; padding: 0 28px; display:flex; gap:40px; align-items:flex-start; justify-content:center; }
-  /* Responsive columns: hero left, card right */
-  .hero{ flex:1; max-width:620px; padding-top:6px; }
-  .card-wrap{ width:430px; max-width:44vw; min-width:320px; display:flex; justify-content:center; align-items:flex-start; }
+/* ---------- custom scrollbar ---------- */
+::-webkit-scrollbar{ width:10px; height:10px; }
+::-webkit-scrollbar-track{ background: transparent; }
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg,var(--accent-cyan),var(--accent-red));
+  border-radius:12px;
+  border: 2px solid rgba(0,0,0,0.25);
+}
+body{ scrollbar-color: linear-gradient(var(--accent-cyan),var(--accent-red)) transparent; }
 
-  /* =========================
-     Hero Copy
-     ========================= */
-  h1{ font-size:48px; line-height:1.02; margin:0 0 18px 0; letter-spacing:-0.02em; font-weight:700 }
-  h1 .accent{ color:transparent; background:linear-gradient(90deg,var(--accent1),var(--accent2)); -webkit-background-clip:text; background-clip:text }
-  p.lead{ color:var(--muted); margin:0 0 28px; font-size:16px; max-width:560px }
+/* ---------- utilities ---------- */
+.container{ max-width:var(--maxw); margin: 92px auto; padding: 0 20px; display:block; }
+.row{ display:flex; gap:20px; align-items:flex-start; justify-content:center; }
+.center{ display:grid; place-items:center; }
+.flex{ display:flex; }
+.grid{ display:grid; }
+.hidden{ display:none !important; }
+.kbd{ background:rgba(255,255,255,0.03); padding:6px 8px; border-radius:6px; font-weight:600; font-size:13px; color:var(--muted); border:1px solid rgba(255,255,255,0.02) }
 
-  .big-actions{ display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
-  .pill{ padding:12px 18px; border-radius:999px; border:1px solid rgba(255,255,255,0.05); background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); cursor:pointer; font-weight:600; color:#fff; transition: all var(--trans) ease; box-shadow: 0 12px 30px rgba(0,0,0,0.45); }
-  .pill.glow{ border:1px solid rgba(255,95,183,0.25); background: linear-gradient(90deg, rgba(255,95,183,0.06), rgba(124,92,255,0.04)); }
-  .pill:hover{ transform:translateY(-6px); filter:brightness(1.06); }
+/* ---------- header (minimal) ---------- */
+.header{
+  position:fixed; left:50%; transform:translateX(-50%); top:18px; width:calc(100% - 40px); max-width:var(--maxw);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:999px; padding:10px 14px; display:flex; gap:12px; align-items:center; z-index:1000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.02);
+}
+.brand{ display:flex; gap:12px; align-items:center; cursor:pointer; user-select:none; }
+.brand-mark{
+  width:40px; height:40px; border-radius:10px; display:grid; place-items:center; font-weight:700; color:#111;
+  background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan));
+  box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+}
+.brand-title{ font-weight:700; font-size:16px; letter-spacing:-0.02em; color:#fff; }
+.header-nav{ margin-left: auto; display:flex; gap:10px; align-items:center; }
+.header-btn{
+  background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--muted); padding:8px 12px; border-radius:999px;
+  cursor:pointer; font-weight:600; font-size:13px;
+}
+.header-btn.primary{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#101010; border:none; box-shadow:0 10px 26px rgba(0,0,0,0.5); }
+.header-btn:focus{ outline:none; box-shadow: var(--focus-ring); }
 
-  .muted-line{ display:flex; gap:14px; color:var(--muted); font-size:13px; align-items:center; }
-  .status-dot{ width:10px; height:10px; border-radius:999px; background:#20d860; box-shadow:0 0 6px rgba(32,216,96,0.12) }
+/* ---------- layout: central card ---------- */
+.shell{ display:flex; justify-content:center; align-items:flex-start; gap:32px; width:100%; }
+.card{
+  width:100%; max-width:960px; border-radius:20px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+  padding:28px; box-shadow:var(--card-shadow); border:1px solid rgba(255,255,255,0.03);
+  display:flex; gap:30px; align-items:flex-start; position:relative; overflow:visible;
+}
 
-  /* =========================
-     Profile Card (original feel, improved)
-     ========================= */
-  .card{ width:100%; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.16)); border-radius:20px; padding:28px; border:1px solid rgba(255,255,255,0.04); box-shadow: var(--card-shadow); position:relative; overflow:visible; backdrop-filter: blur(8px) saturate(120%); transition: transform var(--trans) ease, box-shadow var(--trans); }
-  .card:before{ content:""; position:absolute; left:12px; top:12px; right:12px; height:120px; border-radius:calc(20px - 8px); background: linear-gradient(180deg, rgba(124,92,255,0.12), rgba(255,95,183,0.06)); filter: blur(24px); opacity:0.9; pointer-events:none; }
-  .card-top{ display:flex; gap:18px; align-items:center; position:relative; z-index:2 }
-  .avatar{ width:92px; height:92px; border-radius:24px; flex-shrink:0; display:grid; place-items:center; font-weight:700; font-size:30px; background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#111; box-shadow: 0 8px 30px rgba(124,92,255,0.14), inset 0 -6px 12px rgba(0,0,0,0.25); transform-origin:center; transition: transform 300ms cubic-bezier(.2,.9,.25,1), box-shadow 300ms; }
-  .avatar svg{ width:56px; height:56px; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
-  .avatar:hover{ transform:translateY(-6px) rotate(-2deg) scale(1.02); box-shadow:0 18px 40px rgba(124,92,255,0.2) }
+/* left column: hero-ish */
+.col-left{ flex:1 1 560px; min-width:260px; padding-top:6px; }
+.title{
+  font-size:44px; line-height:1.02; font-weight:700; margin:0 0 12px 0;
+}
+.title .accent{ color:var(--accent-red); background:transparent; -webkit-background-clip:text; }
+.lead{ color:var(--muted); margin:0 0 22px; font-size:15px; max-width:600px; }
 
-  .meta{ flex:1 }
-  .username{ font-size:20px; font-weight:700; margin-bottom:6px; display:flex; gap:10px; align-items:center }
-  .user-bio{ color:var(--muted); font-size:14px; margin-bottom:10px }
-  .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
-  .badge{ padding:6px 8px; border-radius:10px; font-weight:600; font-size:12px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03); cursor:default; transition: transform 180ms }
-  .badge:hover{ transform:translateY(-4px); box-shadow:0 10px 24px rgba(124,92,255,0.06) }
+/* action cluster */
+.actions{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:18px; }
+.btn{ padding:12px 20px; border-radius:999px; cursor:pointer; border:none; font-weight:700; font-size:14px; transition: transform var(--trans), box-shadow var(--trans); }
+.btn.primary{ background: linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0f0f10; box-shadow: 0 12px 34px rgba(0,0,0,0.5); }
+.btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03); }
+.btn:hover{ transform:translateY(-4px); }
 
-  /* =========================
-     Link area — burger / stacked style (compact)
-     horizontal scroller on large screens, stacked on small
-     ========================= */
-  .links{ margin-top:18px; display:flex; gap:12px; position:relative; z-index:2; overflow-x:auto; padding-bottom:8px; -webkit-overflow-scrolling:touch; }
-  .links::-webkit-scrollbar{ height:8px }
-  .links::-webkit-scrollbar-thumb{ background: linear-gradient(135deg,var(--accent1),var(--accent2)); border-radius:8px }
-  .link{
-    display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; cursor:pointer;
-    border:1px solid rgba(255,255,255,0.025);
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
-    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
-    min-width: 180px;
-  }
-  .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2)); color:#111; }
-  .link .label{ flex:1; font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .link .sub{ color:var(--muted); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .link:hover{ transform:translateY(-8px); box-shadow: 0 22px 40px rgba(0,0,0,0.6) }
+/* tiny note line */
+.note{ color:var(--muted); font-size:13px; display:flex; gap:10px; align-items:center; margin-top:6px; }
 
-  /* small footer line in card */
-  .small{ color:var(--muted); font-size:13px; margin-top:14px; display:flex; gap:10px; align-items:center }
+/* right column: profile preview (centered like guns.lol) */
+.col-right{ width:420px; min-width:300px; display:flex; align-items:flex-start; justify-content:center; }
+.preview{
+  width:100%; border-radius:22px; padding:20px; position:relative; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.14));
+  border:1px solid rgba(255,255,255,0.03); box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+.preview::before{
+  content:""; position:absolute; left:12px; top:12px; right:12px; height:96px; border-radius:14px; background:linear-gradient(180deg, rgba(46,196,196,0.06), rgba(192,57,43,0.04)); filter:blur(18px); z-index:0;
+}
 
-  /* =========================
-     Tabs content area (hidden sections inside same file)
-     ========================= */
-  .tabs-area{ margin-top:36px; max-width:1100px; margin-left:auto; margin-right:auto }
-  .tab-panel{ display:none; background:transparent; padding:18px 0 }
-  .tab-panel.active{ display:block }
+/* avatar & meta */
+.preview-top{ display:flex; gap:16px; align-items:center; position:relative; z-index: 2; }
+.avatar{
+  width:92px; height:92px; border-radius:20px; display:grid; place-items:center; font-weight:800; font-size:28px; color:#111;
+  background: linear-gradient(135deg,var(--accent-red),var(--accent-cyan));
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.meta{ flex:1; }
+.username{ font-size:20px; font-weight:700; display:flex; gap:10px; align-items:center; }
+.underline{ width:40px; height:6px; border-radius:6px; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); filter:blur(6px); opacity:0.95; transform:translateY(6px); transition: transform var(--trans) }
+.preview:hover .underline{ transform:translateY(0); }
+.bio{ color:var(--muted); font-size:14px; margin-top:6px; }
 
-  /* Features grid */
-  .features-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:14px; }
-  .feature-card{ background:var(--glass); border-radius:12px; padding:14px; color:#eee; border:1px solid rgba(255,255,255,0.03) }
+/* badges */
+.badges{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap }
+.badge{ padding:6px 10px; font-weight:700; font-size:13px; border-radius:10px; background: rgba(255,255,255,0.02); color:#fff; border:1px solid rgba(255,255,255,0.03) }
 
-  /* Pricing table minimal */
-  .pricing{ display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start }
-  .price-card{ background:var(--glass); padding:18px; border-radius:12px; min-width:220px; border:1px solid rgba(255,255,255,0.03) }
+/* links area: different style than before (wider pill buttons) */
+.links{ margin-top:20px; display:flex; gap:12px; flex-direction:column; z-index:2; }
+.link-item{
+  display:flex; align-items:center; gap:12px; padding:14px 16px; border-radius:12px; cursor:pointer;
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
+  border:1px solid rgba(255,255,255,0.02); transition: transform var(--trans), box-shadow var(--trans);
+}
+.link-item:hover{ transform:translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
+.link-left{ width:44px; height:44px; border-radius:10px; background: linear-gradient(135deg,var(--accent-cyan),var(--accent-red)); display:grid; place-items:center; color:#0f0f10; font-weight:800; }
+.link-main{ font-weight:700; font-size:15px; }
+.link-sub{ color:var(--muted); font-size:13px }
 
-  /* FAQ accordion */
-  .faq{ margin-top:10px; display:flex; flex-direction:column; gap:10px }
-  .faq-item{ background:var(--glass); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03) }
-  .faq-question{ display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer; font-weight:600 }
-  .faq-answer{ margin-top:10px; color:var(--muted); display:none }
-  .faq-item.open .faq-answer{ display:block }
+/* inline small footer */
+.preview-foot{ margin-top:12px; color:var(--muted); font-size:13px; display:flex; gap:8px; align-items:center }
 
-  /* Signup form */
-  .signup{ max-width:520px; margin:18px 0; background:var(--panel); padding:22px; border-radius:14px; border:1px solid rgba(255,255,255,0.03) }
-  .field{ display:flex; flex-direction:column; margin-bottom:12px; }
-  input[type="text"], input[type="email"]{ padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:#fff }
+/* tabs / panels below main */
+.panels{ margin-top:18px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.02) }
+.panel{ display:none; padding:18px 0 }
+.panel.active{ display:block }
 
-  /* Admin mock */
-  .admin{ margin-top:18px; padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12)); border:1px solid rgba(255,255,255,0.03) }
-  table{ width:100%; border-collapse:collapse; color:#eee }
-  th, td{ padding:10px 8px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.03) }
-  th{ color:var(--muted); font-weight:600; font-size:13px }
+/* features grid */
+.features-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+.feature{ padding:14px; border-radius:10px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); font-weight:600; color:#fff; }
 
-  /* Profile editor */
-  .profile-editor{ display:flex; flex-direction:column; gap:10px; margin-top:12px }
+/* pricing */
+.pricing{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px }
+.price{ padding:16px; min-width:160px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.03) }
 
-  /* Toast container */
-  .toasts{ position:fixed; bottom:28px; right:28px; z-index:2000; display:flex; flex-direction:column; gap:10px }
-  .toast{ background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#111; padding:12px 16px; border-radius:10px; font-weight:700; box-shadow:0 8px 30px rgba(0,0,0,0.5); transform:translateX(8px); animation: toastIn .28s forwards }
-  .toast.error{ background:#ff5b5b; color:#111 }
-  @keyframes toastIn{ from{opacity:0; transform:translateX(20px)} to{opacity:1; transform:translateX(0)} }
+/* faq */
+.faq{ margin-top:8px; display:flex; flex-direction:column; gap:8px }
+.faq-item{ background:transparent; border-radius:10px; padding:12px; border:1px solid rgba(255,255,255,0.02) }
+.q{ display:flex; justify-content:space-between; align-items:center; font-weight:700; cursor:pointer }
+.a{ margin-top:10px; color:var(--muted); display:none }
+.faq-item.open .a{ display:block }
 
-  /* small screens */
-  @media(max-width:980px){
-    .wrap{ flex-direction:column; gap:20px; margin-top:84px }
-    .card-wrap{ width:100%; max-width:760px; min-width:auto }
-    .card{ width:92% }
-    h1{ font-size:36px; text-align:center }
-    .hero{ text-align:center }
-    header{ left:12px; transform:none; width:calc(100% - 24px) }
-    nav{ display:none }
-  }
-  @media(max-width:520px){
-    .avatar{ width:72px; height:72px; border-radius:18px; font-size:22px }
-    .card{ padding:18px; border-radius:16px }
-    .pill{ padding:10px 14px }
-    h1{ font-size:28px }
-  }
+/* admin (hidden by default) */
+.admin-panel{ margin-top:12px; background:rgba(255,255,255,0.02); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03) }
+.admin-panel table{ width:100%; border-collapse:collapse; color:#fff }
+.admin-panel th, .admin-panel td{ padding:10px 8px; border-bottom:1px solid rgba(255,255,255,0.03); text-align:left; font-size:14px }
 
+/* profile editor compact */
+.editor{ display:flex; flex-direction:column; gap:8px; margin-top:8px }
+.input{ padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:#fff }
+
+/* modals & toasts */
+.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:2000 }
+.modal{ width:92%; max-width:640px; background:var(--surface); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 30px 80px rgba(0,0,0,0.7) }
+.modal h3{ margin:0 0 8px 0 }
+.toast-wrap{ position:fixed; right:24px; bottom:24px; z-index:2500; display:flex; flex-direction:column; gap:10px }
+
+/* simple toast style */
+.toast{ padding:10px 14px; border-radius:10px; background:linear-gradient(90deg,var(--accent-cyan),var(--accent-red)); color:#0f0f10; font-weight:700; box-shadow:0 10px 30px rgba(0,0,0,0.6) }
+
+/* responsive layout adjustments */
+@media (max-width:980px){
+  .card{ flex-direction:column; gap:18px; padding:18px }
+  .col-right{ width:100% }
+  .col-left{ width:100% }
+  .container{ margin-top:72px }
+  .header{ left:12px; transform:none; width:calc(100% - 24px) }
+}
+
+/* accessibility focus ring for keyboard nav */
+[tabindex]:focus{ outline:none; box-shadow: var(--focus-ring); border-radius:10px }
+
+/* subtle entrance animations */
+.fade-up{ transform:translateY(6px); opacity:0; transition: transform 420ms cubic-bezier(.2,.9,.25,1), opacity 420ms ease; }
+.fade-up.in{ transform:none; opacity:1; }
 </style>
 </head>
 <body>
-  <!-- Toast container -->
-  <div class="toasts" id="toasts" aria-live="polite"></div>
 
-  <header role="banner">
-    <div class="brand" id="brandBtn" title="grief.lol — Go home" tabindex="0" aria-label="Go to homepage">
-      <div class="mark" aria-hidden="true">g</div>
-      <div class="brand-text">grief.lol</div>
+<!-- header -->
+<div class="header" role="banner">
+  <div class="brand" id="brand" tabindex="0" aria-label="grave.bio — go to home">
+    <div class="brand-mark" aria-hidden="true">G</div>
+    <div>
+      <div class="brand-title">grave.bio</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:2px">your bio, refined</div>
     </div>
+  </div>
 
-    <nav role="navigation" aria-label="Main navigation" id="mainNav">
-      <button data-tab="home" aria-selected="true">Home</button>
-      <button data-tab="features" aria-selected="false">Features</button>
-      <button data-tab="pricing" aria-selected="false">Pricing</button>
-      <button data-tab="help" aria-selected="false">Help</button>
-      <button data-tab="signup" aria-selected="false">Sign Up</button>
-      <button data-tab="admin" aria-selected="false">Admin</button>
-      <button data-tab="profile" aria-selected="false">Profile</button>
-    </nav>
+  <div class="header-nav" role="navigation" aria-label="primary">
+    <button class="header-btn" id="btnFeatures" data-target="features">Features</button>
+    <button class="header-btn" id="btnPricing" data-target="pricing">Pricing</button>
+    <button class="header-btn" id="btnHelp" data-target="help">Help</button>
+    <button class="header-btn primary" id="btnSignup" data-target="signup">Join Waitlist</button>
+  </div>
+</div>
 
-    <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
-      <button class="cta" id="joinBtn">Join Waitlist</button>
-    </div>
-  </header>
+<!-- container -->
+<div class="container">
+  <div class="shell">
+    <div class="col-left">
+      <h1 class="title">Elevate your <span class="accent">digital card</span>.</h1>
+      <p class="lead">Clean, focused, and fast: a single page that holds your links, music, and contact. Designed to be shared — and remembered.</p>
 
-  <main>
-    <div class="wrap" role="main">
-      <!-- Left: hero / description -->
-      <div class="hero" id="homePanel" data-panel="home">
-        <h1>Your digital <span class="accent">Identity</span>,<br/>on your terms.</h1>
-        <p class="lead">A handcrafted, premium biolink page for creators & builders. Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
-
-        <div class="big-actions">
-          <button class="pill glow" id="claimBtn">Claim Username</button>
-          <button class="pill" id="featuresBtn">Explore Features ▾</button>
-        </div>
-
-        <div class="muted-line"><div class="status-dot" aria-hidden="true"></div><div>100% free to get started • no credit card required</div></div>
-
-        <!-- Tabs area: will reveal other panels below hero -->
-        <div class="tabs-area" id="tabsArea" style="margin-top:22px">
-          <!-- panels are injected in HTML below -->
-        </div>
+      <div class="actions fade-up" id="mainActions">
+        <button class="btn primary" id="claimBtn">Claim a username</button>
+        <button class="btn ghost" id="customizeBtn">Customize page</button>
+        <div style="width:12px"></div>
+        <div class="kbd" title="Quick tip">Press <strong>g</strong> twice to open admin</div>
       </div>
 
-      <!-- Right: profile card -->
-      <div class="card-wrap">
-        <div class="card" id="profileCard" role="region" aria-label="Profile preview">
-          <div class="card-top">
-            <div class="avatar" id="avatar" title="grief">
-              <!-- preserved original ghost-ish glyph as inline SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 2C9.8 2 8 3.8 8 6v2H6.5C5.7 8 5 8.7 5 9.5v6C5 17.9 6.1 19 7.5 19c.9 0 1.6-.5 2-1.2.4.7 1.1 1.2 2 1.2s1.6-.5 2-1.2c.4.7 1.1 1.2 2 1.2 1.4 0 2.5-1.1 2.5-2.5v-6c0-.8-.7-1.5-1.5-1.5H16V6c0-2.2-1.8-4-4-4z" fill="#111"/>
-                <circle cx="9.3" cy="11.2" r="0.9" fill="#fff"/>
-                <circle cx="14.7" cy="11.2" r="0.9" fill="#fff"/>
-              </svg>
-            </div>
-
-            <div class="meta">
-              <div class="username">grief<span class="underline" aria-hidden="true"></span></div>
-              <div class="user-bio">Minimal. Moody. Made for creators who want control. Music embeds, socials, and custom badges.</div>
-
-              <div class="badges" aria-hidden="true">
-                <div class="badge" title="Verified">Verified</div>
-                <div class="badge" title="Music">Music</div>
-                <div class="badge" title="Premium">Premium</div>
-                <div class="badge" title="Host">Fast</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Links: burger-style (pill stacked when narrow) -->
-          <div id="links" class="links" aria-label="profile links" role="list">
-            <div class="link" role="button" tabindex="0" data-action="copy" data-copy="https://grief.lol/username">
-              <div class="ico" aria-hidden="true">🔗</div>
-              <div>
-                <div class="label">grief.lol/username</div>
-                <div class="sub">Tap to copy your profile link</div>
-              </div>
-            </div>
-
-            <a class="link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" data-action="open">
-              <div class="ico" aria-hidden="true">♪</div>
-              <div>
-                <div class="label">Now playing — Dear Mama</div>
-                <div class="sub">Nino Paid · Spotify</div>
-              </div>
-            </a>
-
-            <a class="link" href="https://twitter.com/" target="_blank" rel="noopener noreferrer" data-action="open">
-              <div class="ico" aria-hidden="true">t</div>
-              <div>
-                <div class="label">@grief</div>
-                <div class="sub">Twitter</div>
-              </div>
-            </a>
-
-            <a class="link" href="#contact" data-action="open">
-              <div class="ico" aria-hidden="true">✉</div>
-              <div>
-                <div class="label">Contact / Collab</div>
-                <div class="sub">Say hi — let’s make something</div>
-              </div>
-            </a>
-          </div>
-
-          <div class="small" aria-hidden="true">
-            <div>Last updated • 2 days ago</div>
-          </div>
-        </div>
+      <div class="note" style="margin-top:14px">
+        <div style="display:flex;align-items:center;gap:10px"><div style="width:10px;height:10px;border-radius:20px;background:var(--accent-cyan)"></div>Hosted • Fast</div>
+        <div style="margin-left:12px;color:var(--muted)">Free baseline • paid upgrades available</div>
       </div>
-    </div>
 
-    <!-- Hidden panels (single-file pages) -->
-    <div class="container" style="max-width:var(--maxw); margin-top:12px;">
-      <section id="featuresPanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Features</h2>
-          <div class="features-grid" style="margin-top:12px;">
-            <div class="feature-card">Custom sound effects & micro-interactions</div>
-            <div class="feature-card">Music embeds (Spotify / SoundCloud)</div>
-            <div class="feature-card">Unique badges & social integrations</div>
-            <div class="feature-card">Drag & drop link reordering</div>
-            <div class="feature-card">Theme toggle (dark/light)</div>
-            <div class="feature-card">Admin panel with user management</div>
+      <!-- panels area (features/pricing/help/signup/admin/profile editor) -->
+      <div class="panels">
+        <!-- FEATURES -->
+        <div id="features" class="panel" aria-hidden="true">
+          <h3 style="margin:0 0 10px 0">Features</h3>
+          <div class="features-grid">
+            <div class="feature">Vanity username</div>
+            <div class="feature">Custom links (drag & drop)</div>
+            <div class="feature">Now playing embeds (Spotify)</div>
+            <div class="feature">Theme toggle (dark/light)</div>
+            <div class="feature">Admin moderation tools</div>
+            <div class="feature">Analytics preview (mock)</div>
           </div>
         </div>
-      </section>
 
-      <section id="pricingPanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Pricing</h2>
-          <div class="pricing" style="margin-top:12px;">
-            <div class="price-card"><strong>Free</strong><div style="margin-top:8px;color:var(--muted)">Basic profile, up to 5 links</div></div>
-            <div class="price-card"><strong>Pro</strong><div style="margin-top:8px;color:var(--muted)">Unlimited links, custom domain</div></div>
-            <div class="price-card"><strong>Business</strong><div style="margin-top:8px;color:var(--muted)">Team & analytics</div></div>
+        <!-- PRICING -->
+        <div id="pricing" class="panel" aria-hidden="true">
+          <h3 style="margin:0 0 10px 0">Pricing (preview)</h3>
+          <div class="pricing">
+            <div class="price">
+              <div style="font-weight:800">Free</div>
+              <div style="color:var(--muted);margin-top:6px">Starter • 5 links • basic embeds</div>
+            </div>
+            <div class="price">
+              <div style="font-weight:800">Pro</div>
+              <div style="color:var(--muted);margin-top:6px">Unlimited links • analytics • custom domain</div>
+            </div>
+            <div class="price">
+              <div style="font-weight:800">Business</div>
+              <div style="color:var(--muted);margin-top:6px">Team & white-label</div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <section id="helpPanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Help & FAQ</h2>
+        <!-- HELP -->
+        <div id="help" class="panel" aria-hidden="true">
+          <h3 style="margin:0 0 10px 0">Help & FAQ</h3>
           <div class="faq">
-            <div class="faq-item" data-open="false">
-              <div class="faq-question">How do I claim my username?</div>
-              <div class="faq-answer">Click "Claim Username" and follow the steps. You can customize your links afterward.</div>
+            <div class="faq-item" id="faq1">
+              <div class="q">How do I claim a username?<span>▸</span></div>
+              <div class="a">Click 'Claim a username' and follow the signup flow. Username checks happen instantly (mock).</div>
             </div>
-            <div class="faq-item" data-open="false">
-              <div class="faq-question">Can I embed Spotify?</div>
-              <div class="faq-answer">Yes — add your Spotify link and choose "Now playing" to show tracks.</div>
+            <div class="faq-item" id="faq2">
+              <div class="q">Can I change my links order?<span>▸</span></div>
+              <div class="a">Yes — drag and drop within your profile preview to reorder links. Changes are saved client-side in this demo.</div>
             </div>
-            <div class="faq-item" data-open="false">
-              <div class="faq-question">Is grief.lol free?</div>
-              <div class="faq-answer">Yes, free to start. Premium upgrades available for advanced features.</div>
+            <div class="faq-item" id="faq3">
+              <div class="q">Is custom domain supported?<span>▸</span></div>
+              <div class="a">Custom domain is available on Pro and Business plans (mock).</div>
             </div>
           </div>
         </div>
-      </section>
 
-      <section id="signupPanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Sign up / Claim</h2>
-          <div class="signup">
-            <form id="signupForm" novalidate>
-              <div class="field"><label for="su-username">Username</label><input id="su-username" name="username" type="text" required minlength="3" maxlength="24" placeholder="yourusername" /></div>
-              <div class="field"><label for="su-email">Email</label><input id="su-email" name="email" type="email" required placeholder="you@example.com" /></div>
-              <div style="display:flex;gap:10px"><button class="btn" type="submit">Claim Username</button><button type="button" class="btn-outline" id="cancelSignup">Cancel</button></div>
-            </form>
-            <div id="signupMessage" style="margin-top:12px;color:var(--muted)"></div>
-          </div>
+        <!-- SIGNUP -->
+        <div id="signup" class="panel" aria-hidden="true">
+          <h3 style="margin:0 0 10px 0">Join the waitlist</h3>
+          <form id="signupForm" style="margin-top:10px;">
+            <div style="display:flex; gap:8px; margin-bottom:10px;">
+              <input class="input" id="su-username" name="username" placeholder="username" required style="flex:1" />
+              <input class="input" id="su-email" name="email" placeholder="email@example.com" required style="flex:1" />
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn primary" type="submit">Claim</button>
+              <button class="btn ghost" type="button" id="clearSignup">Clear</button>
+            </div>
+            <div id="signupMsg" style="margin-top:10px;color:var(--muted)"></div>
+          </form>
         </div>
-      </section>
 
-      <section id="adminPanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Admin Panel — Mockup</h2>
-          <div class="admin">
-            <div style="margin-bottom:12px"><strong>Users</strong></div>
-            <table aria-label="Admin user table">
+        <!-- ADMIN (hidden until secret) -->
+        <div id="admin" class="panel" aria-hidden="true" data-secret="false">
+          <h3 style="margin:0 0 10px 0">Admin (mock)</h3>
+          <div class="admin-panel">
+            <table>
               <thead><tr><th>User</th><th>Status</th><th>Actions</th></tr></thead>
-              <tbody id="adminUsers">
-                <tr><td>demoUser</td><td>Active</td><td><button data-action="ban" data-user="demoUser">Ban</button> <button data-action="edit" data-user="demoUser">Edit</button></td></tr>
-                <tr><td>spammer123</td><td>Banned</td><td><button data-action="unban" data-user="spammer123">Unban</button> <button data-action="edit" data-user="spammer123">Edit</button></td></tr>
+              <tbody id="adminRows">
+                <tr><td>demo</td><td>Active</td><td><button data-act="ban" data-user="demo">Ban</button></td></tr>
+                <tr><td>abusive</td><td>Banned</td><td><button data-act="unban" data-user="abusive">Unban</button></td></tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
 
-      <section id="profilePanel" class="tab-panel" aria-hidden="true">
-        <div class="tabs-area">
-          <h2 style="color:#fff">Profile Editor (mock)</h2>
-          <div class="profile-editor">
-            <label for="p-username">Username</label>
-            <input id="p-username" type="text" value="grief" />
-            <label for="p-bio">Bio</label>
-            <input id="p-bio" type="text" value="Minimal. Moody. Made for creators who want control." />
-            <label for="p-links">Links (comma separated)</label>
-            <input id="p-links" type="text" value="https://twitter.com/,https://open.spotify.com/" />
-            <div style="display:flex;gap:10px"><button id="saveProfile" class="btn">Save</button><button id="previewProfile" class="btn-outline">Preview</button></div>
+        <!-- PROFILE editor (compact) -->
+        <div id="profileEditor" class="panel" aria-hidden="true">
+          <h3 style="margin:0 0 10px 0">Profile editor (mock)</h3>
+          <div class="editor">
+            <input id="pe-username" class="input" placeholder="display name" value="grave" />
+            <input id="pe-bio" class="input" placeholder="short bio" value="I share music, projects, and links." />
+            <input id="pe-links" class="input" placeholder="comma separated links" value="https://twitter.com/,https://open.spotify.com/" />
+            <div style="display:flex; gap:8px;">
+              <button class="btn primary" id="saveProfile">Save</button>
+              <button class="btn ghost" id="resetProfile">Reset</button>
+              <button class="btn ghost" id="openPreview">Preview</button>
+            </div>
+            <div id="profileMsg" style="margin-top:8px;color:var(--muted)"></div>
           </div>
         </div>
-      </section>
+
+      </div>
     </div>
-  </main>
+
+    <!-- right: centered preview "guns.lol style" -->
+    <div class="col-right">
+      <div class="preview fade-up in" id="previewCard" role="region" aria-label="Profile preview">
+        <div class="preview-top">
+          <div class="avatar" id="pv-avatar" aria-hidden="true">
+            <!-- neat glyph (SVG) -->
+            <svg viewBox="0 0 24 24" width="44" height="44" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" fill="#111" opacity="0.05"/><path d="M12 6v6l4 2" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/></svg>
+          </div>
+          <div class="meta">
+            <div class="username" id="pv-name">grave <div class="underline" aria-hidden="true"></div></div>
+            <div class="bio" id="pv-bio">I share music, projects, and links.</div>
+            <div class="badges">
+              <div class="badge">Creator</div>
+              <div class="badge">Early</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="links" id="linksList" aria-label="links list">
+          <!-- link items are created dynamically; initial set below -->
+          <div class="link-item" data-href="https://grave.bio/grave" draggable="true">
+            <div class="link-left">G</div>
+            <div>
+              <div class="link-main">grave.bio/grave</div>
+              <div class="link-sub">Tap to copy</div>
+            </div>
+          </div>
+
+          <a class="link-item" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">
+            <div class="link-left">S</div>
+            <div>
+              <div class="link-main">Now Playing — Dear Mama</div>
+              <div class="link-sub">Spotify</div>
+            </div>
+          </a>
+
+          <a class="link-item" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+            <div class="link-left">T</div>
+            <div>
+              <div class="link-main">@grave</div>
+              <div class="link-sub">Twitter</div>
+            </div>
+          </a>
+        </div>
+
+        <div class="preview-foot" style="justify-content:space-between; margin-top:14px;">
+          <div style="display:flex; gap:10px; align-items:center"><div style="width:10px;height:10px;border-radius:20px;background:var(--accent-cyan)"></div> Live</div>
+          <div style="color:var(--muted); font-size:13px">Last updated • 1 day ago</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- modal & toasts -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true">
+  <div class="modal" role="document" aria-modal="true" tabindex="0" id="modalBox">
+    <h3 id="modalTitle">Modal</h3>
+    <div id="modalBody" style="margin-top:10px;color:var(--muted)"></div>
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;">
+      <button class="header-btn" id="modalClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
 <script>
-/* =========================
-   Tab + nav logic
-   ========================= */
-(function(){
-  const nav = document.getElementById('mainNav');
-  const navButtons = nav.querySelectorAll('button[data-tab]');
-  const panels = {
-    home: document.getElementById('homePanel'),
-    features: document.getElementById('featuresPanel'),
-    pricing: document.getElementById('pricingPanel'),
-    help: document.getElementById('helpPanel'),
-    signup: document.getElementById('signupPanel'),
-    admin: document.getElementById('adminPanel'),
-    profile: document.getElementById('profilePanel')
-  };
+/* ======================================================
+   grave.bio - client side interactions
+   - tab navigation
+   - signup form (mock)
+   - profile editor -> preview update
+   - drag & drop reordering (client-side)
+   - copy to clipboard
+   - admin secret toggle (press 'g' twice quickly)
+   - modal & toasts
+   ====================================================== */
 
-  // helper to set which nav selected and show panel
-  function showTab(tab){
-    navButtons.forEach(b => {
-      if(b.dataset.tab === tab){
-        b.setAttribute('aria-selected','true');
-      } else {
-        b.setAttribute('aria-selected','false');
-      }
-    });
-    Object.keys(panels).forEach(k=>{
-      if(k === tab){
-        panels[k].classList.add('active'); panels[k].setAttribute('aria-hidden','false');
-        // scroll to top of tabs area so user sees panel
-        panels[k].scrollIntoView({behavior:'smooth', block:'start'});
-      }else{
-        panels[k].classList.remove('active'); panels[k].setAttribute('aria-hidden','true');
-      }
+/* ---------- helpers ---------- */
+function $(sel, ctx=document){ return ctx.querySelector(sel); }
+function $all(sel, ctx=document){ return Array.from((ctx||document).querySelectorAll(sel)); }
+function toast(msg, timeout=2600){
+  const w = document.getElementById('toastWrap');
+  const n = document.createElement('div'); n.className='toast';
+  n.textContent = msg;
+  w.appendChild(n);
+  setTimeout(()=> { n.style.opacity='0'; n.style.transform='translateY(6px)'; setTimeout(()=> n.remove(), 260); }, timeout);
+}
+
+/* ---------- panel toggles ---------- */
+const panels = ['features','pricing','help','signup','admin','profileEditor'];
+function hideAllPanels(){
+  panels.forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ el.classList.remove('active'); el.setAttribute('aria-hidden','true'); }
+  });
+}
+function showPanel(id){
+  hideAllPanels();
+  const el = document.getElementById(id);
+  if(el){
+    el.classList.add('active'); el.setAttribute('aria-hidden','false'); el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+/* header buttons */
+$all('.header-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    const t = btn.getAttribute('data-target');
+    if(t){ showPanel(t); }
+  });
+});
+
+/* actions on page */
+$('#claimBtn').addEventListener('click', ()=> { showPanel('signup'); });
+$('#customizeBtn').addEventListener('click', ()=> { showPanel('profileEditor'); });
+$('#btnSignup').addEventListener('click', ()=> { showPanel('signup'); });
+
+/* brand home click */
+$('#brand').addEventListener('click', ()=> {
+  hideAllPanels();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+$('#brand').addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); $('#brand').click(); } });
+
+/* ---------- signup mock ---------- */
+$('#signupForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const u = $('#su-username').value.trim();
+  const em = $('#su-email').value.trim();
+  const msg = $('#signupMsg');
+  msg.style.color = 'var(--muted)';
+  if(!/^[a-zA-Z0-9-_]{3,24}$/.test(u)){ msg.style.color='tomato'; msg.textContent='Username invalid: 3-24 chars, letters/numbers/-/_'; return; }
+  if(!/^\S+@\S+\.\S+$/.test(em)){ msg.style.color='tomato'; msg.textContent='Email invalid'; return; }
+  msg.style.color='var(--muted)'; msg.textContent='Checking availability...';
+  setTimeout(()=> {
+    if(u.toLowerCase() === 'admin' || u.toLowerCase() === 'grave'){ msg.style.color='tomato'; msg.textContent='Username taken'; }
+    else { msg.style.color='var(--accent-cyan)'; msg.textContent='Claimed! Check your email (mock)'; $('#signupForm').reset(); toast('Welcome aboard — mock signup complete'); }
+  }, 1000);
+});
+$('#clearSignup').addEventListener('click', ()=> { $('#signupForm').reset(); $('#signupMsg').textContent=''; });
+
+/* ---------- FAQ accordion ---------- */
+$all('.faq-item').forEach(item=>{
+  item.querySelector('.q').addEventListener('click', ()=>{
+    item.classList.toggle('open');
+  });
+});
+
+/* ---------- profile editor: update preview ---------- */
+function safeParseLinks(raw){
+  return raw.split(',').map(s=>s.trim()).filter(Boolean).slice(0,20);
+}
+function createLinkItem(href, label){
+  const isExternal = href.startsWith('http');
+  const el = document.createElement(isExternal ? 'a' : 'div');
+  el.className = 'link-item';
+  if(isExternal){ el.href = href; el.target = '_blank'; el.rel='noopener noreferrer'; }
+  else { el.setAttribute('role','button'); el.dataset.href = href; }
+  const left = document.createElement('div'); left.className='link-left';
+  left.textContent = label.slice(0,1).toUpperCase();
+  const main = document.createElement('div'); main.innerHTML = `<div class="link-main">${label}</div><div class="link-sub">${href}</div>`;
+  el.appendChild(left); el.appendChild(main);
+  // copy on click for non-anchor
+  if(!isExternal){
+    el.addEventListener('click', ()=> {
+      const txt = href;
+      navigator.clipboard?.writeText(txt).then(()=> toast('Copied: ' + txt)).catch(()=> toast('Copy failed'));
     });
   }
+  return el;
+}
 
-  navButtons.forEach(btn=>{
-    btn.addEventListener('click', ()=> showTab(btn.dataset.tab));
-    btn.addEventListener('keydown', e=>{
-      if(e.key==='Enter' || e.key===' ') { e.preventDefault(); showTab(btn.dataset.tab); }
-    });
-  });
-
-  // Header brand clickable -> home
-  const brandBtn = document.getElementById('brandBtn');
-  brandBtn.addEventListener('click', ()=> showTab('home'));
-  brandBtn.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); showTab('home'); } });
-
-  // Hero buttons
-  document.getElementById('claimBtn').addEventListener('click', ()=> showTab('signup'));
-  document.getElementById('featuresBtn').addEventListener('click', ()=> showTab('features'));
-  document.getElementById('joinBtn').addEventListener('click', ()=> showTab('signup'));
-
-  // Join waitlist in header is same as claim
-  document.getElementById('joinBtn').addEventListener('click', ()=> showTab('signup'));
-
-  // initial state: show home panel
-  showTab('home');
-
-})();
-
-/* =========================
-   Copy link / preview click (no sound)
-   ========================= */
-(function(){
-  const linksContainer = document.getElementById('links');
-  const toasts = document.getElementById('toasts');
-
-  // small toast helper
-  function toast(text, type='ok'){
-    const el = document.createElement('div'); el.className='toast'; el.textContent=text;
-    if(type==='err') el.classList.add('error');
-    toasts.appendChild(el);
-    setTimeout(()=> el.remove(), 3000);
-  }
-
-  linksContainer.addEventListener('click', (e)=>{
-    const linkEl = e.target.closest('.link');
-    if(!linkEl) return;
-    // copy action if data-action=copy
-    if(linkEl.dataset.action === 'copy' || linkEl.getAttribute('role') === 'button'){
-      const copy = linkEl.dataset.copy || linkEl.querySelector('.label')?.textContent || '';
-      if(copy){
-        navigator.clipboard?.writeText(copy).then(()=> {
-          toast('Copied to clipboard');
-        }).catch(()=> {
-          toast('Copy failed', 'err');
-        });
-      }
+// apply saved/default profile to preview
+function applyProfileToPreview(){
+  const name = $('#pe-username').value.trim() || 'grave';
+  const bio = $('#pe-bio').value.trim() || 'I share music, projects, and links.';
+  const linksRaw = $('#pe-links').value || '';
+  const links = safeParseLinks(linksRaw);
+  $('#pv-name').textContent = name + ' ';
+  $('#pv-bio').textContent = bio;
+  const list = $('#linksList');
+  list.innerHTML = '';
+  // main profile link
+  const mainHref = `https://grave.bio/${encodeURIComponent(name)}`;
+  const mainEl = createLinkItem(mainHref, `grave.bio/${name}`);
+  list.appendChild(mainEl);
+  links.forEach(l=>{
+    try{
+      // attempt to generate label from hostname
+      const url = new URL(l);
+      const label = url.hostname.replace('www.','');
+      list.appendChild(createLinkItem(l, label));
+    }catch(err){
+      // if not valid url, treat as plain text
+      list.appendChild(createLinkItem(l, l));
     }
   });
-})();
+  toast('Preview updated');
+}
 
-/* =========================
-   Signup form logic (mock)
-   ========================= */
-(function(){
-  const form = document.getElementById('signupForm');
-  if(!form) return;
-  const msg = document.getElementById('signupMessage');
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    msg.textContent = '';
-    const username = form.username.value.trim();
-    const email = form.email.value.trim();
-    if(!/^[a-zA-Z0-9-_]{3,24}$/.test(username)){ msg.style.color='tomato'; msg.textContent='Invalid username (3-24 letters/numbers/-/_)'; return; }
-    if(!/^\S+@\S+\.\S+$/.test(email)){ msg.style.color='tomato'; msg.textContent='Invalid email'; return; }
-    msg.style.color='#9bffb7'; msg.textContent='Claiming username...';
-    setTimeout(()=> { msg.style.color='var(--muted)'; msg.textContent='Username claimed (mock).'; form.reset(); }, 1200);
-  });
-  document.getElementById('cancelSignup').addEventListener('click', ()=> { form.reset(); msg.textContent=''; });
-})();
+$('#saveProfile').addEventListener('click', ()=>{
+  applyProfileToPreview();
+  $('#profileMsg').textContent = 'Profile saved (mock)';
+  setTimeout(()=> $('#profileMsg').textContent = '', 2200);
+});
+$('#resetProfile').addEventListener('click', ()=>{
+  $('#pe-username').value = 'grave';
+  $('#pe-bio').value = 'I share music, projects, and links.';
+  $('#pe-links').value = 'https://twitter.com/,https://open.spotify.com/';
+  applyProfileToPreview();
+  $('#profileMsg').textContent = 'Reset to defaults';
+  setTimeout(()=> $('#profileMsg').textContent = '', 2000);
+});
+$('#openPreview').addEventListener('click', ()=> {
+  showModal('Profile preview', 'This is a mock preview. In production a live modal with embed would appear.');
+});
 
-/* =========================
-   FAQ accordion
-   ========================= */
-(function(){
-  document.querySelectorAll('.faq-item').forEach(item=>{
-    const q = item.querySelector('.faq-question');
-    q.addEventListener('click', ()=>{
-      const open = item.classList.toggle('open');
-      item.setAttribute('data-open', open ? 'true' : 'false');
-    });
-  });
-})();
-
-/* =========================
-   Admin mock actions
-   ========================= */
-(function(){
-  const table = document.getElementById('adminUsers');
-  table.addEventListener('click', e=>{
-    const btn = e.target.closest('button');
-    if(!btn) return;
-    const action = btn.dataset.action;
-    const user = btn.dataset.user;
-    if(action === 'ban'){
-      alert(`Banned ${user} (mock)`); // keep simple for mock
-      btn.textContent = 'Unban'; btn.dataset.action = 'unban';
-    } else if(action === 'unban'){
-      alert(`Unbanned ${user} (mock)`);
-      btn.textContent = 'Ban'; btn.dataset.action = 'ban';
-    } else if(action === 'edit'){
-      alert(`Open asset editor for ${user} (mock)`);
-    }
-  });
-})();
-
-/* =========================
-   Profile editor save/preview (mock)
-   ========================= */
-(function(){
-  const saveBtn = document.getElementById('saveProfile');
-  const previewBtn = document.getElementById('previewProfile');
-  const pUser = document.getElementById('p-username');
-  const pBio = document.getElementById('p-bio');
-  const pLinks = document.getElementById('p-links');
-
-  // Save profile: update preview card (in-page mock)
-  document.getElementById('saveProfile')?.addEventListener('click', ()=>{
-    const uname = pUser?.value?.trim() || 'grief';
-    const bio  = pBio?.value?.trim() || 'Minimal. Moody.';
-    // update preview elements
-    const profileNameNode = document.querySelector('.username');
-    const bioNode = document.querySelector('.user-bio');
-    if(profileNameNode) profileNameNode.firstChild.textContent = uname + ' ';
-    if(bioNode) bioNode.textContent = bio;
-    // update links area
-    const linksRaw = pLinks?.value || '';
-    const links = linksRaw.split(',').map(s=>s.trim()).filter(Boolean);
-    const linksContainer = document.getElementById('links');
-    // remove all non-copy anchors (we'll keep first profile link)
-    linksContainer.innerHTML = '';
-    // push profile main link
-    const main = document.createElement('div'); main.className='link'; main.setAttribute('role','button'); main.tabIndex=0; main.dataset.action='copy'; main.dataset.copy=`https://grief.lol/${uname}`;
-    main.innerHTML = `<div class="ico">🔗</div><div><div class="label">grief.lol/${uname}</div><div class="sub">Tap to copy your profile link</div></div>`;
-    linksContainer.appendChild(main);
-    // add other provided links
-    links.forEach(l=>{
-      const a = document.createElement('a'); a.className='link'; a.href = l; a.target='_blank'; a.rel='noopener noreferrer';
-      const label = decodeURIComponent((new URL(l)).hostname || l);
-      a.innerHTML = `<div class="ico">⤴</div><div><div class="label">${label}</div><div class="sub">${l}</div></div>`;
-      linksContainer.appendChild(a);
-    });
-    alert('Profile saved (mock) — preview updated.');
-  });
-
-  document.getElementById('previewProfile')?.addEventListener('click', ()=>{
-    alert('Preview modal would open here (mock).');
-  });
-})();
-
-/* =========================
-   Drag & drop stub (reordering of links) — simple mock
-   ========================= */
-(function(){
-  const links = document.getElementById('links');
-  let dragSrc = null;
+/* ---------- drag & drop reordering ---------- */
+(function enableDragReorder(){
+  const list = document.getElementById('linksList');
+  let dragEl = null;
   function handleDragStart(e){
-    this.style.opacity='0.5';
-    dragSrc = this;
+    dragEl = e.target.closest('.link-item');
+    if(!dragEl) return;
+    dragEl.style.opacity = '0.4';
     e.dataTransfer.effectAllowed = 'move';
   }
-  function handleDragEnd(){
-    this.style.opacity='1';
+  function handleDragEnd(e){
+    if(dragEl) dragEl.style.opacity = '';
+    dragEl = null;
   }
   function handleDragOver(e){
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    return false;
-  }
-  function handleDrop(e){
-    e.stopPropagation();
-    if(dragSrc !== this){
-      // swap nodes
-      const parent = this.parentNode;
-      parent.insertBefore(dragSrc, this);
+    const target = e.target.closest('.link-item');
+    if(target && target !== dragEl){
+      const rect = target.getBoundingClientRect();
+      const next = (e.clientY - rect.top) > (rect.height / 2);
+      target.parentNode.insertBefore(dragEl, next ? target.nextSibling : target);
     }
-    return false;
   }
-
-  // set draggable on current links
-  function enableDrag(){
-    const items = links.querySelectorAll('.link');
-    items.forEach(it=>{
-      it.setAttribute('draggable','true');
-      it.addEventListener('dragstart', handleDragStart, false);
-      it.addEventListener('dragend', handleDragEnd, false);
-      it.addEventListener('dragover', handleDragOver, false);
-      it.addEventListener('drop', handleDrop, false);
+  // attach handlers (initial)
+  function attach(){
+    $all('#linksList .link-item').forEach(it=>{
+      it.setAttribute('draggable', 'true');
+      it.addEventListener('dragstart', handleDragStart);
+      it.addEventListener('dragend', handleDragEnd);
+      it.addEventListener('dragover', handleDragOver);
     });
   }
-  // initial enable
-  enableDrag();
-  // re-enable whenever profile save updates list (naive observer)
-  const observer = new MutationObserver(enableDrag);
-  observer.observe(links, {childList:true});
+  // whenever linksList changes, reattach
+  const obs = new MutationObserver(()=> attach());
+  obs.observe(document.getElementById('linksList'), {childList:true, subtree:true});
+  // initial attach
+  attach();
+})();
+
+/* ---------- copy link interactions (click on profile link) ---------- */
+document.getElementById('linksList').addEventListener('click', (e)=>{
+  const item = e.target.closest('.link-item');
+  if(!item) return;
+  // if anchor, let it open; if not, copy dataset href (main links)
+  if(item.tagName.toLowerCase() === 'a') return;
+  const href = item.dataset.href || (item.querySelector('.link-sub') && item.querySelector('.link-sub').textContent);
+  if(href){
+    navigator.clipboard?.writeText(href).then(()=> toast('Copied ' + href)).catch(()=> toast('Copy failed'));
+  }
+});
+
+/* ---------- admin secret toggle (press 'g' twice quickly) ---------- */
+(function adminSecret(){
+  let last = 0, count = 0;
+  document.addEventListener('keydown', (e)=>{
+    const now = Date.now();
+    if(e.key.toLowerCase() === 'g'){
+      if(now - last < 400) count++; else count = 1;
+      last = now;
+      if(count >= 2){
+        // toggle admin visibility
+        const panel = document.getElementById('admin');
+        const visible = panel.getAttribute('data-secret') === 'true';
+        panel.setAttribute('data-secret', visible ? 'false' : 'true');
+        if(visible){ panel.style.display = 'none'; panel.setAttribute('aria-hidden','true'); toast('Admin hidden'); }
+        else { panel.style.display = 'block'; panel.setAttribute('aria-hidden','false'); panel.classList.add('active'); toast('Admin revealed (mock)'); }
+        count = 0;
+      }
+    }
+  });
+})();
+
+/* ---------- admin actions (mock) ---------- */
+document.getElementById('adminRows').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const action = btn.dataset.act, user = btn.dataset.user;
+  if(action === 'ban'){ alert('Banned ' + user + ' (mock)'); btn.textContent = 'Unban'; btn.dataset.act = 'unban'; }
+  else if(action === 'unban'){ alert('Unbanned ' + user + ' (mock)'); btn.textContent = 'Ban'; btn.dataset.act = 'ban'; }
+});
+
+/* ---------- modal ---------- */
+function showModal(title, body){
+  const bd = document.getElementById('modalBackdrop');
+  $('#modalTitle').textContent = title;
+  $('#modalBody').textContent = body;
+  bd.style.display = 'flex';
+  bd.setAttribute('aria-hidden','false');
+  setTimeout(()=> $('#modalBox').focus(), 120);
+}
+function hideModal(){
+  const bd = document.getElementById('modalBackdrop');
+  bd.style.display = 'none';
+  bd.setAttribute('aria-hidden','true');
+}
+$('#modalClose').addEventListener('click', hideModal);
+document.getElementById('modalBackdrop').addEventListener('click', (e)=>{ if(e.target === e.currentTarget) hideModal(); });
+
+/* ---------- keyboard nav for panels ---------- */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){ hideModal(); hideAllVisiblePanels(); }
+});
+function hideAllVisiblePanels(){
+  panels = ['features','pricing','help','signup','admin','profileEditor'];
+  panels.forEach(id=>{ const el=document.getElementById(id); if(el) { el.classList.remove('active'); el.setAttribute('aria-hidden','true'); } });
+}
+
+/* ---------- initial: apply default profile values ---------- */
+(function init(){
+  // ensure admin treated hidden by default
+  const admin = document.getElementById('admin');
+  admin.style.display = 'none';
+  admin.setAttribute('aria-hidden','true');
+
+  // apply profile default
+  applyProfileToPreview();
+
+  // subtle fade in
+  document.querySelectorAll('.fade-up').forEach((el, i)=>{
+    setTimeout(()=> el.classList.add('in'), 120 + i*60);
+  });
+
+  toast('grave.bio ready (demo)');
 })();
 
 </script>
