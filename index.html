@@ -21,7 +21,10 @@
   }
 
   *{box-sizing:border-box}
-  html,body{height:100%;}
+  html, body {
+    height:100%;
+    overflow-x: hidden;
+  }
   body{
     margin:0;
     font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
@@ -31,24 +34,9 @@
     color:#eee;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden;
+    overflow-y: scroll;
     position:relative;
     min-height:100vh;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--bg);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--accent1), var(--accent2));
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, var(--accent2), var(--accent3));
   }
 
   /* faint animated diagonal stripes over background */
@@ -72,28 +60,30 @@
     border:1px solid rgba(255,255,255,0.03);
     backdrop-filter: blur(8px) saturate(120%);
   }
-  .brand{
-    display:flex; align-items:center; gap:12px; font-weight:600; font-size:16px; cursor:pointer;
-    user-select:none;
-    color:#fff;
-    text-decoration:none;
+  .brand {
+    display:flex; 
+    align-items:center; 
+    gap:12px; 
+    font-weight:600; 
+    cursor:pointer;
+    color: #eee;
   }
   .logo-mark{
     width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
     background:linear-gradient(135deg,var(--accent1),var(--accent2));
     box-shadow: 0 6px 24px rgba(124,92,255,0.12), inset 0 -4px 8px rgba(0,0,0,0.2);
     color:#111; font-weight:700;
+    user-select:none;
   }
   nav{display:flex; gap:18px; align-items:center;}
   nav a{
-    color:var(--muted);
-    text-decoration:none;
-    font-weight:500;
+    color:var(--muted); 
+    text-decoration:none; 
+    font-weight:500; 
     font-size:14px;
-    transition: color var(--trans);
+    transition: color 220ms ease;
   }
-  nav a:hover,
-  nav a:focus {
+  nav a:hover, nav a:focus {
     color: var(--accent1);
     outline:none;
   }
@@ -104,10 +94,9 @@
     font-weight:600; color:#fff; cursor:pointer;
     transition: all var(--trans) ease;
   }
-  .cta:hover,
-  .cta:focus{ 
-    transform:translateY(-3px) scale(1.02);
-    box-shadow:0 12px 30px rgba(124,92,255,0.16);
+  .cta:hover, .cta:focus{ 
+    transform:translateY(-3px) scale(1.02); 
+    box-shadow:0 12px 30px rgba(124,92,255,0.16); 
     outline:none;
   }
 
@@ -125,14 +114,15 @@
   h1 .accent{ 
     color:transparent; 
     background:linear-gradient(90deg,var(--accent1),var(--accent2)); 
-    -webkit-background-clip:text; background-clip:text; 
+    -webkit-background-clip:text; 
+    background-clip:text; 
     filter:drop-shadow(0 6px 18px rgba(255,95,183,0.12));
   }
   p.lead{ 
     color:var(--muted); 
     margin:0 0 28px; 
     font-size:16px; 
-    max-width:560px;
+    max-width:560px 
   }
 
   .big-actions{ display:flex; gap:14px; margin-bottom:22px; flex-wrap:wrap; }
@@ -147,10 +137,9 @@
     border:1px solid rgba(255,95,183,0.25);
     background: linear-gradient(90deg, rgba(255,95,183,0.06), rgba(124,92,255,0.04));
   }
-  .pill:hover,
-  .pill:focus{
+  .pill:hover, .pill:focus{ 
     transform:translateY(-6px); 
-    filter:brightness(1.06); 
+    filter:brightness(1.06);
     outline:none;
   }
 
@@ -160,17 +149,25 @@
   /* profile card */
   .card-wrap{ width:430px; max-width:44vw; min-width:320px; display:flex; justify-content:center; align-items:flex-start;}
   .card{
-    width:100%; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.2));
-    border-radius:var(--radius); padding:28px; border:1px solid rgba(255,255,255,0.04);
+    width:100%; 
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.2));
+    border-radius:var(--radius); 
+    padding:28px; 
+    border:1px solid rgba(255,255,255,0.04);
     box-shadow: var(--card-shadow);
-    position:relative; overflow:visible;
+    position:relative; 
+    overflow:visible;
     backdrop-filter: blur(8px) saturate(120%);
     transition: transform var(--trans) ease, box-shadow var(--trans);
   }
   .card:before{
-    content:""; position:absolute; left:12px; top:12px; right:12px; height:120px; border-radius:calc(var(--radius) - 8px);
+    content:""; 
+    position:absolute; left:12px; top:12px; right:12px; height:120px; 
+    border-radius:calc(var(--radius) - 8px);
     background: linear-gradient(180deg, rgba(124,92,255,0.12), rgba(255,95,183,0.06));
-    filter: blur(24px); opacity:0.9; pointer-events:none;
+    filter: blur(24px); 
+    opacity:0.9; 
+    pointer-events:none;
   }
   .card-top{ display:flex; gap:18px; align-items:center; position:relative; z-index:2}
   .avatar{
@@ -184,34 +181,75 @@
   .avatar:hover{ transform:translateY(-6px) rotate(-2deg) scale(1.02); box-shadow:0 18px 40px rgba(124,92,255,0.2) }
 
   .meta{ flex:1 }
-  .username{ font-size:20px; font-weight:700; margin-bottom:6px; display:flex; gap:10px; align-items:center }
+  .username{ 
+    font-size:20px; font-weight:700; margin-bottom:6px; display:flex; gap:10px; align-items:center;
+    cursor:pointer;
+  }
   .user-bio{ color:var(--muted); font-size:14px; margin-bottom:10px }
   .badges{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
-  .badge{ padding:6px 8px; border-radius:10px; font-weight:600; font-size:12px; background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)); border:1px solid rgba(255,255,255,0.03); cursor:default; transition: transform 180ms }
+  .badge{ 
+    padding:6px 8px; border-radius:10px; font-weight:600; font-size:12px; 
+    background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00)); 
+    border:1px solid rgba(255,255,255,0.03); cursor:default; transition: transform 180ms 
+  }
   .badge:hover{ transform:translateY(-4px); box-shadow:0 10px 24px rgba(124,92,255,0.06) }
 
-  /* link list */
-  .links{ margin-top:18px; display:flex; flex-direction:column; gap:12px; position:relative; z-index:2 }
-  .link{
-    display:flex; align-items:center; gap:14px; padding:12px 16px; border-radius:14px; cursor:pointer;
-    border:1px solid rgba(255,255,255,0.025);
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
-    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
-    text-decoration:none;
-    color:#eee;
+  /* vertical burger style links */
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 6px; /* for scrollbar spacing */
   }
-  .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2)) }
-  .link .label{ flex:1; font-weight:600 }
-  .link .sub{ color:var(--muted); font-size:13px }
+
+  .link {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.18));
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.65);
+    color: #eee;
+    font-weight: 600;
+    font-size: 18px;
+    transition: transform 280ms ease, box-shadow 280ms ease, background 280ms ease;
+    text-decoration: none;
+  }
 
   .link:hover,
-  .link:focus{
-    transform:translateY(-8px);
-    box-shadow: 0 22px 40px rgba(0,0,0,0.6);
-    outline:none;
+  .link:focus {
+    transform: translateY(-6px);
+    background: linear-gradient(180deg, var(--accent1), var(--accent2));
+    box-shadow: 0 20px 40px rgba(124, 92, 255, 0.32);
+    outline: none;
+    color: #fff;
   }
-  .link:active{ transform:translateY(-2px); }
+
+  .link .ico {
+    font-size: 28px;
+    min-width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    display: grid;
+    place-items: center;
+    color: #111;
+    box-shadow: 0 8px 24px rgba(124, 92, 255, 0.18), inset 0 -6px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .link .label {
+    flex: 1;
+  }
+
+  .link .sub {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--muted);
+  }
 
   /* footer small */
   .small{ color:var(--muted); font-size:13px; margin-top:14px; display:flex; gap:10px; align-items:center }
@@ -249,18 +287,18 @@
   <div class="bg-animated" aria-hidden="true"></div>
 
   <header role="banner" class="parallax-slow">
-    <a href="index.html" class="brand" aria-label="Go to homepage grief.lol">
+    <div class="brand" aria-label="grief.lol homepage link" tabindex="0" role="link" onclick="window.location.href='index.html'" onkeypress="if(event.key==='Enter'){window.location.href='index.html'}">
       <div class="logo-mark" aria-hidden="true">g</div>
-      grief.lol
-    </a>
+      <div>grief.lol</div>
+    </div>
     <nav>
       <a href="features.html" tabindex="0">Features</a>
       <a href="pricing.html" tabindex="0">Pricing</a>
       <a href="help.html" tabindex="0">Help</a>
-      <a href="signup.html" tabindex="0" class="cta" style="padding:6px 14px; font-weight:600;">Sign Up</a>
-      <a href="learn.html" tabindex="0" class="pill glow" style="padding:6px 14px; font-weight:600;">Learn More</a>
-      <a href="admin.html" tabindex="0" style="margin-left:16px; font-weight:600; font-size:14px; color: var(--accent1);">Admin Panel</a>
     </nav>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+      <button class="cta" onclick="window.location.href='signup.html'">Sign Up</button>
+    </div>
   </header>
 
   <main>
@@ -270,83 +308,72 @@
         <p class="lead">A handcrafted, premium biolink page for creators & builders. Keep your socials, music, and highlights in one beautifully designed, customizable place.</p>
 
         <div class="big-actions">
-          <a href="signup.html" class="pill glow" role="button" tabindex="0">Claim Username</a>
-          <a href="#links" class="pill" role="button" tabindex="0">Explore Features ▾</a>
+          <button class="pill glow" onclick="window.location.href='signup.html'">Claim Username</button>
+          <button class="pill" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Explore Features ▾</button>
         </div>
 
         <div class="muted-line"><span class="status-dot"></span><div>100% free to get started • no credit card required</div></div>
       </div>
 
       <div class="card-wrap">
-        <div class="card" id="profileCard" tabindex="0" aria-label="Profile card showing grief user info">
+        <div class="card" id="profileCard">
           <div class="card-top">
-            <!-- Avatar: replace inner SVG with <img src="your-avatar.png" /> if desired -->
+            <!-- Avatar -->
             <div class="avatar" id="avatar" title="grief" aria-hidden="true">
-              <!-- simple ghost-ish glyph -->
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,0.3))">
-                <path d="M12 2C9.8 2 8 3.8 8 6v2H6.5C5.7 8 5 8.7 5 9.5v6C5 17.9 6.1 19 7.5 19c.9 0 1.6-.5 2-1.2.4.7 1.1 1.2 2 1.2s1.6-.5 2-1.2c.4.7 1.1 1.2 2 1.2 1.4 0 2.5-1.1 2.5-2.5v-6c0-.8-.7-1.5-1.5-1.5H16V6c0-2.2-1.8-4-4-4z" fill="#111"/>
-                <circle cx="9.3" cy="11.2" r="0.9" fill="#fff"/>
-                <circle cx="14.7" cy="11.2" r="0.9" fill="#fff"/>
+                <path d="M12 2C9.8 2 8 3.8 8 6v2H6.5C5.7 8 5 8.7 5 9.5v6C5 17.9 6.1 19 7.5 19c.9 0 1.6-.5 2-1.2.4.7 1.1 1.2 2 1.2s1.6-.5 2-1.2c.4.7 1.1 1.2 2 1.2 1.4 0 2.5-1.1 2.5-2.5v-6c0-.8-.7-1.5-1.5-1.5H16V6c0-2.2-1.8-4-4-4z" fill="url(#paint0_linear)" />
+                <defs><linearGradient id="paint0_linear" x1="12" y1="2" x2="12" y2="19" gradientUnits="userSpaceOnUse"><stop stop-color="#FF5FB7"/><stop offset="1" stop-color="#7C5CFF"/></linearGradient></defs>
               </svg>
             </div>
+
             <div class="meta">
-              <div class="username">grief.lol <span class="glow-underline"></span></div>
-              <div class="user-bio">Your premium biolink solution — simple, sleek, secure.</div>
-              <div class="badges">
-                <div class="badge" title="Verified User">Verified</div>
-                <div class="badge" title="Creator Badge">Creator</div>
-                <div class="badge" title="Admin Badge">Admin</div>
+              <div class="username" tabindex="0" aria-label="User profile name grief">
+                grief
+                <span class="glow-underline"></span>
+              </div>
+              <div class="user-bio">A modern biolink platform that puts creators first.</div>
+              <div class="badges" aria-label="User badges">
+                <div class="badge" tabindex="0" title="Creator badge">Creator</div>
+                <div class="badge" tabindex="0" title="Beta tester badge">Beta</div>
               </div>
             </div>
           </div>
 
-          <div class="links" id="links" role="list" aria-label="Feature links">
-            <a href="features.html" class="link" role="listitem" tabindex="0">
-              <div class="ico" aria-hidden="true">F</div>
-              <div class="label">Features</div>
-              <div class="sub">Discover everything grief.lol offers</div>
+          <!-- vertical burger style links -->
+          <div class="links" id="links" role="list" aria-label="User biolink preview">
+            <a href="https://twitter.com/yourusername" target="_blank" rel="noopener" class="link" role="listitem" tabindex="0" aria-label="Twitter profile">
+              <div class="ico" aria-hidden="true">🐦</div>
+              <div class="label">Twitter</div>
+              <div class="sub">@yourusername</div>
             </a>
-            <a href="pricing.html" class="link" role="listitem" tabindex="0">
-              <div class="ico" aria-hidden="true">P</div>
-              <div class="label">Pricing</div>
-              <div class="sub">Simple plans, no surprises</div>
+            <a href="https://youtube.com/channel/yourchannelid" target="_blank" rel="noopener" class="link" role="listitem" tabindex="0" aria-label="YouTube channel">
+              <div class="ico" aria-hidden="true">▶️</div>
+              <div class="label">YouTube</div>
+              <div class="sub">Your Channel</div>
             </a>
-            <a href="help.html" class="link" role="listitem" tabindex="0">
-              <div class="ico" aria-hidden="true">?</div>
-              <div class="label">Help</div>
-              <div class="sub">Got questions? We got answers</div>
+            <a href="https://instagram.com/yourusername" target="_blank" rel="noopener" class="link" role="listitem" tabindex="0" aria-label="Instagram profile">
+              <div class="ico" aria-hidden="true">📸</div>
+              <div class="label">Instagram</div>
+              <div class="sub">@yourusername</div>
             </a>
-            <a href="signup.html" class="link" role="listitem" tabindex="0">
-              <div class="ico" aria-hidden="true">S</div>
-              <div class="label">Sign Up</div>
-              <div class="sub">Start your journey now</div>
+            <a href="https://discord.gg/yourinvite" target="_blank" rel="noopener" class="link" role="listitem" tabindex="0" aria-label="Discord invite">
+              <div class="ico" aria-hidden="true">💬</div>
+              <div class="label">Discord</div>
+              <div class="sub">Join our server</div>
             </a>
-            <a href="learn.html" class="link" role="listitem" tabindex="0">
-              <div class="ico" aria-hidden="true">L</div>
-              <div class="label">Learn More</div>
-              <div class="sub">More about grief.lol</div>
+            <a href="https://soundcloud.com/yourusername" target="_blank" rel="noopener" class="link" role="listitem" tabindex="0" aria-label="SoundCloud profile">
+              <div class="ico" aria-hidden="true">🎵</div>
+              <div class="label">SoundCloud</div>
+              <div class="sub">Listen now</div>
             </a>
-            <a href="admin.html" class="link" role="listitem" tabindex="0" style="color: var(--accent1); font-weight:700;">
-              <div class="ico" aria-hidden="true">A</div>
-              <div class="label">Admin Panel</div>
-              <div class="sub">Manage users & assets</div>
-            </a>
-          </div>
-
-          <div class="small" style="margin-top:32px;">
-            &copy; 2025 grief.lol — handcrafted with care.
           </div>
         </div>
       </div>
     </section>
   </main>
 
-<script>
-  // Make all grief.lol text clickable to homepage
-  document.querySelectorAll('a.brand, .username').forEach(el => {
-    el.style.cursor = 'pointer';
-    el.onclick = () => window.location.href = 'index.html';
-  });
-</script>
+  <footer style="text-align:center; padding: 24px 0; color:var(--muted); font-size:14px;">
+    &copy; 2025 grief.lol — Crafted with care.
+  </footer>
 </body>
 </html>
