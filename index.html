@@ -4,372 +4,394 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>grief.bio — Your Digital Identity</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: linear-gradient(135deg, #0a0a0c 0%, #1a1a24 100%);
-      --text: #e2e2e8;
-      --muted: #7a7c8b;
-      --accent1: #00c8ff;
-      --accent2: #a153ff;
-      --accent3: #5ed06d;
-      --radius: 14px;
-    }
+    /* Reset & base */
     * {
       box-sizing: border-box;
     }
     body, html {
       margin: 0; padding: 0; height: 100%;
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      position: relative;
+      background: linear-gradient(135deg, #121b2b 0%, #1e2946 100%);
+      color: #e5e7eb;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    main {
-      min-height: 100vh;
-      max-width: 1200px;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    button {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Layout containers */
+    .container {
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 120px 20px 60px;
+      padding: 0 20px;
+      height: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 60px;
-      user-select: none;
+      justify-content: space-between;
     }
+
     header {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      text-align: center;
-      pointer-events: none;
-      user-select: none;
-      width: 100%;
-      max-width: 1200px;
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
     }
     header h1 {
-      margin: 0;
-      font-weight: 800;
-      font-size: 3rem;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1.1px;
-      pointer-events: none;
-      user-select: none;
-    }
-    header p {
-      margin: 4px 0 0;
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--muted);
-      pointer-events: none;
-    }
-    section.auth {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 0 20px;
-      position: fixed;
-      top: 80px;
-      left: 0;
-      right: 0;
-      max-width: 1200px;
-      z-index: 15;
-    }
-    .auth-box {
-      background: #121217;
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-      width: 320px;
-      max-width: 45vw;
-      transition: box-shadow 0.3s ease;
-    }
-    .auth-box:hover {
-      box-shadow: 0 0 25px var(--accent1);
-    }
-    .auth-box h2 {
       font-weight: 700;
-      margin-top: 0;
-      margin-bottom: 16px;
-      color: var(--accent2);
+      font-size: 1.8rem;
+      color: #ff6159;
+      user-select: none;
+      letter-spacing: 0.05em;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 40px;
+      align-items: center;
+      padding-bottom: 60px;
+    }
+    /* Mobile fallback */
+    @media (max-width: 860px) {
+      main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    /* Hero section */
+    .hero {
+      max-width: 600px;
+      animation: fadeInUp 1s ease forwards;
+    }
+    .hero h2 {
+      font-weight: 700;
+      font-size: 3.2rem;
+      margin: 0 0 12px;
+      line-height: 1.1;
+      color: #ff9f89;
       user-select: text;
     }
-    form {
+    .hero p {
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: #c0c4d0;
+      margin-top: 0;
+      margin-bottom: 36px;
+      line-height: 1.5;
+    }
+    .claim-username {
+      display: flex;
+      max-width: 420px;
+      gap: 14px;
+    }
+    .claim-username input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.1rem;
+      color: #1e2946;
+      font-weight: 600;
+      outline: none;
+      background: #ff9f89;
+      transition: background 0.3s ease;
+    }
+    .claim-username input::placeholder {
+      color: #5a5f74;
+      font-weight: 500;
+    }
+    .claim-username input:focus {
+      background: #ffbba9;
+    }
+    .claim-username button {
+      background: #ff6159;
+      border: none;
+      border-radius: 12px;
+      padding: 0 28px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      user-select: none;
+    }
+    .claim-username button:hover {
+      background: #ff4a44;
+    }
+    #claimStatus {
+      margin-top: 14px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #f0b9b5;
+      min-height: 24px;
+      user-select: none;
+    }
+
+    /* Sidebar - auth forms */
+    aside.auth-panel {
+      background: #2a364d;
+      padding: 28px 24px;
+      border-radius: 14px;
+      box-shadow: 0 0 20px rgba(255, 97, 89, 0.25);
+      animation: fadeInRight 1s ease forwards;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      user-select: none;
+    }
+    aside.auth-panel h3 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #ff9f89;
+      user-select: text;
+    }
+    form.auth-form {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      padding: 12px 14px;
-      font-size: 1rem;
-      border-radius: 12px;
+    input.auth-input {
+      padding: 12px 16px;
+      border-radius: 10px;
       border: none;
-      background: #1c1c24;
-      color: var(--text);
+      font-size: 1rem;
+      color: #1e2946;
+      font-weight: 600;
       outline: none;
-      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
-      transition: box-shadow 0.25s ease;
+      background: #ff9f89;
+      transition: background 0.3s ease;
     }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus {
-      box-shadow: 0 0 15px var(--accent1);
+    input.auth-input::placeholder {
+      color: #5a5f74;
+      font-weight: 500;
     }
-    button[type="submit"] {
-      padding: 14px 18px;
-      border-radius: 14px;
+    input.auth-input:focus {
+      background: #ffbba9;
+    }
+    button.auth-btn {
+      background: #ff6159;
       border: none;
+      border-radius: 12px;
+      padding: 12px 0;
       font-weight: 700;
-      font-size: 1rem;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      color: #0a0a0c;
+      font-size: 1.1rem;
+      color: #fff;
       cursor: pointer;
-      user-select: none;
-      transition: filter 0.25s ease, transform 0.25s ease;
-    }
-    button[type="submit"]:hover {
-      filter: brightness(1.15);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 200, 255, 0.3);
-    }
-    section.claim {
-      max-width: 700px;
-      width: 100%;
-      text-align: center;
-      margin: 0 auto;
-      padding-top: 160px;
+      transition: background 0.25s ease;
       user-select: none;
     }
-    section.claim h2 {
-      font-weight: 700;
-      font-size: 1.8rem;
-      margin-bottom: 22px;
-      color: var(--accent3);
+    button.auth-btn:hover {
+      background: #ff4a44;
     }
-    .claim-form {
+
+    /* Features section */
+    section.features {
       display: flex;
       justify-content: center;
-      gap: 16px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .claim-form input[type="text"] {
-      flex: 1;
-      padding: 14px 18px;
-      font-size: 1.1rem;
-      border-radius: 18px;
-      border: none;
-      background: #1c1c24;
-      color: var(--text);
-      outline: none;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
-      transition: box-shadow 0.25s ease;
-    }
-    .claim-form input[type="text"]:focus {
-      box-shadow: 0 0 22px var(--accent3);
-    }
-    .claim-form button {
-      padding: 14px 22px;
-      border-radius: 18px;
-      border: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      background: linear-gradient(90deg, var(--accent3), var(--accent2));
-      color: #0a0a0c;
-      cursor: pointer;
-      user-select: none;
-      transition: filter 0.25s ease, transform 0.25s ease;
-    }
-    .claim-form button:hover {
-      filter: brightness(1.15);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(94, 208, 109, 0.35);
-    }
-    #claimStatus {
-      margin-top: 14px;
-      min-height: 24px;
-      font-weight: 600;
-      font-size: 1rem;
-      user-select: none;
-      color: var(--muted);
-    }
-    section.features {
-      max-width: 900px;
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
       gap: 28px;
-      margin: 40px auto 0;
-      padding: 0 20px;
+      flex-wrap: wrap;
+      margin-top: 40px;
       user-select: none;
     }
     .feature-card {
-      background: #121217;
-      border-radius: var(--radius);
-      padding: 26px 24px;
-      box-shadow: 0 0 18px rgba(0,0,0,0.4);
+      background: #2a364d;
+      border-radius: 14px;
+      padding: 24px 28px;
+      width: 260px;
+      box-shadow: 0 0 12px rgba(255, 97, 89, 0.3);
       transition: box-shadow 0.3s ease;
     }
     .feature-card:hover {
-      box-shadow: 0 0 28px var(--accent2);
+      box-shadow: 0 0 18px #ff9f89;
     }
-    .feature-card h3 {
-      margin-top: 0;
-      margin-bottom: 14px;
-      color: var(--accent1);
+    .feature-card h4 {
+      margin: 0 0 12px;
+      color: #ff9f89;
       font-weight: 700;
-      user-select: text;
     }
-    .feature-card p,
-    .feature-card ul {
-      color: var(--muted);
+    .feature-card p {
+      color: #c0c4d0;
       font-size: 0.95rem;
+      line-height: 1.4;
       margin: 0;
     }
+
+    /* Footer */
     footer {
       text-align: center;
       padding: 24px 20px;
-      color: var(--muted);
       font-size: 0.9rem;
+      color: #5a5f74;
       user-select: none;
-      margin-top: 80px;
+      border-top: 1px solid #3c455e;
+      margin-top: auto;
     }
-    @media (max-width: 880px) {
-      section.auth {
-        flex-direction: column;
-        position: static;
-        padding: 0 20px;
-        max-width: 400px;
-        margin: 0 auto 40px;
-        gap: 24px;
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
-      .auth-box {
-        max-width: 100%;
-        width: 100%;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 860px) {
       main {
-        padding-top: 100px;
+        grid-template-columns: 1fr;
+        gap: 32px;
       }
-      section.claim {
-        padding-top: 0;
+      aside.auth-panel {
+        max-width: 100%;
+        padding: 24px 20px;
+        box-shadow: none;
       }
-    }
-    @media (max-width: 480px) {
-      header h1 {
-        font-size: 2.4rem;
+      .claim-username {
+        max-width: 100%;
+        flex-direction: column;
       }
-      section.claim h2 {
-        font-size: 1.5rem;
+      .claim-username button {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>grief.bio</h1>
-    <p>Your digital identity, reimagined.</p>
-  </header>
+  <div class="container">
+    <header>
+      <h1>grief.bio</h1>
+    </header>
 
-  <main>
-    <section class="auth" aria-label="Sign up and log in">
-      <div class="auth-box" aria-labelledby="signup-title" role="region">
-        <h2 id="signup-title">Sign Up</h2>
-        <form id="signupForm" autocomplete="off" novalidate>
+    <main>
+      <section class="hero" aria-label="Welcome and introduction">
+        <h2>Own your digital identity</h2>
+        <p>Create a custom biolink page that represents you across the web, perfectly crafted and easy to share.</p>
+
+        <form class="claim-username" id="claimForm" autocomplete="off" novalidate aria-label="Claim your username">
           <input
             type="text"
-            name="username"
-            placeholder="Username"
+            id="claimUsername"
+            name="claimUsername"
+            placeholder="Choose your username"
             minlength="3"
             required
-            autocomplete="username"
+            aria-required="true"
           />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            autocomplete="email"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            minlength="6"
-            required
-            autocomplete="new-password"
-          />
-          <button type="submit">Create Account</button>
+          <button type="submit">Check Availability</button>
         </form>
-      </div>
+        <p id="claimStatus" aria-live="polite" aria-atomic="true" role="status"></p>
+      </section>
 
-      <div class="auth-box" aria-labelledby="login-title" role="region">
-        <h2 id="login-title">Log In</h2>
-        <form id="loginForm" autocomplete="off" novalidate>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username or Email"
-            required
-            autocomplete="username"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-            autocomplete="current-password"
-          />
-          <button type="submit">Log In</button>
-        </form>
-      </div>
+      <aside class="auth-panel" aria-label="User sign up and login">
+        <div>
+          <h3>Sign Up</h3>
+          <form id="signupForm" autocomplete="off" novalidate>
+            <input
+              class="auth-input"
+              type="text"
+              name="username"
+              placeholder="Username"
+              minlength="3"
+              required
+              autocomplete="username"
+              aria-required="true"
+            />
+            <input
+              class="auth-input"
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+              autocomplete="email"
+              aria-required="true"
+            />
+            <input
+              class="auth-input"
+              type="password"
+              name="password"
+              placeholder="Password"
+              minlength="6"
+              required
+              autocomplete="new-password"
+              aria-required="true"
+            />
+            <button class="auth-btn" type="submit">Create Account</button>
+          </form>
+        </div>
+
+        <div>
+          <h3>Log In</h3>
+          <form id="loginForm" autocomplete="off" novalidate>
+            <input
+              class="auth-input"
+              type="text"
+              name="username"
+              placeholder="Username or Email"
+              required
+              autocomplete="username"
+              aria-required="true"
+            />
+            <input
+              class="auth-input"
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+              autocomplete="current-password"
+              aria-required="true"
+            />
+            <button class="auth-btn" type="submit">Log In</button>
+          </form>
+        </div>
+      </aside>
+    </main>
+
+    <section class="features" aria-label="Platform features">
+      <article class="feature-card">
+        <h4>Custom Vanity URLs</h4>
+        <p>Make your link unique and memorable with grief.bio/yourname.</p>
+      </article>
+      <article class="feature-card">
+        <h4>Profile Badges</h4>
+        <p>Display achievements and statuses with interactive badges and tooltips.</p>
+      </article>
+      <article class="feature-card">
+        <h4>Media Embeds</h4>
+        <p>Embed music, videos, and social previews to enrich your page.</p>
+      </article>
+      <article class="feature-card">
+        <h4>Fully Responsive</h4>
+        <p>Optimized experience on desktop, tablet, and mobile devices.</p>
+      </article>
     </section>
 
-    <section class="claim" aria-label="Claim your username">
-      <h2>Claim Your Username</h2>
-      <form class="claim-form" id="claimForm" autocomplete="off" novalidate>
-        <input
-          type="text"
-          id="claimUsername"
-          name="claimUsername"
-          placeholder="Enter desired username"
-          minlength="3"
-          required
-        />
-        <button type="submit">Check Availability</button>
-      </form>
-      <p id="claimStatus" aria-live="polite" aria-atomic="true"></p>
-    </section>
-
-    <section class="features" aria-label="Features and benefits">
-      <article class="feature-card">
-        <h3>Custom Vanity URLs</h3>
-        <p>Make your link your own with a personalized grief.bio/username.</p>
-      </article>
-      <article class="feature-card">
-        <h3>Profile Badges</h3>
-        <p>Show off your status and achievements with interactive badges and tooltips.</p>
-      </article>
-      <article class="feature-card">
-        <h3>Media Embeds</h3>
-        <p>Embed your favorite music, videos, and social previews effortlessly.</p>
-      </article>
-      <article class="feature-card">
-        <h3>Fully Responsive</h3>
-        <p>Looks amazing on any device — desktop, tablet, or mobile.</p>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2025 grief.bio — Crafted with care.
-  </footer>
+    <footer>
+      &copy; 2025 grief.bio — Crafted with care.
+    </footer>
+  </div>
 
   <script>
     const claimForm = document.getElementById("claimForm");
@@ -378,7 +400,8 @@
     claimForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const username = claimForm.claimUsername.value.trim();
-      claimStatus.style.color = "var(--muted)";
+      claimStatus.style.color = "#f0b9b5";
+      claimStatus.textContent = "";
       if (username.length < 3) {
         claimStatus.textContent = "❌ Username must be at least 3 characters.";
         claimStatus.style.color = "#ff5555";
@@ -388,15 +411,15 @@
       setTimeout(() => {
         if (Math.random() > 0.5) {
           claimStatus.textContent = `✅ '${username}' is available!`;
-          claimStatus.style.color = "var(--accent3)";
+          claimStatus.style.color = "#5ed06d";
         } else {
           claimStatus.textContent = `❌ Sorry, '${username}' is already taken.`;
           claimStatus.style.color = "#ff5555";
         }
-      }, 1200);
+      }, 1400);
     });
 
-    // Prevent actual form submits for sign up and login (placeholder)
+    // Placeholder for auth forms
     document.getElementById("signupForm").addEventListener("submit", e => {
       e.preventDefault();
       alert("Sign up form submitted (demo).");
