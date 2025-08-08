@@ -1,292 +1,939 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>grief.lol — Your Digital Identity</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --bg: #070507;
-    --panel: #0f0c10;
-    --muted: #9b8fa0;
-    --accent1: #ff5fb7; /* magenta */
-    --accent2: #7c5cff; /* purple */
-    --accent3: #00f0ff; /* cyan */
-    --radius: 20px;
-    --trans: 300ms;
-    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  }
-  * {
-    box-sizing: border-box;
-  }
-  html, body {
-    margin: 0; padding: 0; height: 100%;
-    background:
-      radial-gradient(1200px 700px at 10% 80%, rgba(124, 92, 255, 0.08), transparent 10%),
-      radial-gradient(900px 500px at 90% 20%, rgba(255, 95, 183, 0.06), transparent 8%),
-      var(--bg);
-    color: #eee;
-    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 0 20px;
-  }
-  .container {
-    max-width: 1200px;
-    width: 100%;
-    display: flex;
-    gap: 48px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeInSlide 0.6s ease forwards;
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  @keyframes fadeInSlide {
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>grief.lol — Your Digital Identity</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ========== ROOT & VARIABLES ========== */
+    :root {
+      --bg: #070507;
+      --panel: #0f0c10;
+      --muted: #9b8fa0;
+      --accent1: #ff5fb7; /* magenta */
+      --accent2: #7c5cff; /* purple */
+      --accent3: #00f0ff; /* cyan */
+      --radius: 20px;
+      --trans: 300ms;
+      --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      --font-primary: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+      --text-light: #eee;
+      --text-muted: var(--muted);
+      --btn-padding: 16px 28px;
+      --btn-radius: 999px;
     }
-  }
-  /* Left panel - intro & CTAs */
-  .intro {
-    flex: 1 1 400px;
-    max-width: 500px;
-  }
-  .intro h1 {
-    font-size: 3.8rem;
-    font-weight: 700;
-    line-height: 1.05;
-    margin-bottom: 12px;
-  }
-  .intro h1 .accent {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 8px 16px rgba(255, 95, 183, 0.2));
-  }
-  .intro p {
-    color: var(--muted);
-    font-size: 1.25rem;
-    margin-bottom: 36px;
-    max-width: 420px;
-  }
-  .buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .btn {
-    padding: 16px 28px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    color: #111;
-    box-shadow: 0 8px 28px rgba(255, 95, 183, 0.35);
-    transition: all var(--trans) ease;
-    flex: 1 1 180px;
-    text-align: center;
-    user-select: none;
-  }
-  .btn:hover {
-    filter: brightness(1.12);
-    transform: translateY(-4px);
-    box-shadow: 0 14px 48px rgba(255, 95, 183, 0.6);
-  }
-  .btn.secondary {
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    color: #fff;
-    box-shadow: 0 8px 28px rgba(0, 240, 255, 0.35);
-  }
-  .btn.secondary:hover {
-    filter: brightness(1.12);
-    transform: translateY(-4px);
-    box-shadow: 0 14px 48px rgba(0, 240, 255, 0.6);
-  }
-  /* Right panel - preview card */
-  .preview-card {
-    flex: 1 1 400px;
-    max-width: 460px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.2));
-    border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--card-shadow);
-    backdrop-filter: blur(12px) saturate(120%);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .preview-header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  .preview-avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, var(--accent1), var(--accent2));
-    box-shadow: 0 8px 30px rgba(124, 92, 255, 0.14), inset 0 -6px 12px rgba(0,0,0,0.25);
-    display: grid;
-    place-items: center;
-    font-weight: 700;
-    font-size: 28px;
-    color: #111;
-    user-select: none;
-  }
-  .preview-username {
-    font-weight: 700;
-    font-size: 1.6rem;
-    position: relative;
-    color: #fff;
-  }
-  .preview-username::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 40px;
-    height: 5px;
-    border-radius: 10px;
-    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
-    filter: blur(6px);
-    opacity: 0.8;
-    transition: opacity 250ms ease;
-  }
-  .preview-username:hover::after {
-    opacity: 1;
-  }
-  .preview-bio {
-    font-size: 0.95rem;
-    color: var(--muted);
-  }
-  .preview-links {
-    display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent2) transparent;
-  }
-  .preview-links::-webkit-scrollbar {
-    height: 6px;
-  }
-  .preview-links::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, var(--accent1), var(--accent2));
-    border-radius: 10px;
-  }
-  .preview-link {
-    flex: 0 0 auto;
-    background: linear-gradient(90deg, var(--accent3), var(--accent2));
-    border-radius: 16px;
-    padding: 12px 20px;
-    color: #111;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 8px 28px rgba(0, 240, 255, 0.4);
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
-    transition: transform var(--trans) ease, filter var(--trans) ease;
-  }
-  .preview-link:hover {
-    filter: brightness(1.12);
-    transform: translateY(-5px);
-  }
-  /* Scrollbar styling for vertical */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--accent1), var(--accent2));
-    border-radius: 10px;
-  }
-  /* Responsive */
-  @media (max-width: 880px) {
-    .container {
+
+    /* ========== GLOBAL RESET ========== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      font-family: var(--font-primary);
+      background:
+        radial-gradient(1200px 700px at 10% 80%, rgba(124, 92, 255, 0.08), transparent 10%),
+        radial-gradient(900px 500px at 90% 20%, rgba(255, 95, 183, 0.06), transparent 8%),
+        var(--bg);
+      color: var(--text-light);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent2) transparent;
+    }
+
+    /* ========== CUSTOM SCROLLBAR ========== */
+    /* Firefox */
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent2) transparent;
+    }
+    /* Webkit */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent1), var(--accent2));
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, var(--accent3), var(--accent2));
+    }
+
+    /* ========== LAYOUT & CONTAINER ========== */
+    .wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+      display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 20px 0;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
     }
-    .intro, .preview-card {
-      max-width: 100%;
-      flex: none;
+
+    /* ========== HEADER ========== */
+    header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1280px;
+      height: 56px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 40px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px) saturate(120%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 100;
+      user-select: none;
+    }
+
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 20px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      padding: 6px 14px;
+      border-radius: 30px;
+      color: #111;
+      box-shadow:
+        0 8px 24px rgba(124, 92, 255, 0.15),
+        inset 0 -6px 12px rgba(0,0,0,0.3);
+      transition: filter var(--trans);
+    }
+    header .brand:hover {
+      filter: brightness(1.2);
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      position: relative;
+      padding: 6px 0;
+      transition: color var(--trans);
+      cursor: pointer;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      transition: width var(--trans);
+      border-radius: 4px;
+    }
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--accent1);
+    }
+    nav a:hover::after,
+    nav a:focus-visible::after {
       width: 100%;
     }
-    .preview-links {
-      justify-content: center;
+
+    .header-actions button {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border: none;
+      border-radius: var(--btn-radius);
+      padding: var(--btn-padding);
+      font-weight: 600;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 12px 40px rgba(255, 95, 183, 0.35);
+      transition: all var(--trans) ease;
+      user-select: none;
+      font-size: 14px;
     }
-  }
-</style>
+    .header-actions button:hover,
+    .header-actions button:focus-visible {
+      filter: brightness(1.15);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 48px rgba(255, 95, 183, 0.6);
+      outline: none;
+    }
+
+    /* ========== HERO SECTION ========== */
+    main {
+      flex-grow: 1;
+      padding-top: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 48px;
+      flex-wrap: wrap;
+      user-select: none;
+      scroll-margin-top: 80px;
+    }
+    .hero-left {
+      flex: 1 1 420px;
+      max-width: 520px;
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .hero-left h1 {
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+      color: #eee;
+    }
+    .hero-left h1 .accent {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 10px 20px rgba(255, 95, 183, 0.25));
+      user-select: text;
+    }
+    .hero-left p {
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: var(--muted);
+      margin-bottom: 42px;
+      line-height: 1.45;
+      user-select: text;
+    }
+    .hero-left .cta-buttons {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-left .btn-primary {
+      padding: 18px 38px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      border-radius: var(--btn-radius);
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #111;
+      box-shadow: 0 14px 42px rgba(255, 95, 183, 0.4);
+      transition: all 350ms ease;
+      user-select: none;
+      flex: 1 1 200px;
+      text-align: center;
+    }
+    .hero-left .btn-primary:hover,
+    .hero-left .btn-primary:focus-visible {
+      filter: brightness(1.15);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(255, 95, 183, 0.6);
+      outline: none;
+    }
+    .hero-left .btn-secondary {
+      padding: 18px 36px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-radius: var(--btn-radius);
+      cursor: pointer;
+      border: 2px solid var(--accent3);
+      background: transparent;
+      color: var(--accent3);
+      box-shadow: 0 10px 28px rgba(0, 240, 255, 0.3);
+      transition: all 350ms ease;
+      user-select: none;
+      flex: 1 1 180px;
+      text-align: center;
+    }
+    .hero-left .btn-secondary:hover,
+    .hero-left .btn-secondary:focus-visible {
+      background: var(--accent3);
+      color: #111;
+      filter: brightness(1.1);
+      transform: translateY(-5px);
+      box-shadow: 0 18px 48px rgba(0, 240, 255, 0.6);
+      outline: none;
+    }
+
+    /* ========== PREVIEW CARD (RIGHT SIDE) ========== */
+    .preview-card {
+      flex: 1 1 420px;
+      max-width: 460px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.25));
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      box-shadow: var(--card-shadow);
+      backdrop-filter: blur(14px) saturate(120%);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      user-select: none;
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .preview-header {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .preview-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow:
+        0 12px 32px rgba(124, 92, 255, 0.18),
+        inset 0 -6px 12px rgba(0,0,0,0.3);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 30px;
+      color: #111;
+      user-select: none;
+    }
+    .preview-info {
+      flex: 1;
+    }
+    .preview-username {
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: #fff;
+      position: relative;
+      padding-bottom: 10px;
+      cursor: default;
+    }
+    .preview-username::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 48px;
+      height: 6px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      filter: blur(6px);
+      opacity: 0.9;
+      transition: opacity 300ms ease;
+    }
+    .preview-username:hover::after {
+      opacity: 1;
+    }
+    .preview-bio {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.4;
+      user-select: text;
+      margin-top: -6px;
+    }
+
+    /* ========== LINKS BURGER STYLE ========== */
+    .preview-links {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent2) transparent;
+      user-select: none;
+    }
+    .preview-links::-webkit-scrollbar {
+      height: 8px;
+    }
+    .preview-links::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      border-radius: 20px;
+    }
+    .preview-links::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    }
+    .preview-link {
+      flex: 0 0 auto;
+      background: linear-gradient(90deg, var(--accent3), var(--accent2));
+      border-radius: 22px;
+      padding: 14px 28px;
+      color: #111;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 36px rgba(0, 240, 255, 0.5);
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+      transition: transform var(--trans) ease, filter var(--trans) ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+      position: relative;
+    }
+    .preview-link:hover {
+      filter: brightness(1.12);
+      transform: translateY(-6px);
+      box-shadow: 0 18px 56px rgba(0, 240, 255, 0.75);
+    }
+    .preview-link::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      background: #111;
+      border-radius: 999px;
+      transform: translateY(-50%);
+      opacity: 0.25;
+    }
+
+    /* ========== FEATURES SECTION ========== */
+    section#features {
+      margin: 80px auto 40px;
+      max-width: 900px;
+      padding: 0 20px;
+      font-family: var(--font-primary);
+      user-select: none;
+    }
+    section#features h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 36px;
+      letter-spacing: -0.02em;
+    }
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .feature-card {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 24px 22px;
+      box-shadow: 0 14px 48px rgba(0, 0, 0, 0.7);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--muted);
+      transition: background var(--trans), box-shadow var(--trans);
+      cursor: default;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      user-select: text;
+    }
+    .feature-card:hover {
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #111;
+      box-shadow: 0 20px 64px rgba(124, 92, 255, 0.6);
+    }
+    .feature-icon {
+      font-size: 1.8rem;
+      user-select: none;
+    }
+
+    /* ========== PRICING TEASER ========== */
+    section#pricing {
+      margin: 80px auto 40px;
+      max-width: 880px;
+      padding: 0 20px;
+      color: var(--text-light);
+      user-select: none;
+    }
+    section#pricing h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .pricing-toggle {
+      text-align: center;
+      margin-bottom: 36px;
+      user-select: none;
+    }
+    .toggle-btns {
+      display: inline-flex;
+      border-radius: 9999px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      box-shadow: 0 10px 32px rgba(0,0,0,0.6);
+      user-select: none;
+    }
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      padding: 14px 32px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all var(--trans);
+      user-select: none;
+      outline-offset: 3px;
+    }
+    .toggle-btn.active {
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #111;
+      box-shadow: 0 10px 36px rgba(255, 95, 183, 0.55);
+      user-select: none;
+    }
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 860px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    .price-card {
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 30px 24px;
+      box-shadow: 0 14px 48px rgba(0,0,0,0.7);
+      color: var(--muted);
+      text-align: center;
+      transition: box-shadow var(--trans), color var(--trans);
+      user-select: none;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .price-card.highlight {
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: #111;
+      box-shadow: 0 20px 60px rgba(124, 92, 255, 0.6);
+    }
+    .price-card h3 {
+      font-weight: 700;
+      font-size: 1.4rem;
+      margin: 0;
+      user-select: none;
+    }
+    .price {
+      font-weight: 800;
+      font-size: 2.6rem;
+      user-select: none;
+      color: inherit;
+    }
+    .price-period {
+      font-weight: 600;
+      font-size: 1rem;
+      opacity: 0.8;
+      user-select: none;
+    }
+    .price-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-weight: 500;
+      font-size: 1rem;
+      user-select: none;
+    }
+    .price-features li {
+      margin: 10px 0;
+    }
+    .price-card.highlight .price-features li {
+      color: #222;
+    }
+    .price-cta {
+      margin-top: auto;
+      padding-top: 12px;
+    }
+    .price-cta button {
+      border: none;
+      background: #111;
+      color: var(--accent1);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 24px;
+      border-radius: var(--btn-radius);
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(255, 95, 183, 0.5);
+      transition: background var(--trans), color var(--trans), box-shadow var(--trans);
+      user-select: none;
+      width: 100%;
+    }
+    .price-cta button:hover,
+    .price-cta button:focus-visible {
+      background: var(--accent1);
+      color: #111;
+      box-shadow: 0 12px 48px rgba(255, 95, 183, 0.8);
+      outline: none;
+    }
+
+    /* ========== FAQ SECTION ========== */
+    section#faq {
+      margin: 80px auto 60px;
+      max-width: 900px;
+      padding: 0 20px;
+      color: var(--text-light);
+      user-select: none;
+    }
+    section#faq h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 36px;
+      color: #fff;
+    }
+    .faq-item {
+      background: var(--panel);
+      border-radius: 14px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      user-select: none;
+      cursor: pointer;
+      transition: box-shadow 300ms ease;
+    }
+    .faq-item:hover {
+      box-shadow: 0 16px 56px rgba(124, 92, 255, 0.6);
+    }
+    .faq-question {
+      padding: 20px 28px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--accent2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent3);
+      transition: transform 300ms ease;
+      user-select: none;
+    }
+    .faq-item.open .faq-question::after {
+      content: "−";
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      padding: 0 28px;
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.5;
+      overflow: hidden;
+      transition: max-height 350ms ease, padding 350ms ease;
+      user-select: text;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 16px 28px 28px;
+    }
+
+    /* ========== FOOTER ========== */
+    footer {
+      margin-top: auto;
+      padding: 40px 20px 28px;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      user-select: none;
+    }
+    footer .social-links {
+      display: flex;
+      gap: 20px;
+    }
+    footer .social-links a {
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color var(--trans);
+    }
+    footer .social-links a:hover,
+    footer .social-links a:focus-visible {
+      color: var(--accent1);
+      outline: none;
+    }
+
+    /* ========== MEDIA QUERIES ========== */
+    @media (max-width: 960px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 100px;
+      }
+      .hero-left, .preview-card {
+        max-width: 100%;
+      }
+      .preview-links {
+        justify-content: center;
+      }
+    }
+    @media (max-width: 440px) {
+      header {
+        padding: 0 16px;
+      }
+      .hero-left h1 {
+        font-size: 2.8rem;
+      }
+      .hero-left p {
+        font-size: 1.1rem;
+      }
+      .hero-left .btn-primary, .hero-left .btn-secondary {
+        flex: 1 1 100%;
+      }
+      footer {
+        justify-content: center;
+        gap: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="brand" onclick="location.href='index.html'" tabindex="0" role="button" aria-label="Go to homepage">grief.lol</div>
+    <nav aria-label="Primary Navigation">
+      <a href="#features" tabindex="0">Features</a>
+      <a href="#pricing" tabindex="0">Pricing</a>
+      <a href="#faq" tabindex="0">Help</a>
+      <a href="signup.html" tabindex="0">Sign Up</a>
+      <a href="#learn-more" tabindex="0">Learn More</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" onclick="location.href='signup.html'" aria-label="Claim your username on grief.lol">Claim Username</button>
+    </div>
+  </header>
 
-  <main class="container" role="main" aria-label="Welcome to grief.lol biolink service">
+  <div class="wrapper" role="main" aria-label="grief.lol homepage">
 
-    <section class="intro">
-      <h1>
-        Your digital <span class="accent">Identity</span>,<br/>
-        <span class="accent">On Your Terms.</span>
-      </h1>
-      <p>
-        grief.lol is a handcrafted, premium biolink platform for creators & builders.<br/>
-        Keep your socials, music, and highlights in one beautifully designed, customizable place.
-      </p>
+    <main>
+      <section class="hero-left">
+        <h1>
+          Your digital <span class="accent">Identity</span>,<br />
+          <span class="accent">On Your Terms.</span>
+        </h1>
+        <p>
+          grief.lol is a handcrafted, premium biolink platform for creators & builders.<br />
+          Keep your socials, music, and highlights in one beautifully designed, customizable place.
+        </p>
+        <div class="cta-buttons">
+          <button class="btn-primary" onclick="location.href='signup.html'" aria-label="Claim your username">Claim Your Username</button>
+          <button class="btn-secondary" onclick="scrollToSection('features')" aria-label="Explore grief.lol features">Explore Features</button>
+        </div>
+      </section>
 
-      <div class="buttons">
-        <button class="btn" onclick="window.location.href='signup.html'">Claim Your Username</button>
-        <button class="btn secondary" onclick="window.location.href='#features'">Explore Features</button>
-      </div>
-    </section>
+      <section class="preview-card" aria-label="Example biolink preview">
+        <div class="preview-header">
+          <div class="preview-avatar" aria-hidden="true" tabindex="-1">g</div>
+          <div class="preview-info">
+            <div class="preview-username" tabindex="0" aria-label="Username preview">grief</div>
+            <div class="preview-bio" tabindex="0">Minimal. Moody. Made for creators who want control.<br />Music embeds, socials, and custom badges.</div>
+          </div>
+        </div>
 
-    <section class="preview-card" aria-label="Example biolink preview">
-      <div class="preview-header">
-        <div class="preview-avatar" aria-hidden="true">g</div>
-        <div>
-          <div class="preview-username" tabindex="0">grief</div>
-          <div class="preview-bio">Minimal. Moody. Made for creators who want control.<br/>Music embeds, socials, and custom badges.</div>
+        <nav class="preview-links" aria-label="Sample biolink links">
+          <div class="preview-link" tabindex="0" role="link" aria-label="Spotify now playing link">Spotify: Now Playing</div>
+          <div class="preview-link" tabindex="0" role="link" aria-label="Twitter profile link">Twitter @grief</div>
+          <div class="preview-link" tabindex="0" role="link" aria-label="Contact and collaboration link">Contact / Collab</div>
+          <div class="preview-link" tabindex="0" role="link" aria-label="YouTube channel link">YouTube Channel</div>
+        </nav>
+      </section>
+    </main>
+
+    <section id="features" tabindex="-1" aria-label="Features section">
+      <h2>Features</h2>
+      <div class="features-list" role="list">
+        <div class="feature-card" role="listitem">
+          <span class="feature-icon" aria-hidden="true">🎵</span>
+          Music embeds (Spotify / SoundCloud)
+        </div>
+        <div class="feature-card" role="listitem">
+          <span class="feature-icon" aria-hidden="true">⚡</span>
+          Custom sound effects & micro-interactions
+        </div>
+        <div class="feature-card" role="listitem">
+          <span class="feature-icon" aria-hidden="true">🏅</span>
+          Unique badges & social integrations
+        </div>
+        <div class="feature-card" role="listitem">
+          <span class="feature-icon" aria-hidden="true">🔗</span>
+          Custom Vanity URLs & fast hosting
         </div>
       </div>
-
-      <nav class="preview-links" aria-label="Sample links">
-        <div class="preview-link" tabindex="0">Spotify: Now Playing</div>
-        <div class="preview-link" tabindex="0">Twitter @grief</div>
-        <div class="preview-link" tabindex="0">Contact / Collab</div>
-        <div class="preview-link" tabindex="0">YouTube Channel</div>
-      </nav>
     </section>
 
-  </main>
+    <section id="pricing" tabindex="-1" aria-label="Pricing teaser section">
+      <h2>Pricing</h2>
+      <div class="pricing-toggle" role="group" aria-label="Toggle monthly and yearly pricing">
+        <div class="toggle-btns" role="radiogroup" aria-required="true">
+          <button class="toggle-btn active" role="radio" aria-checked="true" id="toggle-monthly" aria-controls="pricing-cards" tabindex="0" onclick="switchPricing('monthly')">Monthly</button>
+          <button class="toggle-btn" role="radio" aria-checked="false" id="toggle-yearly" aria-controls="pricing-cards" tabindex="0" onclick="switchPricing('yearly')">Yearly</button>
+        </div>
+      </div>
+      <div class="pricing-cards" id="pricing-cards">
+        <div class="price-card" id="pricing-basic">
+          <h3>Basic</h3>
+          <div class="price" data-monthly="0" data-yearly="0">$0</div>
+          <div class="price-period">Free forever</div>
+          <ul class="price-features">
+            <li>Unlimited links</li>
+            <li>Basic customization</li>
+            <li>Standard support</li>
+          </ul>
+          <div class="price-cta">
+            <button onclick="location.href='signup.html'" aria-label="Sign up for basic plan">Get Started</button>
+          </div>
+        </div>
+        <div class="price-card highlight" id="pricing-pro">
+          <h3>Pro</h3>
+          <div class="price" data-monthly="6.99" data-yearly="69.99">$6.99</div>
+          <div class="price-period">per month</div>
+          <ul class="price-features">
+            <li>All Basic features</li>
+            <li>Music embeds & badges</li>
+            <li>Priority support</li>
+            <li>Custom domain mapping</li>
+          </ul>
+          <div class="price-cta">
+            <button onclick="location.href='signup.html'" aria-label="Sign up for pro plan">Upgrade Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section id="features" style="max-width: 900px; margin: 80px auto 40px; padding: 0 20px; color: var(--muted); font-family: 'Poppins', sans-serif;">
-    <h2 style="color:#fff; font-size: 1.8rem; margin-bottom: 20px; text-align:center;">Features</h2>
-    <ul style="list-style:none; padding:0; max-width: 700px; margin: auto; display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 20px;">
-      <li style="background: var(--panel); border-radius: 12px; padding: 18px; box-shadow: 0 10px 28px rgba(0,0,0,0.7);">
-        Custom sound effects & micro-interactions
-      </li>
-      <li style="background: var(--panel); border-radius: 12px; padding: 18px; box-shadow: 0 10px 28px rgba(0,0,0,0.7);">
-        Music embeds (Spotify / SoundCloud)
-      </li>
-      <li style="background: var(--panel); border-radius: 12px; padding: 18px; box-shadow: 0 10px 28px rgba(0,0,0,0.7);">
-        Unique badges & social integrations
-      </li>
-      <li style="background: var(--panel); border-radius: 12px; padding: 18px; box-shadow: 0 10px 28px rgba(0,0,0,0.7);">
-        Custom Vanity URLs & fast hosting
-      </li>
-    </ul>
-  </section>
+    <section id="faq" tabindex="-1" aria-label="Frequently Asked Questions">
+      <h2>Help & FAQ</h2>
+      <div class="faq-item" tabindex="0" role="button" aria-expanded="false" aria-controls="faq1" aria-label="What is grief.lol?">
+        <div class="faq-question">What is grief.lol?</div>
+        <div class="faq-answer" id="faq1">
+          grief.lol is a customizable biolink platform for creators, allowing you to consolidate your social profiles, music, and highlights in a sleek single page.
+        </div>
+      </div>
+      <div class="faq-item" tabindex="0" role="button" aria-expanded="false" aria-controls="faq2" aria-label="How do I claim my username?">
+        <div class="faq-question">How do I claim my username?</div>
+        <div class="faq-answer" id="faq2">
+          Simply sign up via the "Claim Your Username" button and follow the instructions to create your unique grief.lol URL.
+        </div>
+      </div>
+      <div class="faq-item" tabindex="0" role="button" aria-expanded="false" aria-controls="faq3" aria-label="Can I embed my music?">
+        <div class="faq-question">Can I embed my music?</div>
+        <div class="faq-answer" id="faq3">
+          Yes! We support Spotify and SoundCloud embeds directly on your biolink page.
+        </div>
+      </div>
+    </section>
 
+  </div>
+
+  <footer>
+    <div>© 2025 grief.lol — Crafted with ❤️ for creators</div>
+    <div class="social-links" aria-label="Social media links">
+      <a href="https://twitter.com/grief" target="_blank" rel="noopener" aria-label="Twitter">Twitter</a>
+      <a href="https://github.com/grief" target="_blank" rel="noopener" aria-label="GitHub">GitHub</a>
+      <a href="mailto:support@grief.lol" aria-label="Email support">Support</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll smoothly to section by ID
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Pricing toggle switch function
+    function switchPricing(mode) {
+      const monthlyBtn = document.getElementById('toggle-monthly');
+      const yearlyBtn = document.getElementById('toggle-yearly');
+      const priceCards = document.querySelectorAll('.price-card');
+
+      if(mode === 'monthly') {
+        monthlyBtn.classList.add('active');
+        monthlyBtn.setAttribute('aria-checked', 'true');
+        yearlyBtn.classList.remove('active');
+        yearlyBtn.setAttribute('aria-checked', 'false');
+      } else {
+        yearlyBtn.classList.add('active');
+        yearlyBtn.setAttribute('aria-checked', 'true');
+        monthlyBtn.classList.remove('active');
+        monthlyBtn.setAttribute('aria-checked', 'false');
+      }
+
+      priceCards.forEach(card => {
+        const priceEl = card.querySelector('.price');
+        const periodEl = card.querySelector('.price-period');
+        if (!priceEl || !periodEl) return;
+        const monthlyPrice = priceEl.getAttribute('data-monthly');
+        const yearlyPrice = priceEl.getAttribute('data-yearly');
+        if(mode === 'monthly') {
+          priceEl.textContent = monthlyPrice === "0" ? "$0" : `$${monthlyPrice}`;
+          periodEl.textContent = monthlyPrice === "0" ? "Free forever" : "per month";
+        } else {
+          priceEl.textContent = yearlyPrice === "0" ? "$0" : `$${yearlyPrice}`;
+          periodEl.textContent = yearlyPrice === "0" ? "Free forever" : "per year";
+        }
+      });
+    }
+
+    // FAQ Accordion toggle
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        // Close all others
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.setAttribute('aria-expanded', 'false');
+        });
+        if(!isOpen) {
+          item.classList.add('open');
+          item.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      // Keyboard accessibility
+      item.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          item.click();
+        }
+      });
+    });
+
+    // Animate preview username glow on hover
+    const previewUsername = document.querySelector('.preview-username');
+    previewUsername.addEventListener('mouseenter', () => {
+      previewUsername.style.textShadow = "0 0 15px var(--accent1), 0 0 35px var(--accent2), 0 0 60px var(--accent3)";
+    });
+    previewUsername.addEventListener('mouseleave', () => {
+      previewUsername.style.textShadow = "none";
+    });
+  </script>
 </body>
 </html>
