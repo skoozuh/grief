@@ -147,6 +147,7 @@
     background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
     transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
     box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    text-decoration:none; color:inherit;
   }
   .link .ico{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; font-size:18px; font-weight:700; background:linear-gradient(135deg,var(--accent3),var(--accent2))}
   .link .label{ flex:1; font-weight:600 }
@@ -185,6 +186,9 @@
 
   /* subtle parallax movement */
   .parallax-slow{ transform: translateZ(0); transition: transform 800ms ease; }
+
+  /* simple reset for svg icons inside .ico so they scale nicely */
+  .ico svg{ width:18px; height:18px; display:block }
 </style>
 </head>
 <body>
@@ -240,17 +244,20 @@
               <div class="user-bio">Minimal. Moody. Made for creators who want control. Music embeds, socials, and custom badges.</div>
 
               <div class="badges" aria-hidden="true">
-                <div class="badge" title="Verified">✔️ Verified</div>
-                <div class="badge" title="Music">🎧 Music</div>
-                <div class="badge" title="Premium">★ Premium</div>
-                <div class="badge" title="Host">⚡ Fast</div>
+                <div class="badge" title="Verified">Verified</div>
+                <div class="badge" title="Music">Music</div>
+                <div class="badge" title="Premium">Premium</div>
+                <div class="badge" title="Fast">Fast</div>
               </div>
             </div>
           </div>
 
           <div id="links" class="links" style="margin-top:22px">
             <div class="link" onclick="navigator.clipboard?.writeText('https://grief.lol/username'); pulse(this)">
-              <div class="ico">🔗</div>
+              <div class="ico" aria-hidden="true">
+                <!-- link chain SVG -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.59 13.41a2 2 0 0 0 2.83 0l1.77-1.77a2 2 0 0 0 0-2.83 2 2 0 0 0-2.83 0l-1 1" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
               <div>
                 <div class="label">grief.lol/username</div>
                 <div class="sub">Tap to copy your profile link</div>
@@ -258,7 +265,10 @@
             </div>
 
             <a class="link" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" onclick="playClick()">
-              <div class="ico">🎵</div>
+              <div class="ico" aria-hidden="true">
+                <!-- music note SVG -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V5l10-2v13" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="2" fill="#fff" fill-opacity="0.95"/></svg>
+              </div>
               <div>
                 <div class="label">Now playing — Dear Mama</div>
                 <div class="sub">Nino Paid · Spotify</div>
@@ -266,7 +276,10 @@
             </a>
 
             <a class="link" href="https://twitter.com/" target="_blank" rel="noopener noreferrer" onclick="playClick()">
-              <div class="ico">🐦</div>
+              <div class="ico" aria-hidden="true">
+                <!-- generic social circle SVG (no emoji) -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6" /><path d="M8 12h8" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
               <div>
                 <div class="label">@grief</div>
                 <div class="sub">Twitter</div>
@@ -274,7 +287,10 @@
             </a>
 
             <a class="link" href="#contact" onclick="playClick()">
-              <div class="ico">✉️</div>
+              <div class="ico" aria-hidden="true">
+                <!-- mail/envelope SVG -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="#fff" stroke-opacity="0.95" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
               <div>
                 <div class="label">Contact / Collab</div>
                 <div class="sub">Say hi — let’s make something</div>
