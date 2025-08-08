@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pricing — grief.lol</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #070507;
+    --accent1: #ff5fb7;
+    --accent2: #7c5cff;
+    --muted: #9b8fa0;
+    --radius: 20px;
+  }
+  body {
+    margin: 0; padding: 20px;
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: var(--bg);
+    color: #eee;
+    min-height: 100vh;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+  p {
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 32px;
+  }
+  .pricing-table {
+    max-width: 700px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .plan {
+    background: rgba(255,255,255,0.03);
+    padding: 24px 28px;
+    border-radius: var(--radius);
+    box-shadow: 0 6px 24px rgba(124, 92, 255, 0.15);
+    flex: 1 1 280px;
+  }
+  .plan h2 {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .plan-price {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--accent1);
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul li {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  a.back-link {
+    display: inline-block;
+    margin-top: 32px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  a.back-link:hover {
+    color: var(--accent1);
+  }
+</style>
+</head>
+<body>
+  <h1>Pricing</h1>
+  <p>Choose the plan that suits you best. Start free or upgrade for premium features.</p>
+
+  <div class="pricing-table" aria-label="Pricing options">
+    <div class="plan" tabindex="0" aria-label="Free plan">
+      <h2>Free</h2>
+      <div class="plan-price">$0 / month</div>
+      <ul>
+        <li>Basic biolink page</li>
+        <li>Music & social embeds</li>
+        <li>Limited badges</li>
+        <li>Community support</li>
+      </ul>
+    </div>
+
+    <div class="plan" tabindex="0" aria-label="Premium plan">
+      <h2>Premium</h2>
+      <div class="plan-price">$6.99 / month</div>
+      <ul>
+        <li>Custom badges & animations</li>
+        <li>Advanced analytics</li>
+        <li>Priority support</li>
+        <li>Early access to new features</li>
+      </ul>
+    </div>
+  </div>
+
+  <a href="index.html" class="back-link" aria-label="Return to homepage">&larr; Back to homepage</a>
+</body>
+</html>
