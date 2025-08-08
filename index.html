@@ -1,576 +1,415 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>grief.bio — Your Link Hub</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
-  <style>
-    :root {
-      --bg: #050507;
-      --card: #0b0b0d;
-      --muted: #9aa0a6;
-      --accent1: #00f0ff; /* cyan */
-      --accent2: #c857ff; /* magenta */
-      --accent3: #7af75b; /* acid green */
-      --glass: rgba(255, 255, 255, 0.03);
-      --radius: 18px;
-      --maxw: 460px;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>grief.bio — Your Digital Identity</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --text: #e2e2e8;
+    --muted: #8a8c9b;
+    --accent1: #00e0ff;
+    --accent2: #c75eff;
+    --accent3: #7eff8a;
+    --radius: 16px;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #08080a 0%, #121217 100%);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 60px;
+    user-select: none;
+  }
+  header h1 {
+    font-weight: 900;
+    font-size: 4.5rem;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1.3px;
+    margin: 0;
+  }
+  header p {
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin-top: 10px;
+    color: var(--muted);
+  }
+  section.auth {
+    width: 100%;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+  .auth-box {
+    background: #121217;
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    width: 100%;
+    max-width: 400px;
+    transition: box-shadow 0.3s ease;
+  }
+  .auth-box:hover {
+    box-shadow: 0 0 45px var(--accent1);
+  }
+  .auth-box h2 {
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--accent2);
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 14px 18px;
+    font-size: 1rem;
+    border-radius: 14px;
+    border: none;
+    background: #1c1c24;
+    color: var(--text);
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+    transition: box-shadow 0.25s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    box-shadow: 0 0 20px var(--accent1);
+  }
+  button[type="submit"] {
+    padding: 16px 20px;
+    border-radius: 16px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    color: #0a0a0c;
+    cursor: pointer;
+    user-select: none;
+    transition: filter 0.25s ease, transform 0.25s ease;
+  }
+  button[type="submit"]:hover {
+    filter: brightness(1.2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(0, 224, 255, 0.35);
+  }
+  section.claim {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  section.claim h2 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+    color: var(--accent3);
+  }
+  .claim-form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .claim-form input[type="text"] {
+    flex: 1;
+    padding: 16px 20px;
+    font-size: 1.15rem;
+    border-radius: 20px;
+    border: none;
+    background: #1c1c24;
+    color: var(--text);
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+    transition: box-shadow 0.25s ease;
+  }
+  .claim-form input[type="text"]:focus {
+    box-shadow: 0 0 25px var(--accent3);
+  }
+  .claim-form button {
+    padding: 16px 26px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    color: #0a0a0c;
+    cursor: pointer;
+    user-select: none;
+    transition: filter 0.25s ease, transform 0.25s ease;
+  }
+  .claim-form button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(126, 255, 138, 0.35);
+  }
+  #claimStatus {
+    margin-top: 14px;
+    min-height: 24px;
+    font-weight: 600;
+    font-size: 1rem;
+    user-select: none;
+  }
+  section.features {
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+  .feature-card {
+    background: #121217;
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    transition: box-shadow 0.3s ease;
+  }
+  .feature-card:hover {
+    box-shadow: 0 0 35px var(--accent2);
+  }
+  .feature-card h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: var(--accent1);
+    font-weight: 700;
+  }
+  .feature-card p,
+  .feature-card ul {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .feature-card ul {
+    padding-left: 18px;
+    margin-top: 6px;
+  }
+  footer {
+    text-align: center;
+    padding: 24px 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    user-select: none;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      font-family: Inter, Poppins, system-ui, Segoe UI, Roboto, "Helvetica Neue",
-        Arial, sans-serif;
-      background: radial-gradient(
-          1200px 600px at 10% 10%,
-          rgba(200, 100, 255, 0.04),
-          transparent
-        ),
-        radial-gradient(
-          1000px 500px at 90% 90%,
-          rgba(0, 240, 255, 0.03),
-          transparent
-        ),
-        var(--bg);
-      color: #e7e7ea;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      display: flex;
+  /* Floating shapes - subtle */
+  .float-shape {
+    position: fixed;
+    filter: blur(28px);
+    opacity: 0.12;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .s1 {
+    width: 380px;
+    height: 380px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    left: -100px;
+    top: -140px;
+    border-radius: 40%;
+    animation: floatmove1 15s ease-in-out infinite;
+  }
+  .s2 {
+    width: 320px;
+    height: 320px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    right: -100px;
+    bottom: -90px;
+    border-radius: 45%;
+    animation: floatmove2 12s ease-in-out infinite;
+  }
+  @keyframes floatmove1 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(18px, 20px); }
+  }
+  @keyframes floatmove2 {
+    0%,100% { transform: translate(0,0); }
+    50% { transform: translate(-20px, -15px); }
+  }
+
+  @media (max-width: 900px) {
+    section.auth {
       flex-direction: column;
-      align-items: center;
-      padding: 48px 16px 80px;
-      overflow-x: hidden;
-      min-height: 100vh;
+      gap: 28px;
     }
-
-    .float-shape {
-      position: fixed;
-      filter: blur(26px);
-      opacity: 0.15;
-      mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .s1 {
-      width: 420px;
-      height: 420px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      left: -80px;
-      top: -120px;
-      border-radius: 40%;
-    }
-    .s2 {
-      width: 300px;
-      height: 300px;
-      background: linear-gradient(135deg, var(--accent3), var(--accent2));
-      right: -100px;
-      bottom: -80px;
-      border-radius: 45%;
-    }
-
-    header {
-      text-align: center;
-      max-width: 480px;
-      margin-bottom: 36px;
-      z-index: 2;
+    main {
+      padding: 40px 15px 80px;
     }
     header h1 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      background: linear-gradient(
-        90deg,
-        var(--accent1),
-        var(--accent2),
-        var(--accent3)
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1.3px;
-      margin-bottom: 8px;
+      font-size: 3.4rem;
     }
-    header p {
-      color: var(--muted);
-      font-size: 1.1rem;
-      line-height: 1.4;
-      user-select: none;
+  }
+  @media (max-width: 400px) {
+    header h1 {
+      font-size: 2.8rem;
     }
-
-    .card {
-      width: 100%;
-      max-width: var(--maxw);
-      background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.02),
-          rgba(255, 255, 255, 0.01)
-        );
-      border-radius: var(--radius);
-      padding: 28px 28px 36px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(6px);
-      position: relative;
-      z-index: 3;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      margin-bottom: 30px;
-    }
-
-    /* Profile area */
-    .top {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .avatar {
-      width: 84px;
-      height: 84px;
-      border-radius: 22px;
-      overflow: hidden;
-      flex-shrink: 0;
-      border: 2px solid rgba(255, 255, 255, 0.04);
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1);
-      cursor: pointer;
-    }
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .avatar:hover {
-      transform: translateY(-6px) rotate(-3deg) scale(1.03);
-    }
-    .avatar.no-tilt:hover {
-      transform: none;
-    }
-
-    .meta {
-      flex: 1;
-    }
-    .username {
-      font-weight: 800;
-      font-size: 20px;
-      letter-spacing: 0.2px;
-      user-select: text;
-    }
-    .vanity {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 6px;
-      user-select: text;
-    }
-    .bio {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 12px;
-      line-height: 1.4;
-      user-select: text;
-    }
-
-    /* badges */
-    .badges {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-    .badge {
-      background: var(--glass);
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-size: 13px;
-      color: var(--muted);
-      position: relative;
-      border: 1px solid rgba(255, 255, 255, 0.02);
-      cursor: default;
-      user-select: none;
-    }
-    .badge[data-tooltip] {
-      position: relative;
-    }
-    .badge[data-tooltip]:hover::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: calc(100% + 10px);
-      white-space: nowrap;
-      background: #0b0b0d;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      font-size: 12px;
-      color: var(--muted);
-      opacity: 1;
-      transition: all 0.18s;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-      pointer-events: none;
-      user-select: none;
-      z-index: 20;
-    }
-
-    /* links */
-    .links {
-      margin-top: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .link-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      border-radius: 999px;
-      background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.01),
-        rgba(255, 255, 255, 0.00)
-      );
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
-      user-select: none;
-    }
-    .link-left {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    .link-left .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      display: inline-grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #050507;
-      font-weight: 700;
-      user-select: none;
-    }
-    .link-right {
-      opacity: 0.9;
-      color: var(--muted);
-      font-size: 13px;
-      user-select: none;
-    }
-    .link-btn:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
-    }
-    .link-btn:hover .icon {
-      filter: brightness(1.03);
-      transform: scale(1.06);
-    }
-
-    /* pulse background behind card */
-    .pulse {
-      position: absolute;
-      inset: auto -120px -120px auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 120deg,
-        var(--accent1),
-        var(--accent2),
-        var(--accent3)
-      );
-      opacity: 0.06;
-      filter: blur(40px);
-      transform: rotate(30deg);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* Tabs for signup/login */
-    .tabs {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-    .tab {
-      flex: 1;
-      background: var(--glass);
-      padding: 12px 0;
-      text-align: center;
-      border-radius: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-      color: var(--muted);
-      transition: background 0.2s, color 0.2s;
-    }
-    .tab.active {
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #050507;
-      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      background: #121212;
-      color: #eee;
-      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.5);
-      transition: box-shadow 0.25s ease;
-    }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="password"]:focus {
-      box-shadow: 0 0 18px var(--accent1);
-    }
-    button[type="submit"] {
-      padding: 16px 20px;
-      border-radius: 14px;
-      border: none;
-      font-weight: 700;
-      font-size: 1rem;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      color: #050507;
-      cursor: pointer;
-      transition: filter 0.25s ease, transform 0.25s ease;
-      user-select: none;
-    }
-    button[type="submit"]:hover {
-      filter: brightness(1.15);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.35);
-    }
-
-    .claim-username {
-      margin-top: 30px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .claim-username form {
-      display: flex;
-      gap: 12px;
-    }
-    .claim-username input[type="text"] {
-      flex: 1;
-    }
-    .claim-username p {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--muted);
-      min-height: 18px;
-      user-select: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 520px) {
-      header h1 {
-        font-size: 2.4rem;
-      }
-      .card {
-        max-width: 100%;
-        padding: 22px 22px 32px;
-      }
-      .top {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-      }
-      .meta {
-        text-align: center;
-      }
-      .claim-username form {
-        flex-direction: column;
-      }
-      .claim-username input[type="text"],
-      .claim-username button {
-        width: 100%;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div class="float-shape s1" aria-hidden="true"></div>
   <div class="float-shape s2" aria-hidden="true"></div>
 
-  <header>
-    <h1>grief.bio</h1>
-    <p>Your digital identity, reimagined.</p>
-  </header>
+  <main>
+    <header>
+      <h1>grief.bio</h1>
+      <p>Your digital identity, reimagined.</p>
+    </header>
 
-  <main class="card" role="main" aria-label="Authentication and profile setup">
-    <div class="top">
-      <div class="avatar" id="avatar" tabindex="0" aria-label="User avatar, click to toggle animation">
-        <img
-          src="https://images.unsplash.com/photo-1545996124-1a31555f4a12?q=80&w=800&auto=format&fit=crop&s=placeholder"
-          alt="User avatar"
-        />
+    <section class="auth" aria-label="Sign up and log in">
+      <div class="auth-box" aria-labelledby="signup-title" role="region">
+        <h2 id="signup-title">Sign Up</h2>
+        <form id="signupForm" autocomplete="off" novalidate>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            minlength="3"
+            required
+            autocomplete="username"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            autocomplete="email"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            minlength="6"
+            required
+            autocomplete="new-password"
+          />
+          <button type="submit">Create Account</button>
+        </form>
       </div>
-      <div class="meta">
-        <div class="username" id="profileName">Your Name <span style="font-weight:400; color: var(--muted); font-size: 13px;">• @yourname</span></div>
-        <div class="vanity" id="vanityUrl">grief.bio/<strong>yourname</strong></div>
-        <div class="bio">Designer • builder of things. Customize your personal biolink page with badges, music, and more.</div>
 
-        <div class="badges" aria-label="User badges">
-          <div class="badge" data-tooltip="Early supporter — joined 2025">Founder</div>
-          <div class="badge" data-tooltip="Verified creator on multiple platforms">Creator</div>
-          <div class="badge" data-tooltip="Official grief.bio shop member">Shop</div>
-        </div>
+      <div class="auth-box" aria-labelledby="login-title" role="region">
+        <h2 id="login-title">Log In</h2>
+        <form id="loginForm" autocomplete="off" novalidate>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username or Email"
+            required
+            autocomplete="username"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            autocomplete="current-password"
+          />
+          <button type="submit">Log In</button>
+        </form>
       </div>
-    </div>
+    </section>
 
-    <nav class="tabs" role="tablist" aria-label="Authentication tabs">
-      <div class="tab active" role="tab" aria-selected="true" id="signupTab" tabindex="0">Sign Up</div>
-      <div class="tab" role="tab" aria-selected="false" id="loginTab" tabindex="0">Log In</div>
-    </nav>
-
-    <form id="signupForm" role="tabpanel" aria-labelledby="signupTab">
-      <input type="text" id="signupUsername" name="signupUsername" placeholder="Username" required autocomplete="username" />
-      <input type="email" id="signupEmail" name="signupEmail" placeholder="Email" required autocomplete="email" />
-      <input type="password" id="signupPassword" name="signupPassword" placeholder="Password" required autocomplete="new-password" />
-      <button type="submit">Create Account</button>
-    </form>
-
-    <form id="loginForm" role="tabpanel" aria-labelledby="loginTab" hidden>
-      <input type="text" id="loginUsername" name="loginUsername" placeholder="Username or Email" required autocomplete="username" />
-      <input type="password" id="loginPassword" name="loginPassword" placeholder="Password" required autocomplete="current-password" />
-      <button type="submit">Log In</button>
-    </form>
-
-    <section class="claim-username" aria-label="Claim your custom username">
-      <h2 style="margin-top:0; font-weight: 600;">Claim Your Username</h2>
-      <form id="claimForm" aria-describedby="claimStatus">
+    <section class="claim" aria-label="Claim your username">
+      <h2>Claim Your Username</h2>
+      <form class="claim-form" id="claimForm" autocomplete="off" novalidate>
         <input
           type="text"
           id="claimUsername"
           name="claimUsername"
           placeholder="Enter desired username"
-          autocomplete="off"
+          minlength="3"
           required
         />
-        <button type="submit">Check</button>
+        <button type="submit">Check Availability</button>
       </form>
       <p id="claimStatus" aria-live="polite" aria-atomic="true"></p>
     </section>
 
-    <div class="pulse" aria-hidden="true"></div>
+    <section class="features" aria-label="Features and benefits">
+      <article class="feature-card">
+        <h3>Custom Vanity URLs</h3>
+        <p>Make your link your own with a personalized grief.bio/username.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Profile Badges</h3>
+        <p>Show off your status and achievements with interactive badges and tooltips.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Media Embeds</h3>
+        <p>Embed your favorite music, videos, and social previews effortlessly.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Fully Responsive</h3>
+        <p>Looks amazing on any device — desktop, tablet, or mobile.</p>
+      </article>
+    </section>
   </main>
 
+  <footer>
+    &copy; 2025 grief.bio — Crafted with care.
+  </footer>
+
   <script>
-    // Floating shapes animation
-    (function animateShapes() {
-      const s1 = document.querySelector(".s1");
-      const s2 = document.querySelector(".s2");
-      let t = 0;
-      function tick() {
-        t += 0.008;
-        s1.style.transform = `translateX(${Math.sin(t) * 12}px) translateY(${Math.cos(t * 1.5) * 10}px)`;
-        s2.style.transform = `translateX(${Math.cos(t * 1.3) * 15}px) translateY(${Math.sin(t * 0.9) * 14}px)`;
-        requestAnimationFrame(tick);
-      }
-      tick();
-    })();
-
-    // Tabs toggle
-    const signupTab = document.getElementById("signupTab");
-    const loginTab = document.getElementById("loginTab");
-    const signupForm = document.getElementById("signupForm");
-    const loginForm = document.getElementById("loginForm");
-
-    function setActiveTab(tab) {
-      if (tab === "signup") {
-        signupTab.classList.add("active");
-        signupTab.setAttribute("aria-selected", "true");
-        loginTab.classList.remove("active");
-        loginTab.setAttribute("aria-selected", "false");
-        signupForm.hidden = false;
-        loginForm.hidden = true;
-        signupForm.focus();
-      } else {
-        signupTab.classList.remove("active");
-        signupTab.setAttribute("aria-selected", "false");
-        loginTab.classList.add("active");
-        loginTab.setAttribute("aria-selected", "true");
-        signupForm.hidden = true;
-        loginForm.hidden = false;
-        loginForm.focus();
-      }
-    }
-
-    signupTab.addEventListener("click", () => setActiveTab("signup"));
-    loginTab.addEventListener("click", () => setActiveTab("login"));
-    signupTab.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        setActiveTab("signup");
-        e.preventDefault();
-      }
-    });
-    loginTab.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        setActiveTab("login");
-        e.preventDefault();
-      }
-    });
-
-    // Username claim logic simulation
     const claimForm = document.getElementById("claimForm");
     const claimStatus = document.getElementById("claimStatus");
 
     claimForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const val = claimForm.claimUsername.value.trim();
+      const username = claimForm.claimUsername.value.trim();
       claimStatus.style.color = "var(--muted)";
-      if (val.length < 3) {
+      if (username.length < 3) {
         claimStatus.textContent = "❌ Username must be at least 3 characters.";
-        claimStatus.style.color = "#ff4c4c";
+        claimStatus.style.color = "#ff5555";
         return;
       }
-      claimStatus.textContent = "Checking availability…";
-      // Simulate async check
+      claimStatus.textContent = "Checking availability...";
       setTimeout(() => {
-        // Random availability simulation
         if (Math.random() > 0.5) {
-          claimStatus.textContent = `✅ '${val}' is available!`;
+          claimStatus.textContent = `✅ '${username}' is available!`;
           claimStatus.style.color = "var(--accent3)";
         } else {
-          claimStatus.textContent = `❌ Sorry, '${val}' is already taken.`;
-          claimStatus.style.color = "#ff4c4c";
+          claimStatus.textContent = `❌ Sorry, '${username}' is already taken.`;
+          claimStatus.style.color = "#ff5555";
         }
-      }, 1300);
+      }, 1200);
     });
 
-    // Avatar tilt toggle (optional)
-    const avatar = document.getElementById("avatar");
-    let tiltOn = true;
-    avatar.addEventListener("click", () => {
-      tiltOn = !tiltOn;
-      if (tiltOn) {
-        avatar.classList.remove("no-tilt");
-      } else {
-        avatar.classList.add("no-tilt");
-      }
+    // Prevent actual form submits for sign up and login (placeholder)
+    document.getElementById("signupForm").addEventListener("submit", e => {
+      e.preventDefault();
+      alert("Sign up form submitted (demo).");
+    });
+    document.getElementById("loginForm").addEventListener("submit", e => {
+      e.preventDefault();
+      alert("Log in form submitted (demo).");
     });
   </script>
 </body>
