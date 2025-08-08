@@ -1,263 +1,233 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>skoo — producer</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg: #121212;
-    --panel: #1e1e1e;
-    --text-primary: #e0e0e0;
-    --text-muted: #9a9a9a;
-    --accent: #4ade80; /* nice green */
-    --radius: 12px;
-    --transition: 0.3s ease;
-    --shadow: rgba(0,0,0,0.7);
+    --bg: #070507;
+    --panel: #0f0c10;
+    --muted: #9b8fa0;
+    --accent1: #ff5fb7; /* magenta */
+    --accent2: #7c5cff; /* purple */
+    --accent3: #00f0ff; /* cyan */
+    --glass: rgba(255,255,255,0.03);
+    --radius: 20px;
+    --trans: 300ms ease;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    --font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   * {
     box-sizing: border-box;
   }
-  body {
-    margin: 0; padding: 24px 16px;
-    font-family: "Poppins", sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .container {
-    max-width: 480px;
-    width: 100%;
-    background: var(--panel);
-    border-radius: var(--radius);
-    box-shadow: 0 10px 25px var(--shadow);
-    padding: 24px 32px;
-    text-align: center;
-  }
-
-  /* Header flex row */
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 24px;
-    justify-content: center;
-  }
-
-  /* Avatar */
-  .avatar {
-    width: 88px; height: 88px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    color: var(--bg);
-    font-weight: 700;
-    font-size: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    user-select: none;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    transition: transform var(--transition);
-    flex-shrink: 0;
-  }
-  .avatar:hover {
-    transform: scale(1.1);
-  }
-
-  .user-info {
-    text-align: left;
-    flex: 1;
-  }
-  .name {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0 0 6px;
-    letter-spacing: 0.04em;
-  }
-  .bio {
-    font-weight: 300;
-    color: var(--text-muted);
+  body, html {
+    height: 100%;
     margin: 0;
-    font-size: 14.5px;
+    background: radial-gradient(1200px 700px at 10% 80%, rgba(124,92,255,0.08), transparent 10%),
+                radial-gradient(900px 500px at 90% 20%, rgba(255,95,183,0.06), transparent 8%),
+                var(--bg);
+    font-family: var(--font-family);
+    color: #eee;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
   }
 
-  /* Badges inline */
-  .badges {
-    margin-top: 12px;
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.15));
+    border-radius: var(--radius);
+    padding: 32px 36px;
+    width: 360px;
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(8px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.04);
     display: flex;
-    gap: 10px;
-  }
-  .badge {
-    background: var(--accent);
-    color: #121212;
-    padding: 4px 10px;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 11px;
+    flex-direction: column;
+    gap: 20px;
     user-select: none;
-    box-shadow: 0 4px 12px rgba(74, 222, 128, 0.5);
+    transition: transform var(--trans), box-shadow var(--trans);
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(124,92,255,0.28);
   }
 
-  /* Links horizontal scroll */
-  .links {
-    margin-top: 24px;
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #111;
+    font-weight: 700;
+    font-size: 44px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 30px rgba(124,92,255,0.14), inset 0 -6px 12px rgba(0,0,0,0.25);
+    margin: 0 auto;
+    user-select: none;
+  }
+
+  .username {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: -0.02em;
+    margin: 0;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 6px 18px rgba(255,95,183,0.12));
+  }
+
+  .bio {
+    text-align: center;
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 4px;
+  }
+
+  .badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .badge {
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    border: 1px solid rgba(255,255,255,0.03);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 6px 12px;
+    color: #eee;
+    cursor: default;
+    user-select: none;
+    transition: transform 180ms;
+  }
+  .badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(124,92,255,0.1);
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
     gap: 14px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
+    margin-top: 24px;
+  }
+
+  .link {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));
+    border-radius: 14px;
+    padding: 14px 20px;
+    border: 1px solid rgba(255,255,255,0.025);
+    color: #eee;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    transition: transform var(--trans), box-shadow var(--trans), background var(--trans);
+    user-select: none;
+  }
+  .link:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 40px rgba(0,0,0,0.6);
+    background: linear-gradient(135deg, var(--accent1), var(--accent2));
+    color: #111;
+  }
+
+  .ico {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent3), var(--accent2));
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  /* Scrollbar styling for links container */
+  .links {
+    max-height: 280px;
+    overflow-y: auto;
   }
   .links::-webkit-scrollbar {
-    height: 6px;
+    width: 6px;
   }
   .links::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 3px;
+    background: var(--accent2);
+    border-radius: 6px;
   }
   .links::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  .link {
-    min-width: 110px;
-    background: #262626;
-    padding: 12px 16px;
-    border-radius: var(--radius);
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.5);
-    transition: background var(--transition), transform var(--transition);
-    white-space: nowrap;
-  }
-  .link:hover {
-    background: var(--accent);
-    color: #121212;
-    transform: translateY(-3px);
-  }
-  .link-icon {
-    font-size: 18px;
-    user-select: none;
-  }
-
-  /* Featured embed smaller and wide */
-  .featured {
-    margin-top: 28px;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.8);
-  }
-  .featured iframe {
-    width: 100%;
-    height: 160px;
-    border: none;
-    display: block;
-  }
-
-  /* Footer */
-  .footer {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 32px;
-  }
-
-  /* Responsive tweaks */
-  @media (max-width: 520px) {
-    body {
-      padding: 24px 12px;
+  @media (max-width: 420px) {
+    .card {
+      width: 90vw;
+      padding: 28px 24px;
     }
-    .container {
-      padding: 20px 20px;
-    }
-    .header {
-      flex-direction: column;
-      gap: 18px;
-      align-items: center;
-      text-align: center;
-    }
-    .user-info {
-      text-align: center;
-    }
-    .name {
-      font-size: 24px;
-    }
-    .bio {
-      font-size: 13px;
-    }
-    .links {
-      gap: 12px;
-      padding-bottom: 8px;
+    .username {
+      font-size: 28px;
     }
     .link {
-      font-size: 13px;
-      min-width: 90px;
-      padding: 10px 14px;
+      padding: 12px 16px;
+      font-size: 14px;
     }
-    .featured iframe {
-      height: 140px;
+    .ico {
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
     }
   }
 </style>
 </head>
 <body>
 
-<div class="container" role="main" aria-label="skoo's personal biolink page">
-  <header class="header">
-    <div class="avatar" aria-label="User avatar with initials">S</div>
-    <div class="user-info">
-      <h1 class="name">skoo</h1>
-      <p class="bio">producer</p>
-      <div class="badges" aria-label="User badges">
-        <div class="badge">Producer</div>
-        <div class="badge">Creator</div>
-        <div class="badge">Premium</div>
-      </div>
+  <article class="card" role="main" aria-label="skoo's personal biolink profile">
+    <div class="avatar" aria-label="Avatar with initials">S</div>
+    <h1 class="username" tabindex="0">skoo</h1>
+    <p class="bio" tabindex="0">producer</p>
+
+    <div class="badges" aria-label="User badges">
+      <div class="badge" title="Producer">Producer</div>
+      <div class="badge" title="Creator">Creator</div>
+      <div class="badge" title="Premium">Premium</div>
     </div>
-  </header>
 
-  <nav class="links" aria-label="Social and profile links">
-    <a href="https://youtube.com/@skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
-      <span class="link-icon" aria-hidden="true">▶️</span>
-      <span>YouTube</span>
-    </a>
-    <a href="https://twitter.com/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
-      <span class="link-icon" aria-hidden="true">🐦</span>
-      <span>Twitter</span>
-    </a>
-    <a href="https://soundcloud.com/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
-      <span class="link-icon" aria-hidden="true">🎵</span>
-      <span>SoundCloud</span>
-    </a>
-    <a href="https://discord.gg/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
-      <span class="link-icon" aria-hidden="true">💬</span>
-      <span>Discord</span>
-    </a>
-  </nav>
-
-  <section class="featured" aria-label="Featured YouTube video">
-    <iframe
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&showinfo=0"
-      title="Featured YouTube Video"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </section>
-
-  <footer class="footer" aria-label="Page footer">
-    © 2025 skoo — crafted with care
-  </footer>
-</div>
+    <nav class="links" aria-label="Links navigation">
+      <a href="https://youtube.com/@skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
+        <div class="ico" aria-hidden="true">▶</div>
+        <span>YouTube</span>
+      </a>
+      <a href="https://twitter.com/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
+        <div class="ico" aria-hidden="true">🐦</div>
+        <span>Twitter</span>
+      </a>
+      <a href="https://soundcloud.com/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
+        <div class="ico" aria-hidden="true">🎵</div>
+        <span>SoundCloud</span>
+      </a>
+      <a href="https://discord.gg/skoo" target="_blank" rel="noopener noreferrer" class="link" tabindex="0">
+        <div class="ico" aria-hidden="true">💬</div>
+        <span>Discord</span>
+      </a>
+    </nav>
+  </article>
 
 </body>
 </html>
