@@ -1,209 +1,361 @@
-<!DOCTYPE html>
+<!-- Save this as index.html and open in your browser -->
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>grief.bio</title>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-    :root {
-        --bg-color: #0a0a0a;
-        --primary: #ff00e0;
-        --secondary: #6a00ff;
-        --glow: rgba(255, 0, 224, 0.7);
-        --glass-bg: rgba(20, 20, 20, 0.35);
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>grave.lol — Biolink</title>
+  <style>
+    :root{
+      --bg-start: #0b0b0d;
+      --bg-end:   #121015;
+      --panel:    rgba(255,255,255,0.03);
+      --accent1:  #ff6ec7; /* pink */
+      --accent2:  #a24bff; /* purple */
+      --muted:    #9aa0a6;
+      --glass:    rgba(255,255,255,0.04);
+      --neon-glow: 0 10px 30px rgba(162,75,255,0.08), 0 2px 8px rgba(255,110,199,0.08);
+      --radius: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
 
-    body {
-        margin: 0;
-        font-family: 'Press Start 2P', cursive;
-        background: var(--bg-color);
-        color: white;
-        overflow: hidden;
-        height: 100vh;
+    /* Page base */
+    html,body{
+      height:100%;
+      margin:0;
+      background: radial-gradient(1200px 400px at 10% 20%, rgba(162,75,255,0.04), transparent 8%),
+                  linear-gradient(180deg,var(--bg-start),var(--bg-end));
+      color:#f7f7f8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    /* Layout */
+    .wrap{
+      max-width:1200px;
+      margin:56px auto;
+      padding: 0 28px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:36px;
+      align-items:start;
     }
 
-    canvas#particles {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
+    /* Header */
+    header{
+      position:fixed;
+      top:18px;
+      left:0;
+      right:0;
+      display:flex;
+      justify-content:center;
+      pointer-events:none;
+      z-index:40;
+    }
+    .nav{
+      width:calc(100% - 56px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:auto;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 28px;
+      padding:10px 18px;
+      box-shadow: var(--neon-glow);
+      border:1px solid rgba(255,110,199,0.06);
+      backdrop-filter: blur(6px);
+    }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand .logo{
+      width:36px;height:36px;
+      display:flex;align-items:center;justify-content:center;
+      background: radial-gradient(circle at 30% 30%, rgba(255,110,199,0.18), rgba(162,75,255,0.12));
+      border-radius:10px;
+      box-shadow: 0 6px 20px rgba(162,75,255,0.06);
+    }
+    .brand h1{ font-size:14px;margin:0; letter-spacing:0.4px; font-weight:700; opacity:0.95; }
+
+    nav.menu{ display:flex; gap:18px; align-items:center; }
+    nav.menu a{ color:var(--muted); font-size:13px; padding:6px 8px; border-radius:8px; }
+    nav.menu a:hover{ color:white; text-decoration:none; transform:translateY(-1px); }
+
+    .btn-dashboard{
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      padding:8px 16px;
+      border-radius:999px;
+      font-weight:600;
+      color:#0b0b0d;
+      box-shadow: 0 8px 30px rgba(162,75,255,0.12);
     }
 
-    .blob {
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, var(--primary), var(--secondary));
-        border-radius: 50%;
-        filter: blur(200px);
-        animation: blobMove 20s ease-in-out infinite alternate;
-        opacity: 0.4;
-        z-index: 0;
+    /* Left/hero area */
+    .hero{
+      padding-top:36px;
+    }
+    .headline{
+      font-size:64px;
+      line-height:0.95;
+      margin:0 0 18px 0;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+    .headline .grad{
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow: 0 6px 18px rgba(162,75,255,0.10);
+    }
+    .sub{
+      color: #b9bcc0;
+      max-width:560px;
+      font-size:15px;
+      margin-bottom:22px;
     }
 
-    @keyframes blobMove {
-        0% { transform: translate(-100px, -50px) scale(1); }
-        100% { transform: translate(100px, 50px) scale(1.1); }
+    .cta-row{ display:flex; gap:14px; align-items:center; margin-bottom:18px; }
+    .btn{
+      padding:12px 18px;
+      border-radius:14px;
+      font-weight:700;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.04);
+      transition:transform .18s ease, box-shadow .18s ease;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color: #efeef1;
     }
-
-    .container {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding-top: 80px;
+    .btn:hover{ transform:translateY(-3px); }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:#0b0b0d;
+      box-shadow: 0 10px 30px rgba(162,75,255,0.12);
     }
-
-    h1 {
-        font-size: 20px;
-        color: white;
-        text-shadow: 0 0 10px var(--glow), 0 0 20px var(--primary);
-        margin-bottom: 40px;
+    .btn-outline{
+      border:1px solid rgba(162,75,255,0.18);
+      background:transparent;
+      color: #e8d9f7;
+      padding-right:20px;
     }
+    .small-note{ color:#9db89f; font-size:13px; display:flex; gap:8px; align-items:center; margin-top:6px; }
 
-    .links {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
+    /* Right card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius: var(--radius);
+      padding:22px;
+      border:1px solid rgba(162,75,255,0.07);
+      box-shadow: 0 20px 50px rgba(2,2,3,0.6);
+      position:relative;
+      overflow:visible;
     }
-
-    .link-btn {
-        padding: 10px 20px;
-        border: 2px solid var(--primary);
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
-        background: var(--glass-bg);
-        backdrop-filter: blur(6px);
-        transition: all 0.25s ease;
-        text-shadow: 0 0 5px var(--primary);
+    .card .top{
+      height:84px;
+      border-radius:12px;
+      background: linear-gradient(90deg, rgba(160,60,200,0.14), rgba(255,110,199,0.08));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:-22px -22px 8px -22px;
     }
-
-    .link-btn:hover {
-        background: var(--primary);
-        box-shadow: 0 0 15px var(--primary), 0 0 30px var(--secondary);
-        transform: scale(1.05);
+    .avatar{
+      width:110px;height:110px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      margin-top:-56px;
+      margin-bottom:8px;
+      border:4px solid rgba(255,255,255,0.03);
+      background:radial-gradient(circle at 30% 30%, rgba(255,110,199,0.12), rgba(162,75,255,0.08));
+      box-shadow: 0 14px 40px rgba(162,75,255,0.12);
     }
-
-    /* Modal */
-    .modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
+    .username{ font-size:20px; font-weight:800; margin:0; letter-spacing:-0.02em; text-align:center; }
+    .badges{ display:flex; gap:8px; justify-content:center; margin-top:8px; margin-bottom:12px; }
+    .badge{
+      width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: inset 0 -8px 20px rgba(0,0,0,0.3);
     }
+    .bio{ color:#e8e7ea; text-align:center; font-weight:600; margin:6px 0 4px 0; }
+    .location{ display:flex; gap:8px; justify-content:center; color:var(--muted); font-size:13px; align-items:center; }
 
-    .modal.active {
-        opacity: 1;
-        pointer-events: auto;
+    .activity{
+      margin-top:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      border:1px solid rgba(162,75,255,0.04);
     }
-
-    .modal-content {
-        background: var(--glass-bg);
-        padding: 20px;
-        border-radius: 12px;
-        border: 2px solid var(--primary);
-        color: white;
-        max-width: 400px;
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
+    .activity .tag{
+      width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 30% 30%, rgba(255,110,199,0.06), rgba(162,75,255,0.04));
     }
+    .activity .meta{ font-size:13px; color:#e7e6e9; }
+    .social-row{ display:flex; gap:12px; justify-content:center; margin-top:18px; }
 
-    .modal.active .modal-content {
-        transform: scale(1);
+    .social{
+      width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .16s ease, box-shadow .16s ease;
     }
+    .social:hover{ transform:translateY(-5px); box-shadow: 0 18px 40px rgba(162,75,255,0.10); }
 
-    .close-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        float: right;
+    /* subtle animations */
+    .fade-in{ animation:fadeIn .9s cubic-bezier(.2,.9,.2,1) both; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+
+    /* small screens */
+    @media (max-width:980px){
+      .wrap{ grid-template-columns: 1fr; gap:22px; padding-top:86px; }
+      .card{ order: -1; }
+      .headline{ font-size:44px; }
     }
-
-</style>
+  </style>
 </head>
 <body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- skull/ghost SVG -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M12 2c-1.657 0-3 1.567-3 3.5v.5h-1C6.343 6 5 7.567 5 9.5v3C5 16 7 18 9 18v2a1 1 0 0 0 2 0v-2h-0.2c0 0 0-1 1.2-1s1.2 1 1.2 1H13v2a1 1 0 0 0 2 0v-2c2 0 4-2 4-5.5v-3C19 7.567 17.657 6 16 6h-1v-.5C15 3.567 13.657 2 12 2z" fill="#ff6ec7" opacity="0.98"/>
+          </svg>
+        </div>
+        <h1>grave.lol</h1>
+      </div>
 
-<canvas id="particles"></canvas>
-<div class="blob"></div>
-
-<div class="container">
-    <h1>grief.bio</h1>
-    <div class="links">
-        <a href="#" class="link-btn">Twitter</a>
-        <a href="#" class="link-btn">Instagram</a>
-        <a href="#" id="open-modal" class="link-btn">More Info</a>
+      <nav class="menu">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <a href="#" aria-label="Discord link">Discord</a>
+          <a href="#">Leaderboard</a>
+          <a href="#">Help Center</a>
+          <a href="#">Pricing</a>
+          <a href="#">Team</a>
+        </div>
+        <div>
+          <button class="btn-dashboard" aria-label="Dashboard">Dashboard</button>
+        </div>
+      </nav>
     </div>
-</div>
+  </header>
 
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <button class="close-btn" id="close-modal">✕</button>
-        <h2>About</h2>
-        <p>This is a dark neon grief.bio styled page.</p>
-    </div>
-</div>
+  <main class="wrap">
+    <!-- Left / hero -->
+    <section class="hero fade-in" aria-labelledby="main-heading">
+      <h2 id="main-heading" class="headline">
+        Your Digital <span class="grad">Identity</span>,<br/> On Your Terms
+      </h2>
+      <p class="sub">
+        Create a stunning biolink page that represents your personal brand. Share all your content in one beautiful, customizable location.
+      </p>
 
-<script>
-    // Particle background
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
+      <div class="cta-row">
+        <button class="btn btn-primary" onclick="claim()">Claim Username</button>
+        <button class="btn btn-outline" onclick="explore()">Explore Features ▾</button>
+      </div>
 
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+      <div class="small-note" aria-hidden="true">
+        <span style="display:inline-block;width:10px;height:10px;background:#3ad27a;border-radius:999px;box-shadow:0 8px 20px rgba(58,210,122,0.12)"></span>
+        <span style="color:var(--muted)">100% Free To Get Started • No Credit Card Required</span>
+      </div>
+    </section>
+
+    <!-- Right / profile card -->
+    <aside class="card fade-in" aria-label="Profile card">
+      <div class="top" aria-hidden="true"></div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;">
+        <div class="avatar" role="img" aria-label="grave.lol avatar">
+          <!-- stylized skull/ghost -->
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M12 2c-1.656 0-3 1.567-3 3.5v.5h-1C6.343 6 5 7.567 5 9.5v3C5 15.5 7 17.5 9 17.5v2.5a1 1 0 0 0 2 0V17.5h2v2.5a1 1 0 0 0 2 0V17.5c2 0 4-2 4-5.5v-3C21 7.567 19.656 6 18 6h-1v-.5C17 3.567 15.656 2 14 2h-2z" fill="url(#g1)"/>
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#ff6ec7"/>
+                <stop offset="1" stop-color="#a24bff"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <h3 class="username">grave.lol</h3>
+
+        <div class="badges" aria-hidden="true">
+          <!-- simple colored badges -->
+          <div class="badge" title="developer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#4fd1c5"/></svg>
+          </div>
+          <div class="badge" title="gaming">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#6ee7ff"/></svg>
+          </div>
+          <div class="badge" title="verified">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#ffd166"/></svg>
+          </div>
+          <div class="badge" title="supporter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#ff9b6e"/></svg>
+          </div>
+          <div class="badge" title="hot">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#ff6ec7"/></svg>
+          </div>
+        </div>
+
+        <div class="bio">Web developer &amp; designer based in [Your Location].</div>
+        <div class="location"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.686 2 6 4.824 6 8.5 6 13.5 12 22 12 22s6-8.5 6-13.5C18 4.824 15.314 2 12 2z" fill="#ff6ec7" opacity="0.9"/></svg> Vienna, Austria</div>
+
+        <div class="activity" role="group" aria-label="Activity">
+          <div class="tag" aria-hidden="true">
+            <!-- small avatar + game icon placeholder -->
+            <svg width="28" height="28" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="#ff6ec7" opacity="0.95"></circle>
+              <text x="12" y="16" font-size="10" font-weight="700" text-anchor="middle" fill="#120612" font-family="Arial">G</text>
+            </svg>
+          </div>
+          <div class="meta">
+            <div style="font-weight:700">grave.lol#1234</div>
+            <div style="color:var(--muted); font-size:13px;">Playing Valorant • Competitive • Haven</div>
+          </div>
+        </div>
+
+        <div class="social-row" style="width:100%;">
+          <a class="social" href="#" aria-label="GitHub">
+            <!-- GitHub-like SVG -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.26.8-.58v-2.02c-3.3.72-4-1.6-4-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.86 2.8 1.32 3.48 1.02.11-.8.42-1.32.76-1.62-2.64-.3-5.42-1.32-5.42-5.89 0-1.3.46-2.36 1.23-3.19-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.4 11.4 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.17.77.83 1.23 1.9 1.23 3.19 0 4.58-2.79 5.58-5.44 5.87.43.37.82 1.1.82 2.22v3.29c0 .32.18.69.82.58A12 12 0 0 0 12 .5z" fill="#dfe6ff" opacity="0.95"/></svg>
+          </a>
+
+          <a class="social" href="#" aria-label="Discord">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M20 4.5S18.5 3 16 3c-2 0-3.2 1-3.8 2.5C11.8 4 10.6 3 8.6 3 6 3 4.5 4.5 4.5 4.5 3.2 8 3 11.3 3 11.3c2 1 3.5 1.6 3.5 1.6L7.1 17c2.2.7 4.4.7 6.6 0L16 12.9c0 0 1.6-.6 3.6-1.6 0 0-.2-3.3-1.6-6.8z" fill="#cfe8ff" opacity="0.9"/></svg>
+          </a>
+
+          <a class="social" href="#" aria-label="X (Twitter)">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22 5.8c-.7.3-1.4.5-2 .6.7-.4 1.3-1 1.6-1.8-.7.4-1.5.7-2.3.9C18.1 4.4 17 4 15.8 4c-1.9 0-3.4 1.6-3.4 3.5 0 .3 0 .6.1.9-2.8-.1-5.3-1.5-7-3.7-.3.4-.5.9-.5 1.5 0 1.1.6 2 1.4 2.6-.6 0-1.2-.2-1.6-.5v.1c0 1.7 1.3 3.2 3 3.5-.3.1-.6.1-.9.1-.2 0-.5 0-.7-.1.5 1.5 2 2.6 3.8 2.6-1.4 1.1-3.1 1.8-5 1.8-.3 0-.6 0-.9-.1 1.8 1.1 3.9 1.7 6.2 1.7 7.5 0 11.7-6.4 11.7-11.9v-.5c.8-.6 1.5-1.3 2-2.1-.8.4-1.7.7-2.6.8z" fill="#ffdfff" opacity="0.95"/></svg>
+          </a>
+
+          <a class="social" href="#" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="#ffd1ff" opacity="0.9"/></svg>
+          </a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // Minimal interactivity for demo purposes
+    function claim(){
+      alert("Claim username flow — open signup / onboarding (placeholder).");
     }
-    window.addEventListener('resize', resize);
-    resize();
-
-    for (let i = 0; i < 50; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 2 + 1,
-            dx: (Math.random() - 0.5) * 0.3,
-            dy: (Math.random() - 0.5) * 0.3
-        });
+    function explore(){
+      alert("Explore features — show modal or scroll to features (placeholder).");
     }
 
-    function animate() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = 'white';
-        particles.forEach(p => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fill();
-            p.x += p.dx;
-            p.y += p.dy;
-            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-        });
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    // Modal controls
-    const modal = document.getElementById('modal');
-    document.getElementById('open-modal').addEventListener('click', e => {
-        e.preventDefault();
-        modal.classList.add('active');
+    // small accessible focus states
+    document.querySelectorAll('button, a').forEach(el=>{
+      el.addEventListener('focus', ()=> el.style.outline='2px solid rgba(162,75,255,0.22)');
+      el.addEventListener('blur', ()=> el.style.outline='none');
     });
-    document.getElementById('close-modal').addEventListener('click', () => {
-        modal.classList.remove('active');
-    });
-    modal.addEventListener('click', e => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-</script>
-
+  </script>
 </body>
 </html>
