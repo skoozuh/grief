@@ -1,140 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BioLink Front Page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>grief.bio Dark Glow</title>
 <style>
-/* ===== Reset ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* ===== Base ===== */
-body {
-  background: #0f0f1f;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-}
+    :root {
+        --bg1: #0f0f1c;
+        --bg2: #1a1a2e;
+        --accent1: #ff00d4;
+        --accent2: #7a00ff;
+        --text: #e0e0ff;
+    }
 
-/* ===== Sections ===== */
-section {
-  padding: 4rem 2rem; /* more breathing room */
-}
+    body {
+        margin: 0;
+        height: 100vh;
+        font-family: 'Press Start 2P', cursive;
+        background: linear-gradient(120deg, var(--bg1), var(--bg2));
+        overflow: hidden;
+        color: var(--text);
+    }
 
-/* ===== Hero ===== */
-.hero {
-  text-align: center;
-}
-.hero h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  margin-bottom: 2rem; /* increased */
-}
-.hero input {
-  width: min(500px, 90%);
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  border-radius: 2rem;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: white;
-  backdrop-filter: blur(15px);
-  margin-bottom: 1.5rem; /* added */
-}
-.hero button {
-  padding: 0.9rem 2rem;
-  font-size: 1rem;
-  background: linear-gradient(135deg, #8a2be2, #00ffff);
-  border: none;
-  border-radius: 2rem;
-  cursor: pointer;
-  color: white;
-  font-weight: bold;
-}
+    /* Animated gradient behind everything */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(270deg, var(--accent1), var(--accent2), var(--accent1));
+        background-size: 600% 600%;
+        animation: gradientMove 20s ease infinite;
+        z-index: -3;
+        opacity: 0.15;
+    }
 
-/* ===== Cards ===== */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2.5rem; /* more space between cards */
-}
-.card {
-  background: rgba(20, 20, 35, 0.6);
-  backdrop-filter: blur(20px);
-  padding: 2rem; /* more padding inside */
-  border-radius: 1.5rem;
-}
+    @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-/* ===== Embeds ===== */
-.embeds {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem; /* more space between embeds */
-}
-.embeds iframe {
-  flex: 1 1 45%;
-  min-height: 280px;
-  border-radius: 1rem;
-  margin-bottom: 1.5rem;
-}
+    /* Blobs */
+    .blob {
+        position: fixed;
+        width: 400px;
+        height: 400px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--accent1), transparent 70%);
+        animation: blobMove 18s ease-in-out infinite alternate;
+        filter: blur(80px);
+        z-index: -2;
+    }
 
-/* ===== Footer ===== */
-footer {
-  padding: 2rem;
-  text-align: center;
-  font-size: 0.9rem;
-  opacity: 0.7;
-  margin-top: 3rem; /* so it's not jammed to embeds */
-}
+    .blob:nth-child(2) {
+        background: radial-gradient(circle, var(--accent2), transparent 70%);
+        animation-delay: -10s;
+    }
+
+    @keyframes blobMove {
+        0% { transform: translate(-20%, -10%) scale(1); }
+        50% { transform: translate(60%, 30%) scale(1.3); }
+        100% { transform: translate(-20%, -10%) scale(1); }
+    }
+
+    /* Particles */
+    canvas {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+    }
+
+    /* Main content */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        color: var(--accent1);
+        text-shadow: 0 0 8px var(--accent1), 0 0 16px var(--accent2);
+        margin-bottom: 20px;
+    }
+
+    .button {
+        padding: 12px 20px;
+        margin: 8px;
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(8px);
+        color: var(--text);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .button:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 15px var(--accent1), 0 0 30px var(--accent2);
+    }
+
+    /* Modal */
+    .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+    }
+
+    .modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .modal-content {
+        background: rgba(20,20,30,0.95);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 12px;
+        transform: scale(0.8);
+        transition: transform 0.3s ease;
+        color: var(--text);
+        text-align: center;
+        min-width: 250px;
+    }
+
+    .modal.active .modal-content {
+        transform: scale(1);
+    }
+
+    .close-btn {
+        margin-top: 15px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        color: var(--accent1);
+    }
+
 </style>
 </head>
 <body>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Create Your Custom BioLink</h1>
-  <input type="text" placeholder="yourname" aria-label="Vanity URL">
-  <button>Claim Your Link</button>
-</section>
+<div class="blob"></div>
+<div class="blob"></div>
+<canvas id="particles"></canvas>
 
-<!-- Features -->
-<section>
-  <div class="cards-grid">
-    <div class="card">
-      <h2>Fast Setup</h2>
-      <p>Get your personalized link in seconds. Just claim and share.</p>
-    </div>
-    <div class="card">
-      <h2>Custom Branding</h2>
-      <p>Match your style with colors, fonts, and more.</p>
-    </div>
-    <div class="card">
-      <h2>Analytics</h2>
-      <p>Track clicks and engagement from your audience.</p>
-    </div>
-    <div class="card">
-      <h2>Integrations</h2>
-      <p>Embed Spotify, YouTube, and more with one click.</p>
-    </div>
-  </div>
-</section>
+<div class="container">
+    <h1>grief.bio vibes</h1>
+    <button class="button" data-modal="about">About</button>
+    <button class="button" data-modal="links">Links</button>
+    <button class="button" data-modal="contact">Contact</button>
+</div>
 
-<!-- Quick Embeds -->
-<section>
-  <h2 style="margin-bottom: 1.5rem;">Quick Embeds</h2>
-  <div class="embeds">
-    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-  </div>
-</section>
+<div class="modal" id="about">
+    <div class="modal-content">
+        <h2>About</h2>
+        <p>This is your neon glass biolink page.</p>
+        <div class="close-btn">Close</div>
+    </div>
+</div>
 
-<!-- Footer -->
-<footer>
-  © 2025 BioLink. All rights reserved.
-</footer>
+<div class="modal" id="links">
+    <div class="modal-content">
+        <h2>Links</h2>
+        <p>Put your socials here.</p>
+        <div class="close-btn">Close</div>
+    </div>
+</div>
+
+<div class="modal" id="contact">
+    <div class="modal-content">
+        <h2>Contact</h2>
+        <p>Put your contact info here.</p>
+        <div class="close-btn">Close</div>
+    </div>
+</div>
+
+<script>
+/* Particles drifting */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+for (let i = 0; i < 60; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.3
+    });
+}
+
+function drawParticles() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+    });
+    requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* Modal logic */
+document.querySelectorAll('.button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modalId = btn.dataset.modal;
+        document.getElementById(modalId).classList.add('active');
+    });
+});
+
+document.querySelectorAll('.close-btn').forEach(close => {
+    close.addEventListener('click', () => {
+        close.closest('.modal').classList.remove('active');
+    });
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    }
+});
+</script>
 
 </body>
 </html>
