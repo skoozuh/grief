@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>BioLink Front Page</title>
 <style>
-/* ===== Base Reset ===== */
+/* ===== Reset ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* ===== Base ===== */
 body {
   background: #0f0f1f;
   color: white;
@@ -20,110 +22,76 @@ body {
 
 /* ===== Sections ===== */
 section {
-  width: 100%;
-  padding: 6rem 8%;
-}
-.section-divider {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(138,43,226,0.6), transparent);
-  margin: 4rem 0;
+  padding: 4rem 2rem; /* more breathing room */
 }
 
 /* ===== Hero ===== */
 .hero {
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 .hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  margin-bottom: 2rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 2rem; /* increased */
 }
 .hero input {
-  width: min(600px, 90%);
-  font-size: 1.2rem;
+  width: min(500px, 90%);
   padding: 1rem 1.5rem;
+  font-size: 1.1rem;
   border-radius: 2rem;
   border: none;
   background: rgba(255,255,255,0.1);
   color: white;
   backdrop-filter: blur(15px);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; /* added */
 }
 .hero button {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
   background: linear-gradient(135deg, #8a2be2, #00ffff);
   border: none;
   border-radius: 2rem;
   cursor: pointer;
   color: white;
   font-weight: bold;
-  transition: transform 0.2s ease;
-}
-.hero button:hover {
-  transform: scale(1.05);
 }
 
-/* ===== Cards Grid ===== */
+/* ===== Cards ===== */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem; /* more space between cards */
 }
 .card {
-  padding: 2rem;
-  border-radius: 1.5rem;
   background: rgba(20, 20, 35, 0.6);
   backdrop-filter: blur(20px);
-  min-height: 240px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 2rem; /* more padding inside */
+  border-radius: 1.5rem;
 }
 
 /* ===== Embeds ===== */
 .embeds {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 2rem; /* more space between embeds */
 }
 .embeds iframe {
   flex: 1 1 45%;
-  min-height: 300px;
+  min-height: 280px;
   border-radius: 1rem;
-  width: 100%;
+  margin-bottom: 1.5rem;
 }
 
 /* ===== Footer ===== */
 footer {
-  padding: 3rem 8%;
+  padding: 2rem;
   text-align: center;
   font-size: 0.9rem;
   opacity: 0.7;
+  margin-top: 3rem; /* so it's not jammed to embeds */
 }
-
-/* ===== Floating Blobs ===== */
-.blob {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.4;
-  z-index: 0;
-}
-.blob1 { background: #8a2be2; width: 300px; height: 300px; top: 10%; left: -150px; }
-.blob2 { background: #00ffff; width: 400px; height: 400px; bottom: 5%; right: -200px; }
-
 </style>
 </head>
 <body>
-
-<!-- Animated Background -->
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
 
 <!-- Hero -->
 <section class="hero">
@@ -131,8 +99,6 @@ footer {
   <input type="text" placeholder="yourname" aria-label="Vanity URL">
   <button>Claim Your Link</button>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- Features -->
 <section>
@@ -156,11 +122,9 @@ footer {
   </div>
 </section>
 
-<div class="section-divider"></div>
-
 <!-- Quick Embeds -->
 <section>
-  <h2 style="margin-bottom: 2rem;">Quick Embeds</h2>
+  <h2 style="margin-bottom: 1.5rem;">Quick Embeds</h2>
   <div class="embeds">
     <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
@@ -171,23 +135,6 @@ footer {
 <footer>
   © 2025 BioLink. All rights reserved.
 </footer>
-
-<script>
-// Minimal JS: floating blob animation
-function animateBlobs() {
-  const blob1 = document.querySelector('.blob1');
-  const blob2 = document.querySelector('.blob2');
-  let t = 0;
-  function loop() {
-    t += 0.01;
-    blob1.style.transform = `translate(${Math.sin(t) * 30}px, ${Math.cos(t) * 30}px)`;
-    blob2.style.transform = `translate(${Math.cos(t) * 40}px, ${Math.sin(t) * 40}px)`;
-    requestAnimationFrame(loop);
-  }
-  loop();
-}
-animateBlobs();
-</script>
 
 </body>
 </html>
