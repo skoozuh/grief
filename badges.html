@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Badges - grief.bio</title>
+<style>
+  body {
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212; color: #eee; display: flex; flex-direction: column; min-height: 100vh;
+  }
+  header {
+    background: #1e1e1e; padding: 1rem 2rem;
+    font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;
+  }
+  nav {
+    background: #222; padding: 1rem 2rem;
+  }
+  nav a {
+    color: #ddd; margin-right: 1.5rem; text-decoration: none;
+    font-weight: 600;
+  }
+  nav a:hover {
+    color: #60c3ff;
+  }
+  main {
+    flex-grow: 1; padding: 2rem 2rem;
+    max-width: 900px; margin: 0 auto; width: 100%;
+  }
+  footer {
+    background: #1e1e1e; text-align: center; padding: 1rem;
+    font-size: 0.9rem; color: #777;
+  }
+  .badge-list {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .badge-card {
+    background: #1e1e1e; border-radius: 8px; padding: 1.5rem;
+    flex: 1 1 220px; max-width: 220px; text-align: center;
+    box-shadow: 0 0 10px rgba(96, 195, 255, 0.4);
+    transition: box-shadow 0.3s;
+  }
+  .badge-card:hover {
+    box-shadow: 0 0 20px rgba(96, 195, 255, 0.7);
+  }
+  .badge-icon {
+    font-size: 3.2rem; margin-bottom: 0.7rem;
+  }
+  .badge-name {
+    font-weight: 700; font-size: 1.2rem; margin-bottom: 0.4rem;
+  }
+  .badge-desc {
+    font-size: 0.95rem; color: #bbb;
+  }
+</style>
+</head>
+<body>
+
+<header>grief.bio</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="admin.html">Admin</a>
+  <a href="templates.html">Templates</a>
+  <a href="badges.html">Badges</a>
+</nav>
+
+<main>
+  <h1>Available Badges</h1>
+  <div class="badge-list" id="badge-list"></div>
+</main>
+
+<footer>© 2025 grief.bio</footer>
+
+<script>
+  const badges = [
+    { name: "Creator", icon: "🎨", description: "Awarded to users who create amazing content." },
+    { name: "Booster", icon: "🚀", description: "For those who support the community with boosts." },
+    { name: "Bugfinder", icon: "🐞", description: "Recognizes users who report bugs and help improve the platform." },
+    { name: "Crown", icon: "👑", description: "Elite badge for top contributors and staff." },
+    { name: "Artist", icon: "🖌️", description: "For talented artists who share their work." }
+  ];
+
+  const container = document.getElementById('badge-list');
+
+  badges.forEach(b => {
+    const card = document.createElement('div');
+    card.className = 'badge-card';
+    card.innerHTML = `
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-name">${b.name}</div>
+      <div class="badge-desc">${b.description}</div>
+    `;
+    container.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
