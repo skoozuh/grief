@@ -3,110 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>grief.bio Dark Glow</title>
+<title>grief.bio</title>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
     :root {
-        --bg1: #0f0f1c;
-        --bg2: #1a1a2e;
-        --accent1: #ff00d4;
-        --accent2: #7a00ff;
-        --text: #e0e0ff;
+        --bg-color: #0a0a0a;
+        --primary: #ff00e0;
+        --secondary: #6a00ff;
+        --glow: rgba(255, 0, 224, 0.7);
+        --glass-bg: rgba(20, 20, 20, 0.35);
     }
 
     body {
         margin: 0;
-        height: 100vh;
         font-family: 'Press Start 2P', cursive;
-        background: linear-gradient(120deg, var(--bg1), var(--bg2));
+        background: var(--bg-color);
+        color: white;
         overflow: hidden;
-        color: var(--text);
+        height: 100vh;
     }
 
-    /* Animated gradient behind everything */
-    body::before {
-        content: "";
-        position: fixed;
+    canvas#particles {
+        position: absolute;
         inset: 0;
-        background: linear-gradient(270deg, var(--accent1), var(--accent2), var(--accent1));
-        background-size: 600% 600%;
-        animation: gradientMove 20s ease infinite;
-        z-index: -3;
-        opacity: 0.15;
+        z-index: 0;
     }
 
-    @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* Blobs */
     .blob {
-        position: fixed;
-        width: 400px;
-        height: 400px;
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, var(--primary), var(--secondary));
         border-radius: 50%;
-        background: radial-gradient(circle, var(--accent1), transparent 70%);
-        animation: blobMove 18s ease-in-out infinite alternate;
-        filter: blur(80px);
-        z-index: -2;
-    }
-
-    .blob:nth-child(2) {
-        background: radial-gradient(circle, var(--accent2), transparent 70%);
-        animation-delay: -10s;
+        filter: blur(200px);
+        animation: blobMove 20s ease-in-out infinite alternate;
+        opacity: 0.4;
+        z-index: 0;
     }
 
     @keyframes blobMove {
-        0% { transform: translate(-20%, -10%) scale(1); }
-        50% { transform: translate(60%, 30%) scale(1.3); }
-        100% { transform: translate(-20%, -10%) scale(1); }
+        0% { transform: translate(-100px, -50px) scale(1); }
+        100% { transform: translate(100px, 50px) scale(1.1); }
     }
 
-    /* Particles */
-    canvas {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-    }
-
-    /* Main content */
     .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
+        position: relative;
+        z-index: 1;
         text-align: center;
-        padding: 20px;
+        padding-top: 80px;
     }
 
     h1 {
-        font-size: 1.5rem;
-        color: var(--accent1);
-        text-shadow: 0 0 8px var(--accent1), 0 0 16px var(--accent2);
-        margin-bottom: 20px;
+        font-size: 20px;
+        color: white;
+        text-shadow: 0 0 10px var(--glow), 0 0 20px var(--primary);
+        margin-bottom: 40px;
     }
 
-    .button {
-        padding: 12px 20px;
-        margin: 8px;
-        border: 2px solid rgba(255,255,255,0.2);
-        border-radius: 12px;
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(8px);
-        color: var(--text);
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    .links {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
     }
 
-    .button:hover {
-        transform: scale(1.08);
-        box-shadow: 0 0 15px var(--accent1), 0 0 30px var(--accent2);
+    .link-btn {
+        padding: 10px 20px;
+        border: 2px solid var(--primary);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(6px);
+        transition: all 0.25s ease;
+        text-shadow: 0 0 5px var(--primary);
+    }
+
+    .link-btn:hover {
+        background: var(--primary);
+        box-shadow: 0 0 15px var(--primary), 0 0 30px var(--secondary);
+        transform: scale(1.05);
     }
 
     /* Modal */
@@ -119,7 +96,7 @@
         justify-content: center;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.3s ease;
     }
 
     .modal.active {
@@ -128,15 +105,14 @@
     }
 
     .modal-content {
-        background: rgba(20,20,30,0.95);
-        border: 1px solid rgba(255,255,255,0.1);
+        background: var(--glass-bg);
         padding: 20px;
         border-radius: 12px;
-        transform: scale(0.8);
+        border: 2px solid var(--primary);
+        color: white;
+        max-width: 400px;
+        transform: scale(0.9);
         transition: transform 0.3s ease;
-        color: var(--text);
-        text-align: center;
-        min-width: 250px;
     }
 
     .modal.active .modal-content {
@@ -144,109 +120,89 @@
     }
 
     .close-btn {
-        margin-top: 15px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
         cursor: pointer;
-        font-size: 0.8rem;
-        color: var(--accent1);
+        float: right;
     }
 
 </style>
 </head>
 <body>
 
-<div class="blob"></div>
-<div class="blob"></div>
 <canvas id="particles"></canvas>
+<div class="blob"></div>
 
 <div class="container">
-    <h1>grief.bio vibes</h1>
-    <button class="button" data-modal="about">About</button>
-    <button class="button" data-modal="links">Links</button>
-    <button class="button" data-modal="contact">Contact</button>
+    <h1>grief.bio</h1>
+    <div class="links">
+        <a href="#" class="link-btn">Twitter</a>
+        <a href="#" class="link-btn">Instagram</a>
+        <a href="#" id="open-modal" class="link-btn">More Info</a>
+    </div>
 </div>
 
-<div class="modal" id="about">
+<div class="modal" id="modal">
     <div class="modal-content">
+        <button class="close-btn" id="close-modal">✕</button>
         <h2>About</h2>
-        <p>This is your neon glass biolink page.</p>
-        <div class="close-btn">Close</div>
-    </div>
-</div>
-
-<div class="modal" id="links">
-    <div class="modal-content">
-        <h2>Links</h2>
-        <p>Put your socials here.</p>
-        <div class="close-btn">Close</div>
-    </div>
-</div>
-
-<div class="modal" id="contact">
-    <div class="modal-content">
-        <h2>Contact</h2>
-        <p>Put your contact info here.</p>
-        <div class="close-btn">Close</div>
+        <p>This is a dark neon grief.bio styled page.</p>
     </div>
 </div>
 
 <script>
-/* Particles drifting */
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particles = [];
+    // Particle background
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-
-for (let i = 0; i < 60; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 2 + 1,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3
-    });
-}
-
-function drawParticles() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-        ctx.fill();
-        p.x += p.speedX;
-        p.y += p.speedY;
-        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-    });
-    requestAnimationFrame(drawParticles);
-}
-drawParticles();
-
-/* Modal logic */
-document.querySelectorAll('.button').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const modalId = btn.dataset.modal;
-        document.getElementById(modalId).classList.add('active');
-    });
-});
-
-document.querySelectorAll('.close-btn').forEach(close => {
-    close.addEventListener('click', () => {
-        close.closest('.modal').classList.remove('active');
-    });
-});
-
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
-});
+    window.addEventListener('resize', resize);
+    resize();
+
+    for (let i = 0; i < 50; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2 + 1,
+            dx: (Math.random() - 0.5) * 0.3,
+            dy: (Math.random() - 0.5) * 0.3
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = 'white';
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Modal controls
+    const modal = document.getElementById('modal');
+    document.getElementById('open-modal').addEventListener('click', e => {
+        e.preventDefault();
+        modal.classList.add('active');
+    });
+    document.getElementById('close-modal').addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
+    modal.addEventListener('click', e => {
+        if (e.target === modal) modal.classList.remove('active');
+    });
 </script>
 
 </body>
