@@ -1,219 +1,230 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>grief.lol — Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Panel - grief.bio</title>
 <style>
-  :root{
-    --bg:#070507;
-    --panel:#0f0c10;
-    --muted:#9b8fa0;
-    --accent1:#ff5fb7;
-    --accent2:#7c5cff;
-    --accent3:#00f0ff;
-    --glass: rgba(255,255,255,0.03);
-    --radius:20px;
-    --trans:300ms;
-  }
   body {
-    margin:0; font-family:"Poppins", system-ui, sans-serif;
-    background: var(--bg);
-    color:#eee;
-    min-height:100vh;
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212; color: #eee; display: flex; flex-direction: column; min-height: 100vh;
   }
-  header{
-    position:fixed; top:0; left:50%; transform:translateX(-50%);
-    width:calc(100% - 40px); max-width:1200px;
-    padding:14px 24px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.1));
-    backdrop-filter: blur(8px);
-    display:flex; align-items:center; justify-content:space-between;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,0.05);
-    z-index:100;
+  header {
+    background: #1e1e1e; padding: 1rem 2rem;
+    font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;
   }
-  header .brand {
-    font-weight:700; font-size:20px;
-    background: linear-gradient(90deg,var(--accent1),var(--accent2));
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
+  nav {
+    background: #222; padding: 1rem 2rem;
   }
   nav a {
-    color: var(--muted);
-    text-decoration:none;
-    font-weight:600;
-    margin-left:18px;
-    font-size:14px;
-    transition: color var(--trans);
+    color: #ddd; margin-right: 1.5rem; text-decoration: none;
+    font-weight: 600;
   }
   nav a:hover {
-    color: var(--accent1);
+    color: #60c3ff;
   }
   main {
-    max-width: 1100px;
-    margin: 100px auto 40px;
-    padding: 0 20px;
+    flex-grow: 1; padding: 2rem 2rem;
+    max-width: 700px; margin: 0 auto; width: 100%;
   }
-  h1 {
-    margin-bottom: 24px;
-    font-weight: 700;
-    font-size: 36px;
+  footer {
+    background: #1e1e1e; text-align: center; padding: 1rem;
+    font-size: 0.9rem; color: #777;
   }
   section {
-    background: var(--panel);
-    border-radius: var(--radius);
-    padding: 24px 28px;
-    margin-bottom: 40px;
-    box-shadow: 0 8px 36px rgba(124,92,255,0.14);
+    margin-bottom: 3rem;
+    background: #1e1e1e; padding: 1.5rem; border-radius: 8px;
   }
-  section h2 {
+  h2 {
     margin-top: 0;
-    font-weight: 600;
-    color: var(--accent2);
-    margin-bottom: 18px;
+    margin-bottom: 1rem;
   }
   label {
-    display:block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--muted);
+    display: block; margin-top: 0.75rem; font-weight: 600;
   }
-  input[type="text"], select, textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    border: none;
-    background: #1a1620;
-    color: #eee;
-    font-size: 14px;
-    margin-bottom: 16px;
-    resize: vertical;
+  input[type="text"] {
+    width: 100%; padding: 0.4rem 0.5rem; margin-top: 0.25rem;
+    border-radius: 4px; border: none;
+    background: #333; color: #eee;
+    font-size: 1rem;
   }
   button {
-    cursor:pointer;
-    background: linear-gradient(90deg,var(--accent1),var(--accent2));
-    border:none;
-    color:#111;
-    font-weight: 700;
-    padding: 12px 20px;
-    border-radius: 16px;
-    font-size: 15px;
-    transition: background 250ms ease;
+    margin-top: 1rem; padding: 0.6rem 1.2rem; background: #60c3ff; border: none; border-radius: 4px;
+    font-weight: 700; cursor: pointer; color: #121212;
+    transition: background 0.3s;
   }
   button:hover {
-    background: linear-gradient(90deg,var(--accent2),var(--accent3));
+    background: #479cd9;
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
+  .btn-secondary {
+    background: #4CAF50; color: #121212; margin-left: 10px;
   }
-  th, td {
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    text-align: left;
-    font-size: 14px;
+  .btn-secondary:hover {
+    background: #3b8e3b;
   }
-  th {
-    color: var(--accent1);
+  .user-list {
+    margin-top: 1rem; max-height: 200px; overflow-y: auto;
+    border: 1px solid #444; border-radius: 6px; padding: 0.5rem;
+    color: #ddd;
   }
-  .actions button {
-    margin-right: 10px;
-    background: #ff5f5f;
+  .user-list div {
+    padding: 0.25rem 0.5rem; border-bottom: 1px solid #333;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  .actions button.unban {
-    background: #5fffa1;
+  .user-list div:last-child {
+    border-bottom: none;
   }
-  .actions button:hover {
-    filter: brightness(1.1);
+  .user-name {
+    font-weight: 600;
   }
-  .search-box {
-    margin-bottom: 20px;
+  .btn-small {
+    background: #f44336; color: white; padding: 0.25rem 0.6rem;
+    font-size: 0.85rem; border-radius: 4px; cursor: pointer; border: none;
+    transition: background 0.3s;
+  }
+  .btn-small:hover {
+    background: #c23127;
+  }
+  #rename-status {
+    margin-top: 1rem;
+    font-weight: 600;
   }
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">grief.lol Admin Panel</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="features.html">Features</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="help.html">Help</a>
-    <a href="waitlist.html">Join Waitlist</a>
-    <a href="learnmore.html">Learn More</a>
-  </nav>
-</header>
+
+<header>grief.bio</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="admin.html">Admin</a>
+  <a href="templates.html">Templates</a>
+  <a href="badges.html">Badges</a>
+</nav>
+
 <main>
-  <h1>Admin Dashboard</h1>
 
-  <section aria-label="User management">
-    <h2>User Management</h2>
-    <div class="search-box">
-      <label for="user-search">Search Users by Username or ID:</label>
-      <input type="text" id="user-search" placeholder="Enter username or user ID..." />
-      <button onclick="alert('Search function not implemented')">Search</button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>User ID</th>
-          <th>Username</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2345</td>
-          <td>darkmage</td>
-          <td>Active</td>
-          <td class="actions">
-            <button onclick="alert('User banned')">Ban</button>
-          </td>
-        </tr>
-        <tr>
-          <td>7763</td>
-          <td>neoncat</td>
-          <td>Banned</td>
-          <td class="actions">
-            <button class="unban" onclick="alert('User unbanned')">Unban</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+<section id="ban-section">
+  <h2>Ban / Unban Users</h2>
+  <label for="username-ban">Username:</label>
+  <input type="text" id="username-ban" placeholder="Enter username" autocomplete="off" />
+  <button id="ban-btn">Ban User</button>
+  <button id="unban-btn" class="btn-secondary">Unban User</button>
 
-  <section aria-label="Asset management">
-    <h2>Asset Management</h2>
-    <label for="asset-id">Asset ID:</label>
-    <input type="text" id="asset-id" placeholder="Enter asset ID here..." />
-    <label for="asset-status">Change Asset Status:</label>
-    <select id="asset-status">
-      <option value="">Select status</option>
-      <option value="approved">Approve</option>
-      <option value="rejected">Reject</option>
-      <option value="flagged">Flag for Review</option>
-    </select>
-    <button onclick="alert('Asset status changed')">Submit</button>
-  </section>
+  <div class="user-list" id="banned-users-list">
+    <strong>Banned Users:</strong>
+    <div id="banned-users-container">Loading...</div>
+  </div>
+</section>
 
-  <section aria-label="Activity logs">
-    <h2>Recent Admin Actions</h2>
-    <table>
-      <thead>
-        <tr><th>Timestamp</th><th>Action</th><th>Target</th><th>Admin</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>2025-08-07 13:44</td><td>Banned User</td><td>user: darkmage</td><td>admin01</td></tr>
-        <tr><td>2025-08-07 14:10</td><td>Approved Asset</td><td>asset: 1234</td><td>admin02</td></tr>
-        <tr><td>2025-08-07 15:00</td><td>Unbanned User</td><td>user: neoncat</td><td>admin01</td></tr>
-      </tbody>
-    </table>
-  </section>
+<section id="rename-section">
+  <h2>Rename User</h2>
+  <label for="username-rename">Current Username:</label>
+  <input type="text" id="username-rename" placeholder="Enter current username" autocomplete="off" />
+  
+  <label for="new-username">New Username:</label>
+  <input type="text" id="new-username" placeholder="Enter new username" autocomplete="off" />
+  
+  <button id="rename-btn">Rename User</button>
+  <div id="rename-status"></div>
+</section>
 
 </main>
+
+<footer>© 2025 grief.bio</footer>
+
+<script>
+  // Simulated user database (local only)
+  let users = [
+    { username: "alice" },
+    { username: "bob" },
+    { username: "charlie" }
+  ];
+  let bannedUsers = [];
+
+  function renderBannedUsers() {
+    const container = document.getElementById('banned-users-container');
+    container.innerHTML = '';
+    if(bannedUsers.length === 0) {
+      container.textContent = "No banned users.";
+      return;
+    }
+    bannedUsers.forEach(u => {
+      const div = document.createElement('div');
+      div.innerHTML = `<span class="user-name">${u}</span> <button class="btn-small" onclick="unbanUser('${u}')">Unban</button>`;
+      container.appendChild(div);
+    });
+  }
+
+  function banUser() {
+    const input = document.getElementById('username-ban');
+    const username = input.value.trim().toLowerCase();
+    if (!username) return alert('Please enter a username.');
+    if (!users.find(u => u.username === username)) {
+      return alert("User doesn't exist.");
+    }
+    if (bannedUsers.includes(username)) {
+      return alert('User is already banned.');
+    }
+    bannedUsers.push(username);
+    alert(`User "${username}" banned.`);
+    input.value = '';
+    renderBannedUsers();
+  }
+
+  function unbanUser(username) {
+    bannedUsers = bannedUsers.filter(u => u !== username);
+    alert(`User "${username}" unbanned.`);
+    renderBannedUsers();
+  }
+
+  function unbanUserFromInput() {
+    const input = document.getElementById('username-ban');
+    const username = input.value.trim().toLowerCase();
+    if (!username) return alert('Please enter a username.');
+    if (!bannedUsers.includes(username)) {
+      return alert('User is not banned.');
+    }
+    unbanUser(username);
+    input.value = '';
+  }
+
+  function renameUser() {
+    const current = document.getElementById('username-rename').value.trim().toLowerCase();
+    const next = document.getElementById('new-username').value.trim().toLowerCase();
+    const status = document.getElementById('rename-status');
+    status.textContent = '';
+    if (!current || !next) {
+      status.style.color = 'red';
+      status.textContent = 'Please enter both current and new usernames.';
+      return;
+    }
+    if (!users.find(u => u.username === current)) {
+      status.style.color = 'red';
+      status.textContent = `User "${current}" not found.`;
+      return;
+    }
+    if (users.find(u => u.username === next)) {
+      status.style.color = 'red';
+      status.textContent = `Username "${next}" already taken.`;
+      return;
+    }
+    users = users.map(u => {
+      if (u.username === current) return { username: next };
+      return u;
+    });
+    status.style.color = 'limegreen';
+    status.textContent = `User "${current}" renamed to "${next}".`;
+    document.getElementById('username-rename').value = '';
+    document.getElementById('new-username').value = '';
+  }
+
+  document.getElementById('ban-btn').addEventListener('click', banUser);
+  document.getElementById('unban-btn').addEventListener('click', unbanUserFromInput);
+  document.getElementById('rename-btn').addEventListener('click', renameUser);
+
+  renderBannedUsers();
+</script>
+
 </body>
 </html>
