@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Templates - grief.bio</title>
+<style>
+  body {
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212; color: #eee; display: flex; flex-direction: column; min-height: 100vh;
+  }
+  header {
+    background: #1e1e1e; padding: 1rem 2rem;
+    font-weight: bold; font-size: 1.5rem; letter-spacing: 1px;
+  }
+  nav {
+    background: #222; padding: 1rem 2rem;
+  }
+  nav a {
+    color: #ddd; margin-right: 1.5rem; text-decoration: none;
+    font-weight: 600;
+  }
+  nav a:hover {
+    color: #60c3ff;
+  }
+  main {
+    flex-grow: 1; padding: 2rem 2rem;
+    max-width: 900px; margin: 0 auto; width: 100%;
+  }
+  footer {
+    background: #1e1e1e; text-align: center; padding: 1rem;
+    font-size: 0.9rem; color: #777;
+  }
+  .template-list {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+  }
+  .template-card {
+    background: #1e1e1e; border-radius: 8px; padding: 1.5rem;
+    flex: 1 1 280px; max-width: 280px; display: flex; flex-direction: column;
+    box-shadow: 0 0 10px rgba(96, 195, 255, 0.4);
+    transition: box-shadow 0.3s;
+  }
+  .template-card:hover {
+    box-shadow: 0 0 20px rgba(96, 195, 255, 0.7);
+  }
+  .template-card h3 {
+    margin-top: 0; margin-bottom: 0.7rem;
+  }
+  .template-desc {
+    flex-grow: 1;
+    font-size: 0.95rem; margin-bottom: 1.2rem; color: #bbb;
+  }
+  button {
+    background: #60c3ff; border: none; border-radius: 5px;
+    padding: 0.6rem 1.2rem; font-weight: 700; color: #121212;
+    cursor: pointer; transition: background 0.3s;
+  }
+  button:hover {
+    background: #479cd9;
+  }
+</style>
+</head>
+<body>
+
+<header>grief.bio</header>
+
+<nav>
+  <a href="index.html">Home</a>
+  <a href="admin.html">Admin</a>
+  <a href="templates.html">Templates</a>
+  <a href="badges.html">Badges</a>
+</nav>
+
+<main>
+  <h1>Available Templates</h1>
+  <div class="template-list" id="template-list"></div>
+</main>
+
+<footer>© 2025 grief.bio</footer>
+
+<script>
+  const templates = [
+    { id: 1, name: "Minimal Bio", description: "Clean and simple biolink with essential info only." },
+    { id: 2, name: "Portfolio", description: "Showcase your work with a portfolio-style layout." },
+    { id: 3, name: "Streamer", description: "Perfect for streamers with social links and donation buttons." },
+    { id: 4, name: "Shopfront", description: "Sell your products or services directly from your biolink." },
+  ];
+
+  const container = document.getElementById('template-list');
+
+  templates.forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'template-card';
+    card.innerHTML = `
+      <h3>${t.name}</h3>
+      <p class="template-desc">${t.description}</p>
+      <button onclick="loadTemplate(${t.id})">Load Template</button>
+    `;
+    container.appendChild(card);
+  });
+
+  function loadTemplate(id) {
+    alert(`Loading template ID ${id} - feature coming soon!`);
+  }
+</script>
+
+</body>
+</html>
