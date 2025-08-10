@@ -482,66 +482,6 @@
     .player-card { outline: 1px dashed rgba(0,255,0,0.02); }
     */
   </style>
-
-<style>
-.badge-tooltip {
-  position: fixed;
-  background-color: rgba(34, 34, 34, 0.9);
-  color: #fff;
-  padding: 5px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -150%);
-  transition: opacity 0.2s ease;
-  z-index: 9999;
-}
-
-#badges img {
-  width: 40px; /* adjust if needed */
-  height: 40px;
-  margin: 5px;
-  cursor: pointer;
-}
-</style>
-
-<div id="badges"></div>
-
-<script>
-const badges = [
-  { file: 'artist.png', name: 'Artist' },
-  { file: 'christmas2024.png', name: 'Christmas 2024' },
-  { file: 'easter2025.png', name: 'Easter 2025' },
-  { file: 'premium.png', name: 'Premium' }
-];
-
-const badgeContainer = document.getElementById("badges");
-const tooltip = document.createElement("div");
-tooltip.className = "badge-tooltip";
-document.body.appendChild(tooltip);
-
-// Create badges dynamically
-badges.forEach(badge => {
-  const img = document.createElement("img");
-  img.src = "assets/" + badge.file;
-  img.alt = badge.name;
-  img.addEventListener("mouseenter", () => {
-    tooltip.textContent = badge.name;
-    tooltip.style.opacity = "1";
-  });
-  img.addEventListener("mousemove", e => {
-    tooltip.style.left = e.pageX + "px";
-    tooltip.style.top = e.pageY + "px";
-  });
-  img.addEventListener("mouseleave", () => {
-    tooltip.style.opacity = "0";
-  });
-  badgeContainer.appendChild(img);
-});
-</script>
-
 </head>
 <body>
   <div class="page" id="page-root">
