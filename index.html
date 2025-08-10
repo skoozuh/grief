@@ -15,7 +15,7 @@
     // Editable configuration
     window.BIOLINK_CONFIG = {
       username: 'skoozuh',           // displayed username
-      displayTrackName: 'WellsFargo',// displayed song title
+      displayTrackName: 'Chain Swangin - Molly Santana',// displayed song title
       assetsBase: 'assets/',         // base folder for assets
       pfp: 'pfp.png',                // profile picture file (in assetsBase)
       badges: [
@@ -25,7 +25,10 @@
         { file: 'premium.png', name: 'Premium' }
       ],
       musicFile: 'song.mp3',         // mp3 file (in assetsBase)
-      bioText: 'Producer / Creator. Links below — follow for more.', // bio copy
+      bioText: `producer & artist, working to get better every day and make a name for myself. I am 17 years old trying to make this a living. Any type of support would help
+
+twitter @skoozuh
+discord @skoozuh`, // bio copy (no links)
       colors: {
         background: '#000000',
         foreground: '#e8e8e8',
@@ -539,7 +542,7 @@
         </div>
 
         <div class="player-body">
-          <div class="track-title" id="track-title">WellsFargo</div>
+          <div class="track-title" id="track-title">Chain Swangin - Molly Santana</div>
 
           <div class="track-controls">
             <div class="time left" id="time-start">0:00</div>
@@ -584,7 +587,10 @@
             <div style="flex:1 1 auto;">
               <div style="font-size:15px; font-weight:700; color:var(--fg);">Bio</div>
               <div style="color:var(--sub); font-size:14px; margin-top:6px;" id="bio-text">
-                Producer / Creator. Links below — follow for more.
+                producer & artist, working to get better every day and make a name for myself. I am 17 years old trying to make this a living. Any type of support would help
+
+twitter @skoozuh
+discord @skoozuh
               </div>
             </div>
           </div>
@@ -718,8 +724,8 @@
       refs.sideIconImg.src = asset(pfp);
       refs.sideIconImg.alt = name + ' artwork';
 
-      // track art: fallback to pfp if no album art built-in
-      refs.playerArtImg.src = asset(pfp);
+      // track art: use songcover.png if available (user requested it)
+      refs.playerArtImg.src = asset('songcover.png');
       refs.playerArtImg.alt = cfg.displayTrackName || 'track';
 
       // meta text (you can change or remove)
