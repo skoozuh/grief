@@ -904,16 +904,6 @@
           }
         });
 
-        // page volume control affects player volume
-        const volEl = document.getElementById('page-volume');
-        if (volEl) {
-          audio.volume = (volEl.value/100) || 0.8;
-          volEl.addEventListener('input', ()=> {
-            const v = Math.max(0, Math.min(100, Number(volEl.value)));
-            audio.volume = v / 100;
-          });
-        }
-
         // keyboard space toggles play/pause when focus not in input
         window.addEventListener('keydown', (ev)=> {
           if (ev.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
