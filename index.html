@@ -1,6 +1,57 @@
 <!doctype html>
 <html lang="en">
 <head>
+
+<style>
+.badge-tooltip {
+  position: fixed;
+  background-color: rgba(34, 34, 34, 0.9);
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -150%);
+  transition: opacity 0.2s ease;
+  z-index: 9999;
+}
+</style>
+
+<script>
+const badges = [
+  { file: 'artist.png', name: 'Artist' },
+  { file: 'christmas2024.png', name: 'Christmas 2024' },
+  { file: 'easter2025.png', name: 'Easter 2025' },
+  { file: 'premium.png', name: 'Premium' }
+];
+
+const tooltip = document.createElement("div");
+tooltip.className = "badge-tooltip";
+document.body.appendChild(tooltip);
+
+// Find all badge <img> elements in the profile header
+document.querySelectorAll(".profile-header img").forEach(img => {
+  const badgeData = badges.find(b => img.src.includes(b.file));
+  if (!badgeData) return;
+
+  img.addEventListener("mouseenter", () => {
+    tooltip.textContent = badgeData.name;
+    tooltip.style.opacity = "1";
+  });
+
+  img.addEventListener("mousemove", e => {
+    tooltip.style.left = e.pageX + "px";
+    tooltip.style.top = e.pageY + "px";
+  });
+
+  img.addEventListener("mouseleave", () => {
+    tooltip.style.opacity = "0";
+  });
+});
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Discord @skoozuh</title>
