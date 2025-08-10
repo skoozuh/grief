@@ -723,10 +723,6 @@ discord @skoozuh`, // bio copy (no links)
       refs.avatarImg.src = asset(pfp);
       refs.avatarImg.alt = name + ' — profile';
 
-      // side icon (small artwork right side)
-      refs.sideIconImg.src = asset(pfp);
-      refs.sideIconImg.alt = name + ' artwork';
-
       // track art: use songcover.png if available (user requested it)
       refs.playerArtImg.src = asset('songcover.png');
       refs.playerArtImg.alt = cfg.displayTrackName || 'track';
