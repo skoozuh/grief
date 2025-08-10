@@ -1029,7 +1029,7 @@ discord @skoozuh`, // bio copy (no links)
     // set the bio text and other text content
     (function applyTextContent(){
       if (refs.bioText) refs.bioText.textContent = cfg.bioText || '';
-      if (refs.locationText) refs.locationText.textContent = '??';
+      if (refs.locationText) refs.locationText.textContent = 'Seattle, WA';
       // prefill any missing images with a subtle placeholder if asset fails to load
       const allImgs = document.querySelectorAll('img');
       allImgs.forEach(img=>{
