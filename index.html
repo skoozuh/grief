@@ -1,205 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>grave.lol — Bio</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>grave.lol — Biolink</title>
 <style>
-:root {
-  --bg: #0e0e10;
-  --card-bg: #18181b;
-  --accent1: #ff6ec7;
-  --accent2: #a24bff;
-  --text-light: #f8f8fa;
-  --text-muted: #a1a1aa;
-  --radius: 14px;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
+  :root{
+    /* Colors — same family, shifted toward neon purple/blue/cyan */
+    --bg-1: #07070a;
+    --bg-2: #0f0e13;
+    --panel: rgba(255,255,255,0.03);
+    --accent-p: #ff6ec7;   /* pink */
+    --accent-v: #8b6bff;   /* violet (shifted) */
+    --accent-c: #52e5ff;   /* cyan highlight */
+    --muted: #98a0a6;
+    --glass: rgba(255,255,255,0.03);
+    --neon-soft: 0 8px 30px rgba(139,107,255,0.08), 0 2px 8px rgba(82,229,255,0.04);
+    --neon-strong: 0 18px 60px rgba(139,107,255,0.12), 0 6px 30px rgba(255,110,199,0.06);
+    --radius: 18px;
+    --focus: 0 0 0 4px rgba(139,107,255,0.12);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text-light);
-}
+  /* Base */
+  html,body{ height:100%; margin:0; background:
+    radial-gradient(1200px 420px at 10% 18%, rgba(139,107,255,0.035), transparent 8%),
+    linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color:#f6f6f8;
+  }
+  a{ color:inherit; text-decoration:none; }
 
-header {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  /* Layout */
+  .wrap{
+    max-width:1200px;
+    margin:56px auto;
+    padding: 0 28px;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:36px;
+    align-items:start;
+  }
 
-header h1 {
-  font-size: 1rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+  /* Header */
+  header{
+    position:fixed;
+    top:18px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    pointer-events:none;
+    z-index:40;
+  }
+  .nav{
+    width:calc(100% - 56px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    pointer-events:auto;
+    background: linear-gradient(90deg, rgba(255,255,255,0.016), rgba(255,255,255,0.008));
+    border-radius: 28px;
+    padding:10px 18px;
+    box-shadow: var(--neon-soft);
+    border:1px solid rgba(139,107,255,0.06);
+    backdrop-filter: blur(6px);
+  }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .brand .logo{
+    width:36px;height:36px;
+    display:flex;align-items:center;justify-content:center;
+    background: radial-gradient(circle at 30% 30%, rgba(255,110,199,0.14), rgba(139,107,255,0.08));
+    border-radius:10px;
+    box-shadow: 0 8px 28px rgba(139,107,255,0.05);
+  }
+  .brand h1{ font-size:14px;margin:0; letter-spacing:0.4px; font-weight:700; opacity:0.96; }
 
-header nav {
-  display: flex;
-  gap: 1rem;
-}
+  nav.menu{ display:flex; gap:18px; align-items:center; }
+  nav.menu a{ color:var(--muted); font-size:13px; padding:6px 8px; border-radius:8px; transition: color .18s ease, transform .12s ease; }
+  nav.menu a:hover{ color: #fff; transform: translateY(-2px); }
 
-header nav a {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  text-decoration: none;
-}
+  .btn-dashboard{
+    background: linear-gradient(90deg,var(--accent-p),var(--accent-v));
+    padding:8px 16px;
+    border-radius:999px;
+    font-weight:600;
+    color:#0b0b0d;
+    box-shadow: var(--neon-strong);
+  }
 
-header nav a:hover {
-  color: var(--text-light);
-}
+  /* Left/hero area */
+  .hero{
+    padding-top:36px;
+  }
+  .headline{
+    font-size:56px;
+    line-height:0.98;
+    margin:0 0 14px 0;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .headline .grad{
+    background: linear-gradient(90deg,var(--accent-p),var(--accent-v));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow: 0 8px 30px rgba(139,107,255,0.06);
+  }
+  .sub{
+    color: #bfc4c8;
+    max-width:620px;
+    font-size:15.5px;
+    margin-bottom:24px;
+  }
 
-main {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
+  .cta-row{ display:flex; gap:14px; align-items:center; margin-bottom:18px; }
+  .btn{
+    padding:12px 18px;
+    border-radius:14px;
+    font-weight:700;
+    cursor:pointer;
+    border:1px solid rgba(255,255,255,0.04);
+    transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease, filter .18s ease;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    color: #efeef1;
+  }
+  .btn:hover{ transform:translateY(-4px); }
+  .btn-primary{
+    background:linear-gradient(90deg,var(--accent-p),var(--accent-v));
+    color:#0b0b0d;
+    box-shadow: 0 12px 36px rgba(139,107,255,0.12);
+  }
+  .btn-outline{
+    border:1px solid rgba(139,107,255,0.18);
+    background:transparent;
+    color: #e8d9f7;
+    padding-right:20px;
+  }
+  .small-note{ color:#9db89f; font-size:13px; display:flex; gap:8px; align-items:center; margin-top:6px; }
 
-.profile {
-  text-align: center;
-  background: var(--card-bg);
-  border-radius: var(--radius);
-  padding: 2rem 1rem;
-}
+  /* Right card */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+    border-radius: var(--radius);
+    padding:24px;
+    border:1px solid rgba(139,107,255,0.06);
+    box-shadow: 0 22px 60px rgba(3,3,4,0.6);
+    position:relative;
+    overflow:visible;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: var(--neon-strong); }
+  .card .top{
+    height:92px;
+    border-radius:12px;
+    background: linear-gradient(100deg, rgba(139,107,255,0.14), rgba(82,229,255,0.06));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:-24px -24px 12px -24px;
+  }
 
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent1), var(--accent2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-}
+  /* Avatar tweaks: thin neon ring + soft glow, slightly rounded (not perfect circle) */
+  .avatar{
+    width:112px;height:112px;border-radius:20px;
+    display:flex;align-items:center;justify-content:center;
+    margin-top:-64px;margin-bottom:10px;
+    border:3px solid rgba(255,255,255,0.03);
+    background:radial-gradient(circle at 28% 28%, rgba(255,110,199,0.12), rgba(139,107,255,0.08));
+    box-shadow: 0 14px 48px rgba(139,107,255,0.10), 0 6px 16px rgba(82,229,255,0.04) inset;
+    transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease;
+  }
+  .avatar:focus,
+  .avatar:hover{ transform: translateY(-6px) scale(1.02); box-shadow: 0 20px 70px rgba(139,107,255,0.15), 0 10px 34px rgba(82,229,255,0.06) inset; }
 
-.username {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
+  .username{ font-size:20px; font-weight:800; margin:0; letter-spacing:-0.01em; text-align:center; }
+  .badges{ display:flex; gap:10px; justify-content:center; margin-top:10px; margin-bottom:12px; }
+  .badge{
+    width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow: inset 0 -8px 24px rgba(0,0,0,0.35);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  }
+  .badge img{ width:22px;height:22px;border-radius:6px; display:block; }
+  .badge:hover{ transform: translateY(-4px); filter:brightness(1.05); box-shadow: 0 12px 30px rgba(139,107,255,0.08); }
 
-.bio {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
-}
+  .bio{ color:#e8e7ea; text-align:center; font-weight:600; margin:4px 0 6px 0; }
+  .location{ display:flex; gap:8px; justify-content:center; color:var(--muted); font-size:13px; align-items:center; }
 
-.badges {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 1rem 0;
-}
+  .activity{
+    margin-top:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+    border-radius:12px;
+    padding:12px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    border:1px solid rgba(139,107,255,0.04);
+  }
+  .activity .tag{
+    width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 30% 30%, rgba(255,110,199,0.06), rgba(139,107,255,0.04));
+  }
+  .activity .meta{ font-size:13px; color:#e7e6e9; }
+  .social-row{ display:flex; gap:12px; justify-content:center; margin-top:18px; }
 
-.badges img {
-  width: 28px;
-  height: 28px;
-}
+  .social{
+    width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+    border:1px solid rgba(255,255,255,0.03);
+    transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+  }
+  .social:hover{ transform:translateY(-6px); box-shadow: 0 20px 50px rgba(139,107,255,0.12); filter: saturate(1.06); }
 
-.location {
-  display: flex;
-  justify-content: center;
-  gap: 0.25rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-}
+  /* subtle animations */
+  .fade-in{ animation:fadeIn .9s cubic-bezier(.2,.9,.2,1) both; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
 
-.links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
+  /* small screens */
+  @media (max-width:980px){
+    .wrap{ grid-template-columns: 1fr; gap:22px; padding-top:86px; }
+    .card{ order: -1; }
+    .headline{ font-size:44px; }
+  }
 
-.link-btn {
-  background: linear-gradient(90deg, var(--accent1), var(--accent2));
-  color: black;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 600;
-  text-decoration: none;
-  transition: transform 0.15s ease;
-}
-
-.link-btn:hover {
-  transform: translateY(-2px);
-}
-
-.social {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.social a {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius);
-  display: grid;
-  place-items: center;
-  background: rgba(255,255,255,0.05);
-  transition: background 0.15s ease;
-}
-
-.social a:hover {
-  background: rgba(255,255,255,0.1);
-}
+  /* small interactive focus states (accessible) */
+  button, a, .avatar { outline: none; }
+  button:focus, a:focus, .avatar:focus { box-shadow: var(--focus); border-radius: 12px; }
+  /* image interactions */
+  .badges img,
+  .social-row img { transition: all 0.25s ease; box-shadow: 0 0 0 rgba(255,110,199,0); border-radius: 8px; }
+  .badges img:hover,
+  .social-row img:hover { transform: translateY(-3px) scale(1.08); box-shadow: 0 0 18px rgba(139,107,255,0.36); }
 </style>
 </head>
 <body>
-
 <header>
-  <h1>
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-      <path d="M12 2c-1.657 0-3 1.567-3 3.5V6H8C6.343 6 5 7.567 5 9.5v3C5 16 7 18 9 18v2a1 1 0 0 0 2 0v-2h2v2a1 1 0 0 0 2 0v-2c2 0 4-2 4-5.5v-3C19 7.567 17.657 6 16 6h-1V5.5C15 3.567 13.657 2 12 2z" fill="var(--accent1)"/>
-    </svg>
-    grave.lol
-  </h1>
-  <nav>
-    <a href="#">Pricing</a>
-    <a href="#">Leaderboard</a>
-    <a href="#">Help</a>
-  </nav>
+  <div class="nav">
+    <div class="brand">
+      <div aria-hidden="true" class="logo" tabindex="-1" aria-hidden="true">
+        <!-- skull/ghost SVG -->
+        <svg aria-hidden="true" fill="none" height="20" viewBox="0 0 24 24" width="20" role="img">
+          <path d="M12 2c-1.657 0-3 1.567-3 3.5v.5h-1C6.343 6 5 7.567 5 9.5v3C5 16 7 18 9 18v2a1 1 0 0 0 2 0v-2h-0.2c0 0 0-1 1.2-1s1.2 1 1.2 1H13v2a1 1 0 0 0 2 0v-2c2 0 4-2 4-5.5v-3C19 7.567 17.657 6 16 6h-1v-.5C15 3.567 13.657 2 12 2z" fill="url(#logoG)"></path>
+          <defs>
+            <linearGradient id="logoG" x1="0" x2="1">
+              <stop offset="0" stop-color="#ff6ec7"></stop>
+              <stop offset="1" stop-color="#8b6bff"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <h1>grave.lol</h1>
+    </div>
+    <nav class="menu" aria-label="Main">
+      <div style="display:flex; gap:12px; align-items:center;">
+        <a aria-label="Discord link" href="#">Discord</a>
+        <a href="#">Leaderboard</a>
+        <a href="#">Help Center</a>
+        <a href="#">Pricing</a>
+        <a href="#">Team</a>
+      </div>
+      <div>
+        <button aria-label="Dashboard" class="btn-dashboard">Dashboard</button>
+      </div>
+    </nav>
+  </div>
 </header>
 
-<main>
-  <div class="profile">
-    <div class="avatar">
-      <!-- Skull SVG -->
-      <svg width="48" height="48" fill="white" viewBox="0 0 24 24">
-        <path d="M12 2c-1.656 0-3 1.567-3 3.5v.5H8C6.343 6 5 7.567 5 9.5v3C5 15.5 7 17.5 9 17.5V20a1 1 0 0 0 2 0v-2.5h2V20a1 1 0 0 0 2 0v-2.5c2 0 4-2 4-5.5v-3C21 7.567 19.656 6 18 6h-1v-.5C17 3.567 15.656 2 14 2h-2z"/>
-      </svg>
+<main class="wrap" role="main">
+  <!-- Left / hero -->
+  <section aria-labelledby="main-heading" class="hero fade-in">
+    <h2 class="headline" id="main-heading">
+      Your Digital <span class="grad">Identity</span>,<br/> On Your Terms
+    </h2>
+    <p class="sub">
+      Create a stunning biolink page that represents your personal brand. Share all your content in one beautiful, customizable location.
+    </p>
+    <div class="cta-row">
+      <button class="btn btn-primary" onclick="claim()" aria-haspopup="dialog">Claim Username</button>
+      <button class="btn btn-outline" onclick="explore()" aria-expanded="false">Explore Features ▾</button>
     </div>
-    <div class="username">grave.lol</div>
-    <div class="bio">Web developer & designer based in Vienna</div>
-    <div class="badges">
-      <img src="assets/artist.png" alt="Artist">
-      <img src="assets/premium.png" alt="Premium">
+    <div aria-hidden="true" class="small-note">
+      <span style="display:inline-block;width:10px;height:10px;background:#3ad27a;border-radius:999px;box-shadow:0 8px 20px rgba(58,210,122,0.12)"></span>
+      <span style="color:var(--muted)">100% Free To Get Started • No Credit Card Required</span>
     </div>
-    <div class="location">
-      <svg width="14" height="14" fill="var(--accent1)" viewBox="0 0 24 24">
-        <path d="M12 2C8.686 2 6 4.824 6 8.5 6 13.5 12 22 12 22s6-8.5 6-13.5C18 4.824 15.314 2 12 2z"/>
-      </svg>
-      Vienna, Austria
+  </section>
+
+  <!-- Right / profile card -->
+  <aside aria-label="Profile card" class="card fade-in" role="complementary">
+    <div aria-hidden="true" class="top"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div aria-label="grave.lol avatar" class="avatar" role="img" tabindex="0">
+        <!-- stylized skull/ghost -->
+        <svg aria-hidden="true" fill="none" height="64" viewBox="0 0 24 24" width="64">
+          <path d="M12 2c-1.656 0-3 1.567-3 3.5v.5h-1C6.343 6 5 7.567 5 9.5v3C5 15.5 7 17.5 9 17.5v2.5a1 1 0 0 0 2 0V17.5h2v2.5a1 1 0 0 0 2 0V17.5c2 0 4-2 4-5.5v-3C21 7.567 19.656 6 18 6h-1v-.5C17 3.567 15.656 2 14 2h-2z" fill="url(#g1)"></path>
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#ff6ec7"></stop>
+              <stop offset="1" stop-color="#8b6bff"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <h3 class="username">grave.lol</h3>
+
+      <div aria-hidden="true" class="badges">
+        <div class="badge"><img alt="Artist" height="34" src="assets/artist.png" width="34"/></div>
+        <div class="badge"><img alt="Premium" height="34" src="assets/premium.png" width="34"/></div>
+        <div class="badge"><img alt="Gifter" height="34" src="assets/gifter.png" width="34"/></div>
+        <div class="badge"><img alt="Store" height="34" src="assets/store.png" width="34"/></div>
+        <div class="badge"><img alt="Global" height="34" src="assets/global.png" width="34"/></div>
+      </div>
+
+      <div class="bio">Web developer &amp; designer based in [Your Location].</div>
+      <div class="location"><svg fill="none" height="14" viewBox="0 0 24 24" width="14"><path d="M12 2C8.686 2 6 4.824 6 8.5 6 13.5 12 22 12 22s6-8.5 6-13.5C18 4.824 15.314 2 12 2z" fill="#ff6ec7" opacity="0.92"></path></svg> Vienna, Austria</div>
+
+      <div aria-label="Activity" class="activity" role="group">
+        <div aria-hidden="true" class="tag"><img alt="Activity" src="assets/activity.png" style="width:50px;height:50px;border-radius:10px;"/></div>
+        <div class="meta">
+          <div style="font-weight:700">grave.lol#1234</div>
+          <div style="color:var(--muted); font-size:13px;">Playing Valorant • Competitive • Haven</div>
+        </div>
+      </div>
+
+      <div class="social-row" style="width:100%;">
+        <a aria-label="GitHub" class="social" href="#"><img alt="Icons" src="assets/icons.png"/></a>
+        <a aria-label="Discord" class="social" href="#"><img alt="Paypal" src="assets/paypal.png"/></a>
+        <a aria-label="X (Twitter)" class="social" href="#"><img alt="Bitcoin" src="assets/bitcoin.png"/></a>
+        <a aria-label="Instagram" class="social" href="#"><img alt="Etherum" src="assets/etherum.png"/></a>
+      </div>
     </div>
-    <div class="links">
-      <a class="link-btn" href="#">Claim Username</a>
-      <a class="link-btn" href="#">Explore Features</a>
-    </div>
-    <div class="social">
-      <a href="#"><img src="assets/icons.png" alt="GitHub" width="20"></a>
-      <a href="#"><img src="assets/paypal.png" alt="PayPal" width="20"></a>
-      <a href="#"><img src="assets/bitcoin.png" alt="Bitcoin" width="20"></a>
-    </div>
-  </div>
+  </aside>
 </main>
 
+<script>
+  // Minimal interactivity for demo purposes
+  function claim(){
+    alert("Claim username flow — open signup / onboarding (placeholder).");
+  }
+  function explore(){
+    alert("Explore features — show modal or scroll to features (placeholder).");
+  }
+
+  // accessible focus states (keyboard)
+  document.querySelectorAll('button, a, .avatar').forEach(el=>{
+    el.addEventListener('focus', ()=> el.style.boxShadow='0 0 0 4px rgba(139,107,255,0.12)');
+    el.addEventListener('blur', ()=> el.style.boxShadow='none');
+  });
+</script>
 </body>
 </html>
