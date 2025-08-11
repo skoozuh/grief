@@ -8,31 +8,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600,700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg-1:#05060a;
-  --bg-2:#0b1016;
-  --muted: rgba(255,255,255,0.62);
-  --accent-a:#66e0ff;
-  --accent-b:#a7a0ff;
+:root {
+  --bg-1: #05060a;
+  --bg-2: #0b1016;
+  --muted: rgba(255, 255, 255, 0.62);
+  --accent-a: #66e0ff;
+  --accent-b: #a7a0ff;
   --max-width: 920px;
   --page-pad: 28px;
-
-  --badge-size: 36px;
-  --badge-gap: 6px;
-  --name-badge-gap: 8px;
 
   --badge-radius: 8px;
   --hover-transition: 220ms;
 }
 
 /* Reset */
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%); color:#fff; font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  color: #fff;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .container {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--page-pad);
 }
 
@@ -43,25 +53,25 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
   background: transparent;
   padding: 24px;
   border-radius: 16px;
-  box-sizing: border-box;
   display: flex;
   gap: 20px;
   align-items: flex-start;
 }
 
-/* Profile picture */
+/* Profile Picture */
 .pfp {
   width: 112px;
   height: 112px;
   border-radius: 9999px;
   overflow: hidden;
-  border: 3px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 3px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
+
 .pfp img {
   width: 100%;
   height: 100%;
@@ -88,8 +98,9 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
   white-space: nowrap;
   cursor: default;
 }
+
 .username:hover {
-  text-shadow: 0 10px 30px rgba(102,224,255,0.12);
+  text-shadow: 0 10px 30px rgba(102, 224, 255, 0.12);
   filter: brightness(1.05);
 }
 
@@ -108,184 +119,217 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
   line-height: 1.4;
 }
 
-/* Music Player */
+/* ----------- Music Player ----------- */
 .player {
   margin-top: 14px;
   max-width: 760px;
   width: 100%;
+  background: linear-gradient(180deg, #121519, #0f131a);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 5px rgba(255, 255, 255, 0.05),
+    0 6px 30px rgba(102, 224, 255, 0.2);
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 6px 22px rgba(3,6,10,0.6);
+  gap: 20px;
+  padding: 16px 20px;
   user-select: none;
 }
 
-/* Cover art */
+/* Cover */
 .player .cover {
-  width: 72px;
-  height: 72px;
-  border-radius: 8px;
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
   overflow: hidden;
   background: #111;
+  box-shadow: 0 0 25px rgba(102, 224, 255, 0.15);
+  flex-shrink: 0;
   display: grid;
   place-items: center;
-  flex-shrink: 0;
 }
+
 .player .cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 12px;
 }
 
 /* Meta info */
 .player .meta {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  flex-grow: 1;
+  gap: 6px;
   overflow: hidden;
 }
+
 .player .title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
-  white-space: normal;
-  overflow-wrap: break-word;
   user-select: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Controls container */
 .player .controls {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: flex-end;
-  min-width: 220px;
+  gap: 14px;
+  min-width: 280px;
   width: 100%;
 }
 
-/* Top row: play button and times */
+/* Controls top (play + times + slider) */
 .controls-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
 }
 
 /* Play button */
 .play-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #0a121b, #141c26);
+  box-shadow:
+    5px 5px 10px #081017,
+    -5px -5px 10px #192532;
   display: grid;
   place-items: center;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.04);
   cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-  color: white;
+  transition: box-shadow 180ms ease;
+  color: var(--accent-a);
+  border: none;
   user-select: none;
 }
-.play-btn:active {
-  transform: scale(0.98);
+
+.play-btn:hover {
+  box-shadow:
+    7px 7px 15px #06101a,
+    -7px -7px 15px #1d2b3a;
 }
+
+.play-btn:active {
+  box-shadow:
+    inset 3px 3px 6px #06101a,
+    inset -3px -3px 6px #1d2b3a;
+}
+
 .play-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   fill: currentColor;
 }
 
 /* Time text */
 .time {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
-  min-width: 36px;
-  text-align: right;
+  min-width: 40px;
+  text-align: center;
   user-select: none;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Progress bar wrapper */
 .progress-wrap {
-  position: relative;
   flex-grow: 1;
-  height: 10px;
+  position: relative;
+  height: 12px;
   border-radius: 9999px;
-  background: rgba(255,255,255,0.03);
+  background: #1a2230;
   cursor: pointer;
-  overflow: visible;
+  box-shadow:
+    inset 2px 2px 5px #0e1626,
+    inset -2px -2px 5px #27334e;
   display: flex;
   align-items: center;
 }
 
-/* Progress bar */
+/* Progress bar fill */
 .progress {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
-  box-shadow: 0 6px 20px rgba(102,224,255,0.08);
   border-radius: 9999px;
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+  box-shadow: 0 0 15px var(--accent-a);
   position: relative;
-  transition: width 120ms linear;
+  transition: width 100ms linear;
   user-select: none;
 }
 
-/* Glow effect on progress */
+/* Glow on progress */
 .progress::after {
   content: '';
   position: absolute;
-  right: -20px;
-  top: -6px;
-  width: 40px;
-  height: 22px;
-  background: radial-gradient(circle at 30% 30%, rgba(102,224,255,0.25), transparent 40%);
-  filter: blur(8px);
-  opacity: 0.9;
+  right: 0;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at center, var(--accent-a), transparent 60%);
+  transform: translate(50%, -50%);
+  filter: blur(4px);
+  opacity: 0.8;
   pointer-events: none;
+  border-radius: 50%;
 }
 
 /* Knob handle */
 .knob {
   position: absolute;
   top: 50%;
-  transform: translate(50%, -50%);
-  width: 12px;
-  height: 12px;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(102,224,255,0.14);
-  pointer-events: auto;
+  background: var(--accent-b);
+  box-shadow:
+    0 0 8px var(--accent-b),
+    inset 0 0 5px var(--accent-a);
   cursor: pointer;
   user-select: none;
+  transition: background 150ms ease;
+}
+
+.knob:hover {
+  background: var(--accent-a);
+  box-shadow:
+    0 0 12px var(--accent-a),
+    inset 0 0 7px var(--accent-b);
 }
 
 /* Responsive */
-@media(max-width:520px){
+@media (max-width: 520px) {
   .player {
-    padding: 10px;
-    gap: 10px;
     flex-direction: column;
     align-items: stretch;
   }
   .player .controls {
-    align-items: stretch;
     min-width: 0;
     width: 100%;
+    align-items: stretch;
   }
   .controls-top {
-    justify-content: space-between;
+    gap: 12px;
   }
   .play-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
   }
   .player .cover {
-    width: 64px;
-    height: 64px;
+    width: 80px;
+    height: 80px;
+  }
+  .time {
+    min-width: 36px;
   }
 }
 
@@ -301,11 +345,10 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
 <body>
 
 <div class="container" role="main">
-
   <div class="card" aria-label="Profile card">
 
     <div class="pfp" title="Profile picture">
-      <img src="assets/pfp.png" alt="Profile picture">
+      <img src="assets/pfp.png" alt="Profile picture" />
     </div>
 
     <div class="main">
@@ -316,7 +359,7 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
       <!-- Music Player -->
       <div class="player" aria-label="Music player">
         <div class="cover" aria-hidden="true">
-          <img src="assets/songcover.png" alt="Chain Swangin cover">
+          <img src="assets/songcover.png" alt="Chain Swangin cover" />
         </div>
 
         <div class="meta">
@@ -330,17 +373,29 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
                 <path d="M5 3v18l15-9L5 3z" />
               </svg>
               <svg id="pauseIcon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none">
-                <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+                <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
               </svg>
             </button>
 
-            <div style="display:flex; align-items:center; gap:8px; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
               <div class="time" id="currentTime">0:00</div>
-              <div class="progress-wrap" id="progressWrap" tabindex="0" aria-label="Seek slider" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0 seconds">
+
+              <div
+                class="progress-wrap"
+                id="progressWrap"
+                tabindex="0"
+                role="slider"
+                aria-label="Seek slider"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                aria-valuetext="0 seconds"
+              >
                 <div class="progress" id="progressBar">
                   <div class="knob" id="knob"></div>
                 </div>
               </div>
+
               <div class="time" id="duration">0:00</div>
             </div>
           </div>
@@ -348,7 +403,6 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
       </div>
       <!-- End player -->
     </div>
-
   </div>
 </div>
 
@@ -356,91 +410,98 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
 
 <script>
 (() => {
-  const audio = document.getElementById('audio');
-  const playBtn = document.getElementById('playBtn');
-  const playIcon = document.getElementById('playIcon');
-  const pauseIcon = document.getElementById('pauseIcon');
-  const progressBar = document.getElementById('progressBar');
-  const progressWrap = document.getElementById('progressWrap');
-  const knob = document.getElementById('knob');
-  const currentTimeElem = document.getElementById('currentTime');
-  const durationElem = document.getElementById('duration');
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("playBtn");
+  const playIcon = document.getElementById("playIcon");
+  const pauseIcon = document.getElementById("pauseIcon");
+  const progressBar = document.getElementById("progressBar");
+  const progressWrap = document.getElementById("progressWrap");
+  const knob = document.getElementById("knob");
+  const currentTimeElem = document.getElementById("currentTime");
+  const durationElem = document.getElementById("duration");
 
   let isDragging = false;
 
+  // Format seconds as mm:ss
   function formatTime(seconds) {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
-    return m + ':' + (s < 10 ? '0' + s : s);
+    return m + ":" + (s < 10 ? "0" + s : s);
   }
 
-  // Update time displays and progress bar
+  // Update the progress bar & time
   function updateProgress() {
-    if (!isDragging) {
-      const percent = (audio.currentTime / audio.duration) * 100 || 0;
-      progressBar.style.width = percent + '%';
-      knob.style.left = percent + '%';
+    if (!isDragging && audio.duration) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progressBar.style.width = percent + "%";
+      knob.style.left = percent + "%";
       currentTimeElem.textContent = formatTime(audio.currentTime);
-      progressWrap.setAttribute('aria-valuenow', Math.floor(percent));
-      progressWrap.setAttribute('aria-valuetext', formatTime(audio.currentTime));
+      progressWrap.setAttribute("aria-valuenow", Math.floor(percent));
+      progressWrap.setAttribute("aria-valuetext", formatTime(audio.currentTime));
     }
   }
 
-  // Toggle play/pause icons
+  // Play/Pause toggle icons
   function updatePlayPauseIcon() {
     if (audio.paused) {
-      playIcon.style.display = 'block';
-      pauseIcon.style.display = 'none';
-      playBtn.setAttribute('aria-label', 'Play');
+      playIcon.style.display = "block";
+      pauseIcon.style.display = "none";
+      playBtn.setAttribute("aria-label", "Play");
     } else {
-      playIcon.style.display = 'none';
-      pauseIcon.style.display = 'block';
-      playBtn.setAttribute('aria-label', 'Pause');
+      playIcon.style.display = "none";
+      pauseIcon.style.display = "block";
+      playBtn.setAttribute("aria-label", "Pause");
     }
   }
 
-  // Play/pause button click
-  playBtn.addEventListener('click', () => {
+  // Play/pause button click handler
+  playBtn.addEventListener("click", () => {
     if (audio.paused) audio.play();
     else audio.pause();
   });
 
-  // Audio events
-  audio.addEventListener('timeupdate', updateProgress);
-  audio.addEventListener('play', updatePlayPauseIcon);
-  audio.addEventListener('pause', updatePlayPauseIcon);
-  audio.addEventListener('ended', () => {
+  // Audio event listeners
+  audio.addEventListener("timeupdate", updateProgress);
+  audio.addEventListener("play", updatePlayPauseIcon);
+  audio.addEventListener("pause", updatePlayPauseIcon);
+  audio.addEventListener("ended", () => {
     audio.currentTime = 0;
     audio.pause();
     updateProgress();
   });
-  audio.addEventListener('loadedmetadata', () => {
+  audio.addEventListener("loadedmetadata", () => {
     durationElem.textContent = formatTime(audio.duration);
   });
 
-  // Progress bar drag handling
+  // Calculate and set audio currentTime based on event (mouse/touch) position on progress bar
   function seek(e) {
     const rect = progressWrap.getBoundingClientRect();
-    let x = e.clientX || (e.touches && e.touches[0].clientX);
-    let percent = (x - rect.left) / rect.width;
+    let clientX = e.clientX;
+    if (e.touches) clientX = e.touches[0].clientX;
+    let percent = (clientX - rect.left) / rect.width;
     percent = Math.min(Math.max(percent, 0), 1);
     audio.currentTime = percent * audio.duration;
     updateProgress();
   }
 
-  knob.addEventListener('mousedown', (e) => {
+  // Drag handlers for the knob
+  knob.addEventListener("mousedown", (e) => {
     e.preventDefault();
     isDragging = true;
-    window.addEventListener('mousemove', onDrag);
-    window.addEventListener('mouseup', onStopDrag);
+    window.addEventListener("mousemove", onDrag);
+    window.addEventListener("mouseup", onStopDrag);
   });
 
-  knob.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    isDragging = true;
-    window.addEventListener('touchmove', onDrag);
-    window.addEventListener('touchend', onStopDrag);
-  }, { passive: false });
+  knob.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      isDragging = true;
+      window.addEventListener("touchmove", onDrag);
+      window.addEventListener("touchend", onStopDrag);
+    },
+    { passive: false }
+  );
 
   function onDrag(e) {
     seek(e);
@@ -449,27 +510,28 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
   function onStopDrag(e) {
     isDragging = false;
     seek(e);
-    window.removeEventListener('mousemove', onDrag);
-    window.removeEventListener('mouseup', onStopDrag);
-    window.removeEventListener('touchmove', onDrag);
-    window.removeEventListener('touchend', onStopDrag);
+    window.removeEventListener("mousemove", onDrag);
+    window.removeEventListener("mouseup", onStopDrag);
+    window.removeEventListener("touchmove", onDrag);
+    window.removeEventListener("touchend", onStopDrag);
   }
 
-  // Clicking on progress bar to seek
-  progressWrap.addEventListener('click', (e) => {
+  // Click on progress bar to seek
+  progressWrap.addEventListener("click", (e) => {
     seek(e);
   });
 
-  // Keyboard accessibility for progress slider
-  progressWrap.addEventListener('keydown', (e) => {
+  // Keyboard controls for accessibility
+  progressWrap.addEventListener("keydown", (e) => {
+    if (!audio.duration) return;
     let seekTime = audio.currentTime;
-    const step = 5; // seconds per arrow key press
-    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+    const step = 5;
+    if (e.key === "ArrowRight" || e.key === "ArrowUp") {
       seekTime = Math.min(audio.duration, audio.currentTime + step);
       audio.currentTime = seekTime;
       updateProgress();
       e.preventDefault();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
       seekTime = Math.max(0, audio.currentTime - step);
       audio.currentTime = seekTime;
       updateProgress();
@@ -477,14 +539,10 @@ html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg
     }
   });
 
-  // Initialize UI states
+  // Init UI states
   updatePlayPauseIcon();
   if (audio.readyState >= 1) {
     durationElem.textContent = formatTime(audio.duration);
-  } else {
-    audio.addEventListener('loadedmetadata', () => {
-      durationElem.textContent = formatTime(audio.duration);
-    });
   }
 })();
 </script>
