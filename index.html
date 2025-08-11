@@ -15,17 +15,26 @@
       --radius: 18px;
       --progress-gradient: linear-gradient(90deg, #f2b792, #2b4968);
     }
-    html,body{
-      height:100%;
-      margin:0;
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: "Poppins", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
       background: url('assets/background.png') center/cover no-repeat,
                   linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
-      background-blend-mode:overlay;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
+      background-blend-mode: overlay;
+      filter: blur(8px); /* adjust blur strength */
+      z-index: -1; /* keep behind everything */
     }
     /* Overlay */
     .enter-overlay {
