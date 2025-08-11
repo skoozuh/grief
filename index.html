@@ -1,121 +1,364 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Biolink</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>grief.bio — profile replica</title>
+
+  <!-- Poppins as in design -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      --card-w: 760px;
+      --card-h: 220px;
+      --glass-bg: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent: rgba(255,255,255,0.9);
+      --muted: rgba(255,255,255,0.55);
+      --shadow: 0 10px 30px rgba(7,9,15,0.7);
+      --radius: 18px;
+      --small: 12px;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(-45deg, #0a0035, #1a004f, #2a005a, #5a2a00);
-      background-size: 400% 400%;
-      animation: gradient 15s ease infinite;
-      overflow: hidden;
+    /* Full page background, try assets/background.png else gradient */
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background:
+        url('assets/background.png') center / cover no-repeat,
+        linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
+      background-blend-mode:overlay;
     }
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    /* center container that positions card slightly left-of-center (like screenshot) */
+    .stage{
+      height:100%;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 20px 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
+    /* offset wrapper so card sits a bit left of center */
+    .stage .wrap{
+      width:100%;
+      max-width:1400px;
+      display:flex;
+      justify-content:flex-start; /* left aligned inside center */
+      transform: translateX(-4%); /* nudges left like the sample */
+      padding: 0 40px;
+    }
+
+    /* glass card */
+    .card{
+      width:var(--card-w);
+      height:var(--card-h);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius: calc(var(--radius) + 6px);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+      padding: 32px;
+      display:flex;
+      align-items:flex-start;
+      gap:26px;
+      position:relative;
+      box-sizing:border-box;
+    }
+
+    /* rounded inner border for the thinner inner rectangle line */
+    .card::after{
+      content:"";
+      position:absolute;
+      inset: 0;
+      border-radius: calc(var(--radius) + 6px);
+      pointer-events:none;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.01) inset;
+    }
+
+    /* left column with avatar */
+    .avatar-col{
+      width: 84px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      box-sizing:border-box;
+    }
+
+    .pfp{
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+      display:block;
+      overflow:hidden;
+      flex-shrink:0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      border: 3px solid rgba(255,255,255,0.02);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .pfp img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    /* main right area */
+    .main{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .meta-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    /* badges row */
+    .badges{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .badge{
+      width:30px;
+      height:30px;
+      border-radius:8px;
+      overflow:hidden;
+      display:inline-grid;
+      place-items:center;
+      position:relative;
+      border: 1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      cursor:default;
+    }
+
+    .badge img{
+      width:20px;
+      height:20px;
+      object-fit:contain;
+      display:block;
+    }
+
+    /* tooltip for badges */
+    .badge[data-tooltip]{
+      --tt: attr(data-tooltip);
+    }
+    .badge[data-tooltip]:hover::after{
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space:nowrap;
+      background: rgba(6,8,13,0.9);
+      color:#fff;
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:8px;
+      box-shadow: 0 8px 24px rgba(2,4,10,0.6);
+      z-index:50;
+      pointer-events:none;
+    }
+
+    /* username */
+    .username{
+      font-weight:700;
+      font-size:18px;
+      color:var(--accent);
+      letter-spacing:0.1px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    /* username hover shows UID tooltip */
+    .username[data-uid]:hover::after{
+      content: "UID: " attr(data-uid);
+      margin-left:8px;
+      font-size:12px;
       color: #fff;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-      min-width: 320px;
+      background: rgba(0,0,0,0.65);
+      padding:6px 8px;
+      border-radius:8px;
+      transform: translateY(-6px);
+      position: absolute;
+      z-index:60;
     }
 
-    .profile-img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
+    /* small joined text beneath */
+    .joined{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:2px;
+      font-weight:500;
     }
 
-    .badges {
-      display: flex;
-      gap: 8px;
+    /* horizontal inner divider (thin) */
+    .divider{
+      margin-top:14px;
+      border-top:1px solid rgba(255,255,255,0.03);
+      width:100%;
+      height:1px;
+      opacity:0.9;
     }
 
-    .badges img {
-      height: 20px;
-      width: auto;
+    /* large area below for description / blank area (as in screenshot) */
+    .content-area{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:12px;
+      padding-top:10px;
     }
 
-    .username {
-      font-weight: 600;
-      font-size: 1rem;
+    /* views chip in bottom-left of card */
+    .views{
+      position:absolute;
+      left:22px;
+      bottom:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:13px;
+      color:var(--muted);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
     }
 
-    .status-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.9rem;
+    .views svg{
+      width:16px;
+      height:16px;
+      opacity:0.95;
     }
 
-    .status-box.error {
-      color: #ff4c4c;
+    /* small responsive */
+    @media (max-width:900px){
+      :root{ --card-w: 92%; }
+      .stage .wrap { transform: translateX(0); padding:0 20px; }
     }
 
-    .status-box.error a {
-      color: #66aaff;
-      text-decoration: none;
-    }
-
-    .views {
-      display: flex;
-      align-items: center;
-      font-size: 0.85rem;
-      opacity: 0.8;
-      margin-top: 5px;
-    }
-
-    .views::before {
-      content: "👁";
-      margin-right: 4px;
-    }
+    /* subtle animations */
+    .badge, .pfp { transition: transform .18s ease, box-shadow .18s ease; }
+    .badge:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.45); }
+    .pfp:hover { transform: translateY(-4px); }
   </style>
 </head>
 <body>
-  <div class="card">
-    <img src="assets/pfp.png" alt="Profile" class="profile-img" />
-    <div class="badges">
-      <img src="assets/christmas2024.png" alt="Christmas Badge" />
-      <img src="assets/premium.png" alt="Premium Badge" />
-    </div>
-    <div class="username">listen to prettifun</div>
+  <div class="stage" role="main">
+    <div class="wrap">
+      <!-- Card -->
+      <div class="card" aria-label="Profile card">
+        <!-- Left: avatar -->
+        <div class="avatar-col" aria-hidden="false">
+          <div class="pfp" title="profile picture">
+            <!-- user's pfp: assets/pfp.png -->
+            <img src="assets/pfp.png" alt="profile picture" onerror="this.style.filter='grayscale(40%)'">
+          </div>
 
-    <div class="status-box error">
-      ❌ User Not found — Please <a href="#">connect</a> your account
-    </div>
+          <!-- small badges column if desired (left) - kept empty to match screenshot spacing -->
+        </div>
 
-    <div class="views">1,063</div>
+        <!-- Right: main content -->
+        <div class="main">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+            <div>
+              <div class="meta-top">
+                <!-- badges row -->
+                <div class="badges" aria-hidden="false">
+                  <!-- Example badges: each uses provided assets and tooltip -->
+                  <div class="badge" data-tooltip="Christmas 2024" title="Christmas 2024">
+                    <img src="assets/christmas2024.png" alt="xmas badge" onerror="">
+                  </div>
+
+                  <div class="badge" data-tooltip="Premium">
+                    <img src="assets/premium.png" alt="premium badge" onerror="">
+                  </div>
+
+                  <div class="badge" data-tooltip="Easter 2025">
+                    <img src="assets/easter2025.png" alt="easter badge" onerror="">
+                  </div>
+                </div>
+
+                <!-- spacer -->
+                <div style="flex:1"></div>
+              </div>
+
+              <!-- username + title area -->
+              <div style="position:relative; margin-top:10px;">
+                <!-- username element (hover to show UID) -->
+                <div class="username" data-uid="0" style="position:relative;">
+                  listen to prettifun
+                </div>
+                <div class="joined">joined about 1 year ago</div>
+              </div>
+            </div>
+
+            <!-- optional mini-controls area (kept minimal to match example) -->
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+              <!-- small decorative icons could go here -->
+            </div>
+          </div>
+
+          <!-- inner thin divider -->
+          <div class="divider" role="separator" aria-hidden="true"></div>
+
+          <!-- content area (mostly empty in the screenshot) -->
+          <div class="content-area">
+            <!-- left blank area for the long thin line present in the image -->
+            <div style="height:42px; width:100%; border-radius:8px;"></div>
+          </div>
+        </div>
+
+        <!-- views chip bottom-left -->
+        <div class="views" aria-hidden="false">
+          <!-- simple eye svg -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,0.9)" stroke-width="1.2"/>
+          </svg>
+          <div style="font-weight:600; color:var(--accent)">1,063</div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- small JS to add keyboard accessibility to tooltip badges -->
+  <script>
+    // allow badges to show tooltip on focus (keyboard)
+    document.querySelectorAll('.badge').forEach(b=>{
+      b.setAttribute('tabindex','0');
+      b.addEventListener('focus', ()=> b.classList.add('focused'));
+      b.addEventListener('blur', ()=> b.classList.remove('focused'));
+    });
+
+    // make username tooltip accessible: show on focus
+    const user = document.querySelector('.username');
+    if(user){
+      user.setAttribute('tabindex','0');
+      user.addEventListener('focus', ()=> user.classList.add('focused'));
+      user.addEventListener('blur', ()=> user.classList.remove('focused'));
+    }
+  </script>
 </body>
 </html>
