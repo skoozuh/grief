@@ -26,14 +26,13 @@
       justify-content:center;
       flex-direction:column;
     }
-    /* Music control top left */
+    /* Top Left Controls (only volume now) */
     .top-controls{
       position:fixed;
       top:15px;
       left:15px;
       display:flex;
       align-items:center;
-      gap:10px;
       background: var(--glass-bg);
       border:1px solid var(--glass-border);
       border-radius: var(--radius);
@@ -42,26 +41,13 @@
       backdrop-filter: blur(8px) saturate(120%);
       z-index:100;
     }
-    .control-btn{
-      background:none;
-      border:none;
-      cursor:pointer;
-      padding:6px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .control-btn svg{
-      width:20px;
-      height:20px;
-      fill:var(--accent);
-    }
     .volume-slider{
       -webkit-appearance:none;
       height:4px;
       background: var(--muted);
       border-radius:5px;
       outline:none;
+      width:100px;
     }
     .volume-slider::-webkit-slider-thumb{
       -webkit-appearance:none;
@@ -102,31 +88,46 @@
       display:flex;
       flex-direction:column;
     }
-    .meta-top{
+    .user-row{
       display:flex;
       align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
       gap:12px;
     }
+    .username{
+      font-weight:700;
+      font-size:18px;
+      color:var(--accent);
+    }
+    .joined{
+      font-size:13px;
+      color:var(--muted);
+    }
+    /* Updated badges style */
     .badges{
       display:flex;
-      gap:8px;
+      gap:6px;
       align-items:center;
-      padding:6px 10px;
+      padding:4px 8px;
       border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.04);
     }
     .badge{
-      width:30px;
-      height:30px;
+      width:26px;
+      height:26px;
       display:grid;
       place-items:center;
       position:relative;
       cursor:default;
+      border-radius:6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
     }
     .badge img{
-      width:20px;
-      height:20px;
+      width:18px;
+      height:18px;
       object-fit:contain;
     }
     .badge[data-tooltip]:hover::after{
@@ -143,15 +144,6 @@
       border-radius:8px;
       box-shadow: 0 8px 24px rgba(2,4,10,0.6);
       z-index:50;
-    }
-    .username{
-      font-weight:700;
-      font-size:18px;
-      color:var(--accent);
-    }
-    .joined{
-      font-size:13px;
-      color:var(--muted);
     }
     .divider{
       margin-top:14px;
@@ -243,9 +235,6 @@
 
   <!-- Top Left Controls -->
   <div class="top-controls">
-    <button class="control-btn" id="playPauseTop">
-      <svg viewBox="0 0 24 24" id="topPlayIcon"><path d="M8 5v14l11-7z"/></svg>
-    </button>
     <input type="range" class="volume-slider" id="volumeControl" min="0" max="1" step="0.01" value="0.8">
   </div>
 
@@ -255,7 +244,11 @@
       <img src="assets/pfp.png" alt="profile picture">
     </div>
     <div class="main">
-      <div class="meta-top">
+      <div class="user-row">
+        <div>
+          <div class="username">skoozuh</div>
+          <div class="joined">prod. @skoozuh</div>
+        </div>
         <div class="badges">
           <div class="badge" data-tooltip="Christmas 2024">
             <img src="assets/christmas2024.png" alt="Christmas 2024 badge">
@@ -268,10 +261,6 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:10px;">
-        <div class="username">skoozuh</div>
-        <div class="joined">prod. @skoozuh</div>
-      </div>
       <div class="divider"></div>
     </div>
   </div>
@@ -282,8 +271,8 @@
       <img src="assets/songcover.png" alt="Song Cover">
     </div>
     <div class="song-info">
-      <div class="song-title">Chain Swangin</div>
-      <div class="song-artist">Molly Santana</div>
+      <div class="song-title">My Track</div>
+      <div class="song-artist">skoozuh</div>
       <div class="song-progress">
         <input type="range" id="seekBar" min="0" max="100" value="0">
       </div>
@@ -300,9 +289,7 @@
   <script>
     const audio = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
-    const topPlayPauseBtn = document.getElementById('playPauseTop');
     const playIcon = document.getElementById('playIcon');
-    const topPlayIcon = document.getElementById('topPlayIcon');
     const seekBar = document.getElementById('seekBar');
     const volumeControl = document.getElementById('volumeControl');
 
@@ -310,16 +297,13 @@
       if(audio.paused){
         audio.play();
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-        topPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       }else{
         audio.pause();
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-        topPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
       }
     }
 
     playPauseBtn.addEventListener('click', togglePlay);
-    topPlayPauseBtn.addEventListener('click', togglePlay);
 
     audio.addEventListener('timeupdate', ()=>{
       const progress = (audio.currentTime / audio.duration) * 100;
