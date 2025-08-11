@@ -119,29 +119,28 @@
     }
     .username{ font-weight:700; font-size:18px; color:var(--accent); }
     .joined{ font-size:13px; color:var(--muted); }
-    /* Badges bigger & closer */
-    .badges {
-  display: flex;
-  gap: 1px; /* almost touching */
-  align-items: center;
-  padding: 4px 6px; /* smaller pill padding */
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-  border: 1px solid rgba(255,255,255,0.04);
-}
-
-.badge {
-  width: 40px;  /* same size as before */
-  height: 40px;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-
-.badge img {
-  width: 28px;
-  height: 28px;
-}
+    /* Badges closer & cropped */
+    .badges{
+      display:flex;
+      gap:1px; /* almost touching */
+      align-items:center;
+      padding:4px 6px; /* smaller pill */
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .badge{
+      width:34px; /* slightly smaller */
+      height:34px;
+      display:grid;
+      place-items:center;
+      position:relative;
+    }
+    .badge img{
+      width:100%;
+      height:100%;
+      object-fit:contain; /* crop out transparent space */
+    }
     /* Tooltip fade + slide */
     .badge[data-tooltip]::after{
       content: attr(data-tooltip);
@@ -191,7 +190,6 @@
     .song-info{ flex:1; display:flex; flex-direction:column; color:var(--accent); }
     .song-title{ font-weight:600; font-size:15px; }
     .song-artist{ font-size:12px; color:var(--muted); }
-    /* Original Progress Bar look */
     .song-progress{
       width:100%;
       margin-top:6px;
@@ -349,7 +347,7 @@
       enterOverlay.classList.add('fade-out');
       setTimeout(() => {
         enterOverlay.style.display = 'none';
-      }, 600); // matches CSS transition duration
+      }, 600);
     });
   </script>
 </body>
