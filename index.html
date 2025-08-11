@@ -659,6 +659,57 @@
   box-shadow: none;
   transform: scale(1.1);
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(-45deg, #0f0f1a, #1a1a2e, #16213e, #1b1b2f);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+  z-index: -1;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+.volume-slider {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  transition: background 0.3s ease;
+}
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--accent);
+}
+.volume-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -699,10 +750,6 @@
 </div>
 </div>
 <!-- MUSIC PLAYER -->
-<div aria-label="Music player" class="player-card" id="player-card" role="region">
-<div class="player-art" id="player-art">
-<img alt="Album art" id="player-art-img" src=""/>
-</div>
 <div class="player-body">
 <div class="track-title" id="track-title">Chain Swangin - Molly Santana</div>
 <div class="track-controls">
@@ -713,6 +760,7 @@
 </div>
 </div>
 <div class="time right" id="time-end">0:00</div>
+<input type="range" min="0" max="1" step="0.01" value="1" class="volume-slider" id="volume-slider">
 </div>
 </div>
 <div class="player-buttons" style="display:flex; flex-direction:column; align-items:center; gap:10px;">
@@ -743,6 +791,11 @@
 </div>
 </div>
 </div>
+<div aria-label="Music player" class="player-card" id="player-card" role="region">
+<div class="player-art" id="player-art">
+<img alt="Album art" id="player-art-img" src=""/>
+</div>
+
 <!-- SOCIALS (insert directly after the bio block) -->
 <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
 <div style="font-size:15px; font-weight:700; color:var(--fg); text-align:center;">
@@ -1188,7 +1241,16 @@
       getConfig: ()=> JSON.parse(JSON.stringify(cfg))
     };
 
-    /* ---------------------------------------------------------------------
+    
+// Volume slider control
+const volumeSlider = document.getElementById('volume-slider');
+if (volumeSlider) {
+  volumeSlider.addEventListener('input', (e) => {
+    MusicPlayer.audio.volume = parseFloat(e.target.value);
+  });
+}
+
+/* ---------------------------------------------------------------------
        End of script
        --------------------------------------------------------------------- */
   </script>
