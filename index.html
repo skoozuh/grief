@@ -3,55 +3,45 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dark Biolink — Clean Badges Right of Name</title>
+<title>Dark Biolink — Clean Badges + Music Player</title>
 
-<!-- Poppins for consistent look -->
+<!-- Poppins -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================================
-   THEME VARIABLES
-   - tweak these to change global sizing/colors
-   ========================================================================= */
 :root{
-  --bg-1: #05060a;
-  --bg-2: #0b1016;
+  --bg-1:#05060a;
+  --bg-2:#0b1016;
   --muted: rgba(255,255,255,0.62);
-  --accent-a: #66e0ff;
-  --accent-b: #a7a0ff;
+  --accent-a:#66e0ff;
+  --accent-b:#a7a0ff;
   --max-width: 920px;
   --page-pad: 28px;
 
-  /* badge sizing & spacing */
-  --badge-size: 36px;     /* slightly smaller */
-  --badge-gap: 6px;       /* close spacing */
-  --name-badge-gap: 8px;  /* gap between name and badges (slightly closer) */
+  --badge-size: 36px;
+  --badge-gap: 6px;
+  --name-badge-gap: 8px;
 
-  --badge-radius: 8px;    /* tiny rounding on badges (optional) */
+  --badge-radius: 8px;
   --hover-transition: 220ms;
 
-  --particle-count: 72;   /* base particle count */
+  --particle-count: 72;
 }
 
-/* =========================================================================
-   RESET / BASE
-   ========================================================================= */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html,body { height: 100%; }
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
 body{
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-  color: #fff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height:100vh;
-  overflow-x: hidden;
+  font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%);
+  color:#fff;
   -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* =========================================================================
-   PAGE WRAPPER
-   ========================================================================= */
+/* Page wrapper */
 .container {
   min-height:100vh;
   display:flex;
@@ -61,284 +51,246 @@ body{
   position:relative;
 }
 
-/* particles canvas: behind everything */
-canvas#bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-  display:block;
-}
-
-/* subtle gradient wash to add depth */
-.background-wash {
-  position: fixed;
-  inset: 0;
-  z-index: -9;
-  pointer-events:none;
+/* Particles canvas & subtle wash */
+canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; display:block; }
+.background-wash{ position:fixed; inset:0; z-index:-9; pointer-events:none;
   background:
     radial-gradient(900px 700px at 12% 20%, rgba(102,224,255,0.03), transparent 12%),
     radial-gradient(800px 600px at 86% 78%, rgba(167,160,255,0.03), transparent 14%);
 }
 
-/* =========================================================================
-   CARD (transparent: NO blocky background)
-   ========================================================================= */
-.card {
-  width: 100%;
-  max-width: var(--max-width);
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 26px;
-  border-radius: 16px;
-  background: transparent; /* explicitly transparent */
-  position: relative;
-  z-index: 10;
+/* Card */
+.card{ width:100%; max-width:var(--max-width); display:flex; align-items:flex-start; gap:20px; padding:26px;
+  border-radius:16px; background:transparent; position:relative; z-index:10;
 }
+@media (max-width:860px){ .card{flex-direction:column;align-items:center;padding:20px;gap:14px} }
 
-/* responsive stack on small screens */
-@media (max-width: 860px) {
-  .card { flex-direction: column; align-items: center; padding: 20px; gap: 14px; }
-}
-
-/* =========================================================================
-   PROFILE PICTURE (static)
-   ========================================================================= */
-.pfp {
-  width: 112px;
-  height: 112px;
-  border-radius: 999px;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 3px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+/* Profile pic */
+.pfp{ width:112px; height:112px; border-radius:999px; overflow:hidden; flex-shrink:0;
+  border: 3px solid rgba(255,255,255,0.06); box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  display:inline-grid;
-  place-items:center;
+  display:inline-grid; place-items:center;
 }
-.pfp img { width:100%; height:100%; object-fit:cover; display:block; }
+.pfp img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-/* =========================================================================
-   MAIN COLUMN
-   ========================================================================= */
-.main {
-  flex:1;
+/* Main column */
+.main{ flex:1; display:flex; flex-direction:column; gap:10px; position:relative; min-width:0; }
+
+/* name + badges row */
+.name-badges{ display:flex; align-items:center; gap: var(--name-badge-gap); flex-wrap:wrap; }
+
+.username{
+  font-weight:700; font-size:20px; display:inline-block;
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  transition: text-shadow var(--hover-transition) ease, filter var(--hover-transition) ease;
+  white-space:nowrap;
+}
+.username:hover{ text-shadow: 0 10px 30px rgba(102,224,255,0.12); filter: brightness(1.05); }
+
+.joined{ font-size:13px; color:var(--muted); margin-top:4px; }
+.divider{ margin-top:10px; border-top:1px solid rgba(255,255,255,0.03); width:100%; }
+.bio{ color: var(--muted); font-size:14px; line-height:1.4; margin-top:6px; max-width:640px; }
+
+/* Badges: transparent, slightly smaller, closer to name */
+.badges{ display:flex; align-items:center; gap: var(--badge-gap); margin-left:6px; }
+.badge{
+  width:var(--badge-size); height:var(--badge-size); min-width:var(--badge-size); min-height:var(--badge-size);
+  display:inline-grid; place-items:center; border-radius:var(--badge-radius);
+  background: transparent; cursor: default; position:relative; transition: transform var(--hover-transition) ease, opacity var(--hover-transition) ease;
+  overflow:visible; border:none;
+}
+.badge:hover{ transform: translateY(-1px); opacity: 0.98; }
+.badge img{ width:76%; height:76%; object-fit:contain; display:block; pointer-events:none; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)); }
+.badge:focus{ outline: none; }
+
+/* Hover labels above badges */
+.badge::before{
+  content: attr(data-name);
+  position:absolute; left:50%; bottom: calc(100% + 8px);
+  transform: translate(-50%, 8px); padding:8px 10px; background: rgba(9,11,13,0.95);
+  color:#fff; font-size:12px; border-radius:8px; white-space:nowrap; opacity:0; pointer-events:none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease; z-index:60;
+}
+.badge::after{
+  content:""; position:absolute; left:50%; bottom: calc(100% + 4px); transform: translateX(-50%) translateY(6px) rotate(45deg);
+  width:10px; height:10px; background: rgba(9,11,13,0.95); opacity:0; transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease; z-index:59;
+}
+.badge:hover::before{ opacity:1; transform: translate(-50%, -6px); }
+.badge:hover::after{ opacity:1; transform: translateX(-50%) translateY(-1px) rotate(45deg); }
+.badge:focus::before, .badge:focus::after{ opacity:1; transform: translate(-50%, -6px); }
+
+/* Responsive: stack name & badges on tiny screens */
+@media (max-width:520px){ .name-badges{ flex-direction: column; align-items:center; gap:8px } .badges{ margin-left:0 } .pfp{ width:96px; height:96px } }
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){ *{ transition:none!important; animation:none!important; } }
+
+/* ===========================
+   MUSIC PLAYER (styles)
+   - matches page style, sits directly under the bio
+   =========================== */
+.player {
+  margin-top: 14px;
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 6px 22px rgba(3,6,10,0.6);
+}
+
+/* cover artwork */
+.player .cover {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+  display: grid;
+  place-items: center;
+}
+.player .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* meta: title + artist */
+.player .meta {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width: 0;
+}
+.player .title {
+  font-weight:700;
+  font-size:14px;
+  color: #fff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.player .artist {
+  font-size:13px;
+  color: var(--muted);
+}
+
+/* controls column */
+.player .controls {
+  margin-left: auto;
   display:flex;
   flex-direction:column;
   gap:10px;
-  position:relative;
-  min-width: 0; /* allow shrinking on narrow screens */
-}
-
-/* row that holds the name and the badges on the same baseline */
-.name-badges {
-  display:flex;
-  align-items:center;
-  gap: var(--name-badge-gap);
-  flex-wrap:wrap; /* wrap on very small screens */
-}
-
-/* username styling */
-.username {
-  font-weight:700;
-  font-size:20px;
-  display:inline-block;
-  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  transition: text-shadow var(--hover-transition) ease, filter var(--hover-transition) ease;
-  white-space: nowrap;
-}
-
-/* only username gets hover glow */
-.username:hover {
-  text-shadow: 0 10px 30px rgba(102,224,255,0.12);
-  filter: brightness(1.05);
-}
-
-/* small subtitle/joined */
-.joined {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-/* divider line */
-.divider {
-  margin-top: 10px;
-  border-top: 1px solid rgba(255,255,255,0.03);
+  align-items: flex-end;
+  min-width: 220px;
   width: 100%;
 }
 
-/* bio text */
-.bio {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.4;
-  margin-top: 6px;
-  max-width: 640px;
-}
-
-/* =========================================================================
-   BADGES (no pill, transparent background, slightly smaller & closer)
-   - placed to the right of username inside .name-badges
-   - badges are independent and visually seamless because no background or border
-   ========================================================================= */
-.badges {
+/* top row: play button and times */
+.controls-top {
   display:flex;
   align-items:center;
-  gap: var(--badge-gap);
-  margin-left: 6px; /* small separation from name */
+  gap:12px;
+  width:100%;
 }
 
-/* each badge element */
-.badge {
-  width: var(--badge-size);
-  height: var(--badge-size);
-  min-width: var(--badge-size);
-  min-height: var(--badge-size);
-  display:inline-grid;
+/* play/pause button */
+.play-btn {
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  display:grid;
   place-items:center;
-  border-radius: var(--badge-radius);
-  background: transparent; /* NO background */
-  cursor: default;
-  position: relative;
-  transition: transform var(--hover-transition) ease, opacity var(--hover-transition) ease;
-  overflow: visible; /* allow tooltip above */
-  border: none; /* ensure no border lines */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  cursor:pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.play-btn:active { transform: scale(0.98); }
+.play-btn svg { width:18px; height:18px; fill:#fff; filter: drop-shadow(0 2px 8px rgba(102,224,255,0.08)); }
+
+/* times */
+.time {
+  font-size:12px;
+  color:var(--muted);
+  min-width:36px;
+  text-align:right;
 }
 
-/* very subtle hover feedback (no scale up unless you want it) */
-.badge:hover {
-  transform: translateY(-1px);
-  opacity: 0.98;
+/* progress bar: glowing accent */
+.progress-wrap {
+  width:100%;
+  height:10px;
+  border-radius:999px;
+  background: rgba(255,255,255,0.03);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
 }
-
-/* image/icon inside badge */
-.badge img {
-  width: 76%;
-  height: 76%;
-  object-fit: contain;
-  display:block;
+.progress {
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+  box-shadow: 0 6px 20px rgba(102,224,255,0.08);
+  transition: width 120ms linear;
+  border-radius:999px;
+  position:relative;
+  overflow:visible;
+}
+/* progress glow (subtle) */
+.progress::after {
+  content: '';
+  position:absolute;
+  right: -20px;
+  top: -6px;
+  width:40px;
+  height:22px;
+  background: radial-gradient(circle at 30% 30%, rgba(102,224,255,0.25), transparent 40%);
+  filter: blur(8px);
+  opacity: 0.9;
   pointer-events:none;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)); /* tiny shadow for legibility */
 }
 
-/* no outline on focused badge but keep accessibility visible if keyboard navigated via tabindex */
-.badge:focus { outline: none; }
-
-/* =========================================================================
-   HOVER LABEL / TOOLTIP ABOVE BADGE
-   - uses CSS pseudo elements for smooth fade + translate
-   - label text is pulled from data-name attribute on .badge
-   ========================================================================= */
-.badge::before {
-  content: attr(data-name);
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 8px);
-  transform: translate(-50%, 8px);
-  padding: 8px 10px;
-  background: rgba(9,11,13,0.95);
-  color: #fff;
-  font-size: 12px;
-  border-radius: 8px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease;
-  z-index: 60;
+/* draggable knob */
+.knob {
+  position:absolute;
+  right:0;
+  top:50%;
+  transform: translate(50%,-50%);
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(102,224,255,0.14);
+  pointer-events:none; /* we'll handle dragging via JS on progress bar */
+  opacity:0.9;
 }
 
-.badge::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 4px);
-  transform: translateX(-50%) translateY(6px) rotate(45deg);
-  width: 10px;
-  height: 10px;
-  background: rgba(9,11,13,0.95);
-  opacity: 0;
-  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease;
-  z-index: 59;
+/* small screens: compact player */
+@media(max-width:520px){
+  .player{ padding:10px; gap:10px; flex-direction:column; align-items:stretch; }
+  .player .controls { align-items:stretch; min-width:0; width:100%; }
+  .controls-top{ justify-content:space-between; }
+  .play-btn{ width:40px; height:40px; }
+  .player .cover{ width:64px; height:64px; }
 }
 
-.badge:hover::before {
-  opacity: 1;
-  transform: translate(-50%, -6px);
-}
-.badge:hover::after {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-1px) rotate(45deg);
-}
+/* helper: visually-hidden for accessible labels */
+.sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 
-/* keyboard accessibility: show label on focus as well */
-.badge:focus::before, .badge:focus::after {
-  opacity: 1;
-  transform: translate(-50%, -6px);
-}
-
-/* =========================================================================
-   RESPONSIVE
-   - On very small screens the name+badges stack, badges move under name
-   ========================================================================= */
-@media (max-width: 520px) {
-  .name-badges { flex-direction: column; align-items: center; gap: 8px; }
-  .badges { margin-left: 0; }
-  .pfp { width: 96px; height: 96px; }
-}
-
-/* =========================================================================
-   A11Y: respect prefers-reduced-motion
-   ========================================================================= */
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
-
-/* =========================================================================
-   Helper classes & utilities
-   - useful for expanding layout later; also counts as meaningful code
-   ========================================================================= */
-.flex { display:flex; }
-.center { display:flex; align-items:center; justify-content:center; }
-.hide { display:none !important; }
-.vspace-4 { height: 4px; }
-.vspace-8 { height: 8px; }
-.vspace-12 { height: 12px; }
-
-/* =========================================================================
-   Particle controls (js hooks)
-   ========================================================================= */
-.particles-hidden { visibility:hidden; opacity:0; pointer-events:none; }
-
-/* =========================================================================
-   END CSS
-   ========================================================================= */
-
-/* =========================================================================
-   EXPLAINERS (short notes about how to change badges)
-   - Replace images located at `assets/*.png` with your own images.
-   - To add/remove badges, edit the .badges HTML block.
-   - To change badge size, change --badge-size variable above.
-   ========================================================================= */
-
+/* final note: change --badge-size for micro adjustments */
 </style>
 </head>
 <body>
+
   <div class="container">
 
-    <!-- background particles canvas -->
+    <!-- particles and wash -->
     <canvas id="bg" aria-hidden="true"></canvas>
-
-    <!-- subtle background wash to give depth -->
     <div class="background-wash" aria-hidden="true"></div>
 
-    <!-- transparent card (keeps layout consistent) -->
     <div class="card" role="region" aria-label="Profile card">
 
       <!-- profile picture -->
@@ -346,127 +298,125 @@ canvas#bg {
         <img src="assets/pfp.png" alt="profile picture">
       </div>
 
-      <!-- main content: name, badges, bio -->
+      <!-- main content -->
       <div class="main">
 
-        <!-- name and badges on same baseline -->
+        <!-- name + badges -->
         <div class="name-badges">
           <div class="username" id="username">skoozuh</div>
 
-          <!-- badges group to the right of the name (transparent badges) -->
           <div class="badges" role="group" aria-label="Badges">
             <div class="badge" tabindex="0" data-name="Christmas 2024" aria-label="Christmas 2024">
-              <img src="assets/christmas2024.png" alt="Christmas badge">
+              <img src="assets/christmas2024.png" alt="">
             </div>
 
             <div class="badge" tabindex="0" data-name="Premium" aria-label="Premium">
-              <img src="assets/premium.png" alt="Premium badge">
+              <img src="assets/premium.png" alt="">
             </div>
 
             <div class="badge" tabindex="0" data-name="Easter 2025" aria-label="Easter 2025">
-              <img src="assets/easter2025.png" alt="Easter badge">
+              <img src="assets/easter2025.png" alt="">
             </div>
-          </div><!-- .badges -->
-        </div><!-- .name-badges -->
+          </div>
+        </div>
 
         <!-- small subtitle -->
         <div class="joined">prod. @skoozuh</div>
 
         <div class="divider" aria-hidden="true"></div>
 
-        <!-- bio text -->
+        <!-- bio -->
         <div class="bio">
           Short bio — keep it tight and readable. Edit this line to add your tagline.
         </div>
 
-      </div><!-- .main -->
-    </div><!-- .card -->
-  </div><!-- .container -->
+        <!-- ===== MUSIC PLAYER (placed directly under bio) ===== -->
+        <div class="player" id="musicPlayer" aria-label="Music player">
+          <!-- cover -->
+          <div class="cover" aria-hidden="true">
+            <img src="assets/songcover.png" alt="Chain Swangin cover">
+          </div>
+
+          <!-- meta -->
+          <div class="meta">
+            <div class="title">Chain Swangin</div>
+            <div class="artist">Molly Santana</div>
+          </div>
+
+          <!-- controls -->
+          <div class="controls" aria-hidden="false">
+            <div class="controls-top">
+              <button class="play-btn" id="playBtn" aria-label="Play">
+                <!-- play icon (switches to pause) -->
+                <svg id="playIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 3v18l15-9L5 3z" fill="currentColor"/>
+                </svg>
+                <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/>
+                </svg>
+              </button>
+
+              <div style="display:flex; align-items:center; gap:8px; width:100%;">
+                <div class="time" id="currentTime">0:00</div>
+                <div class="progress-wrap" id="progressWrap" aria-label="Progress">
+                  <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="knob" id="knob" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="time" id="duration">0:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ===== end music player ===== -->
+
+      </div> <!-- .main -->
+    </div> <!-- .card -->
+  </div> <!-- .container -->
 
 <script>
-/* =========================================================================
-   Particles: lightweight canvas background
-   - tuned to be subtle and low CPU while looking nice on dark themes
-   - no external libs required
-   ========================================================================= */
+/* ==========================
+   Particles background (lightweight)
+   ========================== */
 (function(){
   const canvas = document.getElementById('bg');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // initial size
   let w = canvas.width = innerWidth;
   let h = canvas.height = innerHeight;
-
-  // dynamic particle count based on viewport area
   const base = Number(getComputedStyle(document.documentElement).getPropertyValue('--particle-count')) || 72;
   const COUNT = Math.max(28, Math.min(140, Math.floor(base * (w*h) / (1366*768))));
-
   const MAX_R = 2.2;
   const SPEED = 0.22;
   const LINE_THRESH = 78;
 
   function rand(a,b){ return Math.random()*(b-a)+a; }
+  function Particle(){ this.x=rand(0,w); this.y=rand(0,h); this.r=Math.random()*MAX_R+0.3; this.vx=(Math.random()-0.5)*SPEED; this.vy=(Math.random()-0.5)*SPEED; this.a=Math.random()*0.45+0.08; }
+  Particle.prototype.update=function(){ this.x+=this.vx; this.y+=this.vy; if(this.x<-10)this.x=w+10; if(this.x>w+10)this.x=-10; if(this.y<-10)this.y=h+10; if(this.y>h+10)this.y=-10; };
+  Particle.prototype.draw=function(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,'+(this.a*0.45)+')'; ctx.fill(); };
 
-  // particle class
-  function Particle(){
-    this.x = rand(0, w);
-    this.y = rand(0, h);
-    this.r = Math.random()*MAX_R + 0.3;
-    this.vx = (Math.random()-0.5) * SPEED;
-    this.vy = (Math.random()-0.5) * SPEED;
-    this.a = Math.random()*0.45 + 0.08;
-  }
-  Particle.prototype.update = function(){
-    this.x += this.vx;
-    this.y += this.vy;
-    if(this.x < -10) this.x = w + 10;
-    if(this.x > w + 10) this.x = -10;
-    if(this.y < -10) this.y = h + 10;
-    if(this.y > h + 10) this.y = -10;
-  };
-  Particle.prototype.draw = function(){
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,' + (this.a*0.45) + ')';
-    ctx.fill();
-  };
-
-  let particles = [];
-  function create(){
-    particles = [];
-    for(let i=0;i<COUNT;i++) particles.push(new Particle());
-  }
-
-  function resize(){
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
-    create();
-  }
+  let particles=[];
+  function create(){ particles=[]; for(let i=0;i<COUNT;i++) particles.push(new Particle()); }
+  function resize(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; create(); }
   window.addEventListener('resize', resize, {passive:true});
 
   function loop(){
     ctx.clearRect(0,0,w,h);
-
-    // draw particles
-    for(let i=0;i<particles.length;i++){
-      particles[i].update();
-      particles[i].draw();
-    }
-
-    // subtle connecting lines
+    for(let i=0;i<particles.length;i++){ particles[i].update(); particles[i].draw(); }
+    // faint lines
     for(let i=0;i<particles.length;i++){
       for(let j=i+1;j<particles.length;j++){
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d = Math.sqrt(dx*dx + dy*dy);
-        if(d < LINE_THRESH){
-          const alpha = (1 - d/LINE_THRESH) * 0.04;
+        const a=particles[i], b=particles[j];
+        const dx=a.x-b.x, dy=a.y-b.y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<LINE_THRESH){
+          const alpha=(1-d/LINE_THRESH)*0.04;
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
-          ctx.lineWidth = 0.5;
+          ctx.moveTo(a.x,a.y);
+          ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle='rgba(255,255,255,'+alpha+')';
+          ctx.lineWidth=0.5;
           ctx.stroke();
         }
       }
@@ -476,30 +426,147 @@ canvas#bg {
 
   create();
   loop();
-
-  // respect reduced motion (stop movement by clearing update velocities)
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    // optional: reduce to static dots by setting velocities to zero
-    particles.forEach(p => { p.vx = 0; p.vy = 0; });
-  }
 })();
 
-/* =========================================================================
-   Small helper: keyboard focus styles for badges for accessibility
-   ========================================================================= */
+/* ==========================
+   Music player: controls and progress
+   - Update src to actual audio file if needed
+   ========================== */
 (function(){
-  const badges = document.querySelectorAll('.badge');
-  badges.forEach(b => {
-    b.addEventListener('keydown', (e) => {
-      if(e.key === 'Enter' || e.key === ' ') {
-        // open nothing by default — but flash label for feedback
-        b.classList.add('focused-temp');
-        setTimeout(()=> b.classList.remove('focused-temp'), 300);
-      }
-    });
-    // ensure badges are focusable
-    if(!b.hasAttribute('tabindex')) b.setAttribute('tabindex','0');
+  // DOM
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const pauseIcon = document.getElementById('pauseIcon');
+  const currentTimeEl = document.getElementById('currentTime');
+  const durationEl = document.getElementById('duration');
+  const progressBar = document.getElementById('progressBar');
+  const progressWrap = document.getElementById('progressWrap');
+  const knob = document.getElementById('knob');
+
+  // Audio element (invisible)
+  // NOTE: I used assets/song.mp3. If your file is assets/song.png, change the src below
+  const audio = new Audio('assets/song.mp3');
+  audio.preload = 'metadata';
+
+  let isPlaying = false;
+  let rafId = null;
+  let userSeeking = false;
+
+  // format seconds to M:SS
+  function fmt(secs){
+    if(!isFinite(secs)) return '0:00';
+    const s = Math.floor(secs % 60);
+    const m = Math.floor(secs / 60);
+    return m + ':' + (s < 10 ? '0' + s : s);
+  }
+
+  // update UI progress
+  function updateProgressUI(){
+    if(userSeeking) return;
+    const percent = (audio.currentTime / Math.max(1, audio.duration)) * 100;
+    progressBar.style.width = percent + '%';
+    // position knob by setting transform on knob element
+    knob.style.right = 0; // knob is positioned at the end of .progress via CSS; we keep it simple visually
+    currentTimeEl.textContent = fmt(audio.currentTime);
+    durationEl.textContent = fmt(audio.duration);
+  }
+
+  // rAF loop while playing
+  function tick(){
+    updateProgressUI();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // toggle play
+  function togglePlay(){
+    if(isPlaying){ audio.pause(); }
+    else { audio.play().catch(()=>{}); }
+  }
+
+  // audio events
+  audio.addEventListener('play', ()=>{
+    isPlaying = true;
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = '';
+    rafId = requestAnimationFrame(tick);
+    playBtn.setAttribute('aria-label','Pause');
   });
+  audio.addEventListener('pause', ()=>{
+    isPlaying = false;
+    playIcon.style.display = '';
+    pauseIcon.style.display = 'none';
+    cancelAnimationFrame(rafId);
+    playBtn.setAttribute('aria-label','Play');
+  });
+  audio.addEventListener('timeupdate', updateProgressUI);
+  audio.addEventListener('loadedmetadata', ()=>{
+    durationEl.textContent = fmt(audio.duration);
+    updateProgressUI();
+  });
+  audio.addEventListener('ended', ()=>{
+    isPlaying = false;
+    playIcon.style.display = '';
+    pauseIcon.style.display = 'none';
+    cancelAnimationFrame(rafId);
+  });
+
+  // play button click
+  playBtn.addEventListener('click', togglePlay);
+
+  // allow space/enter to toggle
+  playBtn.addEventListener('keydown', (e)=>{
+    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); togglePlay(); }
+  });
+
+  // progress click-to-seek
+  progressWrap.addEventListener('click', (e)=>{
+    const rect = progressWrap.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, x / rect.width));
+    audio.currentTime = pct * audio.duration;
+    updateProgressUI();
+  });
+
+  // drag seeking (desktop)
+  let seeking = false;
+  progressWrap.addEventListener('pointerdown', (e)=>{
+    seeking = true;
+    userSeeking = true;
+    progressWrap.setPointerCapture(e.pointerId);
+    handleSeek(e);
+  });
+  window.addEventListener('pointermove', (e)=>{
+    if(!seeking) return;
+    handleSeek(e);
+  });
+  window.addEventListener('pointerup', (e)=>{
+    if(!seeking) return;
+    seeking = false;
+    userSeeking = false;
+    audio.currentTime = Math.max(0, Math.min(1, getPointerPct(e))) * audio.duration;
+  });
+
+  function getPointerPct(e){
+    const rect = progressWrap.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    return Math.max(0, Math.min(1, x / rect.width));
+  }
+  function handleSeek(e){
+    const pct = getPointerPct(e);
+    progressBar.style.width = (pct * 100) + '%';
+    currentTimeEl.textContent = fmt(pct * (audio.duration || 0));
+  }
+
+  // keyboard accessibility for progress: left/right arrow
+  progressWrap.tabIndex = 0;
+  progressWrap.addEventListener('keydown', (e)=>{
+    if(!audio.duration) return;
+    if(e.key === 'ArrowLeft'){ audio.currentTime = Math.max(0, audio.currentTime - 5); }
+    if(e.key === 'ArrowRight'){ audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); }
+  });
+
+  // optionally auto-play muted on load if you want (not recommended)
+  // audio.muted = true; audio.play().catch(()=>{});
 })();
 </script>
 
