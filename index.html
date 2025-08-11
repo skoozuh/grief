@@ -331,80 +331,74 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
         </div>
 
         <!-- ===== MUSIC PLAYER (placed directly under bio) ===== -->
-       <div class="music-player">
-    <img src="assets/songcover.png" alt="Song Cover" class="song-cover">
-    <div class="song-info">
-        <div class="song-title-wrapper">
-            <div class="song-title">Chain Swangin – Molly Santana</div>
-        </div>
-        <audio id="audio" src="assets/song.mp3"></audio>
-        <button class="play-btn" onclick="togglePlay()">▶</button>
-    </div>
+       <!-- Add this inside your .main div, right below the .bio -->
+
+<div class="music-player" aria-label="Music player: Chain Swangin - Molly Santana">
+  <img src="assets/songcover.png" alt="Chain Swangin cover" class="song-cover" />
+  <div class="song-info">
+    <div class="song-title">Chain Swangin - Molly Santana</div>
+  </div>
+  <button class="play-btn" aria-label="Play/pause">
+    <!-- SVG white play icon -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon" >
+      <polygon points="5 3 19 12 5 21"></polygon>
+    </svg>
+  </button>
 </div>
 
 <style>
-.music-player {
+  .music-player {
+    margin-top: 18px;
+    background: rgba(255 255 255 / 0.04);
+    border-radius: 14px;
+    border: 1px solid rgba(255 255 255 / 0.07);
+    padding: 10px 14px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    background: transparent;
-    padding: 10px 0;
-}
-
-.song-cover {
+    max-width: 640px;
+    user-select: none;
+  }
+  .song-cover {
     width: 64px;
     height: 64px;
-    border-radius: 8px;
-}
-
-.song-info {
+    border-radius: 12px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(102,224,255,0.2);
+  }
+  .song-info {
     flex: 1;
+    margin-left: 14px;
     overflow: hidden;
+  }
+  .song-title {
+    color: white;
+    font-weight: 600;
+    font-size: 17px;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .play-btn {
+    background: transparent;
+    border: none;
+    margin-left: 14px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-.song-title-wrapper {
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-}
-
-.song-title {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scroll-text 10s linear infinite;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-}
-
-@keyframes scroll-text {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-.play-btn {
-    background: transparent;
-    color: white;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-}
+    justify-content: center;
+  }
+  .play-btn:hover {
+    background-color: rgba(102,224,255,0.15);
+  }
+  .play-icon {
+    width: 24px;
+    height: 24px;
+  }
 </style>
-
-<script>
-function togglePlay() {
-    const audio = document.getElementById('audio');
-    if (audio.paused) {
-        audio.play();
-    } else {
-        audio.pause();
-    }
-}
-</script>
         <!-- ===== end music player ===== -->
 
       </div> <!-- .main -->
