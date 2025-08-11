@@ -120,23 +120,28 @@
     .username{ font-weight:700; font-size:18px; color:var(--accent); }
     .joined{ font-size:13px; color:var(--muted); }
     /* Badges bigger & closer */
-    .badges{
-      display:flex;
-      gap:4px;
-      align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-      border: 1px solid rgba(255,255,255,0.04);
-    }
-    .badge{
-      width:40px;
-      height:40px;
-      display:grid;
-      place-items:center;
-      position:relative;
-    }
-    .badge img{ width:28px; height:28px; }
+    .badges {
+  display: flex;
+  gap: 1px; /* almost touching */
+  align-items: center;
+  padding: 4px 6px; /* smaller pill padding */
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.badge {
+  width: 40px;  /* same size as before */
+  height: 40px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.badge img {
+  width: 28px;
+  height: 28px;
+}
     /* Tooltip fade + slide */
     .badge[data-tooltip]::after{
       content: attr(data-tooltip);
