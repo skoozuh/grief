@@ -111,35 +111,36 @@
       font-size:13px;
       color:var(--muted);
     }
-    /* Updated badges style - no background */
+    /* Updated badges style - larger to fill pill */
     .badges{
       display:flex;
-      gap:6px;
+      gap:8px;
       align-items:center;
-      padding:4px 8px;
+      padding:4px 10px;
       border-radius:999px;
       background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
       border: 1px solid rgba(255,255,255,0.04);
     }
     .badge{
-      width:26px;
-      height:26px;
+      width:32px;
+      height:32px;
       display:grid;
       place-items:center;
       position:relative;
       cursor:default;
     }
     .badge img{
-      width:18px;
-      height:18px;
+      width:22px;
+      height:22px;
       object-fit:contain;
     }
-    .badge[data-tooltip]:hover::after{
+    /* Tooltip fade + slide */
+    .badge[data-tooltip]::after{
       content: attr(data-tooltip);
       position: absolute;
       bottom: calc(100% + 8px);
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(4px);
       white-space:nowrap;
       background: rgba(6,8,13,0.9);
       color:#fff;
@@ -148,6 +149,15 @@
       border-radius:8px;
       box-shadow: 0 8px 24px rgba(2,4,10,0.6);
       z-index:50;
+      opacity:0;
+      visibility:hidden;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+      pointer-events:none;
+    }
+    .badge[data-tooltip]:hover::after{
+      opacity:1;
+      visibility:visible;
+      transform: translateX(-50%) translateY(0);
     }
     .divider{
       margin-top:14px;
@@ -285,8 +295,8 @@
       <img src="assets/songcover.png" alt="Song Cover">
     </div>
     <div class="song-info">
-      <div class="song-title">Chain Swangin</div>
-      <div class="song-artist">Molly Santana</div>
+      <div class="song-title">My Track</div>
+      <div class="song-artist">skoozuh</div>
       <div class="song-progress">
         <input type="range" id="seekBar" min="0" max="100" value="0">
         <div class="time-display">
