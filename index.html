@@ -1,333 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>grief.bio — profile replica (cleaned)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --glass-bg: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,255,255,0.06);
-      --accent: rgba(255,255,255,0.9);
-      --muted: rgba(255,255,255,0.55);
-      --shadow: 0 10px 30px rgba(7,9,15,0.7);
-      --radius: 18px;
-      --accent-gradient: linear-gradient(90deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a6c1ee);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Card</title>
+<style>
+    /* Reset & Base */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: white;
+        background: linear-gradient(-45deg, #1e3c72, #2a5298, #4a00e0, #8e2de2);
+        background-size: 400% 400%;
+        animation: gradientShift 20s ease infinite;
     }
 
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: "Poppins", sans-serif;
-      background: #111827;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      color:white;
+    /* Gradient animation */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    /* Particle background canvas */
-    canvas#particles {
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      z-index:-2;
-      display:block;
+    /* Particle canvas */
+    #particles {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
     }
 
-    /* Gradient overlay */
-    .background-overlay {
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.04), transparent 60%),
-                  radial-gradient(circle at 80% 80%, rgba(255,255,255,0.03), transparent 70%);
-      z-index:-1;
+    /* Profile Card */
+    .card {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 2rem;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        max-width: 350px;
     }
-
-    .card{
-      width:760px;
-      background: var(--glass-bg);
-      border-radius: var(--radius);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px) saturate(150%);
-      padding: 32px;
-      display:flex;
-      gap:26px;
-      position:relative;
-      transform-style: preserve-3d;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 1s ease forwards;
-      opacity:0;
+    .pfp {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid white;
+        object-fit: cover;
+        margin-bottom: 1rem;
     }
-
-    @keyframes fadeInUp {
-      0% { transform: translateY(30px); opacity:0; }
-      100% { transform: translateY(0); opacity:1; }
+    .name {
+        font-size: 1.8rem;
+        font-weight: bold;
+        transition: color 0.3s ease, text-shadow 0.3s ease;
     }
-
-    .pfp{
-      width:88px;
-      height:88px;
-      border-radius:50%;
-      overflow:hidden;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-      border: 3px solid rgba(255,255,255,0.05);
-      flex-shrink:0;
+    .name:hover {
+        color: #ffde59;
+        text-shadow: 0 0 10px #ffde59;
     }
-
-    .pfp img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
+    .badges {
+        margin-top: 0.5rem;
     }
-
-    .main{
-      flex:1;
-      display:flex;
-      flex-direction:column;
+    .badge {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        background: rgba(255,255,255,0.2);
+        border-radius: 12px;
+        margin: 0.2rem;
     }
-
-    .meta-top{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
+    .views {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        opacity: 0.85;
     }
-
-    .badges{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .badge{
-      width:30px;
-      height:30px;
-      display:grid;
-      place-items:center;
-      position:relative;
-      cursor:pointer;
-      border-radius:50%;
-    }
-
-    .badge img{
-      width:20px;
-      height:20px;
-      object-fit:contain;
-      pointer-events:none;
-    }
-
-    .badge[data-tooltip]:hover::after{
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 50%;
-      transform: translateX(-50%);
-      white-space:nowrap;
-      background: rgba(6,8,13,0.9);
-      color:#fff;
-      font-size:12px;
-      padding:6px 8px;
-      border-radius:8px;
-      box-shadow: 0 8px 24px rgba(2,4,10,0.6);
-      z-index:50;
-      opacity:0;
-      animation: fadeTooltip 0.3s ease forwards;
-    }
-
-    @keyframes fadeTooltip {
-      from { opacity:0; transform: translate(-50%, -4px); }
-      to { opacity:1; transform: translate(-50%, 0); }
-    }
-
-    .username{
-      font-weight:700;
-      font-size:22px;
-      background: var(--accent-gradient);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      animation: gradientMove 4s ease infinite;
-      background-size: 300%;
-    }
-
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .joined{
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    .divider{
-      margin-top:14px;
-      border-top:1px solid rgba(255,255,255,0.08);
-      width:100%;
-    }
-
-    .views{
-      position:absolute;
-      left:22px;
-      bottom:16px;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-      border:1px solid rgba(255,255,255,0.08);
-      padding:8px 12px;
-      border-radius:12px;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    .views svg{
-      width:16px;
-      height:16px;
-    }
-
-    .view-number {
-      font-weight:600;
-      color:var(--accent);
-    }
-
-    @media(max-width:800px){
-      .card{
-        flex-direction:column;
-        align-items:center;
-        text-align:center;
-        width:90%;
-      }
-      .views{
-        left:50%;
-        transform:translateX(-50%);
-        bottom:-50px;
-      }
-    }
-  </style>
+</style>
 </head>
 <body>
-  <canvas id="particles"></canvas>
-  <div class="background-overlay"></div>
 
-  <div class="card">
-    <div class="pfp">
-      <img src="assets/pfp.png" alt="profile picture">
+<canvas id="particles"></canvas>
+
+<div class="card">
+    <img src="https://via.placeholder.com/120" alt="Profile" class="pfp">
+    <div class="name">Your Name</div>
+    <div class="badges">
+        <span class="badge">Verified</span>
+        <span class="badge">Pro User</span>
+        <span class="badge">Top Creator</span>
     </div>
-    <div class="main">
-      <div class="meta-top">
-        <div class="badges">
-          <div class="badge" data-tooltip="Christmas 2024">
-            <img src="assets/christmas2024.png" alt="Christmas 2024 badge">
-          </div>
-          <div class="badge" data-tooltip="Premium">
-            <img src="assets/premium.png" alt="Premium badge">
-          </div>
-          <div class="badge" data-tooltip="Easter 2025">
-            <img src="assets/easter2025.png" alt="Easter 2025 badge">
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:10px;">
-        <div class="username">skoozuh</div>
-        <div class="joined">prod. @skoozuh</div>
-      </div>
-      <div class="divider"></div>
-    </div>
-    <div class="views">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,0.9)" stroke-width="1.2"/>
-      </svg>
-      <div class="view-number" id="viewCount">0</div>
-    </div>
-  </div>
+    <div class="views">Views: <span id="viewCount">0</span></div>
+</div>
 
-  <script>
-    /* Fullscreen particle background */
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let w, h;
-
-    function resizeCanvas(){
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-      constructor(){
-        this.x = Math.random() * w;
-        this.y = Math.random() * h;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-      }
-      update(){
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if(this.x < 0 || this.x > w) this.speedX *= -1;
-        if(this.y < 0 || this.y > h) this.speedY *= -1;
-      }
-      draw(){
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
-        ctx.fillStyle = "rgba(255,255,255,0.35)";
-        ctx.fill();
-      }
-    }
-
-    function initParticles(){
-      particles = [];
-      for(let i=0; i<80; i++){
-        particles.push(new Particle());
-      }
-    }
-    initParticles();
-
-    function animateParticles(){
-      ctx.clearRect(0,0,w,h);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-
-    /* Animated view counter */
-    const viewCount = document.getElementById('viewCount');
-    const targetCount = 1063;
-    let current = 0;
-    function animateCount(){
-      const increment = Math.ceil(targetCount / 60);
-      const timer = setInterval(()=>{
-        current += increment;
-        if(current >= targetCount){
-          current = targetCount;
-          clearInterval(timer);
+<script>
+    // Animated View Counter
+    let count = 0;
+    const target = 1250; // Example count
+    const speed = 20;
+    const counter = document.getElementById("viewCount");
+    const interval = setInterval(() => {
+        if (count < target) {
+            count += Math.ceil((target - count) / speed);
+            counter.textContent = count;
+        } else {
+            clearInterval(interval);
         }
-        viewCount.textContent = current.toLocaleString();
-      }, 20);
+    }, 30);
+
+    // Particle effect
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particlesArray;
+
+    function initParticles() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        particlesArray = [];
+        for (let i = 0; i < 50; i++) {
+            particlesArray.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5
+            });
+        }
     }
-    animateCount();
-  </script>
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        particlesArray.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+            p.x += p.dx;
+            p.y += p.dy;
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+        requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener("resize", initParticles);
+
+    initParticles();
+    drawParticles();
+</script>
+
 </body>
 </html>
