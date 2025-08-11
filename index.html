@@ -206,13 +206,22 @@
   position: relative;
   border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: all 0.25s ease;
 }
 .badge img {
   width: 22px;
   height: 22px;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.badge:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 0 12px var(--accent), 0 6px 18px rgba(0,0,0,0.5);
+}
+.badge:hover img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 .badge:hover {
   transform: translateY(-3px) scale(1.05);
@@ -238,7 +247,7 @@
   position: absolute;
   bottom: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%) scale(0.95);
+  transform: translateX(-50%) translateY(4px) scale(0.95);
   background: rgba(20,20,20,0.92);
   color: #fff;
   padding: 4px 8px;
@@ -247,7 +256,27 @@
   opacity: 0;
   pointer-events: none;
   white-space: nowrap;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.badge:hover .badge-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px) scale(1);
+}
+.badge:hover .badge-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) scale(0.95);
+  background: rgba(20,20,20,0.92);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.25s ease, transform 0.25s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 .badge:hover .badge-tooltip {
@@ -265,7 +294,7 @@
   position: absolute;
   bottom: calc(100% + 6px);
   left: 50%;
-  transform: translateX(-50%) scale(0.95);
+  transform: translateX(-50%) translateY(4px) scale(0.95);
   background: rgba(20,20,20,0.92);
   color: #fff;
   padding: 4px 8px;
@@ -274,7 +303,27 @@
   opacity: 0;
   pointer-events: none;
   white-space: nowrap;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.badge:hover .badge-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px) scale(1);
+}
+.badge:hover .badge-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px) scale(0.95);
+  background: rgba(20,20,20,0.92);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.25s ease, transform 0.25s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 .badge:hover .badge-tooltip {
@@ -700,10 +749,10 @@
     Socials
   </div>
 <div style="color:var(--sub); font-size:14px; margin-top:6px; display:flex; flex-direction:column; gap:10px; align-items:center; width:100%; max-width:125px;">
-<a class="link-item" href="https://twitter.com/skoozuh" rel="noopener" style="width:100%; text-align:center; display:block; padding:8px 12px; background:#000000; border-radius:8px; text-decoration:none; color:gray;" target="_blank">
+<a class="link-item" href="https://twitter.com/skoozuh" rel="noopener" style="width:100%; text-align:center; display:block; padding:8px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; text-decoration:none; color: var(--fg); box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.25s ease;" target="_blank">
       Twitter
     </a>
-<a class="link-item" href="https://instagram.com/okok00101010110" rel="noopener" style="width:100%; text-align:center; display:block; padding:8px 12px; background:#000000; border-radius:8px; text-decoration:none; color:gray;" target="_blank">
+<a class="link-item" href="https://instagram.com/okok00101010110" rel="noopener" style="width:100%; text-align:center; display:block; padding:8px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; text-decoration:none; color: var(--fg); box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.25s ease;" target="_blank">
       Instagram
     </a>
 </div>
@@ -832,7 +881,7 @@
       const metaEl = document.getElementById('meta-line');
       if(metaEl) {
         // if you want more advanced content, update cfg or change DOM here
-        metaEl.innerHTML = `<span style="font-weight:600; color:var(--accent); margin-right:6px;">プロデューサー</span><span style="color:var(--sub);"プロデューサー</span>`;
+        metaEl.innerHTML = `<span style="font-weight:600; color:var(--accent); margin-right:6px;">プロデューサー</span><span style="color:var(--sub);">プロデューサー</span>`;
       }
 
       // badges
@@ -1012,20 +1061,6 @@
           // naive: skip 10s
           audio.currentTime = Math.min(api.duration, audio.currentTime + 10);
         });
-
-        // like button toggles a "favorite" visual state
-        refs.likeBtn.addEventListener('click', ()=> {
-          refs.likeBtn.classList.toggle('liked');
-          // visual effect
-          if (refs.likeBtn.classList.contains('liked')) {
-            refs.likeBtn.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))';
-            refs.likeBtn.style.boxShadow = '0 10px 22px rgba(0,0,0,0.45)';
-          } else {
-            refs.likeBtn.style.background = '';
-            refs.likeBtn.style.boxShadow = '';
-          }
-        });
-
         // keyboard space toggles play/pause when focus not in input
         window.addEventListener('keydown', (ev)=> {
           if (ev.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
