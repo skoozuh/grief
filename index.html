@@ -51,7 +51,8 @@
     while remaining clean and modular. You can change colors in the config at the top,
     but if you need to hardcode values here remove the variables and replace them.
   -->
-<style>/* ---------------------------------------------------------------------
+<style>
+    /* ---------------------------------------------------------------------
        Reset / base
        --------------------------------------------------------------------- */
     :root{
@@ -196,19 +197,32 @@
     }
 
     .badge {
-      width:28px;
-      height:28px;
-      border-radius:6px;
-      overflow:hidden;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      cursor:default;
-      border:1px solid rgba(255,255,255,0.03);
-      transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
-      background: var(--glass);
-    }
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.badge img {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.badge:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+.badge:hover img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
 
     .badge img {
       width:20px;
@@ -221,22 +235,25 @@
 
     /* tooltip for badges */
     .badge-tooltip {
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%) translateY(-8px) scale(.96);
-      bottom:calc(100% + 10px);
-      background:var(--tooltip-bg);
-      color:var(--tooltip-fg);
-      padding:6px 10px;
-      border-radius:8px;
-      font-size:13px;
-      white-space:nowrap;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity 150ms ease, transform 150ms ease;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-      border:1px solid rgba(255,255,255,0.02);
-    }
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  background: rgba(20,20,20,0.92);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.badge:hover .badge-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px) scale(1);
+}
 
     .badge:hover {
       transform: translateY(-4px) scale(1.02);
@@ -245,10 +262,25 @@
     }
 
     .badge:hover .badge-tooltip {
-      opacity:1;
-      transform:translateX(-50%) translateY(-6px) scale(1);
-      pointer-events:auto;
-    }
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  background: rgba(20,20,20,0.92);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.badge:hover .badge-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px) scale(1);
+}
 
     /* small status text under the display name */
     .meta {
@@ -275,18 +307,26 @@
 
     /* ---- Music Player Card ---- */
     .player-card {
-      width: min(var(--container-width), 760px);
-      display:flex;
-      align-items:center;
-      gap:16px;
-      padding: 14px 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.006));
-      border-radius: calc(var(--card-radius) + 4px);
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 26px rgba(0,0,0,0.55);
-      box-sizing:border-box;
-      margin-top:6px;
-    }
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.player-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.player-art {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
 
     .player-art {
       width: 56px;
@@ -402,29 +442,35 @@
 
     /* main links area — placeholder area where links would go */
     .links-card {
-      width: min(var(--container-width), 760px);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      padding: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.006), rgba(255,255,255,0.004));
-      border-radius: calc(var(--card-radius) + 6px);
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      box-sizing:border-box;
-    }
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.links-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.5);
+}
 
     .link-item {
-      display:block;
-      padding:12px 14px;
-      border-radius:10px;
-      background: rgba(255,255,255,0.01);
-      border: 1px solid rgba(255,255,255,0.02);
-      text-decoration:none;
-      color:var(--fg);
-      font-weight:600;
-      transition:transform var(--transition), box-shadow var(--transition);
-    }
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.link-item:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
 
     .link-item:hover {
       transform: translateY(-4px);
@@ -448,8 +494,18 @@
       }
 
       .profile-card, .player-card, .links-card {
-        padding:12px;
-      }
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.links-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.5);
+}
 
       .displayname { font-size:18px; }
     }
@@ -461,7 +517,27 @@
       }
       .badge-row { display:flex; flex-wrap:wrap; gap:8px; }
       .side-icon { display:none; }
-      .player-card { gap:10px; padding:10px; }
+      .player-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.player-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.player-art {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
     }
 
     /* ---------------------------------------------------------------------
@@ -477,130 +553,62 @@
        --------------------------------------------------------------------- */
     /* you can enable this for debugging layout
     .profile-card { outline: 1px dashed rgba(255,0,0,0.04); }
-    .player-card { outline: 1px dashed rgba(0,255,0,0.02); }
-    */
-
-/* === Visual Rework Overrides === */
-
-:root {
-  --anim-speed: 0.18s;
-  --anim-curve: cubic-bezier(0.25, 0.8, 0.25, 1);
-  --border: rgba(255,255,255,0.06);
-  --shadow: rgba(0,0,0,0.4);
-  --glass: rgba(255,255,255,0.02);
-  --tooltip-bg: rgba(20, 20, 20, 0.92);
-  --tooltip-fg: #ffffff;
-}
-
-/* Profile Card */
-.profile-card {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 20px var(--shadow);
-  backdrop-filter: blur(6px);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve);
-}
-.profile-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.5);
-}
-
-/* Player Card */
-.player-card {
-  background: rgba(255,255,255,0.018);
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 18px var(--shadow);
-  backdrop-filter: blur(6px);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve);
+    .player-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 .player-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.player-art {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+    */
+  
+.bio {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #ddd;
+  text-align: center;
+  margin: 10px 0;
+  padding: 0 8px;
 }
 
-/* Links Card */
-.links-card {
-  background: rgba(255,255,255,0.018);
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 18px var(--shadow);
+/* Badge Group Container */
+.badge-group {
+  display: flex;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
   backdrop-filter: blur(6px);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve);
-}
-.links-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
 }
 
-/* Badges */
+/* Badges inside group */
 .badge {
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,0.025);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve),
-              filter var(--anim-speed) var(--anim-curve);
-}
-.badge img {
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
-  transition: transform var(--anim-speed) var(--anim-curve),
-              filter var(--anim-speed) var(--anim-curve);
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 28px;
+  height: 28px;
 }
 .badge:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-}
-.badge:hover img {
-  transform: scale(1.08);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-}
-
-/* Tooltip */
-.badge-tooltip {
-  background: var(--tooltip-bg);
-  color: var(--tooltip-fg);
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  opacity: 0;
-  pointer-events: none;
-  white-space: nowrap;
-  transition: opacity var(--anim-speed) var(--anim-curve),
-              transform var(--anim-speed) var(--anim-curve);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-.badge:hover .badge-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-2px) scale(1);
-}
-
-/* Links */
-.link-item {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve),
-              background var(--anim-speed) var(--anim-curve);
-}
-.link-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-  background: rgba(255,255,255,0.04);
-}
-
-/* Buttons */
-.btn {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.02);
-  transition: transform var(--anim-speed) var(--anim-curve),
-              box-shadow var(--anim-speed) var(--anim-curve),
-              background var(--anim-speed) var(--anim-curve);
-}
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-  background: rgba(255,255,255,0.04);
+  background: transparent;
+  box-shadow: none;
+  transform: scale(1.1);
 }
 </style>
 </head>
@@ -670,7 +678,6 @@
 <svg viewbox="0 0 24 24"><path d="M6 6h2v12H6zM10 6v12l8-6z"></path></svg>
 </button>
 </div>
-
 </div>
 </div>
 <!-- LINKS / BIO CARD -->
