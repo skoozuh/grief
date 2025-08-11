@@ -24,6 +24,52 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      flex-direction:column;
+    }
+    /* Music control top left */
+    .top-controls{
+      position:fixed;
+      top:15px;
+      left:15px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background: var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding:8px 12px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px) saturate(120%);
+      z-index:100;
+    }
+    .control-btn{
+      background:none;
+      border:none;
+      cursor:pointer;
+      padding:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .control-btn svg{
+      width:20px;
+      height:20px;
+      fill:var(--accent);
+    }
+    .volume-slider{
+      -webkit-appearance:none;
+      height:4px;
+      background: var(--muted);
+      border-radius:5px;
+      outline:none;
+    }
+    .volume-slider::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      width:14px;
+      height:14px;
+      background: var(--accent);
+      border-radius:50%;
+      cursor:pointer;
     }
     .card{
       width:760px;
@@ -61,7 +107,6 @@
       align-items:center;
       gap:12px;
     }
-    /* pill container for all badges */
     .badges{
       display:flex;
       gap:8px;
@@ -84,7 +129,6 @@
       height:20px;
       object-fit:contain;
     }
-    /* tooltip */
     .badge[data-tooltip]:hover::after{
       content: attr(data-tooltip);
       position: absolute;
@@ -114,27 +158,98 @@
       border-top:1px solid rgba(255,255,255,0.03);
       width:100%;
     }
-    .views{
-      position:absolute;
-      left:22px;
-      bottom:16px;
-      display:inline-flex;
+    /* Music player under card */
+    .music-player{
+      margin-top:20px;
+      width:760px;
+      background: var(--glass-bg);
+      border:1px solid var(--glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px) saturate(120%);
+      display:flex;
       align-items:center;
-      gap:10px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.04);
-      padding:8px 12px;
-      border-radius:12px;
-      font-size:13px;
+      padding:16px;
+      gap:18px;
+    }
+    .song-cover{
+      width:60px;
+      height:60px;
+      border-radius:10px;
+      overflow:hidden;
+      flex-shrink:0;
+    }
+    .song-cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .song-info{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      color:var(--accent);
+    }
+    .song-title{
+      font-weight:600;
+      font-size:15px;
+    }
+    .song-artist{
+      font-size:12px;
       color:var(--muted);
     }
-    .views svg{
-      width:16px;
-      height:16px;
+    .song-progress{
+      width:100%;
+      margin-top:6px;
+    }
+    .song-progress input[type="range"]{
+      -webkit-appearance:none;
+      height:4px;
+      background: var(--muted);
+      border-radius:5px;
+      outline:none;
+      width:100%;
+    }
+    .song-progress input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      width:12px;
+      height:12px;
+      background: var(--accent);
+      border-radius:50%;
+      cursor:pointer;
+    }
+    .song-controls{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .song-controls button{
+      background:none;
+      border:none;
+      cursor:pointer;
+      padding:6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .song-controls button svg{
+      width:24px;
+      height:24px;
+      fill:var(--accent);
     }
   </style>
 </head>
 <body>
+
+  <!-- Top Left Controls -->
+  <div class="top-controls">
+    <button class="control-btn" id="playPauseTop">
+      <svg viewBox="0 0 24 24" id="topPlayIcon"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <input type="range" class="volume-slider" id="volumeControl" min="0" max="1" step="0.01" value="0.8">
+  </div>
+
+  <!-- Profile Card -->
   <div class="card">
     <div class="pfp">
       <img src="assets/pfp.png" alt="profile picture">
@@ -159,13 +274,65 @@
       </div>
       <div class="divider"></div>
     </div>
-    <div class="views">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,0.9)" stroke-width="1.2"/>
-      </svg>
-      <div style="font-weight:600; color:var(--accent)">1,063</div>
+  </div>
+
+  <!-- Music Player -->
+  <div class="music-player">
+    <div class="song-cover">
+      <img src="assets/songcover.png" alt="Song Cover">
+    </div>
+    <div class="song-info">
+      <div class="song-title">My Track</div>
+      <div class="song-artist">skoozuh</div>
+      <div class="song-progress">
+        <input type="range" id="seekBar" min="0" max="100" value="0">
+      </div>
+    </div>
+    <div class="song-controls">
+      <button id="playPauseBtn">
+        <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+      </button>
     </div>
   </div>
+
+  <audio id="audioPlayer" src="assets/song.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const topPlayPauseBtn = document.getElementById('playPauseTop');
+    const playIcon = document.getElementById('playIcon');
+    const topPlayIcon = document.getElementById('topPlayIcon');
+    const seekBar = document.getElementById('seekBar');
+    const volumeControl = document.getElementById('volumeControl');
+
+    function togglePlay(){
+      if(audio.paused){
+        audio.play();
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        topPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      }else{
+        audio.pause();
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+        topPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      }
+    }
+
+    playPauseBtn.addEventListener('click', togglePlay);
+    topPlayPauseBtn.addEventListener('click', togglePlay);
+
+    audio.addEventListener('timeupdate', ()=>{
+      const progress = (audio.currentTime / audio.duration) * 100;
+      seekBar.value = progress;
+    });
+
+    seekBar.addEventListener('input', ()=>{
+      audio.currentTime = (seekBar.value / 100) * audio.duration;
+    });
+
+    volumeControl.addEventListener('input', ()=>{
+      audio.volume = volumeControl.value;
+    });
+  </script>
 </body>
 </html>
