@@ -158,7 +158,7 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
 }
 .player .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-/* meta: title + artist */
+/* meta: title + artist combined */
 .player .meta {
   display:flex;
   flex-direction:column;
@@ -169,11 +169,8 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
   font-weight:700;
   font-size:14px;
   color: #fff;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.player .artist {
-  font-size:13px;
-  color: var(--muted);
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 /* controls column */
@@ -208,7 +205,12 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 .play-btn:active { transform: scale(0.98); }
-.play-btn svg { width:18px; height:18px; fill:#fff; filter: drop-shadow(0 2px 8px rgba(102,224,255,0.08)); }
+.play-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+  filter: none;
+}
 
 /* times */
 .time {
@@ -331,167 +333,42 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
         </div>
 
         <!-- ===== MUSIC PLAYER (placed directly under bio) ===== -->
-       <!-- Add this inside your .main div, right below the .bio -->
+        <div class="player" id="musicPlayer" aria-label="Music player">
+          <!-- cover -->
+          <div class="cover" aria-hidden="true">
+            <img src="assets/songcover.png" alt="Chain Swangin cover">
+          </div>
 
-<div class="music-player" aria-label="Music player: Chain Swangin - Molly Santana">
-  <img src="assets/songcover.png" alt="Chain Swangin cover" class="song-cover" />
-  <div class="song-info">
-    <div class="song-title">Chain Swangin - Molly Santana</div>
-    <input type="range" class="progress-bar" min="0" max="100" value="0" aria-label="Song progress slider">
-  </div>
-  <button class="play-btn" aria-label="Play/pause">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="play-icon">
-      <polygon points="5 3 19 12 5 21"></polygon>
-    </svg>
-  </button>
-  <audio id="audio-player" src="assets/song.png"></audio>
-</div>
+          <!-- meta -->
+          <div class="meta">
+            <div class="title" style="white-space: normal;">Chain Swangin - Molly Santana</div>
+          </div>
 
-<style>
-  .music-player {
-    margin-top: 18px;
-    background: rgba(255 255 255 / 0.05);
-    border-radius: 16px;
-    border: 1px solid rgba(255 255 255 / 0.1);
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    max-width: 640px;
-    user-select: none;
-    box-shadow: 0 8px 24px rgba(102, 224, 255, 0.15);
-    backdrop-filter: saturate(180%) blur(18px);
-  }
-  .song-cover {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    object-fit: cover;
-    flex-shrink: 0;
-    box-shadow: 0 0 12px rgba(102,224,255,0.3);
-  }
-  .song-info {
-    flex: 1;
-    margin-left: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .song-title {
-    color: white;
-    font-weight: 600;
-    font-size: 17px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .progress-bar {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    background: rgba(255 255 255 / 0.15);
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .progress-bar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #66e0ff;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 8px #66e0ff;
-    transition: background 0.2s ease;
-    margin-top: -6px; /* to center thumb on track */
-  }
-  .progress-bar::-webkit-slider-thumb:hover {
-    background: #a7a0ff;
-    box-shadow: 0 0 12px #a7a0ff;
-  }
-  /* Firefox */
-  .progress-bar::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: #66e0ff;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 8px #66e0ff;
-    transition: background 0.2s ease;
-  }
-  .progress-bar::-moz-range-thumb:hover {
-    background: #a7a0ff;
-    box-shadow: 0 0 12px #a7a0ff;
-  }
-  .play-btn {
-    background: transparent;
-    border: none;
-    margin-left: 14px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .play-btn:hover {
-    background-color: rgba(102,224,255,0.15);
-  }
-  .play-icon {
-    width: 26px;
-    height: 26px;
-  }
-</style>
+          <!-- controls -->
+          <div class="controls" aria-hidden="false">
+            <div class="controls-top">
+              <button class="play-btn" id="playBtn" aria-label="Play">
+                <!-- play icon (switches to pause) -->
+                <svg id="playIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M5 3v18l15-9L5 3z" fill="currentColor"/>
+                </svg>
+                <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
+                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/>
+                </svg>
+              </button>
 
-<script>
-  const audio = document.getElementById('audio-player');
-  const playBtn = document.querySelector('.play-btn');
-  const progressBar = document.querySelector('.progress-bar');
-  const playIcon = playBtn.querySelector('svg polygon');
-
-  let isPlaying = false;
-
-  function togglePlay() {
-    if (audio.paused) {
-      audio.play();
-      isPlaying = true;
-      // Change play icon to pause
-      playIcon.setAttribute('points', '6 4 6 20 18 12');
-    } else {
-      audio.pause();
-      isPlaying = false;
-      // Change pause icon to play
-      playIcon.setAttribute('points', '5 3 19 12 5 21');
-    }
-  }
-
-  playBtn.addEventListener('click', togglePlay);
-
-  // Update progress bar as audio plays
-  audio.addEventListener('timeupdate', () => {
-    if (!progressBar.dragging) {
-      const progressPercent = (audio.currentTime / audio.duration) * 100;
-      progressBar.value = progressPercent || 0;
-    }
-  });
-
-  // Flag for user dragging the slider
-  progressBar.addEventListener('mousedown', () => progressBar.dragging = true);
-  progressBar.addEventListener('mouseup', (e) => {
-    progressBar.dragging = false;
-    // Set audio time based on slider
-    const seekTime = (progressBar.value / 100) * audio.duration;
-    audio.currentTime = seekTime;
-  });
-  // Also handle touch events for mobile
-  progressBar.addEventListener('touchstart', () => progressBar.dragging = true);
-  progressBar.addEventListener('touchend', (e) => {
-    progressBar.dragging = false;
-    const seekTime = (progressBar.value / 100) * audio.duration;
-    audio.currentTime = seekTime;
-  });
-</script>
+              <div style="display:flex; align-items:center; gap:8px; width:100%;">
+                <div class="time" id="currentTime">0:00</div>
+                <div class="progress-wrap" id="progressWrap" aria-label="Progress" tabindex="0">
+                  <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div class="knob" id="knob" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="time" id="duration">0:00</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- ===== end music player ===== -->
 
       </div> <!-- .main -->
@@ -528,19 +405,19 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
   function loop(){
     ctx.clearRect(0,0,w,h);
     for(let i=0;i<particles.length;i++){ particles[i].update(); particles[i].draw(); }
-    // faint lines
+    // draw lines between close particles
     for(let i=0;i<particles.length;i++){
       for(let j=i+1;j<particles.length;j++){
-        const a=particles[i], b=particles[j];
-        const dx=a.x-b.x, dy=a.y-b.y;
-        const d=Math.sqrt(dx*dx+dy*dy);
-        if(d<LINE_THRESH){
-          const alpha=(1-d/LINE_THRESH)*0.04;
+        let p1=particles[i], p2=particles[j];
+        let dx=p1.x-p2.x, dy=p1.y-p2.y;
+        let dist=dx*dx+dy*dy;
+        if(dist<LINE_THRESH*LINE_THRESH){
+          let alpha=1 - dist/(LINE_THRESH*LINE_THRESH);
+          ctx.strokeStyle='rgba(102,224,255,'+alpha*0.13+')';
+          ctx.lineWidth=1;
           ctx.beginPath();
-          ctx.moveTo(a.x,a.y);
-          ctx.lineTo(b.x,b.y);
-          ctx.strokeStyle='rgba(255,255,255,'+alpha+')';
-          ctx.lineWidth=0.5;
+          ctx.moveTo(p1.x,p1.y);
+          ctx.lineTo(p2.x,p2.y);
           ctx.stroke();
         }
       }
@@ -553,144 +430,66 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
 })();
 
 /* ==========================
-   Music player: controls and progress
-   - Update src to actual audio file if needed
+   Music player controls (demo)
    ========================== */
-(function(){
-  // DOM
+(() => {
   const playBtn = document.getElementById('playBtn');
   const playIcon = document.getElementById('playIcon');
   const pauseIcon = document.getElementById('pauseIcon');
-  const currentTimeEl = document.getElementById('currentTime');
-  const durationEl = document.getElementById('duration');
   const progressBar = document.getElementById('progressBar');
-  const progressWrap = document.getElementById('progressWrap');
   const knob = document.getElementById('knob');
-
-  // Audio element (invisible)
-  // NOTE: I used assets/song.mp3. If your file is assets/song.png, change the src below
-  const audio = new Audio('assets/song.mp3');
-  audio.preload = 'metadata';
+  const currentTimeElem = document.getElementById('currentTime');
+  const durationElem = document.getElementById('duration');
+  const progressWrap = document.getElementById('progressWrap');
 
   let isPlaying = false;
-  let rafId = null;
-  let userSeeking = false;
+  let duration = 220; // seconds demo length
+  let currentTime = 0;
+  let intervalId = null;
 
-  // format seconds to M:SS
-  function fmt(secs){
-    if(!isFinite(secs)) return '0:00';
-    const s = Math.floor(secs % 60);
-    const m = Math.floor(secs / 60);
-    return m + ':' + (s < 10 ? '0' + s : s);
+  function formatTime(seconds) {
+    const m = Math.floor(seconds/60);
+    const s = Math.floor(seconds%60);
+    return m + ':' + (s < 10 ? '0'+s : s);
   }
 
-  // update UI progress
-  function updateProgressUI(){
-    if(userSeeking) return;
-    const percent = (audio.currentTime / Math.max(1, audio.duration)) * 100;
+  function updateProgress(){
+    currentTime += 0.5;
+    if(currentTime > duration){
+      currentTime = duration;
+      pause();
+    }
+    const percent = (currentTime/duration)*100;
     progressBar.style.width = percent + '%';
-    // position knob by setting transform on knob element
-    knob.style.right = 0; // knob is positioned at the end of .progress via CSS; we keep it simple visually
-    currentTimeEl.textContent = fmt(audio.currentTime);
-    durationEl.textContent = fmt(audio.duration);
+    knob.style.left = percent + '%';
+    currentTimeElem.textContent = formatTime(currentTime);
   }
 
-  // rAF loop while playing
-  function tick(){
-    updateProgressUI();
-    rafId = requestAnimationFrame(tick);
-  }
-
-  // toggle play
-  function togglePlay(){
-    if(isPlaying){ audio.pause(); }
-    else { audio.play().catch(()=>{}); }
-  }
-
-  // audio events
-  audio.addEventListener('play', ()=>{
+  function play(){
+    if(isPlaying) return;
     isPlaying = true;
     playIcon.style.display = 'none';
-    pauseIcon.style.display = '';
-    rafId = requestAnimationFrame(tick);
-    playBtn.setAttribute('aria-label','Pause');
-  });
-  audio.addEventListener('pause', ()=>{
-    isPlaying = false;
-    playIcon.style.display = '';
-    pauseIcon.style.display = 'none';
-    cancelAnimationFrame(rafId);
-    playBtn.setAttribute('aria-label','Play');
-  });
-  audio.addEventListener('timeupdate', updateProgressUI);
-  audio.addEventListener('loadedmetadata', ()=>{
-    durationEl.textContent = fmt(audio.duration);
-    updateProgressUI();
-  });
-  audio.addEventListener('ended', ()=>{
-    isPlaying = false;
-    playIcon.style.display = '';
-    pauseIcon.style.display = 'none';
-    cancelAnimationFrame(rafId);
-  });
-
-  // play button click
-  playBtn.addEventListener('click', togglePlay);
-
-  // allow space/enter to toggle
-  playBtn.addEventListener('keydown', (e)=>{
-    if(e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); togglePlay(); }
-  });
-
-  // progress click-to-seek
-  progressWrap.addEventListener('click', (e)=>{
-    const rect = progressWrap.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const pct = Math.max(0, Math.min(1, x / rect.width));
-    audio.currentTime = pct * audio.duration;
-    updateProgressUI();
-  });
-
-  // drag seeking (desktop)
-  let seeking = false;
-  progressWrap.addEventListener('pointerdown', (e)=>{
-    seeking = true;
-    userSeeking = true;
-    progressWrap.setPointerCapture(e.pointerId);
-    handleSeek(e);
-  });
-  window.addEventListener('pointermove', (e)=>{
-    if(!seeking) return;
-    handleSeek(e);
-  });
-  window.addEventListener('pointerup', (e)=>{
-    if(!seeking) return;
-    seeking = false;
-    userSeeking = false;
-    audio.currentTime = Math.max(0, Math.min(1, getPointerPct(e))) * audio.duration;
-  });
-
-  function getPointerPct(e){
-    const rect = progressWrap.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    return Math.max(0, Math.min(1, x / rect.width));
-  }
-  function handleSeek(e){
-    const pct = getPointerPct(e);
-    progressBar.style.width = (pct * 100) + '%';
-    currentTimeEl.textContent = fmt(pct * (audio.duration || 0));
+    pauseIcon.style.display = 'block';
+    intervalId = setInterval(updateProgress, 500);
   }
 
-  // keyboard accessibility for progress: left/right arrow
-  progressWrap.tabIndex = 0;
-  progressWrap.addEventListener('keydown', (e)=>{
-    if(!audio.duration) return;
-    if(e.key === 'ArrowLeft'){ audio.currentTime = Math.max(0, audio.currentTime - 5); }
-    if(e.key === 'ArrowRight'){ audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); }
+  function pause(){
+    if(!isPlaying) return;
+    isPlaying = false;
+    playIcon.style.display = 'block';
+    pauseIcon.style.display = 'none';
+    clearInterval(intervalId);
+  }
+
+  playBtn.addEventListener('click', () => {
+    if(isPlaying) pause();
+    else play();
   });
 
-  // optionally auto-play muted on load if you want (not recommended)
-  // audio.muted = true; audio.play().catch(()=>{});
+  // initialize duration display
+  durationElem.textContent = formatTime(duration);
+
+  // progress drag not implemented (demo only)
 })();
 </script>
 
