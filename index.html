@@ -113,25 +113,27 @@
     .main{ flex:1; display:flex; flex-direction:column; }
     .user-row{
       display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .user-info {
+      display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      gap:6px;
     }
     .username{ font-weight:700; font-size:18px; color:var(--accent); }
     .joined{ font-size:13px; color:var(--muted); }
-    /* Badges closer & cropped */
+    /* Badges next to username */
     .badges{
       display:flex;
-      gap:1px; /* almost touching */
-      align-items:center;
-      padding:4px 6px; /* smaller pill */
-      border-radius:999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
-      border: 1px solid rgba(255,255,255,0.04);
+      gap:4px;
+      padding:0;
+      background:none;
+      border:none;
     }
     .badge{
-      width:34px; /* slightly smaller */
-      height:34px;
+      width:20px;
+      height:20px;
       display:grid;
       place-items:center;
       position:relative;
@@ -139,7 +141,7 @@
     .badge img{
       width:100%;
       height:100%;
-      object-fit:contain; /* crop out transparent space */
+      object-fit:contain;
     }
     /* Tooltip fade + slide */
     .badge[data-tooltip]::after{
@@ -235,15 +237,15 @@
     <div class="pfp"><img src="assets/pfp.png" alt="profile picture"></div>
     <div class="main">
       <div class="user-row">
-  <div class="username">skoozuh</div>
-  <div class="badges">
-    <div class="badge" data-tooltip="Christmas 2024"><img src="assets/christmas2024.png" alt="Christmas 2024"></div>
-    <div class="badge" data-tooltip="Premium"><img src="assets/premium.png" alt="Premium"></div>
-    <div class="badge" data-tooltip="Easter 2025"><img src="assets/easter2025.png" alt="Easter 2025"></div>
-  </div>
-</div>
-<div class="joined">prod. @skoozuh</div>
+        <div class="user-info">
+          <div class="username">skoozuh</div>
+          <div class="badges">
+            <div class="badge" data-tooltip="Christmas 2024"><img src="assets/christmas2024.png" alt="Christmas 2024"></div>
+            <div class="badge" data-tooltip="Premium"><img src="assets/premium.png" alt="Premium"></div>
+            <div class="badge" data-tooltip="Easter 2025"><img src="assets/easter2025.png" alt="Easter 2025"></div>
+          </div>
         </div>
+        <div class="joined">prod. @skoozuh</div>
       </div>
       <div class="divider"></div>
     </div>
