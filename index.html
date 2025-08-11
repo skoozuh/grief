@@ -1,551 +1,171 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dark Biolink — Music Player</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600,700&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --bg-1: #05060a;
-  --bg-2: #0b1016;
-  --muted: rgba(255, 255, 255, 0.62);
-  --accent-a: #66e0ff;
-  --accent-b: #a7a0ff;
-  --max-width: 920px;
-  --page-pad: 28px;
-
-  --badge-radius: 8px;
-  --hover-transition: 220ms;
-}
-
-/* Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-  color: #fff;
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--page-pad);
-}
-
-/* Card */
-.card {
-  width: 100%;
-  max-width: var(--max-width);
-  background: transparent;
-  padding: 24px;
-  border-radius: 16px;
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-/* Profile Picture */
-.pfp {
-  width: 112px;
-  height: 112px;
-  border-radius: 9999px;
-  overflow: hidden;
-  border: 3px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-
-.pfp img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Main */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
-}
-
-/* Username */
-.username {
-  font-weight: 700;
-  font-size: 20px;
-  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  white-space: nowrap;
-  cursor: default;
-}
-
-.username:hover {
-  text-shadow: 0 10px 30px rgba(102, 224, 255, 0.12);
-  filter: brightness(1.05);
-}
-
-/* Joined */
-.joined {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-/* Bio */
-.bio {
-  font-size: 14px;
-  color: var(--muted);
-  max-width: 640px;
-  line-height: 1.4;
-}
-
-/* ----------- Music Player ----------- */
-.player {
-  margin-top: 14px;
-  max-width: 760px;
-  width: 100%;
-  background: linear-gradient(180deg, #121519, #0f131a);
-  border-radius: 16px;
-  box-shadow:
-    inset 0 0 5px rgba(255, 255, 255, 0.05),
-    0 6px 30px rgba(102, 224, 255, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 16px 20px;
-  user-select: none;
-}
-
-/* Cover */
-.player .cover {
-  width: 96px;
-  height: 96px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #111;
-  box-shadow: 0 0 25px rgba(102, 224, 255, 0.15);
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-}
-
-.player .cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-/* Meta info */
-.player .meta {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  overflow: hidden;
-}
-
-.player .title {
-  font-weight: 700;
-  font-size: 16px;
-  color: #fff;
-  user-select: text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Controls container */
-.player .controls {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 14px;
-  min-width: 280px;
-  width: 100%;
-}
-
-/* Controls top (play + times + slider) */
-.controls-top {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-}
-
-/* Play button */
-.play-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: linear-gradient(145deg, #0a121b, #141c26);
-  box-shadow:
-    5px 5px 10px #081017,
-    -5px -5px 10px #192532;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: box-shadow 180ms ease;
-  color: var(--accent-a);
-  border: none;
-  user-select: none;
-}
-
-.play-btn:hover {
-  box-shadow:
-    7px 7px 15px #06101a,
-    -7px -7px 15px #1d2b3a;
-}
-
-.play-btn:active {
-  box-shadow:
-    inset 3px 3px 6px #06101a,
-    inset -3px -3px 6px #1d2b3a;
-}
-
-.play-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-/* Time text */
-.time {
-  font-size: 13px;
-  color: var(--muted);
-  min-width: 40px;
-  text-align: center;
-  user-select: none;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Progress bar wrapper */
-.progress-wrap {
-  flex-grow: 1;
-  position: relative;
-  height: 12px;
-  border-radius: 9999px;
-  background: #1a2230;
-  cursor: pointer;
-  box-shadow:
-    inset 2px 2px 5px #0e1626,
-    inset -2px -2px 5px #27334e;
-  display: flex;
-  align-items: center;
-}
-
-/* Progress bar fill */
-.progress {
-  height: 100%;
-  width: 0%;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
-  box-shadow: 0 0 15px var(--accent-a);
-  position: relative;
-  transition: width 100ms linear;
-  user-select: none;
-}
-
-/* Glow on progress */
-.progress::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 50%;
-  width: 24px;
-  height: 24px;
-  background: radial-gradient(circle at center, var(--accent-a), transparent 60%);
-  transform: translate(50%, -50%);
-  filter: blur(4px);
-  opacity: 0.8;
-  pointer-events: none;
-  border-radius: 50%;
-}
-
-/* Knob handle */
-.knob {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--accent-b);
-  box-shadow:
-    0 0 8px var(--accent-b),
-    inset 0 0 5px var(--accent-a);
-  cursor: pointer;
-  user-select: none;
-  transition: background 150ms ease;
-}
-
-.knob:hover {
-  background: var(--accent-a);
-  box-shadow:
-    0 0 12px var(--accent-a),
-    inset 0 0 7px var(--accent-b);
-}
-
-/* Responsive */
-@media (max-width: 520px) {
-  .player {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .player .controls {
-    min-width: 0;
-    width: 100%;
-    align-items: stretch;
-  }
-  .controls-top {
-    gap: 12px;
-  }
-  .play-btn {
-    width: 44px;
-    height: 44px;
-  }
-  .player .cover {
-    width: 80px;
-    height: 80px;
-  }
-  .time {
-    min-width: 36px;
-  }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>sk</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --glass-bg: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.06);
+      --accent: rgba(255,255,255,0.9);
+      --muted: rgba(255,255,255,0.55);
+      --shadow: 0 10px 30px rgba(7,9,15,0.7);
+      --radius: 18px;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Poppins", sans-serif;
+      background: url('assets/background.png') center/cover no-repeat,
+                  linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
+      background-blend-mode:overlay;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .card{
+      width:760px;
+      background: var(--glass-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px) saturate(120%);
+      padding: 32px;
+      display:flex;
+      gap:26px;
+      position:relative;
+    }
+    .pfp{
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      border: 3px solid rgba(255,255,255,0.02);
+      flex-shrink:0;
+    }
+    .pfp img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .main{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+    .meta-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    /* pill container for all badges */
+    .badges{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .badge{
+      width:30px;
+      height:30px;
+      display:grid;
+      place-items:center;
+      position:relative;
+      cursor:default;
+    }
+    .badge img{
+      width:20px;
+      height:20px;
+      object-fit:contain;
+    }
+    /* tooltip */
+    .badge[data-tooltip]:hover::after{
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space:nowrap;
+      background: rgba(6,8,13,0.9);
+      color:#fff;
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:8px;
+      box-shadow: 0 8px 24px rgba(2,4,10,0.6);
+      z-index:50;
+    }
+    .username{
+      font-weight:700;
+      font-size:18px;
+      color:var(--accent);
+    }
+    .joined{
+      font-size:13px;
+      color:var(--muted);
+    }
+    .divider{
+      margin-top:14px;
+      border-top:1px solid rgba(255,255,255,0.03);
+      width:100%;
+    }
+    .views{
+      position:absolute;
+      left:22px;
+      bottom:16px;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .views svg{
+      width:16px;
+      height:16px;
+    }
+  </style>
 </head>
 <body>
-
-<div class="container" role="main">
-  <div class="card" aria-label="Profile card">
-
-    <div class="pfp" title="Profile picture">
-      <img src="assets/pfp.png" alt="Profile picture" />
+  <div class="card">
+    <div class="pfp">
+      <img src="assets/pfp.png" alt="profile picture">
     </div>
-
     <div class="main">
-      <div class="username" id="username">skoozuh</div>
-      <div class="joined">prod. @skoozuh</div>
-      <div class="bio">Short bio — keep it tight and readable. Edit this line to add your tagline.</div>
-
-      <!-- Music Player -->
-      <div class="player" aria-label="Music player">
-        <div class="cover" aria-hidden="true">
-          <img src="assets/songcover.png" alt="Chain Swangin cover" />
-        </div>
-
-        <div class="meta">
-          <div class="title" id="songTitle">Chain Swangin - Molly Santana</div>
-        </div>
-
-        <div class="controls">
-          <div class="controls-top">
-            <button class="play-btn" id="playBtn" aria-label="Play">
-              <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 3v18l15-9L5 3z" />
-              </svg>
-              <svg id="pauseIcon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none">
-                <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
-              </svg>
-            </button>
-
-            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
-              <div class="time" id="currentTime">0:00</div>
-
-              <div
-                class="progress-wrap"
-                id="progressWrap"
-                tabindex="0"
-                role="slider"
-                aria-label="Seek slider"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="0"
-                aria-valuetext="0 seconds"
-              >
-                <div class="progress" id="progressBar">
-                  <div class="knob" id="knob"></div>
-                </div>
-              </div>
-
-              <div class="time" id="duration">0:00</div>
-            </div>
+      <div class="meta-top">
+        <div class="badges">
+          <div class="badge" data-tooltip="Christmas 2024">
+            <img src="assets/christmas2024.png" alt="Christmas 2024 badge">
+          </div>
+          <div class="badge" data-tooltip="Premium">
+            <img src="assets/premium.png" alt="Premium badge">
+          </div>
+          <div class="badge" data-tooltip="Easter 2025">
+            <img src="assets/easter2025.png" alt="Easter 2025 badge">
           </div>
         </div>
       </div>
-      <!-- End player -->
+      <div style="margin-top:10px;">
+        <div class="username">skoozuh</div>
+        <div class="joined">prod. @skoozuh</div>
+      </div>
+      <div class="divider"></div>
+    </div>
+    <div class="views">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,0.9)" stroke-width="1.2"/>
+      </svg>
+      <div style="font-weight:600; color:var(--accent)">1,063</div>
     </div>
   </div>
-</div>
-
-<audio id="audio" src="assets/song.mp3"></audio>
-
-<script>
-(() => {
-  const audio = document.getElementById("audio");
-  const playBtn = document.getElementById("playBtn");
-  const playIcon = document.getElementById("playIcon");
-  const pauseIcon = document.getElementById("pauseIcon");
-  const progressBar = document.getElementById("progressBar");
-  const progressWrap = document.getElementById("progressWrap");
-  const knob = document.getElementById("knob");
-  const currentTimeElem = document.getElementById("currentTime");
-  const durationElem = document.getElementById("duration");
-
-  let isDragging = false;
-
-  // Format seconds as mm:ss
-  function formatTime(seconds) {
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return m + ":" + (s < 10 ? "0" + s : s);
-  }
-
-  // Update the progress bar & time
-  function updateProgress() {
-    if (!isDragging && audio.duration) {
-      const percent = (audio.currentTime / audio.duration) * 100;
-      progressBar.style.width = percent + "%";
-      knob.style.left = percent + "%";
-      currentTimeElem.textContent = formatTime(audio.currentTime);
-      progressWrap.setAttribute("aria-valuenow", Math.floor(percent));
-      progressWrap.setAttribute("aria-valuetext", formatTime(audio.currentTime));
-    }
-  }
-
-  // Play/Pause toggle icons
-  function updatePlayPauseIcon() {
-    if (audio.paused) {
-      playIcon.style.display = "block";
-      pauseIcon.style.display = "none";
-      playBtn.setAttribute("aria-label", "Play");
-    } else {
-      playIcon.style.display = "none";
-      pauseIcon.style.display = "block";
-      playBtn.setAttribute("aria-label", "Pause");
-    }
-  }
-
-  // Play/pause button click handler
-  playBtn.addEventListener("click", () => {
-    if (audio.paused) audio.play();
-    else audio.pause();
-  });
-
-  // Audio event listeners
-  audio.addEventListener("timeupdate", updateProgress);
-  audio.addEventListener("play", updatePlayPauseIcon);
-  audio.addEventListener("pause", updatePlayPauseIcon);
-  audio.addEventListener("ended", () => {
-    audio.currentTime = 0;
-    audio.pause();
-    updateProgress();
-  });
-  audio.addEventListener("loadedmetadata", () => {
-    durationElem.textContent = formatTime(audio.duration);
-  });
-
-  // Calculate and set audio currentTime based on event (mouse/touch) position on progress bar
-  function seek(e) {
-    const rect = progressWrap.getBoundingClientRect();
-    let clientX = e.clientX;
-    if (e.touches) clientX = e.touches[0].clientX;
-    let percent = (clientX - rect.left) / rect.width;
-    percent = Math.min(Math.max(percent, 0), 1);
-    audio.currentTime = percent * audio.duration;
-    updateProgress();
-  }
-
-  // Drag handlers for the knob
-  knob.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    isDragging = true;
-    window.addEventListener("mousemove", onDrag);
-    window.addEventListener("mouseup", onStopDrag);
-  });
-
-  knob.addEventListener(
-    "touchstart",
-    (e) => {
-      e.preventDefault();
-      isDragging = true;
-      window.addEventListener("touchmove", onDrag);
-      window.addEventListener("touchend", onStopDrag);
-    },
-    { passive: false }
-  );
-
-  function onDrag(e) {
-    seek(e);
-  }
-
-  function onStopDrag(e) {
-    isDragging = false;
-    seek(e);
-    window.removeEventListener("mousemove", onDrag);
-    window.removeEventListener("mouseup", onStopDrag);
-    window.removeEventListener("touchmove", onDrag);
-    window.removeEventListener("touchend", onStopDrag);
-  }
-
-  // Click on progress bar to seek
-  progressWrap.addEventListener("click", (e) => {
-    seek(e);
-  });
-
-  // Keyboard controls for accessibility
-  progressWrap.addEventListener("keydown", (e) => {
-    if (!audio.duration) return;
-    let seekTime = audio.currentTime;
-    const step = 5;
-    if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-      seekTime = Math.min(audio.duration, audio.currentTime + step);
-      audio.currentTime = seekTime;
-      updateProgress();
-      e.preventDefault();
-    } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-      seekTime = Math.max(0, audio.currentTime - step);
-      audio.currentTime = seekTime;
-      updateProgress();
-      e.preventDefault();
-    }
-  });
-
-  // Init UI states
-  updatePlayPauseIcon();
-  if (audio.readyState >= 1) {
-    durationElem.textContent = formatTime(audio.duration);
-  }
-})();
-</script>
-
 </body>
 </html>
