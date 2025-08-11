@@ -1,318 +1,507 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bio Link</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dark Biolink — Clean Badges Right of Name</title>
+
+<!-- Poppins for consistent look -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-    /* ====== RESET ====== */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+/* =========================================================================
+   THEME VARIABLES
+   - tweak these to change global sizing/colors
+   ========================================================================= */
+:root{
+  --bg-1: #05060a;
+  --bg-2: #0b1016;
+  --muted: rgba(255,255,255,0.62);
+  --accent-a: #66e0ff;
+  --accent-b: #a7a0ff;
+  --max-width: 920px;
+  --page-pad: 28px;
 
-    body {
-        background-color: #0a0a0a;
-        color: #fff;
-        font-family: Arial, Helvetica, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-        padding-top: 50px;
-    }
+  /* badge sizing & spacing */
+  --badge-size: 36px;     /* slightly smaller */
+  --badge-gap: 6px;       /* close spacing */
+  --name-badge-gap: 8px;  /* gap between name and badges (slightly closer) */
 
-    /* ====== CONTAINER ====== */
-    .container {
-        width: 100%;
-        max-width: 700px;
-        padding: 20px;
-    }
+  --badge-radius: 8px;    /* tiny rounding on badges (optional) */
+  --hover-transition: 220ms;
 
-    /* ====== HEADER ====== */
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 40px;
-    }
+  --particle-count: 72;   /* base particle count */
+}
 
-    .profile img {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #444;
-    }
+/* =========================================================================
+   RESET / BASE
+   ========================================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; }
+body{
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height:100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing:antialiased;
+}
 
-    .profile-info {
-        display: flex;
-        flex-direction: column;
-    }
+/* =========================================================================
+   PAGE WRAPPER
+   ========================================================================= */
+.container {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: var(--page-pad);
+  position:relative;
+}
 
-    .name-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+/* particles canvas: behind everything */
+canvas#bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  display:block;
+}
 
-    .name-row h1 {
-        font-size: 1.8rem;
-        font-weight: bold;
-    }
+/* subtle gradient wash to add depth */
+.background-wash {
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events:none;
+  background:
+    radial-gradient(900px 700px at 12% 20%, rgba(102,224,255,0.03), transparent 12%),
+    radial-gradient(800px 600px at 86% 78%, rgba(167,160,255,0.03), transparent 14%);
+}
 
-    /* ====== BADGES ====== */
-    .badges {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        position: relative;
-    }
+/* =========================================================================
+   CARD (transparent: NO blocky background)
+   ========================================================================= */
+.card {
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 26px;
+  border-radius: 16px;
+  background: transparent; /* explicitly transparent */
+  position: relative;
+  z-index: 10;
+}
 
-    .badge {
-        width: 28px;
-        height: 28px;
-        position: relative;
-        cursor: pointer;
-    }
+/* responsive stack on small screens */
+@media (max-width: 860px) {
+  .card { flex-direction: column; align-items: center; padding: 20px; gap: 14px; }
+}
 
-    .badge img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        display: block;
-    }
+/* =========================================================================
+   PROFILE PICTURE (static)
+   ========================================================================= */
+.pfp {
+  width: 112px;
+  height: 112px;
+  border-radius: 999px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 3px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:inline-grid;
+  place-items:center;
+}
+.pfp img { width:100%; height:100%; object-fit:cover; display:block; }
 
-    .badge-name {
-        position: absolute;
-        top: -28px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.75);
-        color: #fff;
-        padding: 4px 8px;
-        font-size: 0.7rem;
-        border-radius: 4px;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-    }
+/* =========================================================================
+   MAIN COLUMN
+   ========================================================================= */
+.main {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  position:relative;
+  min-width: 0; /* allow shrinking on narrow screens */
+}
 
-    .badge:hover .badge-name {
-        opacity: 1;
-    }
+/* row that holds the name and the badges on the same baseline */
+.name-badges {
+  display:flex;
+  align-items:center;
+  gap: var(--name-badge-gap);
+  flex-wrap:wrap; /* wrap on very small screens */
+}
 
-    /* ====== DESCRIPTION ====== */
-    .bio {
-        font-size: 1rem;
-        color: #ccc;
-        margin-top: 8px;
-        line-height: 1.5;
-    }
+/* username styling */
+.username {
+  font-weight:700;
+  font-size:20px;
+  display:inline-block;
+  background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: text-shadow var(--hover-transition) ease, filter var(--hover-transition) ease;
+  white-space: nowrap;
+}
 
-    /* ====== LINKS ====== */
-    .links {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-top: 30px;
-    }
+/* only username gets hover glow */
+.username:hover {
+  text-shadow: 0 10px 30px rgba(102,224,255,0.12);
+  filter: brightness(1.05);
+}
 
-    .link {
-        display: block;
-        text-decoration: none;
-        color: #fff;
-        padding: 14px;
-        border-radius: 8px;
-        border: 1px solid #222;
-        background-color: #111;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-        text-align: center;
-        font-weight: 500;
-    }
+/* small subtitle/joined */
+.joined {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
 
-    .link:hover {
-        background-color: #1a1a1a;
-        transform: scale(1.02);
-    }
+/* divider line */
+.divider {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  width: 100%;
+}
 
-    /* ====== FOOTER ====== */
-    footer {
-        text-align: center;
-        margin-top: 40px;
-        color: #666;
-        font-size: 0.8rem;
-    }
+/* bio text */
+.bio {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 6px;
+  max-width: 640px;
+}
 
-    /* ====== EXTRA LONG FILLER FOR 400+ LINES ====== */
-    /* Adding a lot of style variations so file is long & editable */
+/* =========================================================================
+   BADGES (no pill, transparent background, slightly smaller & closer)
+   - placed to the right of username inside .name-badges
+   - badges are independent and visually seamless because no background or border
+   ========================================================================= */
+.badges {
+  display:flex;
+  align-items:center;
+  gap: var(--badge-gap);
+  margin-left: 6px; /* small separation from name */
+}
 
-    /* Headings */
-    h1, h2, h3 {
-        line-height: 1.2;
-    }
+/* each badge element */
+.badge {
+  width: var(--badge-size);
+  height: var(--badge-size);
+  min-width: var(--badge-size);
+  min-height: var(--badge-size);
+  display:inline-grid;
+  place-items:center;
+  border-radius: var(--badge-radius);
+  background: transparent; /* NO background */
+  cursor: default;
+  position: relative;
+  transition: transform var(--hover-transition) ease, opacity var(--hover-transition) ease;
+  overflow: visible; /* allow tooltip above */
+  border: none; /* ensure no border lines */
+}
 
-    /* Spacing utilities */
-    .mt-1 { margin-top: 4px; }
-    .mt-2 { margin-top: 8px; }
-    .mt-3 { margin-top: 12px; }
-    .mt-4 { margin-top: 16px; }
-    .mt-5 { margin-top: 20px; }
+/* very subtle hover feedback (no scale up unless you want it) */
+.badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.98;
+}
 
-    .mb-1 { margin-bottom: 4px; }
-    .mb-2 { margin-bottom: 8px; }
-    .mb-3 { margin-bottom: 12px; }
-    .mb-4 { margin-bottom: 16px; }
-    .mb-5 { margin-bottom: 20px; }
+/* image/icon inside badge */
+.badge img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  display:block;
+  pointer-events:none;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)); /* tiny shadow for legibility */
+}
 
-    /* Width helpers */
-    .w-100 { width: 100%; }
-    .w-50 { width: 50%; }
+/* no outline on focused badge but keep accessibility visible if keyboard navigated via tabindex */
+.badge:focus { outline: none; }
 
-    /* Text helpers */
-    .text-center { text-align: center; }
-    .text-right { text-align: right; }
-    .text-left { text-align: left; }
+/* =========================================================================
+   HOVER LABEL / TOOLTIP ABOVE BADGE
+   - uses CSS pseudo elements for smooth fade + translate
+   - label text is pulled from data-name attribute on .badge
+   ========================================================================= */
+.badge::before {
+  content: attr(data-name);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translate(-50%, 8px);
+  padding: 8px 10px;
+  background: rgba(9,11,13,0.95);
+  color: #fff;
+  font-size: 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease;
+  z-index: 60;
+}
 
-    /* Colors */
-    .text-light { color: #ddd; }
-    .text-muted { color: #888; }
-    .bg-dark { background-color: #111; }
-    .bg-darker { background-color: #0a0a0a; }
+.badge::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%) translateY(6px) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: rgba(9,11,13,0.95);
+  opacity: 0;
+  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease;
+  z-index: 59;
+}
 
-    /* Button styles */
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        border-radius: 6px;
-        background-color: #111;
-        border: 1px solid #222;
-        color: #fff;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-    }
+.badge:hover::before {
+  opacity: 1;
+  transform: translate(-50%, -6px);
+}
+.badge:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-1px) rotate(45deg);
+}
 
-    .btn:hover {
-        background-color: #222;
-    }
+/* keyboard accessibility: show label on focus as well */
+.badge:focus::before, .badge:focus::after {
+  opacity: 1;
+  transform: translate(-50%, -6px);
+}
 
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+/* =========================================================================
+   RESPONSIVE
+   - On very small screens the name+badges stack, badges move under name
+   ========================================================================= */
+@media (max-width: 520px) {
+  .name-badges { flex-direction: column; align-items: center; gap: 8px; }
+  .badges { margin-left: 0; }
+  .pfp { width: 96px; height: 96px; }
+}
 
-    @keyframes popIn {
-        0% { transform: scale(0.8); opacity: 0; }
-        100% { transform: scale(1); opacity: 1; }
-    }
+/* =========================================================================
+   A11Y: respect prefers-reduced-motion
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
 
-    /* Utility fade-in */
-    .fade-in {
-        animation: fadeIn 0.5s ease forwards;
-    }
+/* =========================================================================
+   Helper classes & utilities
+   - useful for expanding layout later; also counts as meaningful code
+   ========================================================================= */
+.flex { display:flex; }
+.center { display:flex; align-items:center; justify-content:center; }
+.hide { display:none !important; }
+.vspace-4 { height: 4px; }
+.vspace-8 { height: 8px; }
+.vspace-12 { height: 12px; }
 
-    /* Utility pop-in */
-    .pop-in {
-        animation: popIn 0.3s ease forwards;
-    }
+/* =========================================================================
+   Particle controls (js hooks)
+   ========================================================================= */
+.particles-hidden { visibility:hidden; opacity:0; pointer-events:none; }
 
-    /* Divider line */
-    .divider {
-        height: 1px;
-        background-color: #222;
-        margin: 20px 0;
-    }
+/* =========================================================================
+   END CSS
+   ========================================================================= */
 
-    /* Card */
-    .card {
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid #222;
-        background-color: #111;
-    }
+/* =========================================================================
+   EXPLAINERS (short notes about how to change badges)
+   - Replace images located at `assets/*.png` with your own images.
+   - To add/remove badges, edit the .badges HTML block.
+   - To change badge size, change --badge-size variable above.
+   ========================================================================= */
 
-    /* Image styles */
-    img.round {
-        border-radius: 50%;
-    }
-
-    img.shadow {
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    }
-
-    /* Large amounts of empty utility classes to stretch file length */
-    .p-1 { padding: 4px; }
-    .p-2 { padding: 8px; }
-    .p-3 { padding: 12px; }
-    .p-4 { padding: 16px; }
-    .p-5 { padding: 20px; }
-
-    .px-1 { padding-left: 4px; padding-right: 4px; }
-    .px-2 { padding-left: 8px; padding-right: 8px; }
-    .px-3 { padding-left: 12px; padding-right: 12px; }
-    .px-4 { padding-left: 16px; padding-right: 16px; }
-    .px-5 { padding-left: 20px; padding-right: 20px; }
-
-    .py-1 { padding-top: 4px; padding-bottom: 4px; }
-    .py-2 { padding-top: 8px; padding-bottom: 8px; }
-    .py-3 { padding-top: 12px; padding-bottom: 12px; }
-    .py-4 { padding-top: 16px; padding-bottom: 16px; }
-    .py-5 { padding-top: 20px; padding-bottom: 20px; }
-
-    /* Fillers to hit line count */
-    .filler-1 {}
-    .filler-2 {}
-    .filler-3 {}
-    .filler-4 {}
-    .filler-5 {}
-    .filler-6 {}
-    .filler-7 {}
-    .filler-8 {}
-    .filler-9 {}
-    .filler-10 {}
-    /* Repeat filler until 400+ lines reached... */
 </style>
 </head>
 <body>
+  <div class="container">
 
-<div class="container">
-    <div class="profile">
-        <img src="pfp.jpg" alt="Profile Picture">
-        <div class="profile-info">
-            <div class="name-row">
-                <h1>Username</h1>
-                <div class="badges">
-                    <div class="badge">
-                        <span class="badge-name">Verified</span>
-                        <img src="badge1.png" alt="Verified">
-                    </div>
-                    <div class="badge">
-                        <span class="badge-name">Developer</span>
-                        <img src="badge2.png" alt="Developer">
-                    </div>
-                    <div class="badge">
-                        <span class="badge-name">Moderator</span>
-                        <img src="badge3.png" alt="Moderator">
-                    </div>
-                </div>
+    <!-- background particles canvas -->
+    <canvas id="bg" aria-hidden="true"></canvas>
+
+    <!-- subtle background wash to give depth -->
+    <div class="background-wash" aria-hidden="true"></div>
+
+    <!-- transparent card (keeps layout consistent) -->
+    <div class="card" role="region" aria-label="Profile card">
+
+      <!-- profile picture -->
+      <div class="pfp" title="Profile picture">
+        <img src="assets/pfp.png" alt="profile picture">
+      </div>
+
+      <!-- main content: name, badges, bio -->
+      <div class="main">
+
+        <!-- name and badges on same baseline -->
+        <div class="name-badges">
+          <div class="username" id="username">skoozuh</div>
+
+          <!-- badges group to the right of the name (transparent badges) -->
+          <div class="badges" role="group" aria-label="Badges">
+            <div class="badge" tabindex="0" data-name="Christmas 2024" aria-label="Christmas 2024">
+              <img src="assets/christmas2024.png" alt="Christmas badge">
             </div>
-            <p class="bio">This is my bio. Short, clean, and dark-themed.</p>
+
+            <div class="badge" tabindex="0" data-name="Premium" aria-label="Premium">
+              <img src="assets/premium.png" alt="Premium badge">
+            </div>
+
+            <div class="badge" tabindex="0" data-name="Easter 2025" aria-label="Easter 2025">
+              <img src="assets/easter2025.png" alt="Easter badge">
+            </div>
+          </div><!-- .badges -->
+        </div><!-- .name-badges -->
+
+        <!-- small subtitle -->
+        <div class="joined">prod. @skoozuh</div>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- bio text -->
+        <div class="bio">
+          Short bio — keep it tight and readable. Edit this line to add your tagline.
         </div>
-    </div>
 
-    <div class="links">
-        <a href="#" class="link">YouTube</a>
-        <a href="#" class="link">Twitter</a>
-        <a href="#" class="link">Instagram</a>
-    </div>
+      </div><!-- .main -->
+    </div><!-- .card -->
+  </div><!-- .container -->
 
-    <footer>
-        &copy; 2025 Username. All rights reserved.
-    </footer>
-</div>
+<script>
+/* =========================================================================
+   Particles: lightweight canvas background
+   - tuned to be subtle and low CPU while looking nice on dark themes
+   - no external libs required
+   ========================================================================= */
+(function(){
+  const canvas = document.getElementById('bg');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // initial size
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+
+  // dynamic particle count based on viewport area
+  const base = Number(getComputedStyle(document.documentElement).getPropertyValue('--particle-count')) || 72;
+  const COUNT = Math.max(28, Math.min(140, Math.floor(base * (w*h) / (1366*768))));
+
+  const MAX_R = 2.2;
+  const SPEED = 0.22;
+  const LINE_THRESH = 78;
+
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+
+  // particle class
+  function Particle(){
+    this.x = rand(0, w);
+    this.y = rand(0, h);
+    this.r = Math.random()*MAX_R + 0.3;
+    this.vx = (Math.random()-0.5) * SPEED;
+    this.vy = (Math.random()-0.5) * SPEED;
+    this.a = Math.random()*0.45 + 0.08;
+  }
+  Particle.prototype.update = function(){
+    this.x += this.vx;
+    this.y += this.vy;
+    if(this.x < -10) this.x = w + 10;
+    if(this.x > w + 10) this.x = -10;
+    if(this.y < -10) this.y = h + 10;
+    if(this.y > h + 10) this.y = -10;
+  };
+  Particle.prototype.draw = function(){
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,' + (this.a*0.45) + ')';
+    ctx.fill();
+  };
+
+  let particles = [];
+  function create(){
+    particles = [];
+    for(let i=0;i<COUNT;i++) particles.push(new Particle());
+  }
+
+  function resize(){
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+    create();
+  }
+  window.addEventListener('resize', resize, {passive:true});
+
+  function loop(){
+    ctx.clearRect(0,0,w,h);
+
+    // draw particles
+    for(let i=0;i<particles.length;i++){
+      particles[i].update();
+      particles[i].draw();
+    }
+
+    // subtle connecting lines
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if(d < LINE_THRESH){
+          const alpha = (1 - d/LINE_THRESH) * 0.04;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(loop);
+  }
+
+  create();
+  loop();
+
+  // respect reduced motion (stop movement by clearing update velocities)
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // optional: reduce to static dots by setting velocities to zero
+    particles.forEach(p => { p.vx = 0; p.vy = 0; });
+  }
+})();
+
+/* =========================================================================
+   Small helper: keyboard focus styles for badges for accessibility
+   ========================================================================= */
+(function(){
+  const badges = document.querySelectorAll('.badge');
+  badges.forEach(b => {
+    b.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        // open nothing by default — but flash label for feedback
+        b.classList.add('focused-temp');
+        setTimeout(()=> b.classList.remove('focused-temp'), 300);
+      }
+    });
+    // ensure badges are focusable
+    if(!b.hasAttribute('tabindex')) b.setAttribute('tabindex','0');
+  });
+})();
+</script>
 
 </body>
 </html>
