@@ -191,7 +191,7 @@ canvas#bg {
   display:flex;
   align-items:center;
   gap: var(--badge-gap);
-  margin-left: 6px; /* small separation from name */
+  margin-left: 4px; /* small separation from name */
 }
 
 /* each badge element */
@@ -238,7 +238,7 @@ canvas#bg {
 .badge::before {
   content: attr(data-name);
   position: absolute;
-  left: 50%;
+  left: 25%;
   bottom: calc(100% + 8px);
   transform: translate(-50%, 8px);
   padding: 8px 10px;
@@ -257,7 +257,7 @@ canvas#bg {
 .badge::after {
   content: "";
   position: absolute;
-  left: 50%;
+  left: 25%;
   bottom: calc(100% + 4px);
   transform: translateX(-50%) translateY(6px) rotate(45deg);
   width: 10px;
