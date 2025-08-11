@@ -3,269 +3,741 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>sk</title>
+  <title>sk — music card</title>
+
+  <!-- Google font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
+    /*
+      ============================
+      Theme variables
+      ============================
+      Keep these near the top so you can quickly tweak
+      the whole look (glass, accent, muted colors, radius).
+    */
     :root{
       --glass-bg: rgba(255,255,255,0.04);
       --glass-border: rgba(255,255,255,0.06);
-      --accent: rgba(255,255,255,0.9);
-      --muted: rgba(255,255,255,0.55);
+      --accent: rgba(255,255,255,0.95);
+      --muted: rgba(255,255,255,0.45);
       --shadow: 0 10px 30px rgba(7,9,15,0.7);
       --radius: 18px;
-      --progress-gradient: linear-gradient(90deg, #f2b792, #2b4968);
+
+      /* Progress gradient tuned to match your background:
+         soft warm gold -> deep blue */
+      --progress-left: #f2b792;
+      --progress-right: #2b4968;
+
+      /* subtle shimmer highlight color (low opacity) */
+      --shimmer-highlight: rgba(255,255,255,0.14);
+
+      /* transition speeds */
+      --fast: 0.15s;
+      --med: 0.25s;
+      --slow: 0.6s;
     }
-    html,body{
-      height:100%;
-      margin:0;
+
+    /*
+      ============================
+      Base / page layout
+      ============================
+    */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background:
+        url('assets/background.png') center/cover no-repeat,
+        linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
+      background-blend-mode: overlay;
       font-family: "Poppins", sans-serif;
-      background: url('assets/background.png') center/cover no-repeat,
-                  linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
-      background-blend-mode:overlay;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 32px; /* breathing room on smaller screens */
     }
-    /* Top Left Controls */
+
+    /*
+      ============================
+      Top-left volume control
+      ============================
+    */
     .top-controls{
-      position:fixed;
-      top:15px;
-      left:15px;
-      display:flex;
-      align-items:center;
-      gap:8px;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       background: var(--glass-bg);
-      border:1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding:8px 12px;
+      border: 1px solid var(--glass-border);
+      border-radius: calc(var(--radius) - 6px);
+      padding: 10px 12px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px) saturate(120%);
-      z-index:100;
+      z-index: 120;
+      min-width: 120px;
     }
-    .volume-icon{
-      width:18px;
-      height:18px;
-      fill:var(--accent);
+
+    /* simple svg icon sizing */
+    .volume-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      display: block;
+      fill: var(--accent);
     }
+
+    /* slider appearance */
     .volume-slider{
-      -webkit-appearance:none;
-      height:4px;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
       background: var(--muted);
-      border-radius:5px;
-      outline:none;
-      width:100px;
+      border-radius: 6px;
+      outline: none;
+      width: 120px;
     }
+
     .volume-slider::-webkit-slider-thumb{
-      -webkit-appearance:none;
-      width:14px;
-      height:14px;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
       background: var(--accent);
-      border-radius:50%;
-      cursor:pointer;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
-    /* Profile Card */
-    .card{
-      width:760px;
+
+    .volume-slider::-moz-range-thumb{
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    /*
+      ============================
+      The profile card
+      ============================
+      Contains the avatar, name, small meta and badges.
+    */
+    .card {
+      width: 760px;
+      max-width: calc(100% - 48px);
       background: var(--glass-bg);
       border-radius: var(--radius);
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px) saturate(120%);
       padding: 32px;
-      display:flex;
-      gap:26px;
+      display: flex;
+      gap: 26px;
+      align-items: flex-start;
     }
-    .pfp{
-      width:68px;
-      height:68px;
-      border-radius:50%;
-      overflow:hidden;
+
+    /* avatar */
+    .pfp {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      overflow: hidden;
       box-shadow: 0 6px 18px rgba(0,0,0,0.4);
       border: 3px solid rgba(255,255,255,0.02);
-      flex-shrink:0;
+      flex-shrink: 0;
     }
-    .pfp img{ width:100%; height:100%; object-fit:cover; }
-    .main{ flex:1; display:flex; flex-direction:column; }
-    .user-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+
+    .pfp img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .username{ font-weight:700; font-size:18px; color:var(--accent); }
-    .joined{ font-size:13px; color:var(--muted); }
-    /* Badges - tighter spacing */
+
+    /* main column next to avatar */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* the row that contains name on the left and badges on the right */
+    .user-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .username {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent);
+      letter-spacing: 0.2px;
+    }
+
+    .joined {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /*
+      ============================
+      BADGES
+      - pill container already exists
+      - badges are tighter and larger so they fill it
+      - we removed individual badge backgrounds (you requested that)
+      ============================
+    */
     .badges{
-      display:flex;
-      gap:4px;
-      align-items:center;
-      padding:4px 8px;
-      border-radius:999px;
+      display: flex;
+      gap: 4px;            /* tighter spacing so icons sit close */
+      align-items: center;
+      padding: 6px 10px;   /* pill padding */
+      border-radius: 999px;
       background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
       border: 1px solid rgba(255,255,255,0.04);
+      min-height: 38px;    /* ensures good vertical fit with larger badges */
     }
+
     .badge{
-      width:32px;
-      height:32px;
-      display:grid;
-      place-items:center;
-      position:relative;
+      width: 36px;         /* slightly bigger to fill the pill */
+      height: 36px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: default;
+      flex-shrink: 0;
     }
-    .badge img{ width:22px; height:22px; }
-    /* Tooltip fade + slide */
+
+    .badge img{
+      width: 26px;         /* scaled proportionally */
+      height: 26px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /*
+      Tooltip styling:
+      - starts slightly lower + transparent
+      - on hover fades + slides up (smooth)
+      - pointer-events none so it never blocks quick hovers
+    */
     .badge[data-tooltip]::after{
       content: attr(data-tooltip);
       position: absolute;
       bottom: calc(100% + 8px);
       left: 50%;
-      transform: translateX(-50%) translateY(4px);
-      white-space:nowrap;
-      background: rgba(6,8,13,0.9);
-      color:#fff;
-      font-size:12px;
-      padding:6px 8px;
-      border-radius:8px;
+      transform: translateX(-50%) translateY(6px);
+      white-space: nowrap;
+      background: rgba(6,8,13,0.92);
+      color: #fff;
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 8px;
       box-shadow: 0 8px 24px rgba(2,4,10,0.6);
-      opacity:0;
-      visibility:hidden;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      pointer-events:none;
+      z-index: 60;
+
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--med) ease, transform var(--med) ease, visibility var(--med);
+      pointer-events: none;
     }
+
     .badge[data-tooltip]:hover::after{
-      opacity:1;
-      visibility:visible;
+      opacity: 1;
+      visibility: visible;
       transform: translateX(-50%) translateY(0);
     }
-    .divider{ margin-top:14px; border-top:1px solid rgba(255,255,255,0.03); }
-    /* Music Player */
-    .music-player{
-      margin-top:20px;
-      width:760px;
+
+    /* divider line inside the card under the main header */
+    .divider {
+      margin-top: 12px;
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.03);
+    }
+
+    /*
+      ============================
+      MUSIC PLAYER
+      - sits under the profile card
+      - glass look + consistent padding
+    */
+    .music-player {
+      margin-top: 20px;
+      width: 760px;
+      max-width: calc(100% - 48px);
       background: var(--glass-bg);
-      border:1px solid var(--glass-border);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px) saturate(120%);
-      display:flex;
-      align-items:center;
-      padding:16px;
-      gap:18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
+
     .song-cover{
-      width:60px; height:60px;
-      border-radius:10px;
-      overflow:hidden;
-      flex-shrink:0;
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
-    .song-cover img{ width:100%; height:100%; object-fit:cover; }
-    .song-info{ flex:1; display:flex; flex-direction:column; color:var(--accent); }
-    .song-title{ font-weight:600; font-size:15px; }
-    .song-artist{ font-size:12px; color:var(--muted); }
-    /* Gradient Progress Bar */
-    .song-progress{ width:100%; margin-top:6px; position:relative; height:4px; background:var(--muted); border-radius:5px; overflow:hidden; }
-    .progress-fill{ position:absolute; top:0; left:0; height:100%; width:0%; background:var(--progress-gradient); transition:width 0.2s linear; }
-    .time-display{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:4px; }
-    .song-controls{ display:flex; align-items:center; gap:10px; }
-    .song-controls button{
-      background:none; border:none; cursor:pointer;
-      padding:6px; display:flex; align-items:center; justify-content:center;
+
+    .song-cover img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .song-controls button svg{ width:24px; height:24px; fill:var(--accent); }
+
+    .song-info{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--accent);
+    }
+
+    .song-title{
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .song-artist{
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /*
+      PROGRESS BAR
+      - we use a container (.song-progress) as the background track
+      - inside it, .progress-fill grows width from 0% to 100%
+      - an additional very subtle shimmer overlay animates while playing
+      - we also provide a "click to seek" handler in JS (below)
+    */
+    .song-progress {
+      width: 100%;
+      position: relative;
+      height: 8px;                /* slightly thicker for visual weight */
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    /* gradient fill that visually matches page theme */
+    .progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--progress-left) 0%, var(--progress-right) 100%);
+      transition: width 0.18s linear;
+    }
+
+    /* shimmer overlay — subtle highlight that moves across the fill when active */
+    .progress-fill.shimmer::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      left: -40%;
+      width: 120%;
+      height: 140%;
+      background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0) 0%,
+        var(--shimmer-highlight) 45%,
+        rgba(255,255,255,0) 65%
+      );
+      transform: translateX(0);
+      opacity: 0.8;
+      animation: shimmerMove 3.2s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shimmerMove {
+      0%   { transform: translateX(-30%);  opacity: 0.0; }
+      30%  { transform: translateX(-10%);  opacity: 0.45; }
+      60%  { transform: translateX(20%);   opacity: 0.25; }
+      100% { transform: translateX(60%);   opacity: 0.0; }
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .song-controls{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .song-controls button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: background var(--fast) ease;
+    }
+
+    .song-controls button:hover {
+      background: rgba(255,255,255,0.02);
+    }
+
+    .song-controls svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--accent);
+      display: block;
+    }
+
+    /*
+      ============================
+      Responsive & small polish
+      ============================
+    */
+    @media (max-width: 840px) {
+      .card, .music-player {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .badges {
+        padding: 4px 8px;
+        gap: 6px;
+      }
+
+      .volume-slider { width: 90px; }
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 20px;
+        gap: 16px;
+      }
+      .user-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    /* small utility to make the progress easier to click on mobile */
+    .song-progress { touch-action: manipulation; }
+
   </style>
 </head>
 <body>
 
-  <!-- Top Left Controls -->
-  <div class="top-controls">
-    <svg class="volume-icon" viewBox="0 0 24 24">
+  <!--
+    ============================
+    TOP LEFT: volume control
+    - svg icon + slider
+    - accessible label via aria-hidden / title where appropriate
+    ============================
+  -->
+  <div class="top-controls" aria-hidden="false" role="region" aria-label="Volume control">
+    <svg class="volume-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" title="Volume">
       <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.74 2.5-2.26 2.5-4.02z"/>
     </svg>
-    <input type="range" class="volume-slider" id="volumeControl" min="0" max="1" step="0.01" value="0.8">
+
+    <input
+      id="volumeControl"
+      class="volume-slider"
+      type="range"
+      min="0"
+      max="1"
+      step="0.01"
+      value="0.8"
+      aria-label="Volume"
+    />
   </div>
 
-  <!-- Profile Card -->
-  <div class="card">
-    <div class="pfp"><img src="assets/pfp.png" alt="profile picture"></div>
+  <!--
+    ============================
+    PROFILE CARD
+    - avatar, name, joined text and badges
+    ============================
+  -->
+  <div class="card" role="region" aria-label="Profile card">
+    <div class="pfp" aria-hidden="true">
+      <img src="assets/pfp.png" alt="Profile picture">
+    </div>
+
     <div class="main">
+      <!-- user row: left = name, right = badges -->
       <div class="user-row">
         <div>
           <div class="username">skoozuh</div>
           <div class="joined">prod. @skoozuh</div>
         </div>
-        <div class="badges">
-          <div class="badge" data-tooltip="Christmas 2024"><img src="assets/christmas2024.png" alt="Christmas 2024"></div>
-          <div class="badge" data-tooltip="Premium"><img src="assets/premium.png" alt="Premium"></div>
-          <div class="badge" data-tooltip="Easter 2025"><img src="assets/easter2025.png" alt="Easter 2025"></div>
+
+        <div class="badges" role="list" aria-label="Badges">
+          <div class="badge" data-tooltip="Christmas 2024" role="listitem" aria-label="Christmas 2024 badge">
+            <img src="assets/christmas2024.png" alt="Christmas 2024 badge">
+          </div>
+
+          <div class="badge" data-tooltip="Premium" role="listitem" aria-label="Premium badge">
+            <img src="assets/premium.png" alt="Premium badge">
+          </div>
+
+          <div class="badge" data-tooltip="Easter 2025" role="listitem" aria-label="Easter 2025 badge">
+            <img src="assets/easter2025.png" alt="Easter 2025 badge">
+          </div>
         </div>
       </div>
-      <div class="divider"></div>
+
+      <!-- divider -->
+      <div class="divider" aria-hidden="true"></div>
     </div>
   </div>
 
-  <!-- Music Player -->
-  <div class="music-player">
-    <div class="song-cover"><img src="assets/songcover.png" alt="Song Cover"></div>
+  <!--
+    ============================
+    MUSIC PLAYER
+    - cover, info, progress (gradient + shimmer), time, controls
+    ============================
+  -->
+  <div class="music-player" role="region" aria-label="Music player">
+    <div class="song-cover" aria-hidden="true">
+      <img src="assets/songcover.png" alt="Song cover">
+    </div>
+
     <div class="song-info">
-      <div class="song-title">My Track</div>
-      <div class="song-artist">skoozuh</div>
-      <div class="song-progress">
-        <div class="progress-fill" id="progressFill"></div>
+      <div class="song-title" id="playerTitle">My Track</div>
+      <div class="song-artist" id="playerArtist">skoozuh</div>
+
+      <!-- progress container -->
+      <div class="song-progress" id="songProgress" title="Click or tap to seek">
+        <div class="progress-fill" id="progressFill" aria-hidden="true"></div>
       </div>
+
+      <!-- time display -->
       <div class="time-display">
-        <span id="currentTime">0:00</span>
-        <span id="totalTime">0:00</span>
+        <div id="currentTime">0:00</div>
+        <div id="totalTime">0:00</div>
       </div>
     </div>
+
+    <!-- controls -->
     <div class="song-controls">
-      <button id="playPauseBtn">
-        <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+      <button id="prevBtn" title="Previous" aria-label="Previous track" disabled>
+        <!-- simple previous icon -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6v12l8.5-6L6 6zm9 0v12h2V6h-2z"/>
+        </svg>
+      </button>
+
+      <button id="playPauseBtn" title="Play / Pause" aria-label="Play or pause">
+        <!-- play icon by default, gets swapped to pause path when playing -->
+        <svg viewBox="0 0 24 24" id="playIcon" aria-hidden="true" focusable="false">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </button>
+
+      <button id="nextBtn" title="Next" aria-label="Next track" disabled>
+        <!-- simple next icon -->
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M16 6v12L7.5 12 16 6zm2 0v12h2V6h-2z"/>
+        </svg>
       </button>
     </div>
   </div>
 
-  <audio id="audioPlayer" src="assets/song.mp3"></audio>
+  <!-- audio element (local) -->
+  <audio id="audioPlayer" src="assets/song.mp3" preload="metadata"></audio>
 
   <script>
+    /* ====================================
+       Grabbing elements we'll interact with
+       ==================================== */
     const audio = document.getElementById('audioPlayer');
+
     const playPauseBtn = document.getElementById('playPauseBtn');
     const playIcon = document.getElementById('playIcon');
+
     const volumeControl = document.getElementById('volumeControl');
+
+    const progressFill = document.getElementById('progressFill');
+    const songProgress = document.getElementById('songProgress');
+
     const currentTimeEl = document.getElementById('currentTime');
     const totalTimeEl = document.getElementById('totalTime');
-    const progressFill = document.getElementById('progressFill');
 
-    function formatTime(seconds){
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? '0' + secs : secs}`;
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    /* small helper: format seconds -> M:SS */
+    function formatTime(seconds) {
+      if (isNaN(seconds) || !isFinite(seconds)) return "0:00";
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${m}:${s < 10 ? '0' + s : s}`;
     }
 
-    function togglePlay(){
-      if(audio.paused){
-        audio.play();
+    /* ================================
+       Play / pause toggle
+       ================================ */
+    function updatePlayIcon(isPlaying) {
+      if (isPlaying) {
+        // pause icon
         playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       } else {
-        audio.pause();
+        // play icon
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      }
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
       }
     }
 
     playPauseBtn.addEventListener('click', togglePlay);
 
-    audio.addEventListener('loadedmetadata', ()=>{
-      totalTimeEl.textContent = formatTime(audio.duration);
+    /* ================================
+       Volume initialization & handler
+       ================================ */
+    // set initial volume according to the slider
+    audio.volume = parseFloat(volumeControl.value) || 0.8;
+
+    volumeControl.addEventListener('input', (e) => {
+      const v = parseFloat(e.target.value);
+      audio.volume = v;
     });
 
-    audio.addEventListener('timeupdate', ()=>{
-      const progressPercent = (audio.currentTime / audio.duration) * 100;
-      progressFill.style.width = progressPercent + '%';
+    /* ================================
+       Update duration and times
+       ================================ */
+    audio.addEventListener('loadedmetadata', () => {
+      totalTimeEl.textContent = formatTime(audio.duration);
       currentTimeEl.textContent = formatTime(audio.currentTime);
     });
 
-    volumeControl.addEventListener('input', ()=>{
-      audio.volume = volumeControl.value;
+    audio.addEventListener('timeupdate', () => {
+      // update fill width (0-100%)
+      if (audio.duration && isFinite(audio.duration) && audio.duration > 0) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + '%';
+      } else {
+        progressFill.style.width = '0%';
+      }
+
+      // update textual time display
+      currentTimeEl.textContent = formatTime(audio.currentTime);
     });
+
+    audio.addEventListener('play', () => {
+      updatePlayIcon(true);
+      // add shimmer effect while playing
+      progressFill.classList.add('shimmer');
+    });
+
+    audio.addEventListener('pause', () => {
+      updatePlayIcon(false);
+      // remove shimmer when paused
+      progressFill.classList.remove('shimmer');
+    });
+
+    audio.addEventListener('ended', () => {
+      updatePlayIcon(false);
+      progressFill.classList.remove('shimmer');
+    });
+
+    /* ================================
+       Click-to-seek on the progress bar
+       - calculates position relative to the bar
+       - sets currentTime accordingly
+       ================================ */
+    function seekFromEvent(e) {
+      // get bounding rect
+      const rect = songProgress.getBoundingClientRect();
+      const clientX = (e.touches && e.touches.length) ? e.touches[0].clientX : e.clientX;
+      const offsetX = clientX - rect.left;
+      let pct = offsetX / rect.width;
+      pct = Math.max(0, Math.min(1, pct)); // clamp
+      if (audio.duration && isFinite(audio.duration)) {
+        audio.currentTime = pct * audio.duration;
+      }
+    }
+
+    // handle mouse clicks
+    songProgress.addEventListener('click', (e) => {
+      seekFromEvent(e);
+    });
+
+    // handle touch (mobile)
+    songProgress.addEventListener('touchstart', (e) => {
+      seekFromEvent(e);
+    });
+
+    /* ================================
+       Keyboard support for spacebar to toggle
+       ================================ */
+    document.addEventListener('keydown', (e) => {
+      const activeTag = document.activeElement && document.activeElement.tagName.toLowerCase();
+      // ignore typing inside inputs
+      if (activeTag === 'input' || activeTag === 'textarea') return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      }
+    });
+
+    /* ================================
+       Small safe-guards: if metadata not loaded
+       update total time when it becomes available
+       ================================ */
+    // In some browsers audio.duration may be NaN until metadata loads,
+    // we already listen for loadedmetadata, but also check oncanplay.
+    audio.addEventListener('canplay', () => {
+      if (!isNaN(audio.duration)) {
+        totalTimeEl.textContent = formatTime(audio.duration);
+      }
+    });
+
+    /* ================================
+       OPTIONAL: preload artwork title/artist if needed
+       (left here so you can easily hook up dynamic data)
+       ================================ */
+    // const playerTitle = document.getElementById('playerTitle');
+    // const playerArtist = document.getElementById('playerArtist');
+    // playerTitle.textContent = 'My Track';
+    // playerArtist.textContent = 'skoozuh';
+
+    /* ================================
+       Ensure initial UI state is correct
+       ================================ */
+    updatePlayIcon(false);
+    progressFill.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+
+    /* ================================
+       End of JS
+       ================================ */
   </script>
 </body>
 </html>
