@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Dark Biolink — Clean Badges + Music Player</title>
+<title>Dark Biolink — Music Player</title>
 
-<!-- Poppins -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600,700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -24,117 +23,96 @@
 
   --badge-radius: 8px;
   --hover-transition: 220ms;
-
-  --particle-count: 72;
 }
 
 /* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%);
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* Page wrapper */
+html,body{height:100%;background: linear-gradient(180deg,var(--bg-1) 0%,var(--bg-2) 100%); color:#fff; font-family:"Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
 .container {
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   padding: var(--page-pad);
-  position:relative;
-}
-
-/* Particles canvas & subtle wash */
-canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; display:block; }
-.background-wash{ position:fixed; inset:0; z-index:-9; pointer-events:none;
-  background:
-    radial-gradient(900px 700px at 12% 20%, rgba(102,224,255,0.03), transparent 12%),
-    radial-gradient(800px 600px at 86% 78%, rgba(167,160,255,0.03), transparent 14%);
 }
 
 /* Card */
-.card{ width:100%; max-width:var(--max-width); display:flex; align-items:flex-start; gap:20px; padding:26px;
-  border-radius:16px; background:transparent; position:relative; z-index:10;
+.card {
+  width: 100%;
+  max-width: var(--max-width);
+  background: transparent;
+  padding: 24px;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
-@media (max-width:860px){ .card{flex-direction:column;align-items:center;padding:20px;gap:14px} }
 
-/* Profile pic */
-.pfp{ width:112px; height:112px; border-radius:999px; overflow:hidden; flex-shrink:0;
-  border: 3px solid rgba(255,255,255,0.06); box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+/* Profile picture */
+.pfp {
+  width: 112px;
+  height: 112px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  display:inline-grid; place-items:center;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
 }
-.pfp img{ width:100%; height:100%; object-fit:cover; display:block; }
+.pfp img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-/* Main column */
-.main{ flex:1; display:flex; flex-direction:column; gap:10px; position:relative; min-width:0; }
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
 
-/* name + badges row */
-.name-badges{ display:flex; align-items:center; gap: var(--name-badge-gap); flex-wrap:wrap; }
-
-.username{
-  font-weight:700; font-size:20px; display:inline-block;
+/* Username */
+.username {
+  font-weight: 700;
+  font-size: 20px;
   background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  transition: text-shadow var(--hover-transition) ease, filter var(--hover-transition) ease;
-  white-space:nowrap;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  cursor: default;
 }
-.username:hover{ text-shadow: 0 10px 30px rgba(102,224,255,0.12); filter: brightness(1.05); }
-
-.joined{ font-size:13px; color:var(--muted); margin-top:4px; }
-.divider{ margin-top:10px; border-top:1px solid rgba(255,255,255,0.03); width:100%; }
-.bio{ color: var(--muted); font-size:14px; line-height:1.4; margin-top:6px; max-width:640px; }
-
-/* Badges: transparent, slightly smaller, closer to name */
-.badges{ display:flex; align-items:center; gap: var(--badge-gap); margin-left:6px; }
-.badge{
-  width:var(--badge-size); height:var(--badge-size); min-width:var(--badge-size); min-height:var(--badge-size);
-  display:inline-grid; place-items:center; border-radius:var(--badge-radius);
-  background: transparent; cursor: default; position:relative; transition: transform var(--hover-transition) ease, opacity var(--hover-transition) ease;
-  overflow:visible; border:none;
+.username:hover {
+  text-shadow: 0 10px 30px rgba(102,224,255,0.12);
+  filter: brightness(1.05);
 }
-.badge:hover{ transform: translateY(-1px); opacity: 0.98; }
-.badge img{ width:76%; height:76%; object-fit:contain; display:block; pointer-events:none; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.45)); }
-.badge:focus{ outline: none; }
 
-/* Hover labels above badges */
-.badge::before{
-  content: attr(data-name);
-  position:absolute; left:50%; bottom: calc(100% + 8px);
-  transform: translate(-50%, 8px); padding:8px 10px; background: rgba(9,11,13,0.95);
-  color:#fff; font-size:12px; border-radius:8px; white-space:nowrap; opacity:0; pointer-events:none;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease; z-index:60;
+/* Joined */
+.joined {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
 }
-.badge::after{
-  content:""; position:absolute; left:50%; bottom: calc(100% + 4px); transform: translateX(-50%) translateY(6px) rotate(45deg);
-  width:10px; height:10px; background: rgba(9,11,13,0.95); opacity:0; transition: opacity var(--hover-transition) ease, transform var(--hover-transition) ease; z-index:59;
+
+/* Bio */
+.bio {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 640px;
+  line-height: 1.4;
 }
-.badge:hover::before{ opacity:1; transform: translate(-50%, -6px); }
-.badge:hover::after{ opacity:1; transform: translateX(-50%) translateY(-1px) rotate(45deg); }
-.badge:focus::before, .badge:focus::after{ opacity:1; transform: translate(-50%, -6px); }
 
-/* Responsive: stack name & badges on tiny screens */
-@media (max-width:520px){ .name-badges{ flex-direction: column; align-items:center; gap:8px } .badges{ margin-left:0 } .pfp{ width:96px; height:96px } }
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce){ *{ transition:none!important; animation:none!important; } }
-
-/* ===========================
-   MUSIC PLAYER (styles)
-   - matches page style, sits directly under the bio
-   =========================== */
+/* Music Player */
 .player {
   margin-top: 14px;
-  width: 100%;
   max-width: 760px;
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -143,353 +121,371 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
   border: 1px solid rgba(255,255,255,0.03);
   box-shadow: 0 6px 22px rgba(3,6,10,0.6);
+  user-select: none;
 }
 
-/* cover artwork */
+/* Cover art */
 .player .cover {
   width: 72px;
   height: 72px;
-  flex-shrink: 0;
   border-radius: 8px;
   overflow: hidden;
   background: #111;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
 }
-.player .cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+.player .cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-/* meta: title + artist combined */
+/* Meta info */
 .player .meta {
-  display:flex;
-  flex-direction:column;
-  gap:4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-width: 0;
+  flex-grow: 1;
+  overflow: hidden;
 }
 .player .title {
-  font-weight:700;
-  font-size:14px;
+  font-weight: 700;
+  font-size: 14px;
   color: #fff;
   white-space: normal;
   overflow-wrap: break-word;
+  user-select: text;
 }
 
-/* controls column */
+/* Controls container */
 .player .controls {
-  margin-left: auto;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   align-items: flex-end;
   min-width: 220px;
   width: 100%;
 }
 
-/* top row: play button and times */
+/* Top row: play button and times */
 .controls-top {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  width:100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
-/* play/pause button */
+/* Play button */
 .play-btn {
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border: 1px solid rgba(255,255,255,0.04);
-  cursor:pointer;
+  cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease;
+  color: white;
+  user-select: none;
 }
-.play-btn:active { transform: scale(0.98); }
+.play-btn:active {
+  transform: scale(0.98);
+}
 .play-btn svg {
   width: 18px;
   height: 18px;
-  fill: #fff;
-  filter: none;
+  fill: currentColor;
 }
 
-/* times */
+/* Time text */
 .time {
-  font-size:12px;
-  color:var(--muted);
-  min-width:36px;
-  text-align:right;
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 36px;
+  text-align: right;
+  user-select: none;
 }
 
-/* progress bar: glowing accent */
+/* Progress bar wrapper */
 .progress-wrap {
-  width:100%;
-  height:10px;
-  border-radius:999px;
+  position: relative;
+  flex-grow: 1;
+  height: 10px;
+  border-radius: 9999px;
   background: rgba(255,255,255,0.03);
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
+  cursor: pointer;
+  overflow: visible;
+  display: flex;
+  align-items: center;
 }
+
+/* Progress bar */
 .progress {
-  height:100%;
-  width:0%;
+  height: 100%;
+  width: 0%;
   background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
   box-shadow: 0 6px 20px rgba(102,224,255,0.08);
+  border-radius: 9999px;
+  position: relative;
   transition: width 120ms linear;
-  border-radius:999px;
-  position:relative;
-  overflow:visible;
+  user-select: none;
 }
-/* progress glow (subtle) */
+
+/* Glow effect on progress */
 .progress::after {
   content: '';
-  position:absolute;
+  position: absolute;
   right: -20px;
   top: -6px;
-  width:40px;
-  height:22px;
+  width: 40px;
+  height: 22px;
   background: radial-gradient(circle at 30% 30%, rgba(102,224,255,0.25), transparent 40%);
   filter: blur(8px);
   opacity: 0.9;
-  pointer-events:none;
+  pointer-events: none;
 }
 
-/* draggable knob */
+/* Knob handle */
 .knob {
-  position:absolute;
-  right:0;
-  top:50%;
-  transform: translate(50%,-50%);
-  width:12px;
-  height:12px;
-  border-radius:50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
   background: #fff;
   box-shadow: 0 4px 10px rgba(102,224,255,0.14);
-  pointer-events:none; /* we'll handle dragging via JS on progress bar */
-  opacity:0.9;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* small screens: compact player */
+/* Responsive */
 @media(max-width:520px){
-  .player{ padding:10px; gap:10px; flex-direction:column; align-items:stretch; }
-  .player .controls { align-items:stretch; min-width:0; width:100%; }
-  .controls-top{ justify-content:space-between; }
-  .play-btn{ width:40px; height:40px; }
-  .player .cover{ width:64px; height:64px; }
+  .player {
+    padding: 10px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .player .controls {
+    align-items: stretch;
+    min-width: 0;
+    width: 100%;
+  }
+  .controls-top {
+    justify-content: space-between;
+  }
+  .play-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .player .cover {
+    width: 64px;
+    height: 64px;
+  }
 }
 
-/* helper: visually-hidden for accessible labels */
-.sr-only{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-
-/* final note: change --badge-size for micro adjustments */
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
 </style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container" role="main">
 
-    <!-- particles and wash -->
-    <canvas id="bg" aria-hidden="true"></canvas>
-    <div class="background-wash" aria-hidden="true"></div>
+  <div class="card" aria-label="Profile card">
 
-    <div class="card" role="region" aria-label="Profile card">
+    <div class="pfp" title="Profile picture">
+      <img src="assets/pfp.png" alt="Profile picture">
+    </div>
 
-      <!-- profile picture -->
-      <div class="pfp" title="Profile picture">
-        <img src="assets/pfp.png" alt="profile picture">
-      </div>
+    <div class="main">
+      <div class="username" id="username">skoozuh</div>
+      <div class="joined">prod. @skoozuh</div>
+      <div class="bio">Short bio — keep it tight and readable. Edit this line to add your tagline.</div>
 
-      <!-- main content -->
-      <div class="main">
-
-        <!-- name + badges -->
-        <div class="name-badges">
-          <div class="username" id="username">skoozuh</div>
-
-          <div class="badges" role="group" aria-label="Badges">
-            <div class="badge" tabindex="0" data-name="Christmas 2024" aria-label="Christmas 2024">
-              <img src="assets/christmas2024.png" alt="">
-            </div>
-
-            <div class="badge" tabindex="0" data-name="Premium" aria-label="Premium">
-              <img src="assets/premium.png" alt="">
-            </div>
-
-            <div class="badge" tabindex="0" data-name="Easter 2025" aria-label="Easter 2025">
-              <img src="assets/easter2025.png" alt="">
-            </div>
-          </div>
+      <!-- Music Player -->
+      <div class="player" aria-label="Music player">
+        <div class="cover" aria-hidden="true">
+          <img src="assets/songcover.png" alt="Chain Swangin cover">
         </div>
 
-        <!-- small subtitle -->
-        <div class="joined">prod. @skoozuh</div>
-
-        <div class="divider" aria-hidden="true"></div>
-
-        <!-- bio -->
-        <div class="bio">
-          Short bio — keep it tight and readable. Edit this line to add your tagline.
+        <div class="meta">
+          <div class="title" id="songTitle">Chain Swangin - Molly Santana</div>
         </div>
 
-        <!-- ===== MUSIC PLAYER (placed directly under bio) ===== -->
-        <div class="player" id="musicPlayer" aria-label="Music player">
-          <!-- cover -->
-          <div class="cover" aria-hidden="true">
-            <img src="assets/songcover.png" alt="Chain Swangin cover">
-          </div>
+        <div class="controls">
+          <div class="controls-top">
+            <button class="play-btn" id="playBtn" aria-label="Play">
+              <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 3v18l15-9L5 3z" />
+              </svg>
+              <svg id="pauseIcon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none">
+                <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+              </svg>
+            </button>
 
-          <!-- meta -->
-          <div class="meta">
-            <div class="title" style="white-space: normal;">Chain Swangin - Molly Santana</div>
-          </div>
-
-          <!-- controls -->
-          <div class="controls" aria-hidden="false">
-            <div class="controls-top">
-              <button class="play-btn" id="playBtn" aria-label="Play">
-                <!-- play icon (switches to pause) -->
-                <svg id="playIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M5 3v18l15-9L5 3z" fill="currentColor"/>
-                </svg>
-                <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
-                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/>
-                </svg>
-              </button>
-
-              <div style="display:flex; align-items:center; gap:8px; width:100%;">
-                <div class="time" id="currentTime">0:00</div>
-                <div class="progress-wrap" id="progressWrap" aria-label="Progress" tabindex="0">
-                  <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div class="knob" id="knob" aria-hidden="true"></div>
-                  </div>
+            <div style="display:flex; align-items:center; gap:8px; width: 100%;">
+              <div class="time" id="currentTime">0:00</div>
+              <div class="progress-wrap" id="progressWrap" tabindex="0" aria-label="Seek slider" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0 seconds">
+                <div class="progress" id="progressBar">
+                  <div class="knob" id="knob"></div>
                 </div>
-                <div class="time" id="duration">0:00</div>
               </div>
+              <div class="time" id="duration">0:00</div>
             </div>
           </div>
         </div>
-        <!-- ===== end music player ===== -->
+      </div>
+      <!-- End player -->
+    </div>
 
-      </div> <!-- .main -->
-    </div> <!-- .card -->
-  </div> <!-- .container -->
+  </div>
+</div>
+
+<audio id="audio" src="assets/song.mp3"></audio>
 
 <script>
-/* ==========================
-   Particles background (lightweight)
-   ========================== */
-(function(){
-  const canvas = document.getElementById('bg');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let w = canvas.width = innerWidth;
-  let h = canvas.height = innerHeight;
-  const base = Number(getComputedStyle(document.documentElement).getPropertyValue('--particle-count')) || 72;
-  const COUNT = Math.max(28, Math.min(140, Math.floor(base * (w*h) / (1366*768))));
-  const MAX_R = 2.2;
-  const SPEED = 0.22;
-  const LINE_THRESH = 78;
-
-  function rand(a,b){ return Math.random()*(b-a)+a; }
-  function Particle(){ this.x=rand(0,w); this.y=rand(0,h); this.r=Math.random()*MAX_R+0.3; this.vx=(Math.random()-0.5)*SPEED; this.vy=(Math.random()-0.5)*SPEED; this.a=Math.random()*0.45+0.08; }
-  Particle.prototype.update=function(){ this.x+=this.vx; this.y+=this.vy; if(this.x<-10)this.x=w+10; if(this.x>w+10)this.x=-10; if(this.y<-10)this.y=h+10; if(this.y>h+10)this.y=-10; };
-  Particle.prototype.draw=function(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,'+(this.a*0.45)+')'; ctx.fill(); };
-
-  let particles=[];
-  function create(){ particles=[]; for(let i=0;i<COUNT;i++) particles.push(new Particle()); }
-  function resize(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; create(); }
-  window.addEventListener('resize', resize, {passive:true});
-
-  function loop(){
-    ctx.clearRect(0,0,w,h);
-    for(let i=0;i<particles.length;i++){ particles[i].update(); particles[i].draw(); }
-    // draw lines between close particles
-    for(let i=0;i<particles.length;i++){
-      for(let j=i+1;j<particles.length;j++){
-        let p1=particles[i], p2=particles[j];
-        let dx=p1.x-p2.x, dy=p1.y-p2.y;
-        let dist=dx*dx+dy*dy;
-        if(dist<LINE_THRESH*LINE_THRESH){
-          let alpha=1 - dist/(LINE_THRESH*LINE_THRESH);
-          ctx.strokeStyle='rgba(102,224,255,'+alpha*0.13+')';
-          ctx.lineWidth=1;
-          ctx.beginPath();
-          ctx.moveTo(p1.x,p1.y);
-          ctx.lineTo(p2.x,p2.y);
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(loop);
-  }
-
-  create();
-  loop();
-})();
-
-/* ==========================
-   Music player controls (demo)
-   ========================== */
 (() => {
+  const audio = document.getElementById('audio');
   const playBtn = document.getElementById('playBtn');
   const playIcon = document.getElementById('playIcon');
   const pauseIcon = document.getElementById('pauseIcon');
   const progressBar = document.getElementById('progressBar');
+  const progressWrap = document.getElementById('progressWrap');
   const knob = document.getElementById('knob');
   const currentTimeElem = document.getElementById('currentTime');
   const durationElem = document.getElementById('duration');
-  const progressWrap = document.getElementById('progressWrap');
 
-  let isPlaying = false;
-  let duration = 220; // seconds demo length
-  let currentTime = 0;
-  let intervalId = null;
+  let isDragging = false;
 
   function formatTime(seconds) {
-    const m = Math.floor(seconds/60);
-    const s = Math.floor(seconds%60);
-    return m + ':' + (s < 10 ? '0'+s : s);
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' + s : s);
   }
 
-  function updateProgress(){
-    currentTime += 0.5;
-    if(currentTime > duration){
-      currentTime = duration;
-      pause();
+  // Update time displays and progress bar
+  function updateProgress() {
+    if (!isDragging) {
+      const percent = (audio.currentTime / audio.duration) * 100 || 0;
+      progressBar.style.width = percent + '%';
+      knob.style.left = percent + '%';
+      currentTimeElem.textContent = formatTime(audio.currentTime);
+      progressWrap.setAttribute('aria-valuenow', Math.floor(percent));
+      progressWrap.setAttribute('aria-valuetext', formatTime(audio.currentTime));
     }
-    const percent = (currentTime/duration)*100;
-    progressBar.style.width = percent + '%';
-    knob.style.left = percent + '%';
-    currentTimeElem.textContent = formatTime(currentTime);
   }
 
-  function play(){
-    if(isPlaying) return;
-    isPlaying = true;
-    playIcon.style.display = 'none';
-    pauseIcon.style.display = 'block';
-    intervalId = setInterval(updateProgress, 500);
+  // Toggle play/pause icons
+  function updatePlayPauseIcon() {
+    if (audio.paused) {
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+      playBtn.setAttribute('aria-label', 'Play');
+    } else {
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'block';
+      playBtn.setAttribute('aria-label', 'Pause');
+    }
   }
 
-  function pause(){
-    if(!isPlaying) return;
-    isPlaying = false;
-    playIcon.style.display = 'block';
-    pauseIcon.style.display = 'none';
-    clearInterval(intervalId);
-  }
-
+  // Play/pause button click
   playBtn.addEventListener('click', () => {
-    if(isPlaying) pause();
-    else play();
+    if (audio.paused) audio.play();
+    else audio.pause();
   });
 
-  // initialize duration display
-  durationElem.textContent = formatTime(duration);
+  // Audio events
+  audio.addEventListener('timeupdate', updateProgress);
+  audio.addEventListener('play', updatePlayPauseIcon);
+  audio.addEventListener('pause', updatePlayPauseIcon);
+  audio.addEventListener('ended', () => {
+    audio.currentTime = 0;
+    audio.pause();
+    updateProgress();
+  });
+  audio.addEventListener('loadedmetadata', () => {
+    durationElem.textContent = formatTime(audio.duration);
+  });
 
-  // progress drag not implemented (demo only)
+  // Progress bar drag handling
+  function seek(e) {
+    const rect = progressWrap.getBoundingClientRect();
+    let x = e.clientX || (e.touches && e.touches[0].clientX);
+    let percent = (x - rect.left) / rect.width;
+    percent = Math.min(Math.max(percent, 0), 1);
+    audio.currentTime = percent * audio.duration;
+    updateProgress();
+  }
+
+  knob.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    isDragging = true;
+    window.addEventListener('mousemove', onDrag);
+    window.addEventListener('mouseup', onStopDrag);
+  });
+
+  knob.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    isDragging = true;
+    window.addEventListener('touchmove', onDrag);
+    window.addEventListener('touchend', onStopDrag);
+  }, { passive: false });
+
+  function onDrag(e) {
+    seek(e);
+  }
+
+  function onStopDrag(e) {
+    isDragging = false;
+    seek(e);
+    window.removeEventListener('mousemove', onDrag);
+    window.removeEventListener('mouseup', onStopDrag);
+    window.removeEventListener('touchmove', onDrag);
+    window.removeEventListener('touchend', onStopDrag);
+  }
+
+  // Clicking on progress bar to seek
+  progressWrap.addEventListener('click', (e) => {
+    seek(e);
+  });
+
+  // Keyboard accessibility for progress slider
+  progressWrap.addEventListener('keydown', (e) => {
+    let seekTime = audio.currentTime;
+    const step = 5; // seconds per arrow key press
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      seekTime = Math.min(audio.duration, audio.currentTime + step);
+      audio.currentTime = seekTime;
+      updateProgress();
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      seekTime = Math.max(0, audio.currentTime - step);
+      audio.currentTime = seekTime;
+      updateProgress();
+      e.preventDefault();
+    }
+  });
+
+  // Initialize UI states
+  updatePlayPauseIcon();
+  if (audio.readyState >= 1) {
+    durationElem.textContent = formatTime(audio.duration);
+  } else {
+    audio.addEventListener('loadedmetadata', () => {
+      durationElem.textContent = formatTime(audio.duration);
+    });
+  }
 })();
 </script>
 
