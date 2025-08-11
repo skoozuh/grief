@@ -331,43 +331,80 @@ canvas#bg{ position:fixed; inset:0; width:100%; height:100%; z-index:-10; displa
         </div>
 
         <!-- ===== MUSIC PLAYER (placed directly under bio) ===== -->
-        <div class="player" id="musicPlayer" aria-label="Music player">
-          <!-- cover -->
-          <div class="cover" aria-hidden="true">
-            <img src="assets/songcover.png" alt="Chain Swangin cover">
-          </div>
-
-          <!-- meta -->
-          <div class="meta">
-            <div class="title">Chain Swangin</div>
-            <div class="artist">Molly Santana</div>
-          </div>
-
-          <!-- controls -->
-          <div class="controls" aria-hidden="false">
-            <div class="controls-top">
-              <button class="play-btn" id="playBtn" aria-label="Play">
-                <!-- play icon (switches to pause) -->
-                <svg id="playIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M5 3v18l15-9L5 3z" fill="currentColor"/>
-                </svg>
-                <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none">
-                  <path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/>
-                </svg>
-              </button>
-
-              <div style="display:flex; align-items:center; gap:8px; width:100%;">
-                <div class="time" id="currentTime">0:00</div>
-                <div class="progress-wrap" id="progressWrap" aria-label="Progress">
-                  <div class="progress" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div class="knob" id="knob" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="time" id="duration">0:00</div>
-              </div>
-            </div>
-          </div>
+       <div class="music-player">
+    <img src="assets/songcover.png" alt="Song Cover" class="song-cover">
+    <div class="song-info">
+        <div class="song-title-wrapper">
+            <div class="song-title">Chain Swangin – Molly Santana</div>
         </div>
+        <audio id="audio" src="assets/song.mp3"></audio>
+        <button class="play-btn" onclick="togglePlay()">▶</button>
+    </div>
+</div>
+
+<style>
+.music-player {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: transparent;
+    padding: 10px 0;
+}
+
+.song-cover {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+}
+
+.song-info {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.song-title-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.song-title {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll-text 10s linear infinite;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+@keyframes scroll-text {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.play-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+</style>
+
+<script>
+function togglePlay() {
+    const audio = document.getElementById('audio');
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+</script>
         <!-- ===== end music player ===== -->
 
       </div> <!-- .main -->
