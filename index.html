@@ -43,6 +43,13 @@
       cursor: pointer;
       z-index: 9999;
       user-select: none;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .enter-overlay.fade-out {
+      opacity: 0;
+      visibility: hidden;
     }
     /* Top Left Controls */
     .top-controls{
@@ -332,9 +339,12 @@
       seek(e);
     });
 
-    // Click to enter
+    // Click to enter fade-out
     enterOverlay.addEventListener('click', () => {
-      enterOverlay.style.display = 'none';
+      enterOverlay.classList.add('fade-out');
+      setTimeout(() => {
+        enterOverlay.style.display = 'none';
+      }, 600); // matches CSS transition duration
     });
   </script>
 </body>
