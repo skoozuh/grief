@@ -26,15 +26,23 @@
       position: relative;
       overflow: hidden;
     }
+    /* Blurred image background */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: url('assets/background.png') center/cover no-repeat,
-                  linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
+      background: url('assets/background.png') center/cover no-repeat;
+      filter: blur(8px); /* only the image gets blurred */
+      z-index: -2;
+    }
+    /* Sharp gradient overlay */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #f2b792 0%, #2b4968 60%);
       background-blend-mode: overlay;
-      filter: blur(8px); /* adjust blur strength */
-      z-index: -1; /* keep behind everything */
+      z-index: -1;
     }
     /* Overlay */
     .enter-overlay {
@@ -327,7 +335,6 @@
       audio.volume = volumeControl.value;
     });
 
-    // Click & drag seek
     function seek(e) {
       const rect = songProgress.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
@@ -336,25 +343,20 @@
     }
 
     let isDragging = false;
-
     songProgress.addEventListener('mousedown', e => {
       isDragging = true;
       seek(e);
     });
-
     document.addEventListener('mousemove', e => {
       if (isDragging) seek(e);
     });
-
     document.addEventListener('mouseup', () => {
       isDragging = false;
     });
-
     songProgress.addEventListener('click', e => {
       seek(e);
     });
 
-    // Click to enter fade-out
     enterOverlay.addEventListener('click', () => {
       enterOverlay.classList.add('fade-out');
       setTimeout(() => {
